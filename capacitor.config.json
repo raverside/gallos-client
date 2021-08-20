@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "Gallos Client",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}
