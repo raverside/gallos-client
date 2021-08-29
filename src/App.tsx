@@ -1,8 +1,17 @@
-import { IonApp, IonRouterOutlet, IonSplitPane } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import { Redirect, Route } from 'react-router-dom';
-import Menu from './components/Menu';
-import Page from './pages/Page';
+import {IonApp, IonRouterOutlet} from '@ionic/react';
+import {IonReactRouter} from '@ionic/react-router';
+import {Route, Redirect} from 'react-router-dom';
+import Menu from './components/Menu/Menu';
+import Events from './pages/Events';
+import Contact from './pages/Contact';
+import Auth from './pages/Auth/Auth';
+import AuthAdmin from './pages/Auth/AuthAdmin';
+import Login from './pages/Auth/Login';
+import Register from './pages/Auth/Register';
+import ForgotPasscode from './pages/Auth/ForgotPasscode';
+import {AppContext, AppContextProvider} from './State';
+import {useContext} from "react";
+import AutoRelogin from './AutoRelogin';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -22,25 +31,58 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import './theme/global-styles.css';
 
 const App: React.FC = () => {
-  return (
-    <IonApp>
-      <IonReactRouter>
-        <IonSplitPane contentId="main">
-          <Menu />
-          <IonRouterOutlet id="main">
-            <Route path="/" exact={true}>
-              <Redirect to="/page/Inbox" />
-            </Route>
-            <Route path="/page/:name" exact={true}>
-              <Page />
-            </Route>
-          </IonRouterOutlet>
-        </IonSplitPane>
-      </IonReactRouter>
-    </IonApp>
-  );
+
+    return (
+        <IonApp>
+            <AppContextProvider>
+                <IonReactRouter>
+                    <AutoRelogin>
+                        <Menu/>
+                        <IonRouterOutlet id="main">
+
+                            <Route path="/auth" exact>
+                                <Auth/>
+                            </Route>
+                            <Route path="/login" exact>
+                                <Login/>
+                            </Route>
+                            <Route path="/register" exact>
+                                <Register/>
+                            </Route>
+                            <Route path="/forgot_passcode" exact>
+                                <ForgotPasscode/>
+                            </Route>
+                            <Route path="/auth_admin" exact>
+                                <AuthAdmin/>
+                            </Route>
+
+                            <PrivateRoute path="/" exact admin>
+                                <Events/>
+                            </PrivateRoute>
+                            <PrivateRoute path="/contact" exact admin>
+                                <Contact/>
+                            </PrivateRoute>
+
+                        </IonRouterOutlet>
+                    </AutoRelogin>
+                </IonReactRouter>
+            </AppContextProvider>
+        </IonApp>
+    );
 };
+
+type RouteComponent = {
+    path: string;
+    exact?: boolean;
+    admin?: boolean;
+};
+const PrivateRoute: React.FC<RouteComponent> = ({ admin = false, children, ...rest }) => {
+    const {state} = useContext(AppContext);
+
+    return <Route {...rest}>{state.user?.id ? children : <>{children}<Redirect to={admin ? "/auth_admin" : "/auth"} /></>}</Route>
+}
 
 export default App;

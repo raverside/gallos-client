@@ -21,11 +21,11 @@ ion-menu.md ion-list-header, ion-menu.md ion-note {
   padding-left: 10px;
 }
 
-ion-menu.md ion-list#inbox-list {
+ion-menu.md ion-list#main-menu {
   border-bottom: 1px solid var(--ion-color-step-150, #d7d8da);
 }
 
-ion-menu.md ion-list#inbox-list ion-list-header {
+ion-menu.md ion-list#main-menu ion-list-header {
   font-size: 22px;
   font-weight: 600;
   min-height: 20px;
@@ -110,4 +110,17 @@ ion-note {
 
 ion-item.selected {
   --color: var(--ion-color-primary);
-} 
+}
+
+.logout-button {
+  position:absolute;
+  bottom:0;
+  left:0;
+}
+#main-menu {
+  height:100%;
+}
+#main-menu ion-label {
+  font-size: 14px;
+  font-weight:600;
+}

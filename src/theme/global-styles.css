@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+body {
+    min-width: 240px;
+    max-width: 500px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+}
+:root {
+    --ion-font-family: 'Open Sans';
+    font-size:14px;
+    --ion-font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 21px;
+    letter-spacing: 0.015em;
+    color: #2C2626;
+    --ion-color: #2C2626;
+    --ion-text-color: #2C2626;
+}
+.ion-color-gold {
+    --ion-color-base: var(--ion-color-gold);
+    --ion-color-base-rgb: var(--ion-color-gold-rgb);
+    --ion-color-contrast: var(--ion-color-gold-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-gold-contrast-rgb);
+    --ion-color-shade: var(--ion-color-gold-shade);
+    --ion-color-tint: var(--ion-color-gold-tint);
+}
+.ion-color-silver {
+    --ion-color-base: var(--ion-color-silver);
+    --ion-color-base-rgb: var(--ion-color-silver-rgb);
+    --ion-color-contrast: var(--ion-color-silver-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-silver-contrast-rgb);
+    --ion-color-shade: var(--ion-color-silver-shade);
+    --ion-color-tint: var(--ion-color-silver-tint);
+}
+.page-title {
+    text-align: center;
+    font-size:18px;
+    font-weight:600;
+}
+.page-subtitle {
+    font-weight: normal;
+    font-size: 14px;
+    margin-top:-14px;
+}
+#root ion-input {
+    background: #F5F5F5;
+    border-radius:5px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    --padding-start: 10px;
+    --padding-end: 10px;
+}

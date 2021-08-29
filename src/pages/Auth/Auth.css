@@ -1,0 +1,98 @@
+#auth-content {
+    --padding-start: 15px;
+    --padding-end: 15px;
+    --padding-top: 15px;
+    --padding-bottom: 15px;
+}
+#auth-content ion-button {
+    text-transform: none;
+    --padding-top: 13px;
+    --padding-bottom: 13px;
+    margin-top:15px;
+    height:auto;
+}
+.rooster-logo {
+    max-width:143px;
+    margin: 100px auto 20px auto;
+}
+.auth-grid {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+.auth-welcome {
+    font-size: 24px;
+    line-height: 36px;
+    font-weight:bold;
+    display:block;
+    text-align:center;
+}
+.auth-welcome-subtext {
+    font-size: 14px;
+    line-height: 21px;
+    margin: 15px 30px 0 30px;
+    display:block;
+    text-align:center;
+}
+.auth-grid .register-phone-label {
+    margin:75px auto 20px auto;
+    text-align:center;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    display:block;
+}
+.auth-grid .react-tel-input .selected-flag {
+    background-color:#F5F5F5;
+}
+.auth-grid .react-tel-input .selected-flag .arrow {
+}
+.auth-grid .react-tel-input .flag-dropdown {
+    background-color:#F5F5F5;
+    border:none;
+    padding: 0 10px;
+}
+.auth-grid .react-tel-input .form-control {
+    background-color:#F5F5F5;
+    border:none;
+    width: calc(100% - 68px);
+    height:auto;
+    padding: 12px 10px;
+    margin-left: 68px;
+}
+.logo {
+    width:224px;
+    margin:85px auto 14px auto;
+}
+.admin-logo-subtext {
+    font-weight: 600;
+    font-size: 14px;
+    display:block;
+    text-align:center;
+    margin-bottom:85px;
+}
+.forgot-passcode {
+    margin-top:75px;
+    float:right;
+}
+.toggle-passcode {
+    position: absolute;
+    right: 0;
+    top: -13px;
+    z-index: 2;
+}
+.restore-passcode-text {
+    display: block;
+    text-align:center;
+    margin-bottom:70px;
+}
+.auth-error {
+    display:block;
+    height: 20px;
+    margin-top:10px;
+    margin-bottom:-30px;
+}
+.auth-error-border {
+    border:1px solid red;
+}

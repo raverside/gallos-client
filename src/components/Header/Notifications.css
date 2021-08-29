@@ -1,0 +1,5 @@
+.modal-header .notifications-close-icon[slot="end"] {
+    font-size:28px;
+    margin-right:10px;
+    margin-left:-38px;
+}

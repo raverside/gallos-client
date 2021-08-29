@@ -1,0 +1,49 @@
+.eventsList {
+    margin-bottom:60px;
+}
+.event ion-card {
+    width: 100%;
+    padding:0;
+    border-radius:8px;
+    margin: 10px 1px;
+}
+.event ion-card-title {
+    font-weight: 600;
+    font-size: 16px;
+}
+.event ion-card-subtitle {
+    font-size: 12px;
+    color: #6B6767;
+}
+.event-info {
+    display:flex;
+    margin-top:10px;
+}
+.event-info_labels {
+    margin-right:20px;
+}
+.event-info_label {
+    font-size: 12px;
+    color: #6B6767;
+}
+.event-info_value {
+    font-size: 12px;
+    font-weight: 600;
+}
+.event-info_value.red {
+    color: #EB0404;
+}
+.event-edit {
+    float:right;
+    margin-right:10px;
+    margin-bottom:20px;
+}
+.read-more-button {
+    text-transform:none;
+    margin:0 0 2px 0;
+    vertical-align:middle;
+    --padding-start: 2px;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-end: 2px;
+}
