@@ -70,7 +70,7 @@ const EventEditor: React.FC<EventProps> = ({addEvent, isSpecial = false, close, 
         }
         close();
     }
-console.log(formData.first_race_time)
+
     return (<>
         <IonToolbar className="modal-header">
             <IonTitle className="page-title"><p>{formData.id ? "Update Event" : "Create Event"}</p><p className="page-subtitle">{formData.is_special ? "Special Event" : "Regular Event"}</p></IonTitle>
