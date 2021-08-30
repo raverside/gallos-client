@@ -3,6 +3,7 @@ import {IonButtons, IonContent, IonIcon, IonTitle, IonToolbar, IonList, IonItem,
 import {closeOutline as closeIcon} from "ionicons/icons";
 import ImagePicker from '../ImagePicker';
 import {upsertEvent} from '../../api/Events';
+import moment from 'moment';
 
 import './EventEditor.css';
 
@@ -38,10 +39,10 @@ const EventEditor: React.FC<EventProps> = ({addEvent, isSpecial = false, close, 
         image: event ? event.image : null,
         image_upload: null,
         title: event ? event.title : "",
-        event_date: event ? event.event_date : "",
-        receiving_time_start: event ? event.receiving_time_start : "",
-        receiving_time_end: event ? event.receiving_time_end : "",
-        first_race_time: event ? event.first_race_time : "",
+        event_date: event ? event.event_date : moment().format('YYYY-MM-DD'),
+        receiving_time_start: event ? event.receiving_time_start : moment().format("HH:mm"),
+        receiving_time_end: event ? event.receiving_time_end : moment().format("HH:mm"),
+        first_race_time: event ? event.first_race_time : moment().format("HH:mm"),
         currency: event ? event.currency : "USD",
         bronze: event ? event.bronze : null,
         silver_one: event ? event.silver_one : null,
@@ -69,7 +70,7 @@ const EventEditor: React.FC<EventProps> = ({addEvent, isSpecial = false, close, 
         }
         close();
     }
-
+console.log(formData.first_race_time)
     return (<>
         <IonToolbar className="modal-header">
             <IonTitle className="page-title"><p>{formData.id ? "Update Event" : "Create Event"}</p><p className="page-subtitle">{formData.is_special ? "Special Event" : "Regular Event"}</p></IonTitle>
