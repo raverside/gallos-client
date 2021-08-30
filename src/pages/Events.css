@@ -29,6 +29,10 @@
 .barely-visible {
     opacity:0.1;
 }
+#root ion-modal {
+    --width: 100%;
+    --height: 100%;
+}
 @media (max-width:400px) {
     .events-tabs ion-segment-button {
         margin: 0 4px;

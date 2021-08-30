@@ -14,9 +14,11 @@ const Auth: React.FC = () => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [username, setUsername] = useState<string>("");
     const [passcode, setPasscode] = useState<string>("");
+    const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
     const [error, setError] = useState<string|boolean>(false);
 
     const Submit = async () => {
+        setSubmitDisabled(true);
         const response = await loginAdmin(username, passcode);
         if (response.error) {
             setError(response.error);
@@ -34,6 +36,10 @@ const Auth: React.FC = () => {
             history.replace("/");
         }
     }, [state.user?.id]);
+
+    useEffect(() => {
+        setSubmitDisabled(passcode.length !== 11 || username.length < 3);
+    }, [passcode, username]);
 
     return (
         <IonPage>
@@ -56,7 +62,7 @@ const Auth: React.FC = () => {
                                     type={showPassword ? "text" : "password"}
                                     value={passcode}
                                     onIonChange={e => {setError(false); setPasscode(formatPasscode(e.detail.value!))}}
-                                    clearOnEdit={false}
+                                    clearOnEdit={true}
                                     maxlength={11}
                                     style={{marginTop: "15px"}}
                                     className={error ? "auth-error-border" : ""}
@@ -71,7 +77,7 @@ const Auth: React.FC = () => {
                         <IonCol>
                             <IonButton
                                 onClick={Submit}
-                                disabled={passcode.length !== 11 || username.length < 3}
+                                disabled={submitDisabled}
                                 expand="block"
                             >Log In</IonButton>
                         </IonCol>

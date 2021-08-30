@@ -107,7 +107,7 @@ const EventEditor: React.FC<EventProps> = ({addEvent, isSpecial = false, close, 
 
                 <IonItemDivider>Event Date</IonItemDivider>
                 <IonItem lines="none">
-                    <IonInput value={formData.event_date} type="date" onIonChange={(e) => setFormData({...formData, event_date: e.detail.value!})} />
+                    <IonInput placeholder="Select Date" value={formData.event_date} type="date" onIonChange={(e) => setFormData({...formData, event_date: e.detail.value!})} />
                 </IonItem>
 
                 <IonItemDivider>Receiving Time</IonItemDivider>
@@ -115,6 +115,7 @@ const EventEditor: React.FC<EventProps> = ({addEvent, isSpecial = false, close, 
                     <IonInput
                         value={formData.receiving_time_start}
                         type="time"
+                        placeholder="Starting time"
                         onIonChange={(e) => setFormData({...formData,
                             receiving_time_start: (!formData.receiving_time_end || e.detail.value! < formData.receiving_time_end) ? e.detail.value! : formData.receiving_time_end
                         })}
@@ -123,6 +124,7 @@ const EventEditor: React.FC<EventProps> = ({addEvent, isSpecial = false, close, 
                     <IonInput
                         value={formData.receiving_time_end}
                         type="time"
+                        placeholder="Ending time"
                         onIonChange={(e) => setFormData({...formData,
                             receiving_time_end: (!formData.receiving_time_start || e.detail.value! > formData.receiving_time_start) ? e.detail.value! : formData.receiving_time_start
                         })}
@@ -131,7 +133,7 @@ const EventEditor: React.FC<EventProps> = ({addEvent, isSpecial = false, close, 
 
                 <IonItemDivider>First Race Time</IonItemDivider>
                 <IonItem lines="none">
-                    <IonInput value={formData.first_race_time} type="time" onIonChange={(e) => setFormData({...formData,
+                    <IonInput value={formData.first_race_time} placeholder="First race time" type="time" onIonChange={(e) => setFormData({...formData,
                         first_race_time: (!formData.receiving_time_start || e.detail.value! > formData.receiving_time_start) ? e.detail.value! : formData.receiving_time_start
                     })} />
                 </IonItem>
