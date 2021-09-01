@@ -3,10 +3,10 @@ import {
     IonInfiniteScroll,
     IonInfiniteScrollContent, IonModal,
     IonPage,
-    IonSpinner,
     IonSegment,
     IonSegmentButton,
-    IonLabel
+    IonLabel,
+    IonRefresher, IonRefresherContent
 } from '@ionic/react';
 import Header from '../components/Header/Header';
 import React, {useEffect, useState} from "react";
@@ -31,7 +31,7 @@ const Events: React.FC = () => {
         fetchEvents();
     }, []);
 
-    const fetchEvents = async (filter = dateFilter) => {
+    const fetchEvents = async (filter = dateFilter, callback = () => {}) => {
         const response = await getEvents(filter, 0);
         if (response.events) {
             response.events.sort((a:any, b:any) => {
@@ -42,6 +42,7 @@ const Events: React.FC = () => {
             setInfiniteScrollPage(1);
         };
         setDisableInfiniteScroll(response.events?.length < 5);
+        callback();
     }
 
     const addEvent = (event:{id:string, event_date:string}) => {
@@ -95,6 +96,7 @@ const Events: React.FC = () => {
                         <IonLabel>Past{eventCount.past > 0 && <span className="barely-visible"> • {eventCount.past}</span>}</IonLabel>
                     </IonSegmentButton>
                 </IonSegment>
+                <IonRefresher slot="fixed" onIonRefresh={(e) => fetchEvents(dateFilter, e.detail.complete)}><IonRefresherContent /></IonRefresher>
                 <EventsList openEditor={(event:{}) => {setShowEventEditorModal(3); setEditorEvent(event)}} events={events} />
                 <IonInfiniteScroll disabled={disableInfiniteScroll} onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
                     <IonInfiniteScrollContent />
