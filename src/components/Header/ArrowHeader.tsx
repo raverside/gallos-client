@@ -5,11 +5,12 @@ import React from "react";
 type HeaderProps = {
     title: string;
     backHref?: string;
+    className?: string;
 }
 
-const ArrowHeader: React.FC<HeaderProps> = ({title, backHref = "/"}) => {
+const ArrowHeader: React.FC<HeaderProps> = ({title, backHref = "/", ...rest}) => {
     return (
-        <IonHeader>
+        <IonHeader {...rest}>
             <IonToolbar className="arrow-header">
                 <IonButtons slot="start">
                     <IonBackButton defaultHref={backHref}/>

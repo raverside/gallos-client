@@ -1,0 +1,32 @@
+.users-filter-form {
+    padding:15px;
+    display:flex;
+    justify-content: space-between;
+    flex-direction:column;
+    height:100%;
+}
+.users-filter-header {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.users-filter-header ion-text {
+    font-weight: 600;
+    font-size: 16px;
+}
+.users-filter-form ion-button{
+    text-transform: none;
+}
+.users-filter-header ion-button {
+    margin-right:-15px;
+    font-weight: 600;
+    font-size: 14px;
+}
+.users-filter-form ion-label {
+    font-weight: 600;
+    font-size: 14px;
+}
+.users-filter-form ion-select {
+    width:100%;
+    margin-bottom:20px;
+}

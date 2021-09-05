@@ -1,0 +1,28 @@
+.membership-index {
+    width:55px;
+    text-align:center;
+}
+.membership-short-info {
+    margin-left:10px;
+}
+.membership .membership-short-info_name {
+    font-weight: 600;
+    font-size: 16px;
+    display:block;
+}
+.membership .membership-short-info_type {
+    font-weight: 600;
+    font-size: 14px;
+    display:block;
+    text-transform:capitalize;
+}
+.membership .membership-short-info_duration {
+    font-weight: 600;
+    font-size: 14px;
+    display:block;
+}
+.membership .membership-short-info_price {
+    font-weight: 600;
+    font-size: 14px;
+    display:block;
+}

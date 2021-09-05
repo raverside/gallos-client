@@ -1,0 +1,15 @@
+.search-filter-block {
+    display:flex;
+    align-items:center;
+}
+#root #overlay-modal {
+    --height: auto;
+    --min-height:600px;
+    --max-height:100%;
+    --border-radius: 8px;
+    align-items: flex-end;
+}
+#root #overlay-modal .modal-wrapper {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}

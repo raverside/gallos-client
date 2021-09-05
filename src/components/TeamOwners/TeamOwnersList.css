@@ -1,0 +1,36 @@
+.teamOwner-index {
+    width:55px;
+    text-align:center;
+}
+.teamOwner-short-info {
+    margin-left:10px;
+}
+.teamOwner .teamOwner-short-info_name {
+    font-weight: 600;
+    font-size: 16px;
+    display:block;
+}
+.teamOwner-short-info_winrate {
+    font-size: 12px;
+    display: block;
+}
+.split-button p {
+    padding:13px 15px;
+}
+.split-button div {
+    width:100%;
+    display:flex;
+    justify-content: space-between;
+}
+.add-team-input-button {
+    margin:55px auto 0 auto;
+    display:block;
+    max-width:255px;
+}
+.team-input-wrapper {
+    display:flex;
+    align-items: baseline;
+}
+.team-index {
+    margin-right:10px;
+}

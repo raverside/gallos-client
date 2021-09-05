@@ -1,0 +1,131 @@
+.user-profile-section {
+    margin-top:15px;
+    padding: 0 15px;
+    display:flex;
+    align-items:center;
+}
+.user-profile-info-tab .user-profile-section {
+    justify-content:space-between;
+}
+.user-profile-notes-tab .user-profile-section {
+    justify-content:flex-end;
+}
+.user-profile-section ion-label {
+    font-weight: 600;
+    font-size: 16px;
+}
+.user-profile-section ion-button {
+    text-transform: none;
+    font-weight: 600;
+    margin-right: -15px;
+}
+.user-profile-section-content {
+    padding:10px 15px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+.user-profile-section-content ion-label {
+    display:block;
+    font-weight: 600;
+    font-size: 12px;
+    color: #6A6A6A;
+}
+.user-profile-section-content ion-text {
+    display:block;
+    font-weight: 600;
+    font-size: 14px;
+    margin:5px 0;
+}
+.user-profile-section-content ion-img {
+    width:30px;
+    height:30px;
+}
+.user-profile-section-content .user-profile-membership {
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0 0 10px 0;
+}
+.user-profile-section-content .user-profile-membership_expiration {
+    color: #6A6A6A;
+    font-weight: 600;
+    font-size: 12px;
+}
+.user-profile-total_transactions {
+    font-weight: bold;
+    font-size: 20px;
+}
+.add-note-modal ion-content {
+    --padding-top:15px;
+    --padding-bottom:15px;
+    --padding-start:15px;
+    --padding-end:15px;
+}
+.add-note-wrapper {
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    height:100%;
+}
+.add-note-title {
+    margin-bottom:8px;
+    font-weight: 600;
+    font-size: 14px;
+    display:block;
+}
+.add-note-input {
+    margin-bottom:20px;
+    background-color:#F5F5F5;
+    border-radius: 5px;
+}
+.add-note-wrapper ion-button {
+    text-transform:none;
+}
+.add-note-modal .page-title {
+    margin-left:-35px;
+}
+.note-index {
+    width:55px;
+    text-align:center;
+}
+.note-info {
+    margin-left:10px;
+}
+.note-info_title {
+    display:block;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom:5px;
+}
+.note-info_creator {
+    font-size: 12px;
+}
+.note-info_date {
+    display:block;
+    font-size: 12px;
+}
+.note-info_note {
+    margin-top:5px;
+    font-size: 14px;
+    display:block;
+}
+.view-note-modal .page-title {
+    margin-left:0;
+}
+.view-note-modal ion-buttons[slot="end"] .view-note-menu {
+    margin-right: 5px;
+}
+.view-note-modal ion-content {
+    --padding-top:15px;
+    --padding-bottom:15px;
+    --padding-start:15px;
+    --padding-end:15px;
+}
+#root ion-action-sheet .action-sheet-title {
+    font-weight: 600;
+    font-size: 16px;
+}
+#root ion-action-sheet button {
+    font-weight: 600;
+    font-size: 14px;
+}

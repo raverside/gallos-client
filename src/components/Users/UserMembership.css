@@ -1,0 +1,27 @@
+.modal-header .membership-close-icon[slot="start"] {
+    font-size:28px;
+    margin-left:10px;
+    margin-right:-42px;
+}
+.user-membership {
+    padding:15px;
+}
+.membership-status-label {
+    font-weight: 600;
+    font-size: 16px;
+}
+.membership-status-membership {
+    font-weight: bold;
+    font-size: 20px;
+    display:block;
+    margin:10px 0;
+}
+.membership-status-date {
+    font-weight: 600;
+    font-size: 12px;
+    color: #6A6A6A;
+    display:block;
+}
+.membership-status-date.expired {
+    color:#EB0404;
+}

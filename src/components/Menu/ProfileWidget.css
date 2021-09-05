@@ -26,6 +26,7 @@
 }
 .profile-widget_info--bold {
     font-weight:600;
+    text-transform:capitalize;
 }
 .profile-widget [color="gold"] {
     font-weight:600;

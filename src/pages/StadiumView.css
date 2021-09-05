@@ -1,0 +1,59 @@
+.stadium-view-header {
+    position:absolute;
+}
+.stadium-view-header ion-toolbar {
+    --background: transparent;
+}
+.stadium-view-info {
+    padding:15px;
+}
+.stadium-view-info_name {
+    font-weight: 600;
+    font-size: 18px;
+    display:block;
+}
+.stadium-view-info_representative_name {
+    font-weight: 600;
+    font-size: 14px;
+    display:block;
+    margin-top:5px;
+}
+.stadium-view-info_membership {
+    font-weight: 600;
+    font-size: 14px;
+    display:block;
+}
+.stadium-view-info_location {
+    font-size: 12px;
+    display:block;
+    margin-top:10px;
+}
+.stadium-view-info_location:before {
+    content: '';
+    width:12px;
+    height:16px;
+    display:inline-block;
+    background: url('../img/location.png') no-repeat;
+    vertical-align: middle;
+    margin-right:9px;
+}
+.stadium-view-info_phone {
+    font-size: 12px;
+    display:block;
+    margin-top:5px;
+}
+.stadium-view-info_phone:before {
+    content: '';
+    width:12px;
+    height:12px;
+    display:inline-block;
+    background: url('../img/phone.png') no-repeat;
+    vertical-align: middle;
+    margin-right:9px;
+}
+.stadium-view-info_bio {
+    display:block;
+    font-size: 14px;
+    line-height: 21px;
+    margin-top:20px;
+}

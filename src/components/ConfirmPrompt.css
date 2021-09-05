@@ -1,0 +1,31 @@
+#root .prompt-modal {
+    --width:345px;
+    --max-width:100%;
+    --height:200px;
+    --max-height:100%;
+    --border-radius: 10px;
+    text-align: center;
+}
+.prompt-modal ion-content {
+    --padding-top: 25px;
+    --padding-bottom:25px;
+    --padding-start:25px;
+    --padding-end: 25px;
+}
+.modal-title {
+    text-align:center;
+    font-weight: 600;
+    font-size: 18px;
+    display:block;
+    margin-bottom:20px;
+}
+.modal-subtitle {
+    margin-bottom:30px;
+    font-size: 14px;
+    display:block;
+}
+.prompt-modal ion-button {
+    text-transform: none;
+    width:115px;
+    height:45px;
+}

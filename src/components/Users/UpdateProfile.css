@@ -1,0 +1,41 @@
+.modal-header .update-profile-close-icon[slot="start"] {
+    font-size:28px;
+    margin-left:10px;
+}
+.modal-header .update-profile-save[slot="end"] {
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: none;
+    margin-left:-10px;
+}
+.update-profile-modal .update-label {
+    font-weight: 600;
+    font-size: 14px;
+    display:block;
+    margin:15px 0 5px 0;
+}
+.update-profile-modal .react-tel-input .selected-flag {
+    background-color:#F5F5F5;
+}
+.update-profile-modal .react-tel-input .selected-flag .arrow {
+}
+.update-profile-modal .react-tel-input .flag-dropdown {
+    background-color:#F5F5F5;
+    border:none;
+    padding: 0 10px;
+}
+.update-profile-modal .react-tel-input .form-control {
+    background-color:#F5F5F5;
+    border:none;
+    width: calc(100% - 68px);
+    height:auto;
+    padding: 12px 10px;
+    margin-left: 68px;
+}
+.update-profile-modal .update-profile-form {
+    padding:15px;
+}
+.generate-passcode {
+    text-transform:none;
+    margin-top:25px;
+}

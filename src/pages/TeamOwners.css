@@ -1,0 +1,12 @@
+.team-owners-tabs-segment ion-segment-button {
+    text-transform:none;
+    font-weight: 600;
+    font-size: 14px;
+    min-height:initial;
+    --padding-top:13px;
+    --padding-bottom:13px;
+}
+.team-owners-tabs-segment ion-segment-button ion-label {
+    margin-top:0;
+    margin-bottom:0;
+}

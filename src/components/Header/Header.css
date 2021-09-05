@@ -9,3 +9,6 @@
 .hamburger {
     margin-right:-48px;
 }
+#root ion-button.add-icon {
+    margin-left:-48px;
+}

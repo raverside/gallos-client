@@ -1,0 +1,22 @@
+.user-index {
+    width:55px;
+    text-align:center;
+}
+.user-short-info {
+    margin-left:10px;
+}
+.user .user-short-info_username {
+    font-weight: 600;
+    font-size: 16px;
+}
+.user .user-short-info_membership {
+    font-weight: 600;
+    font-size: 12px;
+}
+#root .searchbar input {
+    background: #F5F5F5;
+    border-radius: 5px;
+    font-weight: normal;
+    font-size: 14px;
+    box-shadow:none;
+}

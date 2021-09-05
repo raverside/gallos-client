@@ -48,14 +48,11 @@ const MenuPermissions = () => {
     ];
 
     appPages["worker"] = [
-        {title: 'Overview', url: '/overview'},
         {title: 'Users', url: '/users'},
         {title: 'Events', url: '/events'},
         {title: 'Stadiums', url: '/stadiums'},
         {title: 'Team Owners', url: '/team_owners'},
-        {title: 'Transactions', url: '/transactions'},
-        {title: 'Membership', url: '/membership'},
-        {title: 'Dashboard Team', url: '/dashboard_team'},
+        {title: 'Memberships', url: '/memberships'},
         {
             title: 'Log Out', url: '/auth_admin',
             props: {

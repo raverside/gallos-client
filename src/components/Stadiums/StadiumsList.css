@@ -1,0 +1,37 @@
+.stadium-index {
+    width:55px;
+    text-align:center;
+}
+.stadium-image {
+    width:55px;
+    height:55px;
+}
+.stadium-image::part(image) {
+    border-radius: 5px;
+    object-fit: initial;
+}
+.stadium-short-info {
+    margin-left:10px;
+}
+.stadium .stadium-short-info_name {
+    font-weight: 600;
+    font-size: 16px;
+}
+.stadium .stadium-short-info_representative{
+    font-weight: 600;
+    font-size: 12px;
+}
+.stadium .stadium-short-info_location {
+    font-size: 12px;
+}
+.stadium .stadium-short-info_membership {
+    font-weight: 600;
+    font-size: 12px;
+}
+#root .searchbar input {
+    background: #F5F5F5;
+    border-radius: 5px;
+    font-weight: normal;
+    font-size: 14px;
+    box-shadow:none;
+}

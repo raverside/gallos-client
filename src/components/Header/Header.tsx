@@ -1,14 +1,16 @@
-import {IonButtons, IonHeader, IonMenuButton, IonTitle, IonToolbar, IonIcon} from '@ionic/react';
+import {IonButtons, IonHeader, IonMenuButton, IonTitle, IonToolbar, IonButton, IonIcon} from '@ionic/react';
 import Notifications from './Notifications';
+import {addOutline as addIcon} from 'ionicons/icons';
 import './Header.css';
 
 type HeaderProps = {
     title: string;
     isRed?: boolean;
     notifications?: boolean;
+    addButton?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({title, isRed = false, notifications = true}) => {
+const Header: React.FC<HeaderProps> = ({title, isRed = false, notifications = true, addButton}) => {
     return (
         <IonHeader>
             <IonToolbar>
@@ -17,6 +19,9 @@ const Header: React.FC<HeaderProps> = ({title, isRed = false, notifications = tr
                 </IonButtons>
                 <IonTitle className="page-title" color={isRed ? "primary" : ""}>{title}</IonTitle>
                 {notifications && <Notifications/>}
+                {addButton && <IonButtons slot="end">
+                    <IonButton slot="icon-only" className="add-icon" onClick={addButton}><IonIcon src={addIcon} size="large"/></IonButton>
+                </IonButtons>}
             </IonToolbar>
         </IonHeader>
     );

@@ -3,7 +3,14 @@ import {IonReactRouter} from '@ionic/react-router';
 import {Route, Redirect} from 'react-router-dom';
 import Menu from './components/Menu/Menu';
 import Events from './pages/Events';
+import Stadiums from './pages/Stadiums';
+import StadiumView from './pages/StadiumView';
+import TeamOwners from './pages/TeamOwners';
+import TeamOwner from './pages/TeamOwner';
+import Memberships from './pages/Memberships';
 import Contact from './pages/Contact';
+import Users from './pages/Users';
+import UserProfile from './pages/UserProfile';
 import Auth from './pages/Auth/Auth';
 import AuthAdmin from './pages/Auth/AuthAdmin';
 import Login from './pages/Auth/Login';
@@ -61,6 +68,30 @@ const App: React.FC = () => {
 
                             <PrivateRoute path="/" exact admin>
                                 <Events/>
+                            </PrivateRoute>
+                            <PrivateRoute path="/events" exact admin>
+                                <Events/>
+                            </PrivateRoute>
+                            <PrivateRoute path="/stadiums" exact admin>
+                                <Stadiums/>
+                            </PrivateRoute>
+                            <PrivateRoute path="/stadium/:id" admin>
+                                <StadiumView />
+                            </PrivateRoute>
+                            <PrivateRoute path="/team_owners" exact admin>
+                                <TeamOwners />
+                            </PrivateRoute>
+                            <PrivateRoute path="/team_owner/:id" exact admin>
+                                <TeamOwner />
+                            </PrivateRoute>
+                            <PrivateRoute path="/memberships" exact admin>
+                                <Memberships/>
+                            </PrivateRoute>
+                            <PrivateRoute path="/users" exact admin>
+                                <Users/>
+                            </PrivateRoute>
+                            <PrivateRoute path="/user/:id" admin>
+                                <UserProfile />
                             </PrivateRoute>
                             <PrivateRoute path="/contact" exact admin>
                                 <Contact/>
