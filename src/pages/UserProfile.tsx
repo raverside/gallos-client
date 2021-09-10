@@ -19,7 +19,6 @@ import {useParams} from 'react-router-dom';
 import {getImageUrl} from '../components/utils';
 import moment from 'moment';
 import {closeOutline as closeIcon} from "ionicons/icons";
-import { Country }  from 'country-state-city';
 
 import './UserProfile.css';
 
@@ -100,8 +99,6 @@ const UserProfile: React.FC = () => {
         }
     }
 
-    const country = user?.country ? Country.getCountryByCode(user.country)?.name : "";
-
     return (
         <IonPage>
             <ArrowHeader title="Profile" backHref="/users" />
@@ -112,7 +109,7 @@ const UserProfile: React.FC = () => {
                     <div className="user-profile-info">
                         {user?.username && <IonText className="user-profile-info_username">{user.username}</IonText>}
                         {user?.phone && <IonText>+{user.phone}</IonText>}
-                        {(user?.country && user?.city) && <IonText>{user.city}, {country}</IonText>}
+                        {(user?.country && user?.city) && <IonText>{user.city}, {user.country}</IonText>}
                         {user?.created_at && <IonText className="user-profile-info-smalltext">Joined {moment(user.created_at).format('DD/MM/YYYY')}</IonText>}
                         {user?.last_login && <IonText className="user-profile-info-smalltext">Last online {moment(user.last_login).fromNow()}</IonText>}
                     </div>

@@ -1,7 +1,7 @@
 import fetcher from './fetcher';
 
-export async function getEvents(dateFilter:string = "today", page:number = 0) {
-    return fetcher.get(`/getEvents?dateFilter=${dateFilter}&page=${page}`);
+export async function getEvents(filter:string = "", page:number = 0) {
+    return fetcher.get(`/getEvents?page=${page}${filter}`);
 }
 
 export async function upsertEvent(payload: {image_upload?: File|null, image?: string|null|undefined}) {
@@ -13,4 +13,8 @@ export async function upsertEvent(payload: {image_upload?: File|null, image?: st
     }
 
     return fetcher.post('/upsertEvent', payload);
+}
+
+export async function removeEvent(id:string) {
+    return fetcher.get(`/removeEvent/${id}`)
 }

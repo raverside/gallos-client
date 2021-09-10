@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import {IonButtons, IonContent, IonIcon, IonTitle, IonToolbar, IonList, IonItem, IonItemDivider, IonInput, IonTextarea, IonButton, IonSelect, IonSelectOption } from '@ionic/react';
 import {closeOutline as closeIcon} from "ionicons/icons";
 import ImagePicker from '../ImagePicker';
-import {upsertEvent} from '../../api/Events';
+import {upsertEvent, removeEvent} from '../../api/Events';
 import moment from 'moment';
+import ConfirmPrompt from "../ConfirmPrompt";
 
 import './EventEditor.css';
 
@@ -24,15 +25,17 @@ type EventFormData = {
     gold_one?: number|null;
     gold_two?: number|null;
     description?: string;
+    type?: string;
 };
 type EventProps = {
     isSpecial: boolean;
     close: () => void;
-    addEvent: (event:{id:string, event_date:string}) => void;
+    fetchEvents: () => void;
     event?: EventFormData|false;
 };
 
-const EventEditor: React.FC<EventProps> = ({addEvent, isSpecial = false, close, event= false}) => {
+const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, close, event= false}) => {
+    const [showDeleteModal, setShowDeleteModal] = useState<boolean>();
     const [formData, setFormData] = useState<EventFormData>({
         id: event ? event.id : undefined,
         is_special: event ? event.is_special : isSpecial,
@@ -49,8 +52,15 @@ const EventEditor: React.FC<EventProps> = ({addEvent, isSpecial = false, close, 
         silver_two: event ? event.silver_two : null,
         gold_one: event ? event.gold_one : null,
         gold_two: event ? event.gold_two : null,
-        description: event ? event.description : ""
+        description: event ? event.description : "",
+        type: event ? event.type : "M1"
     });
+
+    const deleteEvent = (id:string) => {
+        removeEvent(id);
+        fetchEvents();
+        close();
+    }
 
     const canSubmit = () => {
         let isFormFilled = true;
@@ -66,7 +76,7 @@ const EventEditor: React.FC<EventProps> = ({addEvent, isSpecial = false, close, 
     const Submit = async () => {
         const response = await upsertEvent(formData);
         if (response.event) {
-            addEvent(response.event);
+            fetchEvents();
         }
         close();
     }
@@ -147,6 +157,27 @@ const EventEditor: React.FC<EventProps> = ({addEvent, isSpecial = false, close, 
                     </IonSelect>
                 </IonItem>
 
+                <IonItemDivider>Type</IonItemDivider>
+                <IonItem lines="none">
+                    <IonSelect value={formData.type} interface="action-sheet" onIonChange={(e) => setFormData({...formData, type: e.detail.value!})}>
+                        <IonSelectOption value="M1">M1</IonSelectOption>
+                        <IonSelectOption value="M2">M2</IonSelectOption>
+                        <IonSelectOption value="M3">M3</IonSelectOption>
+                        <IonSelectOption value="M4">M4</IonSelectOption>
+                        <IonSelectOption value="M5">M5</IonSelectOption>
+                        <IonSelectOption value="M6">M6</IonSelectOption>
+                        <IonSelectOption value="M7">M7</IonSelectOption>
+                        <IonSelectOption value="M8">M8</IonSelectOption>
+                        <IonSelectOption value="M9">M9</IonSelectOption>
+                        <IonSelectOption value="M10">M10</IonSelectOption>
+                        <IonSelectOption value="M11">M11</IonSelectOption>
+                        <IonSelectOption value="M12">M12</IonSelectOption>
+                        <IonSelectOption value="Pollo SM">Pollo SM</IonSelectOption>
+                        <IonSelectOption value="Gallo">Gallo</IonSelectOption>
+                        <IonSelectOption value="Gallo Pelado">Gallo Pelado</IonSelectOption>
+                    </IonSelect>
+                </IonItem>
+
                 <IonItemDivider>Betting Amount</IonItemDivider>
                 <IonItemDivider className="small-divider">Bronze</IonItemDivider>
                 <IonItem lines="none">
@@ -171,6 +202,17 @@ const EventEditor: React.FC<EventProps> = ({addEvent, isSpecial = false, close, 
                 <IonItem lines="none">
                     <IonTextarea value={formData.description} maxlength={3000} placeholder="Write description here" onIonChange={(e) => setFormData({...formData, description: e.detail.value!})} />
                 </IonItem>
+
+                {formData.id && <IonItem lines="none">
+                    <IonButton expand="block" className="delete-button" onClick={() => setShowDeleteModal(true)}>Delete</IonButton>
+                    <ConfirmPrompt
+                        data={formData.id}
+                        show={!!showDeleteModal}
+                        title="Delete Event"
+                        subtitle="Are you sure you want to delete this event?"
+                        onResult={(data, isConfirmed) => {isConfirmed && deleteEvent(data); setShowDeleteModal(false)}}
+                    />
+                </IonItem>}
             </IonList>
         </IonContent>
     </>);

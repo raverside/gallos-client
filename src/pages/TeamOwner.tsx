@@ -11,7 +11,6 @@ import TeamOwnerNotesTab from '../components/TeamOwners/TeamOwnerNotesTab';
 import React, {useEffect, useState} from "react";
 import {getTeamOwner, addTeamOwnerNote, updateTeamOwnerNote, removeTeamOwnerNote, addTeamOwnerTeam} from "../api/TeamOwners";
 import {useParams} from 'react-router-dom';
-import { Country }  from 'country-state-city';
 
 import './UserProfile.css';
 import TeamOwnersList from "../components/TeamOwners/TeamOwnersList";
@@ -89,8 +88,6 @@ const TeamOwner: React.FC = () => {
         }
     }
 
-    const country = teamOwner?.country ? Country.getCountryByCode(teamOwner.country)?.name : "";
-
     return (
         <IonPage>
             <ArrowHeader title="Team Owner" backHref="/team_owners" />
@@ -102,7 +99,7 @@ const TeamOwner: React.FC = () => {
                         {teamOwner?.digital_id && <IonText>ID {teamOwner.digital_id}</IonText>}
                         {teamOwner?.teams && <IonText>{teamOwner.teams.length} Teams</IonText>}
                         {teamOwner?.phone && <IonText>+{teamOwner.phone}</IonText>}
-                        {(teamOwner?.country) && <IonText>{teamOwner.city && teamOwner.city + ","} {country}</IonText>}
+                        {(teamOwner?.country) && <IonText>{teamOwner.city && teamOwner.city + ","} {teamOwner.country}</IonText>}
                     </div>
                 </div>
 

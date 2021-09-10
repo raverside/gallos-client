@@ -8,6 +8,8 @@
     --max-height:100%;
     --border-radius: 8px;
     align-items: flex-end;
+    padding-left:5px;
+    padding-right:5px;
 }
 #root #overlay-modal .modal-wrapper {
     border-bottom-left-radius: 0;

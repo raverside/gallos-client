@@ -4,7 +4,7 @@ import moment from 'moment';
 import editIcon from '../../img/edit.png';
 import {useState} from 'react';
 
-import './EventList.css';
+import './EventsList.css';
 
 type EventsListProps = {
     events: Array<{}>;
@@ -13,14 +13,11 @@ type EventsListProps = {
 
 const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
     const [fullDescription, setFullDescription] = useState<string|false>(false);
-    const USDFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
-    const DOPFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'DOP', maximumFractionDigits: 0});
 
     return (<IonList className="eventsList">
         {events.map((event:any) => {
             const allBets = [event.bronze, event.silver_one, event.silver_two, event.gold_one, event.gold_two].filter(x => x !== null);
             const minBet = allBets.length > 0 ? Math.min(...allBets) : false;
-            const maxBet = (allBets.length > 0 && Math.max(...allBets) > minBet) ? Math.max(...allBets) : false;
 
             return <IonItem key={event.id} lines="none" className="event"><IonCard>
                 <IonImg src={event.is_special && event.image ? getImageUrl(event.image) : getImageUrl(event.stadium_image)}/>
@@ -31,13 +28,15 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                         <div className="event-info_labels">
                             <div className="event-info_label">Receiving</div>
                             <div className="event-info_label">First Race</div>
-                            {(minBet !== false && minBet >= 0) && <div className="event-info_label">Bet</div>}
+                            {(minBet > 0) && <div className="event-info_label">Bet</div>}
                         </div>
                         <div className="event-info_values">
                             <div className="event-info_value">{moment(event.receiving_time_start, "HH:mm").format("LT")} - {moment(event.receiving_time_end, "HH:mm").format("LT")}</div>
                             <div className="event-info_value">{moment(event.first_race_time, "HH:mm").format("LT")}</div>
-                            {(minBet !== false && minBet >= 0) && <div className="event-info_value red">
-                                {(event.currency === 'DOP') ? DOPFormatter.format(minBet) : USDFormatter.format(minBet)} {(maxBet) && "• " + ((event.currency === 'DOP') ? DOPFormatter.format(maxBet) : USDFormatter.format(maxBet))}
+                            {(minBet > 0) && <div className="event-info_value red">
+                                {event.bronze > 0 && new Intl.NumberFormat(undefined, {style: 'currency', currency: event.currency, maximumFractionDigits: 0}).format(event.bronze)}
+                                {(event.silver_one > 0) && " • "+ new Intl.NumberFormat(undefined, {style: 'currency', currency: event.currency, maximumFractionDigits: 0}).format(event.silver_one)} {(event.silver_two > 0) && " & "+ new Intl.NumberFormat(undefined, {style: 'currency', currency: event.currency, maximumFractionDigits: 0}).format(event.silver_two)}
+                                {(event.gold_one > 0) && " • "+ new Intl.NumberFormat(undefined, {style: 'currency', currency: event.currency, maximumFractionDigits: 0}).format(event.gold_one)} {(event.silver_two > 0) && " & "+ new Intl.NumberFormat(undefined, {style: 'currency', currency: event.currency, maximumFractionDigits: 0}).format(event.gold_two)}
                             </div>}
                         </div>
                     </div>

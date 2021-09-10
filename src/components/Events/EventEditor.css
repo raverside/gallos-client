@@ -85,3 +85,16 @@ ion-backdrop {
     right:30px;
     --background: rgba(44, 38, 38, 0.35);
 }
+.delete-button {
+    width: 100%;
+    --padding-top: 13px;
+    --padding-bottom: 13px;
+    font-weight: 600;
+    font-size: 14px;
+    display: block;
+    height: auto;
+    margin: 20px 0;
+}
+.prompt-modal ion-backdrop {
+    --backdrop-opacity:0.4;
+}

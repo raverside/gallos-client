@@ -9,7 +9,6 @@ import React, {useEffect, useState} from "react";
 import {getStadium} from "../api/Stadiums";
 import {useParams} from 'react-router-dom';
 import {getImageUrl} from '../components/utils';
-import { Country }  from 'country-state-city';
 
 import './StadiumView.css';
 
@@ -40,8 +39,6 @@ const StadiumView: React.FC = () => {
         }
     }
 
-    const country = stadium?.country ? Country.getCountryByCode(stadium.country)?.name : "";
-
     return (
         <IonPage>
             <ArrowHeader title="" backHref="/stadiums" className="stadium-view-header"/>
@@ -52,7 +49,7 @@ const StadiumView: React.FC = () => {
                     <IonText className="stadium-view-info_name">{stadium?.name}</IonText>
                     <IonText className="stadium-view-info_representative_name">{stadium?.representative_name}</IonText>
                     <IonText className="stadium-view-info_membership" color="gold">Gold</IonText>
-                    <IonText className="stadium-view-info_location">{stadium?.city}, {country}</IonText>
+                    <IonText className="stadium-view-info_location">{stadium?.city}, {stadium?.country}</IonText>
                     <IonText className="stadium-view-info_phone">{stadium?.phone}</IonText>
                     <IonText className="stadium-view-info_bio">{stadium?.bio}</IonText>
                 </div>

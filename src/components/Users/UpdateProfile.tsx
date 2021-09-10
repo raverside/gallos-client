@@ -7,6 +7,7 @@ import React, {useState} from "react";
 import {closeOutline as closeIcon} from "ionicons/icons";
 import PhoneInput from 'react-phone-input-2';
 import {updateUserProfile} from "../../api/Users";
+import {formatPasscode} from '../utils';
 
 import './UpdateProfile.css';
 
@@ -70,7 +71,7 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({user, updateUser}) => {
                     />
 
                     <IonText className="update-label">Passcode</IonText>
-                    <IonText>{newPasscode || "*********"}</IonText>
+                    <IonText>{newPasscode ? formatPasscode(newPasscode) : "*********"}</IonText>
                     <IonButton expand="block" className="generate-passcode" onClick={generatePasscode}>Generate a New Passcode</IonButton>
                 </div>
             </IonContent>

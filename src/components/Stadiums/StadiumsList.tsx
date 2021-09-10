@@ -3,7 +3,6 @@ import {getImageUrl} from '../utils';
 
 import './StadiumsList.css';
 import React from "react";
-import {Country} from "country-state-city";
 
 type StadiumsListProps = {
     stadiums: Array<{}>;
@@ -21,7 +20,7 @@ const StadiumsList: React.FC<StadiumsListProps> = ({stadiums}) => {
                         <p className="stadium-short-info_name">{stadium.name}</p>
                         <p className="stadium-short-info_representative">{stadium.representative_name}</p>
                         <IonText className="stadium-short-info_membership" color="gold">Gold</IonText>
-                        <p className="stadium-short-info_location">{stadium.city}, {Country.getCountryByCode(stadium.country)?.name}</p>
+                        <p className="stadium-short-info_location">{stadium.city}, {stadium.country}</p>
                     </IonLabel>
                 </IonItem>
         })}

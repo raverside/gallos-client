@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     IonButtons,
     IonContent,
@@ -9,16 +9,14 @@ import {
     IonItem,
     IonItemDivider,
     IonInput,
-    IonTextarea,
     IonButton,
     IonSelect,
     IonSelectOption,
-    IonLabel
 } from '@ionic/react';
 import {closeOutline as closeIcon} from "ionicons/icons";
 import {upsertTeamOwner} from '../../api/TeamOwners';
 import PhoneInput from 'react-phone-input-2';
-import { Country, State, City }  from 'country-state-city';
+import {getCountries, getStatesByCountry, getCitiesByState} from '../../api/Geo';
 
 import './TeamOwnerEditor.css';
 
@@ -27,9 +25,9 @@ type TeamOwnerFormData = {
     name?: string;
     citizen_id?: string;
     phone?: string;
-    country?: string;
-    state?: string;
-    city?: string;
+    country?: number|null;
+    state?: number|null;
+    city?: number|null;
 };
 type EventProps = {
     close: () => void;
@@ -43,14 +41,67 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
         name: teamOwner ? teamOwner.name : "",
         citizen_id: teamOwner ? teamOwner.citizen_id : "",
         phone: teamOwner ? teamOwner.phone : "",
-        country: teamOwner ? teamOwner.country : "",
-        state: teamOwner ? teamOwner.state : "",
-        city: teamOwner ? teamOwner.city : "",
+        country: teamOwner && teamOwner.country ? +teamOwner.country : null,
+        state: teamOwner && teamOwner.state ? +teamOwner.state : null,
+        city: teamOwner && teamOwner.city ? +teamOwner.city : null,
     });
 
-    const countries = Country.getAllCountries();
-    const states = formData.country ? State.getStatesOfCountry(formData.country) : false;
-    const cities = (formData.country && formData.state) ? City.getCitiesOfState(formData.country, formData.state) : (formData.country) ? City.getCitiesOfCountry(formData.country) : false;
+    const [countries, setCountries] = useState<[{id: number, name: string}]>();
+    const [states, setStates] = useState<[{id: number, name: string}]>();
+    const [cities, setCities] = useState<[{id: number, name: string}]>();
+
+    const fetchCountries = async () => {
+        const countries = await getCountries();
+        if (countries.countries?.length > 0) {
+            setCountries(countries.countries);
+        }
+    }
+
+    const fetchStates = async (country_id:number) => {
+        const states = await getStatesByCountry(country_id);
+        if (states.states?.length > 0) {
+            setStates(states.states);
+        }
+    }
+
+    const fetchCities = async (state_id:number) => {
+        const cities = await getCitiesByState(state_id);
+        if (cities.cities?.length > 0) {
+            setCities(cities.cities);
+        }
+    }
+
+    useEffect(() => {
+        fetchCountries();
+        if (formData.country) fetchStates(formData.country);
+        if (formData.state) fetchCities(formData.state);
+    }, []);
+
+    const onCountryChange = (country_id:number) => {
+        setFormData({
+            ...formData,
+            country: country_id,
+            state: null,
+            city: null
+        });
+        fetchStates(country_id);
+    }
+
+    const onStateChange = (state_id:number) => {
+        setFormData({
+            ...formData,
+            state: state_id,
+            city: null
+        });
+        fetchCities(state_id);
+    }
+
+    const onCityChange = (city_id:number) => {
+        setFormData({
+            ...formData,
+            city: city_id
+        });
+    }
 
     const canSubmit = () => {
         let isFormFilled = true;
@@ -119,27 +170,27 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
 
                 <IonItemDivider>Country</IonItemDivider>
                 <IonItem lines="none">
-                    <IonSelect interface="action-sheet" name="country" value={formData.country} onIonChange={(e) => setFormData({...formData, country: e.detail.value!, state: "", city: ""})} placeholder="Select country">
-                        {countries.map((country) => (
-                            <IonSelectOption key={country.isoCode} value={country.isoCode}>{country.name}</IonSelectOption>
+                    <IonSelect interface="action-sheet" name="country" value={formData.country} onIonChange={(e) => onCountryChange(e.detail.value)} placeholder="Select country">
+                        {countries && countries.map((country) => (
+                            <IonSelectOption key={country.id} value={country.id}>{country.name}</IonSelectOption>
                         ))}
                     </IonSelect>
                 </IonItem>
 
                 {(states && states.length > 0) && <><IonItemDivider>State</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect interface="action-sheet" disabled={!formData.country} name="state" value={formData.state} onIonChange={(e) => setFormData({...formData, state: e.detail.value!, city: ""})} placeholder="Select state">
+                        <IonSelect interface="action-sheet" disabled={!formData.country} name="state" value={formData.state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder="Select state">
                             {states.map((state) => (
-                                <IonSelectOption key={state.isoCode} value={state.isoCode}>{state.name}</IonSelectOption>
+                                <IonSelectOption key={state.id} value={state.id}>{state.name}</IonSelectOption>
                             ))}
                         </IonSelect>
                     </IonItem></>}
 
                 {(cities && cities.length > 0) && <><IonItemDivider>City</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect interface="action-sheet" disabled={!formData.country || !formData.state} name="city" value={formData.city} onIonChange={(e) => setFormData({...formData, city: e.detail.value!})} placeholder="Select city">
-                            {cities.map((city, index) => (
-                                <IonSelectOption key={index} value={city.name}>{city.name}</IonSelectOption>
+                        <IonSelect interface="action-sheet" disabled={!formData.country || !formData.state} name="city" value={formData.city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder="Select city">
+                            {cities.map((city) => (
+                                <IonSelectOption key={city.id} value={city.id}>{city.name}</IonSelectOption>
                             ))}
                         </IonSelect>
                     </IonItem></>}

@@ -50,7 +50,7 @@ const TeamOwnersList: React.FC<TeamOwnersListProps> = ({teamOwners, isTeam = fal
                     <div className="add-note-wrapper">
                         <div>
                             <IonText className="add-note-title">Team Name</IonText>
-                            {teams.map((team, index) => (<div className="team-input-wrapper">
+                            {teams.map((team, index) => (<div className="team-input-wrapper" key={index}>
                                 <IonText className="team-index">{index + 1}</IonText>
                                 <IonInput key={index} className="add-note-input" placeholder="Note title" value={team} onIonChange={(e) => setTeams(teams.map((t, ti) => ti === index ? e.detail.value! : t))} />
                             </div>))}
