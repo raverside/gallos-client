@@ -13,6 +13,7 @@ import React, {useContext, useEffect, useState} from "react";
 import {getEvents} from "../api/Events";
 import CreateEventButton from "../components/Events/CreateEventButton";
 import EventsList from "../components/Events/EventsList";
+import DateFilter from "../components/Events/DateFilter";
 import EventsFilter from "../components/Events/EventsFilter";
 import EventEditor from "../components/Events/EventEditor";
 
@@ -22,7 +23,7 @@ import {AppContext} from "../State";
 const Events: React.FC = () => {
     const { state } = useContext(AppContext);
     const [events, setEvents] = useState<Array<{id:string}>>([]);
-    const [eventCount, setEventCount] = useState<{today: number, upcoming: number, past: number}>({today: 0, upcoming: 0, past: 0});
+    const [eventCount, setEventCount] = useState<{today: number, upcoming: number, past: number, dates: []}>({today: 0, upcoming: 0, past: 0, dates: []});
     const [showEventEditorModal, setShowEventEditorModal] = useState<number|boolean>(false);
     const [editorEvent, setEditorEvent] = useState<{}|boolean>(false);
     const [infiniteScrollPage, setInfiniteScrollPage] = useState<number>(1);
@@ -94,7 +95,7 @@ const Events: React.FC = () => {
             <Header title={state.user.role === "creator" ? "My Events" : "Events"} isRed={false} notifications={false}/>
 
             <IonContent fullscreen>
-                {(state.user.role === "creator") ? <IonSegment className="events-tabs" value={dateFilter} onIonChange={(e) => updateFilter(eventsSearch, eventsFilter, e.detail.value!)}>
+                {(state.user.role === "creator") && <IonSegment className="events-tabs" value={(dateFilter === "upcoming" || dateFilter === "today") ? dateFilter : "past"} onIonChange={(e) => {setDateFilter(e.detail.value!); updateFilter(eventsSearch, eventsFilter, e.detail.value!)}}>
                     <IonSegmentButton value="today">
                         <IonLabel>Today{eventCount.today > 0 && <span className="barely-visible"> • {eventCount.today}</span>}</IonLabel>
                     </IonSegmentButton>
@@ -104,7 +105,16 @@ const Events: React.FC = () => {
                     <IonSegmentButton value="past">
                         <IonLabel>Past{eventCount.past > 0 && <span className="barely-visible"> • {eventCount.past}</span>}</IonLabel>
                     </IonSegmentButton>
-                </IonSegment> :
+                </IonSegment>}
+                {(state.user.role === "worker" || (state.user.role === "creator" && dateFilter !== "upcoming" && dateFilter !== "today")) &&
+                    <DateFilter
+                        eventDates={eventCount.dates}
+                        filter={dateFilter}
+                        setFilter={(filter) => setDateFilter(filter)}
+                        updateFilter={(date) => updateFilter(eventsSearch, eventsFilter, date)}
+                    />
+                }
+                {(state.user.role === "worker") &&
                     <EventsFilter
                         filter={eventsFilter}
                         setFilter={(filter) => setEventsFilter(filter)}
