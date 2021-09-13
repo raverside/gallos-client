@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {IonButtons, IonContent, IonIcon, IonTitle, IonToolbar, IonList, IonItem, IonItemDivider, IonInput, IonTextarea, IonButton, IonSelect, IonSelectOption } from '@ionic/react';
 import {closeOutline as closeIcon} from "ionicons/icons";
 import ImagePicker from '../ImagePicker';
 import {upsertEvent, removeEvent} from '../../api/Events';
+import {fetchAllStadiums} from '../../api/Stadiums';
 import moment from 'moment';
 import ConfirmPrompt from "../ConfirmPrompt";
 
 import './EventEditor.css';
+import {AppContext} from "../../State";
 
 type EventFormData = {
     id?: string|undefined;
@@ -26,6 +28,7 @@ type EventFormData = {
     gold_two?: number|null;
     description?: string;
     type?: any[];
+    stadium_id?: string;
 };
 type EventProps = {
     isSpecial: boolean;
@@ -35,7 +38,9 @@ type EventProps = {
 };
 
 const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, close, event= false}) => {
+    const { state } = useContext(AppContext);
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>();
+    const [stadiums, setStadiums] = useState<any[]>([]);
     const [formData, setFormData] = useState<EventFormData>({
         id: event ? event.id : undefined,
         is_special: event ? event.is_special : isSpecial,
@@ -53,7 +58,8 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
         gold_one: event ? event.gold_one : null,
         gold_two: event ? event.gold_two : null,
         description: event ? event.description : "",
-        type: (event && event.type) ? event.type : ["All"]
+        type: (event && event.type) ? event.type : ["All"],
+        stadium_id: (event && event.stadium_id) ? event.stadium_id : state.user?.stadium?.id
     });
 
     useEffect(() => {
@@ -61,6 +67,19 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
             setFormData({...formData, type: ["All"]});
         }
     }, [formData.type]);
+
+    useEffect(() => {
+        if (state.user?.role === "worker") {
+            fetchStadiums();
+        }
+    }, []);
+
+    const fetchStadiums = async() => {
+        const response = await fetchAllStadiums();
+        if (response.stadiums) {
+            setStadiums(response.stadiums);
+        };
+    }
 
     const deleteEvent = (id:string) => {
         removeEvent(id);
@@ -104,6 +123,15 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
         </IonToolbar>
         <IonContent id="event-editor">
             <IonList>
+                {stadiums.length > 0 && <>
+                    <IonItemDivider>Stadium</IonItemDivider>
+                    <IonItem lines="none">
+                        <IonSelect value={formData.stadium_id} interface="action-sheet" onIonChange={(e) => setFormData({...formData, stadium_id: e.detail.value!})}>
+                            {stadiums.map((stadium) => (<IonSelectOption value={stadium.id}>{stadium.name}</IonSelectOption>))}
+                        </IonSelect>
+                    </IonItem>
+                </>}
+
                 {formData.is_special && <>
                     <IonItemDivider>Event Image</IonItemDivider>
                     <IonItem lines="none">

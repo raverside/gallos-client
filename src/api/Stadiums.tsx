@@ -7,3 +7,7 @@ export async function getStadium(id:string) {
 export async function getStadiums(filter:string = "", page:number = 0) {
     return fetcher.get(`/getStadiums?page=${page}${filter}`);
 }
+
+export async function fetchAllStadiums() {
+    return fetcher.get(`/getAllStadiums`);
+}
