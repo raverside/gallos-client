@@ -9,7 +9,7 @@ import {
     IonHeader,
     IonCardTitle,
     IonCardSubtitle,
-    IonAvatar, IonRouterLink, IonIcon, useIonActionSheet, IonModal,
+    IonAvatar, IonRouterLink, IonIcon, useIonActionSheet, IonModal, IonLoading,
 } from '@ionic/react';
 import Gallery from '../components/Gallery';
 import React, {useEffect, useState} from "react";
@@ -34,6 +34,7 @@ const EventView: React.FC = () => {
     const [present, dismiss] = useIonActionSheet();
     const [showEventEditorModal, setShowEventEditorModal] = useState<boolean>(false);
     const [showDeleteModal, setShowDeleteModal] = useState<string|false>(false);
+    const [showLoading, setShowLoading] = useState<boolean>(false);
     const history = useHistory();
 
     useEffect(() => {
@@ -41,11 +42,14 @@ const EventView: React.FC = () => {
     }, []);
 
     const fetchEvent = async () => {
+        setShowLoading(true);
         const response = (id) ? await getEvent(id) : false;
         if (response.event) {
             setEvent(response.event);
+            setShowLoading(false);
         } else {
             history.replace("/events");
+            setShowLoading(false);
         }
     }
 
@@ -127,6 +131,12 @@ const EventView: React.FC = () => {
                     title="Delete Event"
                     subtitle="Are you sure you want to delete this event?"
                     onResult={(data, isConfirmed) => {isConfirmed && deleteEvent(data); setShowDeleteModal(false)}}
+                />
+                <IonLoading
+                    isOpen={showLoading}
+                    onDidDismiss={() => setShowLoading(false)}
+                    duration={10000}
+                    spinner="crescent"
                 />
             </IonContent>
         </IonPage>

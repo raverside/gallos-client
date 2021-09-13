@@ -6,7 +6,7 @@ import {
     IonText,
     IonSegment,
     IonSegmentButton,
-    IonLabel, IonIcon
+    IonLabel, IonIcon, IonLoading
 } from '@ionic/react';
 import ArrowHeader from '../components/Header/ArrowHeader';
 import AddLabel from '../components/Users/AddLabel';
@@ -42,15 +42,20 @@ const UserProfile: React.FC = () => {
     const [showLabelConfirmPrompt, setShowLabelConfirmPrompt] = useState<boolean>(false);
     const [labelToDelete, setLabelToDelete] = useState<string|boolean>(false);
     const [tabSelected, setTabSelected] = useState<string>("info");
+    const [showLoading, setShowLoading] = useState<boolean>(false);
 
     useEffect(() => {
         fetchUser()
     }, []);
 
     const fetchUser = async () => {
+        setShowLoading(true);
         const response = (id) ? await getUser(id) : false;
         if (response.user) {
             setUser(response.user);
+            setShowLoading(false);
+        } else {
+            setShowLoading(false);
         }
     }
 
@@ -140,7 +145,12 @@ const UserProfile: React.FC = () => {
 
                 {tabSelected === "info" && <ProfileInfoTab user={user!} updateUser={fetchUser} />}
                 {tabSelected === "notes" && <ProfileNotesTab user={user!} addNote={addNote} updateNote={updateNote} removeNote={removeNote}/>}
-
+                <IonLoading
+                    isOpen={showLoading}
+                    onDidDismiss={() => setShowLoading(false)}
+                    duration={10000}
+                    spinner="crescent"
+                />
             </IonContent>
         </IonPage>
     );

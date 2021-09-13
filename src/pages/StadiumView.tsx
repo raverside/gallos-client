@@ -2,7 +2,7 @@ import {
     IonContent,
     IonPage,
     IonImg,
-    IonText,
+    IonText, IonLoading,
 } from '@ionic/react';
 import ArrowHeader from '../components/Header/ArrowHeader';
 import Gallery from '../components/Gallery';
@@ -30,15 +30,20 @@ const StadiumView: React.FC = () => {
     const { id } = useParams<{id:string}>();
     const [stadium, setStadium] = useState<stadiumType>();
     const [showFullscreen, setShowFullscreen] = useState<boolean>(false);
+    const [showLoading, setShowLoading] = useState<boolean>(false);
 
     useEffect(() => {
         fetchStadium()
     }, []);
 
     const fetchStadium= async () => {
+        setShowLoading(true);
         const response = (id) ? await getStadium(id) : false;
         if (response.stadium) {
             setStadium(response.stadium);
+            setShowLoading(false);
+        } else {
+            setShowLoading(false);
         }
     }
 
@@ -66,6 +71,12 @@ const StadiumView: React.FC = () => {
                     images={[getImageUrl(stadium?.image!)]}
                 />
             </IonContent>
+            <IonLoading
+                isOpen={showLoading}
+                onDidDismiss={() => setShowLoading(false)}
+                duration={10000}
+                spinner="crescent"
+            />
         </IonPage>
     );
 };
