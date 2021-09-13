@@ -1,4 +1,4 @@
-import {IonContent, IonPage, IonImg, IonText, IonButton, IonGrid, IonRow, IonCol, IonInput, IonRouterLink} from '@ionic/react';
+import {IonContent, IonPage, IonImg, IonText, IonButton, IonGrid, IonRow, IonCol, IonInput, IonRouterLink, IonLoading} from '@ionic/react';
 import './Auth.css';
 import {useState, useContext, useEffect} from "react";
 import {formatPasscode} from '../../components/utils';
@@ -11,6 +11,7 @@ import logo from '../../img/logo.png';
 const Auth: React.FC = () => {
     const { state, dispatch } = useContext(AppContext);
     const history = useHistory();
+    const [showLoading, setShowLoading] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [username, setUsername] = useState<string>("");
     const [passcode, setPasscode] = useState<string>("");
@@ -19,15 +20,18 @@ const Auth: React.FC = () => {
 
     const Submit = async () => {
         setSubmitDisabled(true);
+        setShowLoading(true);
         const response = await loginAdmin(username, passcode);
         if (response.error) {
             setError(response.error);
+            setShowLoading(false);
         } else if (response.token && response.user) {
             dispatch({
                 type: 'setUser',
                 user: response.user
             });
             Cookies.set('token', response.token, { expires: 7 });
+            setShowLoading(false);
         }
     }
 
@@ -83,6 +87,12 @@ const Auth: React.FC = () => {
                         </IonCol>
                     </IonRow>
                 </IonGrid>
+                <IonLoading
+                    isOpen={showLoading}
+                    onDidDismiss={() => setShowLoading(false)}
+                    duration={10000}
+                    spinner="crescent"
+                />
             </IonContent>
         </IonPage>
     );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {IonButtons, IonContent, IonIcon, IonTitle, IonToolbar, IonList, IonItem, IonItemDivider, IonInput, IonTextarea, IonButton, IonSelect, IonSelectOption } from '@ionic/react';
 import {closeOutline as closeIcon} from "ionicons/icons";
 import ImagePicker from '../ImagePicker';
@@ -25,7 +25,7 @@ type EventFormData = {
     gold_one?: number|null;
     gold_two?: number|null;
     description?: string;
-    type?: string;
+    type?: any[];
 };
 type EventProps = {
     isSpecial: boolean;
@@ -53,8 +53,14 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
         gold_one: event ? event.gold_one : null,
         gold_two: event ? event.gold_two : null,
         description: event ? event.description : "",
-        type: event ? event.type : "M1"
+        type: (event && event.type) ? event.type : ["All"]
     });
+
+    useEffect(() => {
+        if (formData.type?.includes("All") && formData.type.length > 1) {
+            setFormData({...formData, type: ["All"]});
+        }
+    }, [formData.type]);
 
     const deleteEvent = (id:string) => {
         removeEvent(id);
@@ -157,9 +163,12 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
                     </IonSelect>
                 </IonItem>
 
-                <IonItemDivider>Type</IonItemDivider>
+                <IonItemDivider>Marcaje</IonItemDivider>
                 <IonItem lines="none">
-                    <IonSelect value={formData.type} interface="action-sheet" onIonChange={(e) => setFormData({...formData, type: e.detail.value!})}>
+                    <IonSelect value={formData.type} multiple interface="action-sheet" onIonChange={(e) => {
+                        setFormData({...formData, type: e.detail.value});
+                    }}>
+                        <IonSelectOption value="All">Marcaje Abierto</IonSelectOption>
                         <IonSelectOption value="M1">M1</IonSelectOption>
                         <IonSelectOption value="M2">M2</IonSelectOption>
                         <IonSelectOption value="M3">M3</IonSelectOption>

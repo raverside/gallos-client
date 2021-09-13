@@ -23,11 +23,11 @@ const DateFilter: React.FC<FilterProps> = ({filter, setFilter, updateFilter, eve
     const [showFilterModal, setShowFilterModal] = useState<boolean>(false);
 
     const upcomingDays:any = [];
-    for (let i = 1; i <= 10; i++) {
-        const nextDay = moment().add(i, 'days');
+    for (let i = -3; i <= 10; i++) {
+        const nextDay = filter ? moment(filter).add(i, 'days') : moment().add(i, 'days');
         upcomingDays.push({
             weekDay: nextDay.format('ddd'),
-            day: nextDay.format('MMM DD'),
+            day: nextDay.format('DD MMM'),
             date: nextDay.format('YYYY-MM-DD'),
             hasEvent: eventDates.find((ed:any) => ed.date === nextDay.format('YYYY-MM-DD'))
         })
@@ -42,11 +42,15 @@ const DateFilter: React.FC<FilterProps> = ({filter, setFilter, updateFilter, eve
 
     return (<>
         <div className="datepicker-block">
-            <IonText className="datepicker-current-date">{moment().format("D MMMM YYYY")}</IonText>
+            <IonText className="datepicker-current-date">{filter ? moment(filter).format("D MMMM YYYY") : moment().format("D MMMM YYYY")}</IonText>
             <IonButton fill="clear" color="dark" onClick={() => setShowFilterModal(true)}><IonIcon slot="icon-only" icon={calendarIcon} size="medium" /></IonButton>
         </div>
         <IonSegment scrollable value={filter} className="datepicker-shortcuts">
-            {upcomingDays.map((day:any) => <IonSegmentButton key={day.date} value={day.date} onClick={() => { setFilter(day.date);updateFilter(day.date) }} className="datepicker-shortcut">
+            {upcomingDays.map((day:any) => <IonSegmentButton key={day.date} value={day.date} onClick={() => {
+                setDateFilter(new Date(day.date));
+                setFilter(day.date);
+                updateFilter(day.date);
+            }} className="datepicker-shortcut">
                 <div className="datepicker-shortcut-week">{day.weekDay}</div>
                 <div className="datepicker-shortcut-day">{day.day}</div>
                 {day.hasEvent && <div className="datepicker-shortcut-hasEvent">•</div>}

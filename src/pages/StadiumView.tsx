@@ -5,12 +5,14 @@ import {
     IonText,
 } from '@ionic/react';
 import ArrowHeader from '../components/Header/ArrowHeader';
+import Gallery from '../components/Gallery';
 import React, {useEffect, useState} from "react";
 import {getStadium} from "../api/Stadiums";
 import {useParams} from 'react-router-dom';
 import {getImageUrl} from '../components/utils';
 
 import './StadiumView.css';
+import fullscreenIcon from "../img/fullscreen.png";
 
 type stadiumType = {
     id: string;
@@ -27,6 +29,7 @@ type stadiumType = {
 const StadiumView: React.FC = () => {
     const { id } = useParams<{id:string}>();
     const [stadium, setStadium] = useState<stadiumType>();
+    const [showFullscreen, setShowFullscreen] = useState<boolean>(false);
 
     useEffect(() => {
         fetchStadium()
@@ -44,7 +47,10 @@ const StadiumView: React.FC = () => {
             <ArrowHeader title="" backHref="/stadiums" className="stadium-view-header"/>
 
             <IonContent fullscreen>
-                <IonImg className="stadium-big-image" src={getImageUrl(stadium?.image!)} />
+                <div className="stadium-big-image">
+                    <IonImg src={getImageUrl(stadium?.image!)}/>
+                    <IonImg src={fullscreenIcon} onClick={() => setShowFullscreen(true)} className="fullscreen-icon" />
+                </div>
                 <div className="stadium-view-info">
                     <IonText className="stadium-view-info_name">{stadium?.name}</IonText>
                     <IonText className="stadium-view-info_representative_name">{stadium?.representative_name}</IonText>
@@ -53,6 +59,12 @@ const StadiumView: React.FC = () => {
                     <IonText className="stadium-view-info_phone">{stadium?.phone}</IonText>
                     <IonText className="stadium-view-info_bio">{stadium?.bio}</IonText>
                 </div>
+                <Gallery
+                    title={stadium?.name || ""}
+                    showModal={showFullscreen}
+                    setShowModal={setShowFullscreen}
+                    images={[getImageUrl(stadium?.image!)]}
+                />
             </IonContent>
         </IonPage>
     );

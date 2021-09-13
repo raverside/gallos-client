@@ -3,6 +3,7 @@ import {IonReactRouter} from '@ionic/react-router';
 import {Route, Redirect} from 'react-router-dom';
 import Menu from './components/Menu/Menu';
 import Events from './pages/Events';
+import EventView from './pages/EventView';
 import Stadiums from './pages/Stadiums';
 import StadiumView from './pages/StadiumView';
 import TeamOwners from './pages/TeamOwners';
@@ -71,6 +72,9 @@ const App: React.FC = () => {
                             </PrivateRoute>
                             <PrivateRoute path="/events" exact admin>
                                 <Events/>
+                            </PrivateRoute>
+                            <PrivateRoute path="/event/:id" admin>
+                                <EventView/>
                             </PrivateRoute>
                             <PrivateRoute path="/stadiums" exact admin>
                                 <Stadiums/>

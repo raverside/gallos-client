@@ -15,6 +15,7 @@ type UpdateProfileProps = {
     user: {
         id: string;
         phone: string;
+        passcode: string;
     };
     updateUser: () => void;
 };
@@ -22,22 +23,24 @@ type UpdateProfileProps = {
 const UpdateProfile: React.FC<UpdateProfileProps> = ({user, updateUser}) => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [phone, setPhone] = useState<string>(user.phone || "");
-    const [newPasscode, setNewPasscode] = useState<string|false>(false);
+    const [passcode, setPasscode] = useState<string>(user.passcode);
+    const [showPasscode, setShowPasscode] = useState<boolean>(false);
 
     const canSubmit = () => {
         return phone && phone.length >= 5 && phone.length <= 15;
     }
 
     const generatePasscode = () => {
-        const passcode = Math.random().toString(36).substr(2, 9);
-        if (passcode && passcode.length === 9) {
-            setNewPasscode(passcode);
+        const generatedPasscode = Math.random().toString(36).substr(2, 9);
+        if (generatedPasscode && generatedPasscode.length === 9) {
+            setPasscode(generatedPasscode);
+            setShowPasscode(true);
         } else generatePasscode();
     }
 
     const Submit = async () => {
         if (!canSubmit()) return;
-        updateUserProfile(user.id, phone, newPasscode);
+        updateUserProfile(user.id, phone, passcode);
         updateUser();
         setShowModal(false);
     }
@@ -71,7 +74,8 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({user, updateUser}) => {
                     />
 
                     <IonText className="update-label">Passcode</IonText>
-                    <IonText>{newPasscode ? formatPasscode(newPasscode) : "*********"}</IonText>
+                    <IonText>{showPasscode ? formatPasscode(passcode) : "*** *** ***"}</IonText>
+                    <IonButton className="update-toggle-passcode" fill="clear" onClick={() => setShowPasscode(!showPasscode)}>{showPasscode ? "Hide" : "Show"}</IonButton>
                     <IonButton expand="block" className="generate-passcode" onClick={generatePasscode}>Generate a New Passcode</IonButton>
                 </div>
             </IonContent>

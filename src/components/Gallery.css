@@ -1,0 +1,33 @@
+.gallery-modal .gallery-close-icon[slot="end"] {
+    font-size:28px;
+    margin-right:10px;
+    margin-left:-42px;
+    color:white;
+}
+.gallery-modal {
+    --ion-background-color:#2C2626;
+}
+.gallery-modal .page-title {
+    color:white;
+}
+.gallery-modal .modal-header {
+    --ion-toolbar-background: rgba(44, 38, 38, 0.5);
+}
+.gallery-slider {
+    height:100%;
+}
+.gallery-slider-thumbnails {
+    position:fixed;
+    bottom:40px;
+    width:100%;
+    height:75px;
+}
+.gallery-slider-thumbnail {
+    width:75px !important;
+    height:75px;
+    border-radius:8px;
+    border:2px solid white;
+}
+.gallery-slider-thumbnails .swiper-wrapper {
+    justify-content:center;
+}

@@ -1,5 +1,4 @@
 import {IonButton, IonLabel, IonText, IonImg, useIonToast} from '@ionic/react';
-import moment from 'moment';
 import UpdateProfile from './UpdateProfile';
 import UserMembership from './UserMembership';
 
@@ -11,6 +10,7 @@ type ProfileTabProps = {
         id: string;
         phone: string;
         username: string;
+        passcode: string;
     };
     updateUser: () => void;
 };
@@ -35,6 +35,13 @@ const ProfileInfoTab: React.FC<ProfileTabProps> = ({user, updateUser}) => {
                     <IonText>+{user?.phone}</IonText>
                 </div>
                 <IonImg src={copyIcon} onClick={() => clipboard(user.phone!)}/>
+            </div>
+            <div className="user-profile-section-content">
+                <div>
+                    <IonLabel>Passcode</IonLabel>
+                    <IonText>*** *** ***</IonText>
+                </div>
+                <IonImg src={copyIcon} onClick={() => clipboard(user.passcode!)}/>
             </div>
 
             <div className="user-profile-section">

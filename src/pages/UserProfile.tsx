@@ -26,6 +26,7 @@ type userType = {
     id: string;
     photo: string|null;
     username: string;
+    passcode: string;
     phone: string;
     city: string;
     country: string;

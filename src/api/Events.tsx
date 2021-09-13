@@ -1,5 +1,9 @@
 import fetcher from './fetcher';
 
+export async function getEvent(id:string) {
+    return fetcher.get(`/getEvent/${id}`);
+}
+
 export async function getEvents(filter:string = "", page:number = 0) {
     return fetcher.get(`/getEvents?page=${page}${filter}`);
 }

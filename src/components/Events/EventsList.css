@@ -47,3 +47,21 @@
     --padding-bottom: 0;
     --padding-end: 2px;
 }
+.event-stadium {
+    display:flex;
+    align-items:center;
+    padding:10px;
+}
+.event-stadium ion-avatar {
+    margin-right:10px;
+    width:33px;
+    height:33px;
+    display:inline-block;
+    vertical-align: middle;
+}
+.event-stadium span {
+    font-weight: 600;
+    font-size: 14px;
+    color:#2C2626;
+    vertical-align: middle;
+}

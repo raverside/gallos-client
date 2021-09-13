@@ -51,11 +51,11 @@
     font-size: 12px;
     color: #6B6767;
 }
-.react-calendar__tile {
+.react-calendar__month-view__days__day {
     border: none;
     background:none;
 }
-.react-calendar__tile abbr{
+.react-calendar__month-view__days__day abbr{
     border: 2px solid #EAE9E9;
     border-radius: 10px;
     background:none;
@@ -67,7 +67,7 @@
     align-items: center;
     justify-content: center;
 }
-.react-calendar__tile--active abbr{
+.react-calendar__month-view__days__day.react-calendar__tile--active abbr{
     color: #EB0404;
     border-color: #EB0404;
 }
