@@ -2,7 +2,7 @@ import {IonButton, IonContent, IonModal, IonText} from '@ionic/react';
 import './ConfirmPrompt.css';
 
 type addLabelProps = {
-    data: any;
+    data?: any;
     show: boolean;
     title: string;
     subtitle: string;

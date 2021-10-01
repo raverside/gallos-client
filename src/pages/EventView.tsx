@@ -64,7 +64,7 @@ const EventView: React.FC = () => {
     const allBets = [event?.bronze, event?.silver_one, event?.silver_two, event?.gold_one, event?.gold_two].filter(x => x !== null);
     const minBet = allBets.length > 0 ? Math.min(...allBets) : false;
 
-    return (
+    return !event ? null : (
         <IonPage>
             <IonHeader className="event-view-header">
                 <IonToolbar className="arrow-header">
@@ -110,6 +110,10 @@ const EventView: React.FC = () => {
                         </div>
                     </div>
                     <IonText>{event?.description}</IonText>
+                    <div className="event-phase-baloteo">
+                        <IonText className="event-phase-header">Baloteo Available</IonText>
+                        <IonText className="event-phase">{event?.phase} Phase</IonText>
+                    </div>
                 </div>
                 <Gallery
                     title={title}

@@ -4,6 +4,10 @@ export async function getTeamOwner(id:string) {
     return fetcher.get(`/getTeamOwner/${id}`);
 }
 
+export async function getTeamOwnerByDigitalId(id:number) {
+    return fetcher.get(`/getTeamOwnerByDigitalId/${id}`);
+}
+
 export async function getTeamOwners() {
     return fetcher.get(`/getTeamOwners`);
 }

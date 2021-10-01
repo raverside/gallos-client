@@ -34,3 +34,11 @@
 .team-index {
     margin-right:10px;
 }
+.specialGuest {
+    border: 2px solid #EAE9E9;
+    margin:10px;
+    border-radius: 8px;
+}
+.specialGuest.selected {
+    border: 2px solid #EB0404;
+}

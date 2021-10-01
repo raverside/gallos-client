@@ -1,6 +1,9 @@
 .eventsList {
     margin-bottom:60px;
 }
+.event {
+    margin:20px 10px;
+}
 .event ion-card {
     width: 100%;
     padding:0;
@@ -48,9 +51,8 @@
     --padding-end: 2px;
 }
 .event-stadium {
-    display:flex;
-    align-items:center;
-    padding:10px;
+    padding: 10px;
+    height: auto;
 }
 .event-stadium ion-avatar {
     margin-right:10px;
@@ -64,4 +66,33 @@
     font-size: 14px;
     color:#2C2626;
     vertical-align: middle;
+    text-transform:capitalize;
+}
+.baloteoButton {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:5px 15px;
+    background: #EB0404;
+    clear:both;
+}
+.baloteoButton ion-text {
+    color:white;
+    text-transform:capitalize;
+}
+.baloteoButton ion-img {
+    width:12px;
+    margin-left:10px;
+    margin-right:-10px;
+}
+.event-image {
+    height:auto;
+    width:100%;
+    --padding-start: 0;
+    --padding-end: 0;
+    --border-radius: 0;
+    margin:0;
+}
+.event-image ion-img {
+    width:100%;
 }

@@ -1,0 +1,52 @@
+.add-photo {
+    border: 5px solid #EAE9E9;
+    width:100%;
+    padding: 30%;
+    box-sizing:border-box;
+    border-radius: 10px;
+}
+.add-photo ion-img {
+    position: absolute;
+    left:0;right:40px;
+    top:0;bottom:0;
+    margin:auto;
+    width:162px;
+    height:197px;
+    max-width:80%;
+    max-height:80%;
+}
+.image-flipper-text {
+    padding: 0 15px;
+    margin-top: -5px;
+    margin-bottom: 10px;
+    display: block;
+}
+.image-flipper {
+    position: absolute;
+    top: -45px;
+    right: 10px;
+    background: white;
+}
+.animalImagePicker {
+    overflow:visible;
+}
+.participant-preview-image {
+    max-height: 345px;
+    display:block;
+    margin:auto;
+}
+.participant-preview-image_close {
+    --border-radius:100%;
+    width:32px;
+    height:32px;
+    position:absolute;
+    top:10px;
+    right:30px;
+    --background: rgba(44, 38, 38, 0.35);
+}
+.participant-preview-image.flipped {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}

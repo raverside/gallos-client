@@ -94,6 +94,7 @@ ion-backdrop {
     display: block;
     height: auto;
     margin: 20px 0;
+    text-transform: capitalize;
 }
 .prompt-modal ion-backdrop {
     --backdrop-opacity:0.4;

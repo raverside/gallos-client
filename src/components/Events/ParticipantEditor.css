@@ -1,0 +1,68 @@
+.modal-header .close-participant-icon[slot="start"] {
+    font-size:28px;
+}
+.yesno_radio {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:0 15px;
+}
+.yesno_radio > ion-item {
+    border: 2px solid #EAE9E9;
+    border-radius: 5px;
+    width:48%;
+    height:50px;
+    text-align:center;
+    font-weight: 600;
+    font-size: 14px;
+}
+.yesno_radio .item-radio-checked {
+    color: #EB0404;
+    border-color: #EB0404;
+}
+.yesno_radio_button {
+    width: 0;
+}
+.yesno_radio_button::part(container) {
+    display:none;
+}
+.participant-complete-buttons {
+    margin:15px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    height:45px;
+    width:100%;
+}
+.participant-approve-button {
+    --background: #307A0E;
+    width:48%;
+    height: 100%;
+    --padding:12px;
+    margin:0;
+}
+.participant-reject-button {
+    width:48%;
+    height: 100%;
+    --padding:12px;
+    margin:0;
+}
+.reject-participant-modal {
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    height:100%;
+}
+.reject-participant-modal ion-content {
+    --padding-top:15px;
+    --padding-bottom:15px;
+    --padding-start:15px;
+    --padding-end:15px;
+}
+.reject-participant-modal .page-title {
+    margin-left:-35px;
+}
+.reject-participant-modal ion-textarea {
+    border: 1px solid #EAE9E9;
+    background:white;
+}

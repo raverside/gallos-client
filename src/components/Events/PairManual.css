@@ -1,0 +1,46 @@
+.pair-manual {
+    width:100%;
+}
+.pair-manual ion-row {
+    align-items: center;
+}
+.pair-manual ion-col {
+    text-align: center;
+}
+.pair-manual .animal {
+    font-weight: 600;
+    font-size: 14px;
+    color: #979797;
+}
+.create-match {
+    margin:15px;
+    text-transform: capitalize;
+    --padding-top:13px;
+    --padding-bottom:13px;
+    font-weight: 600;
+    font-size: 14px;
+    height:auto;
+}
+.pair-manual-close {
+    margin-right:-40px;
+}
+.pair-match {
+    border: 1px solid #EAE9E9;
+    border-radius: 8px;
+    margin:10px;
+    padding:10px;
+}
+.select-pair-text {
+    font-size: 14px;
+    text-align: left;
+    width: 100%;
+    display: block;
+    padding: 5px;
+}
+.manual-opponent {
+    padding:20px;
+    border: 2px solid #EAE9E9;
+}
+.manual-opponent.selected {
+    border: 2px solid #EB0404;
+}

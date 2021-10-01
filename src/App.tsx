@@ -4,6 +4,9 @@ import {Route, Redirect} from 'react-router-dom';
 import Menu from './components/Menu/Menu';
 import Events from './pages/Events';
 import EventView from './pages/EventView';
+import EventReceiving from './pages/EventReceiving';
+import Baloteo from './pages/Baloteo';
+import BaloteoStats from './pages/BaloteoStats';
 import Stadiums from './pages/Stadiums';
 import StadiumView from './pages/StadiumView';
 import TeamOwners from './pages/TeamOwners';
@@ -75,6 +78,15 @@ const App: React.FC = () => {
                             </PrivateRoute>
                             <PrivateRoute path="/event/:id" admin>
                                 <EventView/>
+                            </PrivateRoute>
+                            <PrivateRoute path="/event_receiving/:id" admin>
+                                <EventReceiving/>
+                            </PrivateRoute>
+                            <PrivateRoute path="/baloteo/:id" admin>
+                                <Baloteo/>
+                            </PrivateRoute>
+                            <PrivateRoute path="/baloteo_stats/:id" admin>
+                                <BaloteoStats/>
                             </PrivateRoute>
                             <PrivateRoute path="/stadiums" exact admin>
                                 <Stadiums/>

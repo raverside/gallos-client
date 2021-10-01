@@ -1,7 +1,8 @@
-import {IonCard, IonImg, IonList, IonItem, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonAvatar, IonRouterLink} from '@ionic/react';
+import {IonCard, IonImg, IonList, IonItem, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonAvatar, IonRouterLink, IonText} from '@ionic/react';
 import {getImageUrl} from '../utils';
 import moment from 'moment';
 import editIcon from '../../img/edit.png';
+import arrowIcon from '../../img/arrow_forward.png';
 import {useState} from 'react';
 
 import './EventsList.css';
@@ -20,9 +21,9 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
             const allBets = [event.bronze, event.silver_one, event.silver_two, event.gold_one, event.gold_two].filter(x => x !== null);
             const minBet = allBets.length > 0 ? Math.min(...allBets) : false;
 
-            return <IonItem key={event.id} lines="none" className="event"><IonCard>
-                <IonRouterLink className="event-stadium" routerLink={"/stadium/"+event.stadium_id}><IonAvatar><IonImg src={getImageUrl(event.stadium_image)}/></IonAvatar><span>{event.stadium_name}</span></IonRouterLink>
-                <IonRouterLink routerLink={"/event/"+event.id} ><IonImg src={event.is_special && event.image ? getImageUrl(event.image) : getImageUrl(event.stadium_image)} /></IonRouterLink>
+            return <div key={event.id} className="event"><IonCard>
+                <IonButton fill="clear" className="event-stadium" routerLink={"/stadium/"+event.stadium_id}><IonAvatar><IonImg src={getImageUrl(event.stadium_image)}/></IonAvatar><span>{event.stadium_name}</span></IonButton>
+                <IonButton fill="clear" className="event-image" routerLink={"/event/"+event.id} ><IonImg src={event.is_special && event.image ? getImageUrl(event.image) : getImageUrl(event.stadium_image)} /></IonButton>
                 <IonCardHeader>
                     <IonCardTitle>{(event.is_special && event.title) ? event.title : "Traditional Events"}</IonCardTitle>
                     <IonCardSubtitle>{moment(event.event_date).format("dddd, D MMMM YYYY")}</IonCardSubtitle>
@@ -53,7 +54,14 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                 <IonButton className="event-edit" fill="clear" onClick={() => {openEditor(event)}}>
                     <IonImg src={editIcon} />
                 </IonButton>
-            </IonCard></IonItem>
+                <div className="baloteoButton">
+                    <IonText>{event.phase}</IonText>
+                    <IonButton fill="clear" routerLink={"/event_receiving/"+event.id}>
+                        <IonText>See Baloteo</IonText>
+                        <IonImg src={arrowIcon} />
+                    </IonButton>
+                </div>
+            </IonCard></div>
         })}
     </IonList>);
 };

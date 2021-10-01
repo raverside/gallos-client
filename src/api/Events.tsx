@@ -22,3 +22,38 @@ export async function upsertEvent(payload: {image_upload?: File|null, image?: st
 export async function removeEvent(id:string) {
     return fetcher.get(`/removeEvent/${id}`)
 }
+
+export async function upsertParticipant(payload: {image_upload?: File|null, image?: string|null|undefined, image_flipped: boolean}) {
+    if (payload.image_upload) {
+        let formData = new FormData();
+        formData.append('participant', payload.image_upload);
+        const {filename} = await fetcher.upload('/uploadParticipantPicture', formData);
+        payload.image = filename;
+    }
+
+    return fetcher.post('/upsertParticipant', payload);
+}
+
+export async function generateMatches(event_id:string, method:number, special_guests:any) {
+    return fetcher.post(`/generateMatches/${event_id}`, {method, special_guests});
+}
+
+export async function goLive(payload:{}) {
+    return fetcher.post(`/publishMatches`, payload);
+}
+
+export async function publishMatch(match_id:string) {
+    return fetcher.get(`/publishMatch/${match_id}`);
+}
+
+export async function swapSides(match_id:string) {
+    return fetcher.get(`/switchSides/${match_id}`);
+}
+
+export async function announceEvent(event_id:string) {
+    return fetcher.get(`/announceEvent/${event_id}`);
+}
+
+export async function createMatch(participant_id:string, opponent_id:string, live:boolean) {
+    return fetcher.post(`/createMatch`, {participant_id, opponent_id, live});
+}

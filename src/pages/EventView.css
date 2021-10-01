@@ -89,8 +89,29 @@
     margin-top:15px;
     border: 1px solid #EAE9E9;
     border-radius: 5px;
+    display: block;
 }
 .event-view-header ion-buttons[slot="end"]{
     margin-right:15px;
     color:white;
+}
+.event-phase-baloteo {
+    padding: 15px 0;
+    background-color: #E5E5E5;
+    margin: 0 -15px;
+}
+.event-phase-header {
+    font-weight: 600;
+    font-size: 16px;
+    padding:15px 15px 10px 15px;
+    display:block;
+    background-color:white;
+}
+.event-phase {
+    font-weight: 600;
+    font-size: 14px;
+    text-transform:capitalize;
+    display:block;
+    background-color:white;
+    padding:0 15px 15px 15px;
 }

@@ -1,7 +1,6 @@
 import {IonFab, IonFabButton, IonFabList, IonIcon, IonBackdrop, IonModal} from '@ionic/react';
 import {addOutline as addIcon} from 'ionicons/icons';
 import React, {useState, useRef} from "react";
-import EventEditor from './EventEditor';
 
 import './EventEditor.css';
 
@@ -19,7 +18,7 @@ const CreateEventButton: React.FC<EventButtonProps> = ({showEventEditor}) => {
     }
 
     return (<>
-        {showBackdrop && <IonBackdrop style={{position:'fixed'}}tappable onIonBackdropTap={() => {setShowBackdrop(false); fabRef.current?.close()}} />}
+        {showBackdrop && <IonBackdrop style={{position:'fixed'}} tappable onIonBackdropTap={() => {setShowBackdrop(false); fabRef.current?.close()}} />}
         <IonFab ref={fabRef} vertical="bottom" horizontal="end" slot="fixed">
             <IonFabButton type="button" onClick={() => setShowBackdrop(!showBackdrop)}>
                 <IonIcon icon={addIcon} />
