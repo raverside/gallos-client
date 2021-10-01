@@ -54,6 +54,6 @@ export async function announceEvent(event_id:string) {
     return fetcher.get(`/announceEvent/${event_id}`);
 }
 
-export async function createMatch(participant_id:string, opponent_id:string, live:boolean) {
-    return fetcher.post(`/createMatch`, {participant_id, opponent_id, live});
+export async function createMatch(event_id:string, participant_id:string, opponent_id:string, live:boolean) {
+    return fetcher.post(`/createMatch`, {event_id, participant_id, opponent_id, live});
 }

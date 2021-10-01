@@ -21,7 +21,7 @@ const PairManual: React.FC<PairManualProps> = ({participantId, opponents, fightN
     const filteredOpponents = opponents?.filter(o => o.id !== participantId && (!searchOpponent || +o.cage === +searchOpponent));
 
     const pairMatch = async () => {
-        participantId && createMatch(participantId, opponent.id, true);
+        participantId && createMatch(opponent.event_id, participantId, opponent.id, true);
         close();
     };
 
