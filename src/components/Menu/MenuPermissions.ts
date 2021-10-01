@@ -48,6 +48,23 @@ const MenuPermissions = () => {
     ];
 
     appPages["worker"] = [
+        {title: 'Events', url: '/events'},
+        {title: 'Teams', url: '/team_owners'},
+        {title: 'Contact Us', url: '/contact'},
+        {
+            title: 'Log Out', url: '/auth_admin',
+            props: {
+                className: "logout-button",
+                onClick: () => {
+                    dispatch({
+                        type: 'resetUser',
+                    });
+                }
+            }
+        },
+    ];
+
+    appPages["admin_worker"] = [
         {title: 'Users', url: '/users'},
         {title: 'Events', url: '/events'},
         {title: 'Stadiums', url: '/stadiums'},
