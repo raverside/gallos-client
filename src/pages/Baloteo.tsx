@@ -32,6 +32,7 @@ const Baloteo: React.FC = () => {
     const [baloteoTab, setBaloteoTab] = useState<string>("live");
     const [showAnnouncePrompt, setShowAnnouncePrompt] = useState<boolean>(false);
     const [showPairModal, setShowPairModal] = useState<string|false>(false);
+    const [showShareMatch, setShowShareMatch] = useState<any>(false);
     const { id } = useParams<{id:string}>();
     const [present, dismiss] = useIonActionSheet();
     const history = useHistory();
@@ -57,6 +58,10 @@ const Baloteo: React.FC = () => {
         )
     );
     const excludedParticipants = event.participants?.filter((participant:any) => participant.status === "rejected");
+
+    const printMatch = async (matchId:string) => {
+        setShowShareMatch(matchId);
+    };
 
     const switchSides = async (matchId:string) => {
         const response = await swapSides(matchId);
@@ -116,7 +121,7 @@ const Baloteo: React.FC = () => {
                                 <IonCol size="2" offset="10">
                                     <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
                                         buttons: [
-                                            { text: 'Print this match', handler: () => {} },
+                                            { text: 'Print this match', handler: () => printMatch(match.id) },
                                             { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                                         ],
                                         header: 'Settings'
@@ -153,7 +158,7 @@ const Baloteo: React.FC = () => {
                                 <IonCol size="2" offset="10">
                                     <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
                                         buttons: [
-                                            { text: 'Print this match', handler: () => {} },
+                                            { text: 'Print this match', handler: () => printMatch(match.id) },
                                             { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                                         ],
                                         header: 'Settings'
@@ -198,15 +203,6 @@ const Baloteo: React.FC = () => {
                                         <IonCol size="3">
                                             <IonButton fill="clear" className="pair-button" onClick={() => setShowPairModal(participant.id)}>Pair</IonButton>
                                         </IonCol>
-                                        <IonCol size="2">
-                                            <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
-                                                buttons: [
-                                                    { text: 'Print this match', handler: () => {} },
-                                                    { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
-                                                ],
-                                                header: 'Settings'
-                                            })}><IonIcon size="small" icon={menuIcon} /></IonButton>
-                                        </IonCol>
                                     </IonRow>
                                 </IonGrid>
                             </IonItem>)}
@@ -225,15 +221,6 @@ const Baloteo: React.FC = () => {
                                                 <div className="baloteo-participant-type">{participant.type}</div>
                                                 <div className="baloteo-participant-type">{participant.weight && participant.weight + " Lbs"}</div>
                                             </div>
-                                        </IonCol>
-                                        <IonCol size="2" offset="3">
-                                            <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
-                                                buttons: [
-                                                    { text: 'Print this match', handler: () => {} },
-                                                    { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
-                                                ],
-                                                header: 'Settings'
-                                            })}><IonIcon size="small" icon={menuIcon} /></IonButton>
                                         </IonCol>
                                     </IonRow>
                                 </IonGrid>
