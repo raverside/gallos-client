@@ -1,0 +1,109 @@
+.shareable-image {
+    background:black;
+    position:relative;
+    overflow: auto;
+}
+.shareable-image_content {
+    display:flex;
+    justify-content: space-between;
+    padding:15px;
+    align-items: center;
+}
+.shareable-image_title {
+    display:block;
+    position: absolute;
+    top:0;
+    left:0;right:0;
+    background-color: rgba(0,0,0,0.4);
+    color:white;
+    text-transform: uppercase;
+    text-align: center;
+    padding:15px;
+    font-size:28px;
+    font-weight:600;
+}
+.shareable-image_datecol {
+    text-align:center;
+}
+.shareable-image_datelabel {
+    color:white;
+    font-size:22px;
+    font-weight:600;
+}
+.shareable-image_dateblock {
+    background:white;
+    border-radius:10px;
+    display:inline-block;
+    padding:15px;
+    margin:10px 0;
+    font-weight:600;
+}
+.shareable-image_weekday {
+    font-size:34px;
+    color:#6B6767;
+    font-weight:bold;
+}
+.shareable-image_day {
+    font-size:44px;
+    color:#EB0404;
+    font-weight:bold;
+    margin:15px;
+}
+.shareable-image_month {
+    font-size:24px;
+    color:#6B6767;
+    font-weight:bold;
+}
+.shareable-image_year {
+    font-size:44px;
+    color:white;
+    font-weight:bold;
+    letter-spacing: 10px;
+    margin-left: 10px;
+    margin-top:5px;
+}
+.shareable-image_label {
+    color:white;
+    font-weight:bold;
+    font-size:18px;
+    margin:0 10px;
+}
+.shareable-image_redblock {
+    background-color: #EB0404;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 6px;
+    margin: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.shareable-image_whiteblock {
+    background-color:white;
+    color: black;
+    border-radius:10px;
+    padding:10px;
+    font-weight:bold;
+    font-size:18px;
+    text-align:center;
+    margin:10px;
+}
+.shareable-image_blackblock {
+    background-color:black;
+    color: white;
+    border-radius:inherit;
+    padding:inherit;
+}
+.shareable-image_footer {
+    text-align:center;
+    background-color: #EB0404;
+    font-weight: 600;
+    color: white;
+    padding: 6px;
+    font-size:18px;
+}
+.share-logo .logo {
+    background-color:white;
+    margin:0 auto 0 auto;
+    padding:10px;
+}

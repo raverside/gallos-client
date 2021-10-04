@@ -32,13 +32,13 @@ const Gallery: React.FC<GalleryProps> = ({title, showModal, setShowModal, images
             </IonHeader>
             <IonContent>
                 <IonSlides className="gallery-slider">
-                    {images.map(image => (
-                        <IonSlide><IonImg src={image} /></IonSlide>
+                    {images.map((image, index) => (
+                        <IonSlide key={index}><IonImg src={image} /></IonSlide>
                     ))}
                 </IonSlides>
                 <IonSlides className="gallery-slider-thumbnails">
-                    {images.map(image => (
-                        <IonSlide className="gallery-slider-thumbnail"><IonImg src={image} /></IonSlide>
+                    {images.map((image, index) => (
+                        <IonSlide key={"thumb_"+index} className="gallery-slider-thumbnail"><IonImg src={image} /></IonSlide>
                     ))}
                 </IonSlides>
             </IonContent>

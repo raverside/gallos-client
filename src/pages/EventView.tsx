@@ -22,6 +22,7 @@ import fullscreenIcon from "../img/fullscreen.png";
 import moment from "moment";
 import {ellipsisHorizontal as menuIcon} from "ionicons/icons";
 import EventEditor from "../components/Events/EventEditor";
+import ShareEventImage from "../components/Events/ShareEventImage";
 import ConfirmPrompt from "../components/ConfirmPrompt";
 import {useHistory} from "react-router-dom";
 
@@ -35,6 +36,7 @@ const EventView: React.FC = () => {
     const [showEventEditorModal, setShowEventEditorModal] = useState<boolean>(false);
     const [showDeleteModal, setShowDeleteModal] = useState<string|false>(false);
     const [showLoading, setShowLoading] = useState<boolean>(false);
+    const [showShare, setShowShare] = useState<eventType|false>(false);
     const history = useHistory();
 
     useEffect(() => {
@@ -58,6 +60,14 @@ const EventView: React.FC = () => {
         history.replace("/events");
     }
 
+    const shareEvent = (event:eventType) => {
+        setShowShare(event);
+    };
+
+    const closeShareEvent = (id:string) => {
+        setShowShare(false);
+    };
+
     const title = (event?.is_special && event?.title) ? event?.title! : "Traditional Events";
     const image = (event?.is_special && event?.image) ? getImageUrl(event?.image!) : getImageUrl(event?.stadium_image!);
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
@@ -74,6 +84,7 @@ const EventView: React.FC = () => {
                     <IonButtons slot="end"><IonIcon size="large" className="view-note-menu" icon={menuIcon} slot="end" onClick={() => present({
                         buttons: [
                             { text: 'Edit Event', handler: () => { if (event) setShowEventEditorModal(true); } },
+                            { text: 'Share Event', handler: () => { shareEvent(event)} },
                             { text: 'Delete Event', handler: () => { setShowDeleteModal(event ? event.id : false)} },
                             { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                         ],
@@ -128,6 +139,9 @@ const EventView: React.FC = () => {
                         event={event}
                         close={() => setShowEventEditorModal(false)}
                     />
+                </IonModal>
+                <IonModal isOpen={!!showShare} onDidDismiss={() => setShowShare(false)}>
+                    <ShareEventImage event={event} close={() => setShowShare(false)} />
                 </IonModal>
                 <ConfirmPrompt
                     data={showDeleteModal}
