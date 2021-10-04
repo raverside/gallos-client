@@ -43,7 +43,7 @@ type ParticipantFormData = {
     alas?: string;
     pata?: string;
     physical_advantage?: string;
-    breeder_id?: string;
+    breeder_id?: number;
     breeder_name?: string;
     weight?: string;
     participated_before?: boolean|null;
@@ -322,9 +322,10 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             <IonInput
                                 value={formData.breeder_id}
                                 className="fullsize-input"
+                                type="number"
                                 placeholder="Breeder ID"
                                 onIonChange={(e) => {
-                                    setFormData({...formData, breeder_id: e.detail.value!});
+                                    setFormData({...formData, breeder_id: +e.detail.value!});
                                 }}
                             />
                         </IonItem>
