@@ -8,8 +8,19 @@ import {
 } from '@ionic/react';
 import ArrowHeader from '../components/Header/ArrowHeader';
 import TeamOwnerNotesTab from '../components/TeamOwners/TeamOwnerNotesTab';
+import TeamOwnerLibertyTab from '../components/TeamOwners/TeamOwnerLibertyTab';
 import React, {useEffect, useState} from "react";
-import {getTeamOwner, addTeamOwnerNote, updateTeamOwnerNote, removeTeamOwnerNote, addTeamOwnerTeam} from "../api/TeamOwners";
+import {
+    getTeamOwner,
+    addTeamOwnerNote,
+    updateTeamOwnerNote,
+    removeTeamOwnerNote,
+    addTeamOwnerTeam,
+    addTeamOwnerLiberty,
+    updateTeamOwnerLiberty,
+    removeTeamOwnerLiberty,
+    getTeamOwners
+} from "../api/TeamOwners";
 import {useParams} from 'react-router-dom';
 
 import './UserProfile.css';
@@ -31,11 +42,20 @@ type teamOwnerType = {
 const TeamOwner: React.FC = () => {
     const { id } = useParams<{id:string}>();
     const [teamOwner, setTeamOwner] = useState<teamOwnerType>();
+    const [teamOwners, setTeamOwners] = useState<teamOwnerType>();
     const [tabSelected, setTabSelected] = useState<string>("list");
 
     useEffect(() => {
-        fetchTeamOwner()
+        fetchTeamOwners();
+        fetchTeamOwner();
     }, []);
+
+    const fetchTeamOwners = async () => {
+        const response = await getTeamOwners();
+        if (response?.team_owners?.account) {
+            setTeamOwners(response.team_owners.account);
+        }
+    }
 
     const fetchTeamOwner = async () => {
         const response = (id) ? await getTeamOwner(id) : false;
@@ -76,14 +96,37 @@ const TeamOwner: React.FC = () => {
 
     const updateNote = async (note_id: string, noteTitle:string, note:string) => {
         const response = await updateTeamOwnerNote(note_id, noteTitle, note);
-        if (response.success) {
+        if (response.team_owner || response.success) {
             fetchTeamOwner();
         }
     }
 
     const removeNote = async (id:string) => {
         const response = await removeTeamOwnerNote(id);
-        if (response.success) {
+        if (response.team_owner || response.success) {
+            fetchTeamOwner();
+        }
+    }
+
+    const addLiberty = async (libertyReason:string, selectedTeamOwner:string) => {
+        const response = await addTeamOwnerLiberty(id, libertyReason, selectedTeamOwner);
+        if (response.team_owner) {
+            setTeamOwner(response.team_owner);
+        } else {
+            fetchTeamOwner();
+        }
+    }
+
+    const updateLiberty = async (liberty_id: string, libertyReason:string, selectedTeamOwner:string) => {
+        const response = await updateTeamOwnerLiberty(liberty_id, libertyReason, selectedTeamOwner);
+        if (response.team_owner || response.success) {
+            fetchTeamOwner();
+        }
+    }
+
+    const removeLiberty = async (id:string) => {
+        const response = await removeTeamOwnerLiberty(id);
+        if (response.team_owner || response.success) {
             fetchTeamOwner();
         }
     }
@@ -105,11 +148,12 @@ const TeamOwner: React.FC = () => {
 
                 <IonSegment value={tabSelected} onIonChange={(e) => setTabSelected(e.detail.value!)} className="user-profile-tabs-segment">
                     <IonSegmentButton value="list"><IonLabel>Team List</IonLabel></IonSegmentButton>
-                    <IonSegmentButton value="liberty" disabled><IonLabel>Mutual Liberty</IonLabel></IonSegmentButton>
+                    <IonSegmentButton value="liberty"><IonLabel>Mutual Liberty</IonLabel></IonSegmentButton>
                     <IonSegmentButton value="notes"><IonLabel>Notes</IonLabel></IonSegmentButton>
                 </IonSegment>
 
                 {tabSelected === "list" && <TeamOwnersList teamOwners={teamOwner?.teams} isTeam addTeams={addTeams} />}
+                {tabSelected === "liberty" && <TeamOwnerLibertyTab team_owner={teamOwner!} teamOwners={teamOwners} addLiberty={addLiberty} updateLiberty={updateLiberty} removeLiberty={removeLiberty}/>}
                 {tabSelected === "notes" && <TeamOwnerNotesTab team_owner={teamOwner!} addNote={addNote} updateNote={updateNote} removeNote={removeNote}/>}
 
             </IonContent>

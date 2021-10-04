@@ -31,6 +31,18 @@ export async function removeTeamOwnerNote(id:string) {
 export async function addTeamOwnerTeam(id:string, payload:{}) {
     return fetcher.post(`/addTeamOwnerTeam`, {id, payload});
 }
+
+export async function addTeamOwnerLiberty(owner_id:string, reason:string, opponent_id:string) {
+    return fetcher.post(`/addTeamOwnerLiberty`, {owner_id, reason, opponent_id});
+}
+
+export async function updateTeamOwnerLiberty(id:string, reason:string, opponent_id:string) {
+    return fetcher.post(`/updateTeamOwnerLiberty`, {id, reason, opponent_id});
+}
+
+export async function removeTeamOwnerLiberty(id:string) {
+    return fetcher.post(`/removeTeamOwnerLiberty`, {id});
+}
 //
 // export async function updateTeamOwnerTeam(team_id:string, title:string) {
 //     return fetcher.post(`/updateTeamOwnerTeam`, {team_id, title});
