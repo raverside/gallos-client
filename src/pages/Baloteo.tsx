@@ -25,6 +25,7 @@ import {closeOutline as closeIcon, ellipsisHorizontal as menuIcon} from "ionicon
 import ConfirmPrompt from "../components/ConfirmPrompt";
 import PairManual from "../components/Events/PairManual";
 import PrintModal from "../components/Events/PrintModal";
+import ShareMatchImage from "../components/Events/ShareMatchImage";
 
 const Baloteo: React.FC = () => {
     const [event, setEvent] = useState<any>([]);
@@ -59,8 +60,8 @@ const Baloteo: React.FC = () => {
     );
     const excludedParticipants = event.participants?.filter((participant:any) => participant.status === "rejected");
 
-    const printMatch = async (matchId:string) => {
-        setShowShareMatch(matchId);
+    const printMatch = async (match:any) => {
+        setShowShareMatch(match);
     };
 
     const switchSides = async (matchId:string) => {
@@ -121,7 +122,7 @@ const Baloteo: React.FC = () => {
                                 <IonCol size="2" offset="10">
                                     <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
                                         buttons: [
-                                            { text: 'Print this match', handler: () => printMatch(match.id) },
+                                            { text: 'Print this match', handler: () => printMatch(match) },
                                             { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                                         ],
                                         header: 'Settings'
@@ -158,7 +159,7 @@ const Baloteo: React.FC = () => {
                                 <IonCol size="2" offset="10">
                                     <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
                                         buttons: [
-                                            { text: 'Print this match', handler: () => printMatch(match.id) },
+                                            { text: 'Share this match', handler: () => printMatch(match) },
                                             { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                                         ],
                                         header: 'Settings'
@@ -242,6 +243,9 @@ const Baloteo: React.FC = () => {
                         <IonTitle className="page-title">Pair Animal</IonTitle>
                     </IonToolbar>
                     <PairManual participantId={showPairModal} opponents={unmatchedParticipants} fightNumber={liveMatches.length + availableMatches.length + 1} close={() => {fetchEvent(); setShowPairModal(false); setBaloteoTab("live")}} />
+                </IonModal>
+                <IonModal isOpen={!!showShareMatch} onDidDismiss={() => setShowShareMatch(false)}>
+                    <ShareMatchImage match={showShareMatch} close={() => setShowShareMatch(false)} />
                 </IonModal>
                 </IonContent>
         </IonPage>
