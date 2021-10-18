@@ -83,6 +83,20 @@ const MenuPermissions = () => {
         },
     ];
 
+    appPages["judge"] = [
+        {
+            title: 'Log Out', url: '/auth_admin',
+            props: {
+                className: "logout-button",
+                onClick: () => {
+                    dispatch({
+                        type: 'resetUser',
+                    });
+                }
+            }
+        }
+    ];
+
     return appPages;
 };
 

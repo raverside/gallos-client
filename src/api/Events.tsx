@@ -8,6 +8,10 @@ export async function getEvents(filter:string = "", page:number = 0) {
     return fetcher.get(`/getEvents?page=${page}${filter}`);
 }
 
+export async function getOngoingEvents() {
+    return fetcher.get(`/getOngoingEvents`);
+}
+
 export async function upsertEvent(payload: {image_upload?: File|null, image?: string|null|undefined}) {
     if (payload.image_upload) {
         let formData = new FormData();
@@ -44,6 +48,10 @@ export async function goLive(payload:{}) {
 
 export async function publishMatch(match_id:string) {
     return fetcher.get(`/publishMatch/${match_id}`);
+}
+
+export async function cancelMatch(match_id:string) {
+    return fetcher.get(`/cancelMatch/${match_id}`);
 }
 
 export async function swapSides(match_id:string) {

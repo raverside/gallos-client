@@ -37,7 +37,11 @@ const Auth: React.FC = () => {
 
     useEffect(() => {
         if (state.user?.id) {
-            history.replace("/");
+            if (state.user.role === "judge") {
+                history.replace("/judge");
+            } else {
+                history.replace("/");
+            }
         }
     }, [state.user?.id]);
 

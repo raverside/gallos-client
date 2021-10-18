@@ -5,7 +5,7 @@ type addLabelProps = {
     data?: any;
     show: boolean;
     title: string;
-    subtitle: string;
+    subtitle?: string;
     onResult: (data: any, isSuccess:boolean) => void;
 };
 
@@ -15,7 +15,7 @@ const ConfirmPrompt: React.FC<addLabelProps> = ({data, show, title, subtitle, on
         <IonModal isOpen={show} onDidDismiss={() => onResult(data, false)} cssClass="prompt-modal">
             <IonContent>
                 <IonText className="modal-title">{title}</IonText>
-                <IonText className="modal-subtitle">{subtitle}</IonText>
+                {subtitle && <IonText className="modal-subtitle">{subtitle}</IonText>}
                 <IonButton onClick={() => onResult(data, true)}>Yes</IonButton>
                 <IonButton fill="outline" onClick={() => onResult(data, false)}>Cancel</IonButton>
             </IonContent>

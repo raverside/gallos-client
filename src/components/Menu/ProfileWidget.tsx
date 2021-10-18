@@ -7,6 +7,7 @@ import './ProfileWidget.css';
 
 const ProfileWidget: React.FC = () => {
     const { state } = useContext(AppContext);
+    if (!state.user) return null;
 
     return (
         <IonItem className="profile-widget" lines="none">
@@ -21,7 +22,7 @@ const ProfileWidget: React.FC = () => {
                     <IonText className="profile-widget_info--bold">{state.user.role}</IonText>
                 </IonItem>
                 <IonItem lines="none">
-                    <IonText className="profile-widget_info--bold">{state.user.stadium.name}</IonText>
+                    <IonText className="profile-widget_info--bold">{state.user.stadium?.name}</IonText>
                 </IonItem>
                 <IonItem lines="none">
                     <IonText color="gold">Gold</IonText>

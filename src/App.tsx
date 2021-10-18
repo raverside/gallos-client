@@ -1,3 +1,4 @@
+import React, {Suspense} from 'react';
 import {IonApp, IonRouterOutlet, setupConfig} from '@ionic/react';
 import {IonReactRouter} from '@ionic/react-router';
 import {Route, Redirect} from 'react-router-dom';
@@ -43,6 +44,11 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import './theme/global-styles.css';
+
+/* Lazy load modules */
+const Judge = React.lazy( () => import('./pages/Judge'));
+const JudgeMatch = React.lazy( () => import('./pages/JudgeMatch'));
+const JudgeMatchTimer = React.lazy( () => import('./pages/JudgeMatchTimer'));
 
 setupConfig({mode: 'md'});
 
@@ -113,6 +119,21 @@ const App: React.FC = () => {
                             </PrivateRoute>
                             <PrivateRoute path="/contact" exact admin>
                                 <Contact/>
+                            </PrivateRoute>
+                            <PrivateRoute path="/judge" exact admin>
+                                <Suspense fallback={<div>Loading...</div>}>
+                                    <Judge />
+                                </Suspense>
+                            </PrivateRoute>
+                            <PrivateRoute path="/judge/:event_id/:match_id/" admin>
+                                <Suspense fallback={<div>Loading...</div>}>
+                                    <JudgeMatch />
+                                </Suspense>
+                            </PrivateRoute>
+                            <PrivateRoute path="/match/:event_id/:match_id/" admin>
+                                <Suspense fallback={<div>Loading...</div>}>
+                                    <JudgeMatchTimer />
+                                </Suspense>
                             </PrivateRoute>
 
                         </IonRouterOutlet>
