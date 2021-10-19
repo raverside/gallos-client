@@ -58,29 +58,53 @@ const Judge: React.FC = () => {
                                     <IonSegmentButton value="matches"><IonLabel>Live Matches</IonLabel></IonSegmentButton>
                                     <IonSegmentButton value="results"><IonLabel>Results</IonLabel></IonSegmentButton>
                                 </IonSegment>
-                                {(baloteoTab === "results") ? <IonList className="judge-matches">
-                                    {event.matches.filter((m:any) => m.live === false && m.result >= 0).map((match:any, index:number) => <IonItem key={match.id} className="judge-match">
-                                        <IonGrid>
-                                            <IonRow>
-                                                <IonCol size="5" className="judge-blue_side">
-                                                    {match.result === 0 && <div className="green_chevron"/>}
-                                                    <IonImg className={match.participant?.image_flipped ? "judge-match-image flipped" : "judge-match-image"} src={getImageUrl(match.participant?.image)} />
-                                                    {match.participant.team.name}
-                                                </IonCol>
-                                                <IonCol size="2" className="judge-versus">
-                                                    <p>Pelea {index+1}</p>
-                                                    {match.result === 2 && <IonText>Draw</IonText>}
-                                                    {match.result === 3 && <IonText color="danger">Cancelled</IonText>}
-                                                </IonCol>
-                                                <IonCol size="5" className="judge-white_side">
-                                                    {match.opponent.team.name}
-                                                    <IonImg className={match.opponent?.image_flipped ? "judge-match-image" : "judge-match-image flipped"} src={getImageUrl(match.opponent?.image)} />
-                                                    {match.result === 1 && <div className="green_chevron"/>}
-                                                </IonCol>
-                                            </IonRow>
-                                        </IonGrid>
-                                    </IonItem>)}
-                                </IonList> : <IonList className="judge-matches">
+                                {(baloteoTab === "results") ? <>
+                                    <div className="judge-results-totals">
+                                        <div className="judge-results-total">
+                                            <IonText>Total Matches</IonText>
+                                            <p>{event?.matches?.length || 0}</p>
+                                        </div>
+                                        <div className="judge-results-total">
+                                            <IonText>Blue Side Wins</IonText>
+                                            <p>{event?.matches?.filter((m:any) => m.result === 0)?.length || 0}</p>
+                                        </div>
+                                        <div className="judge-results-total">
+                                            <IonText>White Side Wins</IonText>
+                                            <p>{event?.matches?.filter((m:any) => m.result === 1)?.length || 0}</p>
+                                        </div>
+                                        <div className="judge-results-total">
+                                            <IonText>Draws</IonText>
+                                            <p>{event?.matches?.filter((m:any) => m.result === 2)?.length || 0}</p>
+                                        </div>
+                                        <div className="judge-results-total">
+                                            <IonText>Cancelled</IonText>
+                                            <p>{event?.matches?.filter((m:any) => m.result === 3)?.length || 0}</p>
+                                        </div>
+                                    </div>
+                                    <IonList className="judge-matches">
+                                        {event.matches.filter((m:any) => m.live === false && m.result >= 0).map((match:any, index:number) => <IonItem key={match.id} className="judge-match">
+                                            <IonGrid>
+                                                <IonRow>
+                                                    <IonCol size="5" className="judge-blue_side">
+                                                        {match.result === 0 && <div className="green_chevron"/>}
+                                                        <IonImg className={match.participant?.image_flipped ? "judge-match-image flipped" : "judge-match-image"} src={getImageUrl(match.participant?.image)} />
+                                                        {match.participant.team.name}
+                                                    </IonCol>
+                                                    <IonCol size="2" className="judge-versus">
+                                                        <p>Pelea {index+1}</p>
+                                                        {match.result === 2 && <IonText>Draw</IonText>}
+                                                        {match.result === 3 && <IonText color="danger">Cancelled</IonText>}
+                                                    </IonCol>
+                                                    <IonCol size="5" className="judge-white_side">
+                                                        {match.opponent.team.name}
+                                                        <IonImg className={match.opponent?.image_flipped ? "judge-match-image" : "judge-match-image flipped"} src={getImageUrl(match.opponent?.image)} />
+                                                        {match.result === 1 && <div className="green_chevron"/>}
+                                                    </IonCol>
+                                                </IonRow>
+                                            </IonGrid>
+                                        </IonItem>)}
+                                    </IonList>
+                                </> : <IonList className="judge-matches">
                                     {event.matches.filter((m:any) => m.live === true).map((match:any, index:number) => <IonItem key={match.id} className="judge-match" routerLink={"/judge/"+event.id+"/"+match.id}>
                                         <IonGrid>
                                             <IonRow>

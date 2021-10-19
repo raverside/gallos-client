@@ -580,3 +580,31 @@ ion-content {
 .judge-match-timer-white_side .green_chevron {
     right:0;
 }
+.judge-results-totals {
+    display:flex;
+    padding:20px 5px;
+}
+.judge-results-total {
+    padding:15px;
+    border: 1px solid #565151;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction:column;
+    flex-grow:1;
+    margin:0 15px;
+}
+.judge-results-total p {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 33px;
+    color:white;
+    margin:5px 0 0 0;
+}
+.judge-results-total ion-text {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color:white;
+}
