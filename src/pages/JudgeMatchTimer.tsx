@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {getEvent, cancelMatch} from "../api/Events";
+import {getEvent, announceMatchResult} from "../api/Events";
 import {
     IonContent,
     IonPage,
@@ -28,12 +28,13 @@ const JudgeMatch: React.FC = () => {
     const [event, setEvent] = useState<any>();
     const [match, setMatch] = useState<any>();
     const [showLoading, setShowLoading] = useState<boolean>(false);
-    const [showCancelModal, setShowCancelModal] = useState<string|false>(false);
+    const [showAnnounceModal, setShowAnnounceModal] = useState<boolean>(false);
     const [matchTime, setMatchTime] = useState<number>(0);
     const [timer, setTimer] = useState<number>(60);
     const [matchTimeInterval, setMatchTimeInterval] = useState<number>();
     const [timerInterval, setTimerInterval] = useState<number>();
     const [selectResult, setSelectResult] = useState<boolean>(false);
+    const [result, setResult] = useState<number>(); // 0 - blue wins, 1 - white wins, 2 - draw, 3 - cancelled
     const history = useHistory();
 
     useEffect(() => {
@@ -54,8 +55,8 @@ const JudgeMatch: React.FC = () => {
         }
     }
 
-    const onCancelMatch = async (matchId:string) => {
-        await cancelMatch(matchId);
+    const onAnnounceMatch = async () => {
+        if (typeof result !== "undefined" && result >= 0 && match) await announceMatchResult(match.id, result);
         window.location.replace("/judge");
     }
 
@@ -111,6 +112,22 @@ const JudgeMatch: React.FC = () => {
         new Audio(alarmSound).play();
     }
 
+    let resultText = "Select result";
+    switch (result) {
+        case 0:
+            resultText = "Blue Wins";
+            break;
+        case 1:
+            resultText = "White Wins";
+            break;
+        case 2:
+            resultText = "Draw";
+            break;
+        case 3:
+            resultText = "Cancelled";
+            break;
+    }
+
     return (
         <IonPage>
             <IonContent fullscreen>
@@ -123,6 +140,7 @@ const JudgeMatch: React.FC = () => {
                         </IonRow>
                         <IonRow>
                             <IonCol size="5" className="judge-match-timer-blue_side">
+                                {result === 0 && <div className="green_chevron"/>}
                                 {match?.participant.team.name}
                             </IonCol>
                             <IonCol size="2" className="judge-match-timer-versus">
@@ -130,10 +148,23 @@ const JudgeMatch: React.FC = () => {
                             </IonCol>
                             <IonCol size="5" className="judge-match-timer-white_side">
                                 {match?.opponent.team.name}
+                                {result === 1 && <div className="green_chevron"/>}
                             </IonCol>
                         </IonRow>
                     </IonGrid>
-                    <div className="judge-match-timer-buttons">
+                    {selectResult ? <div className="judge-match-timer-select_result">
+                        <div className={(typeof result !== "undefined" && result >= 0) ? "judge-match-timer-result active" : "judge-match-timer-result"}>{resultText}</div>
+                        <div>
+                            <IonButton className="judge-match-timer-result_button judge-match-timer-blue_wins" onClick={() => setResult(0)}>Blue Side Wins</IonButton>
+                            <IonButton className="judge-match-timer-result_button judge-match-timer-white_wins" onClick={() => setResult(1)}>White Side Wins</IonButton>
+                            <IonButton className="judge-match-timer-result_button judge-match-timer-draw" onClick={() => setResult(2)}>Draw</IonButton>
+                            <IonButton className="judge-match-timer-result_button judge-match-timer-null" onClick={() => setResult(3)}>Null</IonButton>
+                        </div>
+                        <div>
+                            <IonButton className="judge-match-timer-announce_button" disabled={!(typeof result !== "undefined" && result >= 0)} onClick={() => setShowAnnounceModal(true)}>Announce</IonButton>
+                            <IonButton className="judge-match-timer-cancel_button" onClick={() => setSelectResult(false)}>Cancel</IonButton>
+                        </div>
+                    </div> : <div className="judge-match-timer-buttons">
                         {(matchTime > 0 && !matchTimeInterval) ? <IonButton fill="clear" color="warning" className="judge-time-button orange-time-button" onClick={() => resetTime()}>
                                 <IonImg src={resetTimeIcon} />
                                 <IonText>Reset Time</IonText>
@@ -158,17 +189,17 @@ const JudgeMatch: React.FC = () => {
                             <IonImg src={alarmTimeIcon} />
                             <IonText>Alarm Sound</IonText>
                         </IonButton>
-                        <IonButton fill="clear" disabled={!!matchTimeInterval} color="success" className="judge-time-button green-time-button">
+                        <IonButton fill="clear" disabled={!!matchTimeInterval} onClick={() => setSelectResult(true)} color="success" className="judge-time-button green-time-button">
                             <IonImg src={resultTimeIcon} />
                             <IonText>Result</IonText>
                         </IonButton>
-                    </div>
+                    </div>}
                 </div>
                 <ConfirmPrompt
-                    data={showCancelModal}
-                    show={!!showCancelModal}
-                    title="Are you sure you want to cancel this match?"
-                    onResult={(data, isConfirmed) => {isConfirmed && onCancelMatch(data); setShowCancelModal(false)}}
+                    data={showAnnounceModal}
+                    show={showAnnounceModal}
+                    title={"Confirm match outcome: " + resultText +  "?"}
+                    onResult={(data, isConfirmed) => {isConfirmed && onAnnounceMatch(); setShowAnnounceModal(false)}}
                 />
                 <IonLoading
                     isOpen={showLoading}

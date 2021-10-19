@@ -54,6 +54,10 @@ export async function cancelMatch(match_id:string) {
     return fetcher.get(`/cancelMatch/${match_id}`);
 }
 
+export async function announceMatchResult(match_id:string, result:number) {
+    return fetcher.post(`/announceMatchResult/${match_id}`, {result});
+}
+
 export async function swapSides(match_id:string) {
     return fetcher.get(`/switchSides/${match_id}`);
 }
