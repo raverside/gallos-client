@@ -136,7 +136,7 @@ ion-content {
 }
 .judge-blue_side {
     background: linear-gradient(0deg, #285CC6, #285CC6);
-    padding:10px;
+    padding:10px 10px 10px 50px;
     font-weight: 600;
     font-size: 18px;
     display:flex;
@@ -146,18 +146,27 @@ ion-content {
 .judge-white_side {
     background:white;
     color:black;
-    padding:10px;
+    padding:10px 50px 10px 10px;
     justify-content:flex-end;
     font-weight: 600;
     font-size: 18px;
     display:flex;
     align-items:center;
 }
+.judge-white_side .green_chevron {
+    right:0;
+}
+.judge-blue_side .green_chevron {
+    left:20px;
+}
 .judge-versus {
     text-align:center;
     font-weight: 600;
     font-size: 18px;
     color:white;
+}
+.judge-versus p {
+    margin: 10px 0;
 }
 .judge-back-button {
     color:white;
