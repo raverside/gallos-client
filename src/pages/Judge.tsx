@@ -87,7 +87,7 @@ const Judge: React.FC = () => {
                                                 <IonRow>
                                                     <IonCol size="5" className="judge-blue_side">
                                                         {match.result === 0 && <div className="green_chevron"/>}
-                                                        <IonImg className={match.participant?.image_flipped ? "judge-match-image flipped" : "judge-match-image"} src={getImageUrl(match.participant?.image)} />
+                                                        {match.participant?.image && <IonImg className={match.participant?.image_flipped ? "judge-match-image flipped" : "judge-match-image"} src={getImageUrl(match.participant?.image)} />}
                                                         {match.participant.team.name}
                                                     </IonCol>
                                                     <IonCol size="2" className="judge-versus">
@@ -97,7 +97,7 @@ const Judge: React.FC = () => {
                                                     </IonCol>
                                                     <IonCol size="5" className="judge-white_side">
                                                         {match.opponent.team.name}
-                                                        <IonImg className={match.opponent?.image_flipped ? "judge-match-image" : "judge-match-image flipped"} src={getImageUrl(match.opponent?.image)} />
+                                                        {match.opponent?.image && <IonImg className={match.opponent?.image_flipped ? "judge-match-image" : "judge-match-image flipped"} src={getImageUrl(match.opponent?.image)} />}
                                                         {match.result === 1 && <div className="green_chevron"/>}
                                                     </IonCol>
                                                 </IonRow>

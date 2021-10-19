@@ -92,7 +92,7 @@ const JudgeMatch: React.FC = () => {
                     <IonGrid className="judge-match-view">
                         <IonRow>
                             <IonCol size="5" className="judge-match-view-blue_side">
-                                <IonImg className={match?.participant?.image_flipped ? "judge-match-view-image flipped" : "judge-match-view-image"} src={getImageUrl(match?.participant?.image)} />
+                                {match?.participant?.image && <IonImg className={match?.participant?.image_flipped ? "judge-match-view-image flipped" : "judge-match-view-image"} src={getImageUrl(match?.participant?.image)} />}
                                 {match?.participant.team.name}
                             </IonCol>
                             <IonCol size="2">
@@ -116,7 +116,7 @@ const JudgeMatch: React.FC = () => {
                             </IonCol>
                             <IonCol size="5" className="judge-match-view-white_side">
                                 {match?.opponent.team.name}
-                                <IonImg className={match?.opponent?.image_flipped ? "judge-match-view-image" : "judge-match-view-image flipped"} src={getImageUrl(match?.opponent?.image)} />
+                                {match?.opponent?.image && <IonImg className={match?.opponent?.image_flipped ? "judge-match-view-image" : "judge-match-view-image flipped"} src={getImageUrl(match?.opponent?.image)} />}
                             </IonCol>
                         </IonRow>
                         <IonRow className="judge-match-view-info">
