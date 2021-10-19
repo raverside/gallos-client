@@ -15,6 +15,10 @@ import timerTimeIcon from "../img/time_timer.png";
 import alarmTimeIcon from "../img/time_alarm.png";
 import resetTimeIcon from "../img/time_reset.png";
 import resultTimeIcon from "../img/time_results.png";
+
+// @ts-ignore
+import alarmSound from "../sfx/rooster.wav";
+
 import {useHistory, useParams} from "react-router-dom";
 import ConfirmPrompt from "../components/ConfirmPrompt";
 import moment from "moment";
@@ -28,6 +32,8 @@ const JudgeMatch: React.FC = () => {
     const [matchTime, setMatchTime] = useState<number>(0);
     const [timer, setTimer] = useState<number>(60);
     const [matchTimeInterval, setMatchTimeInterval] = useState<number>();
+    const [timerInterval, setTimerInterval] = useState<number>();
+    const [selectResult, setSelectResult] = useState<boolean>(false);
     const history = useHistory();
 
     useEffect(() => {
@@ -53,7 +59,29 @@ const JudgeMatch: React.FC = () => {
         window.location.replace("/judge");
     }
 
+    const startTimer = () => {
+        if (timerInterval) clearInterval(timerInterval);
+        let i = 1;
+        const interval = window.setInterval(() => {
+            setTimer(i);
+            i++;
+        }, 1000);
+        setTimerInterval(interval);
+    }
+
+    const startSixty = () => {
+        if (timerInterval) clearInterval(timerInterval);
+        let i = 60;
+        const interval = window.setInterval(() => {
+            setTimer(i);
+            i--;
+            if (i === 1) clearInterval(interval);
+        }, 1000);
+        setTimerInterval(interval);
+    }
+
     const startTime = () => {
+        resetTime();
         if (matchTimeInterval) return false;
         let i = 1;
         const interval = window.setInterval(() => {
@@ -64,13 +92,23 @@ const JudgeMatch: React.FC = () => {
     }
 
     const stopTime = () => {
-        if (!matchTimeInterval) return false;
-        clearInterval(matchTimeInterval);
+        if (matchTimeInterval) clearInterval(matchTimeInterval);
+        if (timerInterval) clearInterval(timerInterval);
         setMatchTimeInterval(undefined);
+        setTimerInterval(undefined);
     }
 
     const resetTime = () => {
         setMatchTime(0);
+        setTimer(60);
+        if (matchTimeInterval) clearInterval(matchTimeInterval);
+        if (timerInterval) clearInterval(timerInterval);
+        setMatchTimeInterval(undefined);
+        setTimerInterval(undefined);
+    }
+
+    const soundAlarm = () => {
+        new Audio(alarmSound).play();
     }
 
     return (
@@ -104,23 +142,23 @@ const JudgeMatch: React.FC = () => {
                             <IonImg src={startTimeIcon} />
                             <IonText>Start Time</IonText>
                         </IonButton>}
-                        <IonButton fill="clear" className="judge-time-button red-time-button" onClick={() => stopTime()}>
+                        <IonButton fill="clear" disabled={!matchTimeInterval} className="judge-time-button red-time-button" onClick={() => stopTime()}>
                             <IonImg src={stopTimeIcon} />
                             <IonText>Stop Time</IonText>
                         </IonButton>
-                        <IonButton fill="clear" color="warning" className="judge-time-button yellow-time-button">
+                        <IonButton fill="clear" color="warning" onClick={() => startSixty()} disabled={!matchTimeInterval} className="judge-time-button yellow-time-button">
                             <IonImg src={sixtyTimeIcon} />
                             <IonText>Start 60s</IonText>
                         </IonButton>
-                        <IonButton fill="clear" color="secondary" className="judge-time-button blue-time-button">
+                        <IonButton fill="clear" disabled={!!matchTimeInterval || !!matchTime} color="secondary" onClick={() => startTimer()} className="judge-time-button blue-time-button">
                             <IonImg src={timerTimeIcon} />
                             <IonText>Start Timer</IonText>
                         </IonButton>
-                        <IonButton fill="clear" className="judge-time-button purple-time-button">
+                        <IonButton fill="clear" onClick={() => soundAlarm()} className="judge-time-button purple-time-button">
                             <IonImg src={alarmTimeIcon} />
                             <IonText>Alarm Sound</IonText>
                         </IonButton>
-                        <IonButton fill="clear" color="success" className="judge-time-button green-time-button">
+                        <IonButton fill="clear" disabled={!!matchTimeInterval} color="success" className="judge-time-button green-time-button">
                             <IonImg src={resultTimeIcon} />
                             <IonText>Result</IonText>
                         </IonButton>
