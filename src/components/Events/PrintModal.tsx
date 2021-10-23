@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
     IonButton,
     IonButtons,
@@ -16,12 +16,28 @@ import {
     printOutline as printIcon
 } from 'ionicons/icons';
 import './PrintModal.css';
+import { useReactToPrint } from 'react-to-print';
+import PrintMatches from './PrintMatches';
 
+type PrintModalType = {
+    event: any;
+}
 
-const PrintModal: React.FC = () => {
+const PrintModal: React.FC<PrintModalType> = ({event}) => {
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [showPrintModal, setShowPrintModal] = useState<boolean>(false);
     const [printOption, setPrintOption] = useState<number>();
-    const [printCopies, setPrintCopies] = useState<number>();
+    const printWrapperRef = useRef(null);
+    const handlePrint = useReactToPrint({
+        content: () => printWrapperRef.current,
+        copyStyles: false
+    });
+
+    const print = () => {
+        setShowModal(false);
+        setShowPrintModal(true);
+        if (handlePrint) handlePrint();
+    }
 
     return (<>
         <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)} id="print-modal">
@@ -41,21 +57,16 @@ const PrintModal: React.FC = () => {
                     <IonItemDivider>Print Option</IonItemDivider>
                     <IonItem lines="none">
                         <IonSelect value={printOption} placeholder="Select print option" interface="action-sheet" onIonChange={(e) => setPrintOption(e.detail.value!)}>
-                            <IonSelectOption value={0}>Live Matches</IonSelectOption>
-                            <IonSelectOption value={1}>Available Matches</IonSelectOption>
-                            <IonSelectOption value={2}>Unmatched Animals</IonSelectOption>
-                            <IonSelectOption value={3}>Excluded Animals</IonSelectOption>
-                            <IonSelectOption value={4}>All Animals non-live matches</IonSelectOption>
-                            <IonSelectOption value={5}>All page</IonSelectOption>
+                            <IonSelectOption value={1}>Live Matches</IonSelectOption>
+                            <IonSelectOption value={2}>Available Matches</IonSelectOption>
+                            <IonSelectOption value={3}>Unmatched Animals</IonSelectOption>
+                            <IonSelectOption value={4}>Excluded Animals</IonSelectOption>
+                            <IonSelectOption value={5}>All Animals</IonSelectOption>
+                            <IonSelectOption value={6}>All Animals (non-live matches)</IonSelectOption>
                         </IonSelect>
                     </IonItem>
-
-                    <IonItemDivider>Number of Copies</IonItemDivider>
-                    <IonItem lines="none">
-                        <IonInput value={printCopies} type="number" min="1" max="9999999" placeholder="Number of Copies" onIonChange={(e) => setPrintCopies(+e.detail.value!)} />
-                    </IonItem>
                 </IonList>
-                <IonButton expand="block" className="final-print-button" disabled={true} onClick={() => {}}>Print</IonButton>
+                <IonButton expand="block" className="final-print-button" disabled={!printOption} onClick={() => print()}>Print</IonButton>
             </IonContent>
         </IonModal>
         <IonIcon
@@ -64,6 +75,8 @@ const PrintModal: React.FC = () => {
             slot="end"
             onClick={() => setShowModal(true)}
         />
+
+        <div style={{ overflow: "hidden", height: 0, width: 0 }}><PrintMatches ref={printWrapperRef} event={event} mode={printOption} /></div>
     </>);
 };
 

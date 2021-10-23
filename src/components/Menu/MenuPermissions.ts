@@ -83,6 +83,26 @@ const MenuPermissions = () => {
         },
     ];
 
+    appPages["admin_manager"] = [
+        {title: 'Users', url: '/users'},
+        {title: 'Events', url: '/events'},
+        {title: 'Stadiums', url: '/stadiums'},
+        {title: 'Team Owners', url: '/team_owners'},
+        {title: 'Transactions', url: '/transactions'},
+        {title: 'Memberships', url: '/memberships'},
+        {
+            title: 'Log Out', url: '/auth_admin',
+            props: {
+                className: "logout-button",
+                onClick: () => {
+                    dispatch({
+                        type: 'resetUser',
+                    });
+                }
+            }
+        },
+    ];
+
     appPages["judge"] = [
         {
             title: 'Log Out', url: '/auth_admin',

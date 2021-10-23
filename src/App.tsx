@@ -13,6 +13,7 @@ import StadiumView from './pages/StadiumView';
 import TeamOwners from './pages/TeamOwners';
 import TeamOwner from './pages/TeamOwner';
 import Memberships from './pages/Memberships';
+import Transactions from './pages/Transactions';
 import Contact from './pages/Contact';
 import Users from './pages/Users';
 import UserProfile from './pages/UserProfile';
@@ -135,7 +136,9 @@ const App: React.FC = () => {
                                     <JudgeMatchTimer />
                                 </Suspense>
                             </PrivateRoute>
-
+                            <PrivateRoute path="/transactions" admin>
+                                <Transactions />
+                            </PrivateRoute>
                         </IonRouterOutlet>
                     </AutoRelogin>
                 </IonReactRouter>

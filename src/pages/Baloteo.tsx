@@ -15,7 +15,7 @@ import {
     IonImg,
     IonButton, IonGrid, IonIcon, useIonActionSheet, IonList, IonItem, IonModal,
 } from '@ionic/react';
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {getEvent, publishMatch, swapSides, announceEvent} from "../api/Events";
 
 import './Baloteo.css';
@@ -26,6 +26,9 @@ import ConfirmPrompt from "../components/ConfirmPrompt";
 import PairManual from "../components/Events/PairManual";
 import PrintModal from "../components/Events/PrintModal";
 import ShareMatchImage from "../components/Events/ShareMatchImage";
+import {useReactToPrint} from "react-to-print";
+import PrintMatch from '../components/Events/PrintMatch';
+import PrintMatches from "../components/Events/PrintMatches";
 
 const Baloteo: React.FC = () => {
     const [event, setEvent] = useState<any>([]);
@@ -34,9 +37,15 @@ const Baloteo: React.FC = () => {
     const [showAnnouncePrompt, setShowAnnouncePrompt] = useState<boolean>(false);
     const [showPairModal, setShowPairModal] = useState<string|false>(false);
     const [showShareMatch, setShowShareMatch] = useState<any>(false);
+    const [selectPrintMatch, setSelectPrintMatch] = useState<any>(false);
     const { id } = useParams<{id:string}>();
     const [present, dismiss] = useIonActionSheet();
     const history = useHistory();
+    const printWrapperRef = useRef(null);
+    const handlePrint = useReactToPrint({
+        content: () => printWrapperRef.current,
+        copyStyles: false
+    });
 
     useEffect(() => {
         fetchEvent();
@@ -60,8 +69,13 @@ const Baloteo: React.FC = () => {
     );
     const excludedParticipants = event.participants?.filter((participant:any) => participant.status === "rejected");
 
-    const printMatch = async (match:any) => {
+    const shareMatch = async (match:any) => {
         setShowShareMatch(match);
+    };
+
+    const printMatch = async (match:any) => {
+        setSelectPrintMatch(match);
+        if (handlePrint) handlePrint();
     };
 
     const switchSides = async (matchId:string) => {
@@ -94,7 +108,7 @@ const Baloteo: React.FC = () => {
                         <p className="page-subtitle">{event.phase}</p>
                     </IonTitle>
                     <IonButtons slot="end">
-                        <PrintModal />
+                        <PrintModal event={event}/>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
@@ -122,6 +136,7 @@ const Baloteo: React.FC = () => {
                                 <IonCol size="2" offset="10">
                                     <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
                                         buttons: [
+                                            { text: 'Share this match', handler: () => shareMatch(match) },
                                             { text: 'Print this match', handler: () => printMatch(match) },
                                             { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                                         ],
@@ -247,6 +262,7 @@ const Baloteo: React.FC = () => {
                 <IonModal isOpen={!!showShareMatch} onDidDismiss={() => setShowShareMatch(false)}>
                     <ShareMatchImage match={showShareMatch} close={() => setShowShareMatch(false)} />
                 </IonModal>
+                <div style={{ overflow: "hidden", height: 0, width: 0 }}><PrintMatch ref={printWrapperRef} event={event} match={selectPrintMatch} /></div>
                 </IonContent>
         </IonPage>
     );
