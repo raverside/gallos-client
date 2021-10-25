@@ -46,9 +46,10 @@ const Judge: React.FC = () => {
         <IonPage>
             <IonContent fullscreen>
                 <div className="judge-header">
-                    {(events?.length > 0) ? <IonSelect value={event?.id} placeholder="No Baloteo" interface="alert" onIonChange={(e) => selectEvent(e.detail.value!)}>
-                        {events.map((e:any) => <IonSelectOption key={e.id} value={e.id}>{title}</IonSelectOption>)}
-                    </IonSelect> : <IonText>No Baloteo</IonText>}
+                    {/*{(events?.length > 0) ? <IonSelect value={event?.id} placeholder="No Baloteo" interface="alert" onIonChange={(e) => selectEvent(e.detail.value!)}>*/}
+                    {/*    {events.map((e:any) => <IonSelectOption key={e.id} value={e.id}>{title}</IonSelectOption>)}*/}
+                    {/*</IonSelect> : <IonText>No Baloteo</IonText>}*/}
+                    <IonText>{event ? title : "No Baloteo"}</IonText>
                     <ProfileModal />
                 </div>
                 <div className="judge-content">
