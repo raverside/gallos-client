@@ -124,3 +124,8 @@ ion-item.selected {
   font-size: 14px;
   font-weight:600;
 }
+.menu_icon {
+  margin:0 15px;
+  width:26px;
+  height:26px;
+}

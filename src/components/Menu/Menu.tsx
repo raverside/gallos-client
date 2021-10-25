@@ -5,6 +5,7 @@ import {
     IonList,
     IonMenu,
     IonMenuToggle,
+    IonImg
 } from '@ionic/react';
 
 import ProfileWidget from './ProfileWidget';
@@ -36,6 +37,7 @@ const Menu: React.FC = () => {
                         return (
                             <IonMenuToggle key={index} {...appPage.props}>
                                 <IonItem routerLink={appPage.url} routerDirection="none" lines="none">
+                                    {appPage.icon && <IonImg src={appPage.icon} className="menu_icon"/>}
                                     <IonLabel>{appPage.title}</IonLabel>
                                 </IonItem>
                             </IonMenuToggle>
