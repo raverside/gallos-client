@@ -1,0 +1,109 @@
+.datepicker-block {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:10px 15px;
+}
+.datepicker-current-date {
+    font-weight: 600;
+    font-size: 14px;
+}
+.datepicker-block ion-button {
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+}
+.datepicker-block ion-icon {
+    width: 16px;
+    height: 18px;
+}
+.datepicker-filter-form {
+    display:flex;
+    flex-direction: column;
+    justify-content:space-between;
+    padding:10px;
+    height:100%;
+}
+.datepicker-filter-form ion-button[type="submit"] {
+    text-transform:none;
+    --padding-top:13px;
+    --padding-bottom:13px;
+    height:auto;
+}
+.react-calendar__navigation {
+    margin-bottom:20px;
+}
+.react-calendar__navigation__label {
+    font-weight: 600;
+    font-size: 16px;
+    background:none;
+}
+.react-calendar__navigation__arrow {
+    background:none;
+    font-size:30px;
+}
+.react-calendar__month-view__weekdays__weekday {
+    text-align:center;
+}
+.react-calendar__month-view__weekdays__weekday abbr[title]{
+    text-decoration:none;
+    font-size: 12px;
+    color: #6B6767;
+}
+.react-calendar__month-view__days__day {
+    border: none;
+    background:none;
+}
+.react-calendar__month-view__days__day abbr{
+    border: 2px solid #EAE9E9;
+    border-radius: 10px;
+    background:none;
+    width:100%;
+    max-width:40px !important;
+    height:40px;
+    margin:6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.react-calendar__month-view__days__day.react-calendar__tile--active abbr{
+    color: #EB0404;
+    border-color: #EB0404;
+}
+.react-calendar__month-view__days__day--neighboringMonth abbr{
+    background: #EAE9E9;
+}
+.datepicker-shortcuts {
+    padding-bottom: 15px;
+    margin: 0 15px;
+}
+.datepicker-shortcut {
+    border: 2px solid #EAE9E9;
+    border-radius: 10px;
+    width:65px;
+    height:65px;
+    margin-right:10px;
+    --indicator-height:0;
+    position: relative;
+}
+.datepicker-shortcut.segment-button-checked {
+    background: rgba(235, 4, 4, 0.05);
+    border-color:transparent;
+}
+.datepicker-shortcut-week {
+    font-weight: 600;
+    font-size: 14px;
+    text-transform:capitalize;
+}
+.datepicker-shortcut-day {
+    font-size: 12px;
+    text-transform:capitalize;
+}
+.datepicker-shortcut-hasEvent {
+    color:#EB0404;
+    position:absolute;
+    bottom:-2px;
+    left:0;
+    right:0;
+}
