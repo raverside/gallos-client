@@ -342,7 +342,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             />
                         </IonItem>
 
-                        <IonItemDivider>Weight (Lbs)</IonItemDivider>
+                        <IonItemDivider>Weight (Oz)</IonItemDivider>
                         <IonItem lines="none">
                             <IonInput
                                 value={formData.weight}

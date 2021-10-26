@@ -12,9 +12,9 @@ const PrintMatch = React.forwardRef<any, any>(({event, match}, ref) => {
                     <div style={{textAlign: "left"}}>{match.opponent?.type}</div>
                 </div>
                 <div style={{display:"flex", justifyContent: "center"}}>
-                    <div style={{textAlign: "right"}}>{match.participant?.weight} lbs</div>
-                    <div style={{textAlign: "center", width: "150px"}}>Weight</div>
-                    <div style={{textAlign: "left"}}>{match.opponent?.weight} lbs</div>
+                    <div style={{textAlign: "right"}}>{match.participant?.weight}</div>
+                    <div style={{textAlign: "center", width: "150px"}}>Weight (Oz)</div>
+                    <div style={{textAlign: "left"}}>{match.opponent?.weight}</div>
                 </div>
                 <div style={{display:"flex", justifyContent: "center"}}>
                     <div style={{textAlign: "right"}}>{match.participant?.color}</div>

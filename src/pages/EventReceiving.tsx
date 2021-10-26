@@ -19,7 +19,7 @@ import ParticipantEditor from "../components/Events/ParticipantEditor";
 import Matchmaking from "../components/Events/Matchmaking";
 import editIcon from "../img/edit.png";
 import versusIcon from "../img/versus.png";
-import {getImageUrl} from "../components/utils";
+import {getImageUrl, formatOzToLbsOz} from "../components/utils";
 
 const EventReceiving: React.FC = () => {
     const { state } = useContext(AppContext);
@@ -84,13 +84,13 @@ const EventReceiving: React.FC = () => {
                         <IonGrid>
                             <IonRow>
                                 <IonCol size="1">{participant.cage}</IonCol>
-                                <IonCol size="6">
+                                <IonCol size="5">
                                     {participant.image && <IonImg src={getImageUrl(participant.image)} className={participant.image_flipped ? "participant-thumb flipped" : "participant-thumb"} />}
                                     <IonText>{participant.team?.name}</IonText>
                                 </IonCol>
-                                <IonCol size="3" className="participant-weight-class">
+                                <IonCol size="4" className="participant-weight-class">
                                     <div>{participant.type}</div>
-                                    <div>{participant.weight && participant.weight + " Lbs"}</div>
+                                    <div>{participant.weight && formatOzToLbsOz(participant.weight)}</div>
                                 </IonCol>
                                 <IonCol size="2">
                                     <IonButton className="participant-edit" fill="clear" onClick={() => {setSelectedParticipant(participant); setShowParticipantEditor(true);}}>

@@ -20,7 +20,7 @@ import {getEvent} from "../api/Events";
 
 import './Baloteo.css';
 import {useParams} from "react-router-dom";
-import {getImageUrl} from "../components/utils";
+import {getImageUrl, formatOzToLbsOz} from "../components/utils";
 
 const BaloteoStats: React.FC = () => {
     const [event, setEvent] = useState<any>([]);
@@ -100,19 +100,19 @@ const BaloteoStats: React.FC = () => {
                             <IonCol size="4">
                                 <IonCard className="baloteo-stats-card">
                                     <p>Lowest Animal Weight</p>
-                                    <span>{Math.min(...event.participants.map((p:any) => parseFloat(p.weight)))} Lbs</span>
+                                    <span>{formatOzToLbsOz(""+Math.min(...event.participants.map((p:any) => parseFloat(p.weight))))}</span>
                                 </IonCard>
                             </IonCol>
                             <IonCol size="4">
                                 <IonCard className="baloteo-stats-card">
                                     <p>Average Weight</p>
-                                    <span>{event.participants.reduce((total:any, next:any) => total + parseFloat(next.weight), 0) / event.participants.length || 0} Lbs</span>
+                                    <span>{formatOzToLbsOz(""+event.participants.reduce((total:any, next:any) => total + parseFloat(next.weight), 0) / event.participants.length || "0")}</span>
                                 </IonCard>
                             </IonCol>
                             <IonCol size="4">
                                 <IonCard className="baloteo-stats-card">
                                     <p>Highest Animal Weight</p>
-                                    <span>{Math.max(...event.participants.map((p:any) => parseFloat(p.weight)))} Lbs</span>
+                                    <span>{formatOzToLbsOz(""+Math.max(...event.participants.map((p:any) => parseFloat(p.weight))))}</span>
                                 </IonCard>
                             </IonCol>
                         </IonRow>
@@ -132,7 +132,7 @@ const BaloteoStats: React.FC = () => {
                                     <IonCol size="3">
                                         <div className="baloteo-participant-creds">
                                             <div className="baloteo-participant-type">{participant.type}</div>
-                                            <div className="baloteo-participant-type">{participant.weight && participant.weight + " Lbs"}</div>
+                                            <div className="baloteo-participant-type">{participant.weight && formatOzToLbsOz(participant.weight)}</div>
                                         </div>
                                     </IonCol>
                                 </IonRow>

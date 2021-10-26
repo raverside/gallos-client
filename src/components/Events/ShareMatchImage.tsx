@@ -1,7 +1,7 @@
 import {IonButton, IonButtons, IonIcon, IonImg, IonTitle, IonToolbar} from '@ionic/react';
 import React, {useState} from "react";
 
-import {getImageUrl} from '../utils';
+import {getImageUrl, formatOzToLbsOz} from '../utils';
 
 import './ShareEventImage.css';
 import {closeOutline as closeIcon} from "ionicons/icons";
@@ -41,9 +41,9 @@ const ShareMatchImage: React.FC<EventImageProps> = ({match, close}) => {
                     <div className="share-versus-type">{match.opponent?.type}</div>
                 </div>
                 <div className="share-versus-info_row">
-                    <div className="share-versus-type">{match.participant?.weight} lbs</div>
+                    <div className="share-versus-type">{match.participant?.weight ? formatOzToLbsOz(match.participant.weight) : ""}</div>
                     <div className="share-versus-type_label">Weight</div>
-                    <div className="share-versus-type">{match.opponent?.weight} lbs</div>
+                    <div className="share-versus-type">{match.opponent?.weight ? formatOzToLbsOz(match.opponent.weight) : ""}</div>
                 </div>
                 <div className="share-versus-info_row">
                     <div className="share-versus-type">{match.participant?.color}</div>

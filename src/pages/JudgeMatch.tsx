@@ -10,7 +10,7 @@ import ProfileModal from '../components/Judge/ProfileModal';
 
 import './Judge.css';
 import swapIcon from "../img/swap.png";
-import {getImageUrl} from "../components/utils";
+import {getImageUrl, formatOzToLbsOz} from "../components/utils";
 import {useHistory, useParams} from "react-router-dom";
 import ConfirmPrompt from "../components/ConfirmPrompt";
 
@@ -126,9 +126,9 @@ const JudgeMatch: React.FC = () => {
                                 <div className="judge-match-view-type">{match?.opponent?.type}</div>
                             </div>
                             <div className="judge-match-view-info_row">
-                                <div className="judge-match-view-type">{match?.participant?.weight} lbs</div>
+                                <div className="judge-match-view-type">{match?.participant?.weight ? formatOzToLbsOz(match.participant.weight) : ""}</div>
                                 <div className="judge-match-view-type_label">Weight</div>
-                                <div className="judge-match-view-type">{match?.opponent?.weight} lbs</div>
+                                <div className="judge-match-view-type">{match?.opponent?.weight ? formatOzToLbsOz(match.opponent.weight) : ""}</div>
                             </div>
                             <div className="judge-match-view-info_row">
                                 <div className="judge-match-view-type">{match?.participant?.color}</div>

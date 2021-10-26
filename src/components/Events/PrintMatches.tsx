@@ -58,7 +58,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                         <th style={{border:"1px solid black", color:"white"}}> -VS- </th>
                         <th style={{border:"1px solid black"}}>Team</th>
                         <th style={{border:"1px solid black"}}>Marcaje</th>
-                        <th style={{border:"1px solid black"}}>Weight</th>
+                        <th style={{border:"1px solid black"}}>Weight (oz)</th>
                         <th style={{border:"1px solid black"}}>Color</th>
                     </tr>
                 </thead>
@@ -84,7 +84,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                     <th style={{border:"1px solid black"}}>#</th>
                     <th style={{border:"1px solid black"}}>Team</th>
                     <th style={{border:"1px solid black"}}>Marcaje</th>
-                    <th style={{border:"1px solid black"}}>Weight</th>
+                    <th style={{border:"1px solid black"}}>Weight (oz)</th>
                     <th style={{border:"1px solid black"}}>Color</th>
                     <th style={{border:"1px solid black"}}>Alas</th>
                     <th style={{border:"1px solid black"}}>Cresta</th>

@@ -1,5 +1,5 @@
 import {IonButton, IonGrid, IonCol, IonImg, IonRow, IonSearchbar, IonList} from "@ionic/react";
-import {getImageUrl} from "../utils";
+import {getImageUrl, formatOzToLbsOz} from "../utils";
 import {IonText} from '@ionic/react';
 import React, {useState} from "react";
 import {createMatch} from "../../api/Events";
@@ -59,7 +59,7 @@ const PairManual: React.FC<PairManualProps> = ({participantId, opponents, fightN
                         </IonCol>
                         <IonCol size="3" className="participant-weight-class">
                             <div>{participant.type}</div>
-                            <div>{participant.weight && participant.weight + " Lbs"}</div>
+                            <div>{participant.weight && formatOzToLbsOz(participant.weight)}</div>
                         </IonCol>
             </IonRow>)}
         </IonList>}

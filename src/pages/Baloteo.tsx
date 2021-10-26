@@ -20,7 +20,7 @@ import {getEvent, publishMatch, swapSides, announceEvent} from "../api/Events";
 
 import './Baloteo.css';
 import {useHistory, useParams} from "react-router-dom";
-import {getImageUrl} from "../components/utils";
+import {getImageUrl, formatOzToLbsOz} from "../components/utils";
 import {closeOutline as closeIcon, ellipsisHorizontal as menuIcon} from "ionicons/icons";
 import ConfirmPrompt from "../components/ConfirmPrompt";
 import PairManual from "../components/Events/PairManual";
@@ -213,7 +213,7 @@ const Baloteo: React.FC = () => {
                                             <div className="baloteo-participant-creds">
                                                 <div className="baloteo-participant-name">{participant.team?.name}</div>
                                                 <div className="baloteo-participant-type">{participant.type}</div>
-                                                <div className="baloteo-participant-type">{participant.weight && participant.weight + " Lbs"}</div>
+                                                <div className="baloteo-participant-type">{participant.weight && formatOzToLbsOz(participant.weight)}</div>
                                             </div>
                                         </IonCol>
                                         <IonCol size="3">
@@ -235,7 +235,7 @@ const Baloteo: React.FC = () => {
                                             <div className="baloteo-participant-creds">
                                                 <div className="baloteo-participant-name">{participant.team?.name}</div>
                                                 <div className="baloteo-participant-type">{participant.type}</div>
-                                                <div className="baloteo-participant-type">{participant.weight && participant.weight + " Lbs"}</div>
+                                                <div className="baloteo-participant-type">{participant.weight && formatOzToLbsOz(participant.weight)}</div>
                                             </div>
                                         </IonCol>
                                     </IonRow>
