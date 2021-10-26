@@ -29,8 +29,19 @@
 }
 .baloteo-match-team_name {
     font-weight: 600;
-    font-size: 14px;
-    margin:5px 0 0 0;
+    font-size: 16px;
+    margin:0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    padding:5px;
+}
+.blue_side .baloteo-match-team_name {
+    background-color:#338FB3;
+    color:white;
+}
+.white_side .baloteo-match-team_name {
+    background-color:black;
+    color:white;
 }
 .baloteo-match-vs {
     font-weight: 600;
@@ -48,11 +59,11 @@
     font-size: 12px;
 }
 .baloteo-match-image {
-    width:50px;
-    height:50px;
+    width:150px;
+    height:150px;
     border-radius: 3px;
     overflow:hidden;
-    margin:0 auto;
+    margin:0;
 }
 .baloteo-match-image.flipped {
     -moz-transform: scaleX(-1);
@@ -66,26 +77,28 @@
     margin-left:15px;
 }
 .blue_side {
-    border-radius: 8px;
-    border: 2px solid #338FB3;
-    padding:20px;
+    width:150px;
 }
 .white_side {
-    border-radius: 8px;
-    border: 2px solid #EAE9E9;
-    padding:20px;
+    width:150px;
 }
 .baloteo-match-blue_side {
     font-size: 12px;
-    color:#338FB3;
+    background-color:#338FB3;
+    color:white;
+    font-weight:600;
     text-align: center;
     margin-bottom:10px;
+    border-radius: 3px;
 }
 .baloteo-match-white_side {
     font-size: 12px;
-    color:#2C2626;
+    background-color:black;
+    color:white;
+    font-weight:600;
     text-align: center;
     margin-bottom:10px;
+    border-radius: 3px;
 }
 .printMenu {
     height:auto;
