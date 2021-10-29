@@ -39,10 +39,13 @@ const JudgeMatch: React.FC = () => {
     const [alarmInterval, setAlarmInterval] = useState<number>();
     const [selectResult, setSelectResult] = useState<boolean>(false);
     const [configuration, setConfiguration] = useState<number>(0);
+    const [confirmRestart, setConfirmRestart] = useState<boolean>(false);
     const configRef = useRef(configuration);
     configRef.current = configuration;
     const timerRef = useRef(timer);
     timerRef.current = timer;
+    const sixtyIntervalRef = useRef(timerInterval);
+    sixtyIntervalRef.current = timerInterval;
     const [result, setResult] = useState<number>(); // 0 - blue wins, 1 - white wins, 2 - draw, 3 - cancelled
     const history = useHistory();
 
@@ -74,41 +77,40 @@ const JudgeMatch: React.FC = () => {
             clearInterval(timerInterval);
             setTimerInterval(undefined);
             setTimer(60);
-        } else {
-            let i = 59;
-            const interval = window.setInterval(() => {
-                if (configRef.current !== 2) {
-                    setTimer(i);
-                    if (i === 0) {
-                        soundLongAlarm();
-                        clearInterval(interval);
-                        stopTime();
-                    }
-                    i--;
-                }
-            }, 1000);
-            setTimerInterval(interval);
+        } else if (matchTimeReverse > 0) {
+            sixtyStart();
         }
     }
 
     const sixtyLoop = () => {
         if (timerInterval) {
             clearInterval(timerInterval);
-            setTimer(59);
+            setTimerInterval(undefined);
+            setTimer(60);
         }
-        let i = 59;
+        if (matchTimeReverse > 0) {
+            sixtyStart();
+        }
+    }
+
+    const sixtyStart = () => {
         const interval = window.setInterval(() => {
             if (configRef.current !== 2) {
-                setTimer(i);
-                if (i === 0) {
-                    soundLongAlarm();
-                    clearInterval(interval);
-                    stopTime();
-                }
-                i--;
+                setTimer((currentTimer) => {
+                    if (currentTimer === 1) {
+                        console.log(currentTimer);
+                        soundLongAlarm();
+                        if (sixtyIntervalRef.current) clearInterval(sixtyIntervalRef.current);
+                        stopTime();
+                    }
+                    return Math.max(currentTimer - 1, 0);
+                });
             }
         }, 1000);
-        setTimerInterval(interval);
+        setTimerInterval((currentTimerInterval) => {
+            clearInterval(currentTimerInterval);
+            return interval
+        });
     }
 
     const startTime = (reset = true) => {
@@ -116,7 +118,7 @@ const JudgeMatch: React.FC = () => {
         const interval = window.setInterval(() => {
             if (configRef.current !== 2) {
                 setMatchTime((currentMatchTime) => {
-                    if (currentMatchTime === 61) soundAlarm();
+                    if (currentMatchTime === 59) soundAlarm();
                     const maxAllowed = 600 + (timerRef.current <= 59 ? 59 : 0);
                     if (currentMatchTime >= maxAllowed) {
                         stopTime();
@@ -142,8 +144,10 @@ const JudgeMatch: React.FC = () => {
     }
 
     const resetTime = () => {
-        setMatchTime(0);
-        setMatchTimeReverse(600);
+        setMatchTime(590);
+        setMatchTimeReverse(10);
+        // setMatchTime(0);
+        // setMatchTimeReverse(600);
         setTimer(60);
         if (matchTimeInterval) clearInterval(matchTimeInterval);
         if (timerInterval) clearInterval(timerInterval);
@@ -155,6 +159,18 @@ const JudgeMatch: React.FC = () => {
             if (currentTimerInterval) clearInterval(currentTimerInterval);
             return undefined;
         });
+    }
+
+    const restartMatch = () => {
+        if (confirmRestart) {
+            setConfiguration(0);
+            startTime()
+        } else {
+            setConfirmRestart(true);
+            setTimeout(() => {
+                setConfirmRestart(false);
+            }, 2000);
+        }
     }
 
     const showConfiguration = () => {
@@ -260,13 +276,10 @@ const JudgeMatch: React.FC = () => {
                             <IonButton fill="clear" className="judge-time-button yellow-time-button" onClick={() => setResult(2)}><IonText>Draw</IonText></IonButton>
                             <IonButton fill="clear" className="judge-time-button purple-time-button" onClick={() => setResult(3)}><IonText>Null</IonText></IonButton>
                         </div>}
-                    </div> : (configuration === 2) ? <div className="judge-match-timer-config"><div className="judge-match-timer-result">Configuration</div><div className="judge-match-timer-buttons">
-                        <IonButton fill="clear" onClick={() => setConfiguration(0)} color="danger" className="judge-time-button red-time-button">
-                            <IonText>Back</IonText>
-                        </IonButton>
-                        <IonButton fill="clear" onClick={() => {setConfiguration(0);startTime()}} color="success" className="judge-time-button green-time-button">
+                    </div> : (configuration === 2 || (matchTimeReverse === 0 && !matchTimeInterval)) ? <div className="judge-match-timer-config"><div className="judge-match-timer-result">Configuration</div><div className="judge-match-timer-buttons">
+                        <IonButton fill="clear" onClick={() => restartMatch()} color="success" className="judge-time-button green-time-button">
                             <IonImg src={resultTimeIcon} />
-                            <IonText>Restart</IonText>
+                            <IonText>{confirmRestart ? "Confirm?" : "Restart"}</IonText>
                         </IonButton>
                         <IonButton fill="clear" onClick={() => setSelectResult(true)} color="success" className="judge-time-button yellow-time-button">
                             <IonImg src={resultTimeIcon} />
@@ -286,6 +299,9 @@ const JudgeMatch: React.FC = () => {
                             <IonText>60|Loop</IonText>
                         </IonButton>
                     </div> : <div className="judge-match-timer-buttons">
+                        <IonButton fill="clear" color="danger" className="judge-time-button red-time-button" onClick={() => history.replace("/judge")}>
+                            <IonText>Back</IonText>
+                        </IonButton>
                         <IonButton fill="clear" color="success" disabled={!!matchTimeInterval} className="judge-time-button green-time-button" onClick={() => startTime()}>
                             <IonImg src={startTimeIcon} />
                             <IonText>Start</IonText>
