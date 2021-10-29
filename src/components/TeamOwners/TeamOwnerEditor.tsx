@@ -170,7 +170,7 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
 
                 <IonItemDivider>Country</IonItemDivider>
                 <IonItem lines="none">
-                    <IonSelect interface="action-sheet" name="country" value={formData.country} onIonChange={(e) => onCountryChange(e.detail.value)} placeholder="Select country">
+                    <IonSelect interface="alert" name="country" value={formData.country} onIonChange={(e) => onCountryChange(e.detail.value)} placeholder="Select country">
                         {countries && countries.map((country) => (
                             <IonSelectOption key={country.id} value={country.id}>{country.name}</IonSelectOption>
                         ))}
@@ -179,7 +179,7 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
 
                 {(states && states.length > 0) && <><IonItemDivider>State</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect interface="action-sheet" disabled={!formData.country} name="state" value={formData.state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder="Select state">
+                        <IonSelect interface="alert" disabled={!formData.country} name="state" value={formData.state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder="Select state">
                             {states.map((state) => (
                                 <IonSelectOption key={state.id} value={state.id}>{state.name}</IonSelectOption>
                             ))}
@@ -188,7 +188,7 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
 
                 {(cities && cities.length > 0) && <><IonItemDivider>City</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect interface="action-sheet" disabled={!formData.country || !formData.state} name="city" value={formData.city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder="Select city">
+                        <IonSelect interface="alert" disabled={!formData.country || !formData.state} name="city" value={formData.city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder="Select city">
                             {cities.map((city) => (
                                 <IonSelectOption key={city.id} value={city.id}>{city.name}</IonSelectOption>
                             ))}

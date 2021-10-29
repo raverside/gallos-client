@@ -126,7 +126,7 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
                 {stadiums.length > 0 && <>
                     <IonItemDivider>Stadium</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect value={formData.stadium_id} interface="action-sheet" onIonChange={(e) => setFormData({...formData, stadium_id: e.detail.value!})}>
+                        <IonSelect value={formData.stadium_id} interface="alert" onIonChange={(e) => setFormData({...formData, stadium_id: e.detail.value!})}>
                             {stadiums.map((stadium) => (<IonSelectOption value={stadium.id}>{stadium.name}</IonSelectOption>))}
                         </IonSelect>
                     </IonItem>
@@ -185,7 +185,7 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
 
                 <IonItemDivider>Currency</IonItemDivider>
                 <IonItem lines="none">
-                    <IonSelect value={formData.currency} interface="action-sheet" onIonChange={(e) => setFormData({...formData, currency: e.detail.value!})}>
+                    <IonSelect value={formData.currency} interface="alert" onIonChange={(e) => setFormData({...formData, currency: e.detail.value!})}>
                         <IonSelectOption value="USD">USD</IonSelectOption>
                         <IonSelectOption value="DOP">RD</IonSelectOption>
                     </IonSelect>
@@ -193,7 +193,7 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
 
                 <IonItemDivider>Marcaje</IonItemDivider>
                 <IonItem lines="none">
-                    <IonSelect value={formData.type} multiple interface="action-sheet" onIonChange={(e) => {
+                    <IonSelect value={formData.type} multiple interface="alert" onIonChange={(e) => {
                         setFormData({...formData, type: e.detail.value});
                     }}>
                         <IonSelectOption value="All">Marcaje Abierto</IonSelectOption>

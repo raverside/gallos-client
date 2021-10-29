@@ -111,7 +111,7 @@ const EventsFilter: React.FC<FilterProps> = ({filter, setFilter, search, setSear
                     <IonList>
                         <IonLabel>Country</IonLabel>
                         <IonItem lines="none">
-                            <IonSelect interface="action-sheet" name="country" value={country} onIonChange={(e) => onCountryChange(e.detail.value)} placeholder="Select country">
+                            <IonSelect interface="alert" name="country" value={country} onIonChange={(e) => onCountryChange(e.detail.value)} placeholder="Select country">
                                 {countries && countries.map((country) => (
                                     <IonSelectOption key={country.id} value={country.id}>{country.name}</IonSelectOption>
                                 ))}
@@ -120,7 +120,7 @@ const EventsFilter: React.FC<FilterProps> = ({filter, setFilter, search, setSear
 
                         {(states && states.length > 0) && <><IonLabel>State</IonLabel>
                             <IonItem lines="none">
-                                <IonSelect interface="action-sheet" disabled={!country} name="state" value={state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder="Select state">
+                                <IonSelect interface="alert" disabled={!country} name="state" value={state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder="Select state">
                                     {states.map((state) => (
                                         <IonSelectOption key={state.id} value={state.id}>{state.name}</IonSelectOption>
                                     ))}
@@ -129,7 +129,7 @@ const EventsFilter: React.FC<FilterProps> = ({filter, setFilter, search, setSear
 
                         {(cities && cities.length > 0) && <><IonLabel>City</IonLabel>
                             <IonItem lines="none">
-                                <IonSelect interface="action-sheet" disabled={!country || !state} name="city" value={city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder="Select city">
+                                <IonSelect interface="alert" disabled={!country || !state} name="city" value={city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder="Select city">
                                     {cities.map((city, index) => (
                                         <IonSelectOption key={city.id} value={city.id}>{city.name}</IonSelectOption>
                                     ))}
@@ -138,7 +138,7 @@ const EventsFilter: React.FC<FilterProps> = ({filter, setFilter, search, setSear
 
                         <IonLabel>Event Type</IonLabel>
                         <IonItem lines="none">
-                            <IonSelect interface="action-sheet" name="type" value={type} onIonChange={(e) => setType(e.detail.value)} placeholder="Select event type">
+                            <IonSelect interface="alert" name="type" value={type} onIonChange={(e) => setType(e.detail.value)} placeholder="Select event type">
                                 <IonSelectOption value="special">Special</IonSelectOption>
                                 <IonSelectOption value="regular">Regular</IonSelectOption>
                             </IonSelect>
@@ -146,7 +146,7 @@ const EventsFilter: React.FC<FilterProps> = ({filter, setFilter, search, setSear
 
                         <IonLabel>Sort By</IonLabel>
                         <IonItem lines="none">
-                            <IonSelect interface="action-sheet" name="sort" value={sort} onIonChange={(e) => setSort(e.detail.value)}>
+                            <IonSelect interface="alert" name="sort" value={sort} onIonChange={(e) => setSort(e.detail.value)}>
                                 <IonSelectOption value="az">A-Z</IonSelectOption>
                                 <IonSelectOption value="za">Z-A</IonSelectOption>
                             </IonSelect>

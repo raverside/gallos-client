@@ -99,7 +99,7 @@ const UsersFilter: React.FC<FilterProps> = ({filter, setFilter, close}) => {
             <IonList>
                 <IonLabel>Country</IonLabel>
                 <IonItem lines="none">
-                    <IonSelect interface="action-sheet" name="country" value={country} onIonChange={(e) => {onCountryChange(e.detail.value)}} placeholder="Select country">
+                    <IonSelect interface="alert" name="country" value={country} onIonChange={(e) => {onCountryChange(e.detail.value)}} placeholder="Select country">
                         {countries && countries.map((country) => (
                             <IonSelectOption key={country.id} value={country.id}>{country.name}</IonSelectOption>
                         ))}
@@ -108,7 +108,7 @@ const UsersFilter: React.FC<FilterProps> = ({filter, setFilter, close}) => {
 
                 {(states && states.length > 0) && <><IonLabel>State</IonLabel>
                 <IonItem lines="none">
-                    <IonSelect interface="action-sheet" disabled={!country} name="state" value={state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder="Select state">
+                    <IonSelect interface="alert" disabled={!country} name="state" value={state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder="Select state">
                         {states.map((state) => (
                             <IonSelectOption key={state.id} value={state.id}>{state.name}</IonSelectOption>
                         ))}
@@ -117,7 +117,7 @@ const UsersFilter: React.FC<FilterProps> = ({filter, setFilter, close}) => {
 
                 {(cities && cities.length > 0) && <><IonLabel>City</IonLabel>
                 <IonItem lines="none">
-                    <IonSelect interface="action-sheet" disabled={!country || !state} name="city" value={city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder="Select city">
+                    <IonSelect interface="alert" disabled={!country || !state} name="city" value={city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder="Select city">
                         {cities.map((city) => (
                             <IonSelectOption key={city.id} value={city.id}>{city.name}</IonSelectOption>
                         ))}
@@ -126,14 +126,14 @@ const UsersFilter: React.FC<FilterProps> = ({filter, setFilter, close}) => {
 
                 <IonLabel>Membership Type</IonLabel>
                 <IonItem lines="none">
-                    <IonSelect interface="action-sheet" name="membership" value={membership} onIonChange={(e) => setMembership(e.detail.value)} placeholder="Select membership type">
+                    <IonSelect interface="alert" name="membership" value={membership} onIonChange={(e) => setMembership(e.detail.value)} placeholder="Select membership type">
                         <IonSelectOption value="gold">Gold</IonSelectOption>
                     </IonSelect>
                 </IonItem>
 
                 <IonLabel>Sort By</IonLabel>
                 <IonItem lines="none">
-                    <IonSelect interface="action-sheet" name="sort" value={sort} onIonChange={(e) => setSort(e.detail.value)}>
+                    <IonSelect interface="alert" name="sort" value={sort} onIonChange={(e) => setSort(e.detail.value)}>
                         <IonSelectOption value="az">A-Z</IonSelectOption>
                         <IonSelectOption value="za">Z-A</IonSelectOption>
                     </IonSelect>

@@ -56,7 +56,7 @@ const PrintModal: React.FC<PrintModalType> = ({event}) => {
                 <IonList>
                     <IonItemDivider>Print Option</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect value={printOption} placeholder="Select print option" interface="action-sheet" onIonChange={(e) => setPrintOption(e.detail.value!)}>
+                        <IonSelect value={printOption} placeholder="Select print option" interface="alert" onIonChange={(e) => setPrintOption(e.detail.value!)}>
                             <IonSelectOption value={1}>Live Matches</IonSelectOption>
                             <IonSelectOption value={2}>Available Matches</IonSelectOption>
                             <IonSelectOption value={3}>Unmatched Animals</IonSelectOption>

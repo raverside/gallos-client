@@ -70,21 +70,21 @@ const MembershipEditor: React.FC<EventProps> = ({membership, close, fetchMembers
             <IonList>
                 <IonItemDivider>Category</IonItemDivider>
                 <IonItem lines="none">
-                    <IonSelect value={formData.type} placeholder="Select Category" interface="action-sheet" onIonChange={(e) => setFormData({...formData, type: e.detail.value!})}>
+                    <IonSelect value={formData.type} placeholder="Select Category" interface="alert" onIonChange={(e) => setFormData({...formData, type: e.detail.value!})}>
                         <IonSelectOption value="user">User Membership</IonSelectOption>
                         <IonSelectOption value="stadium">Stadium Membership</IonSelectOption>
                     </IonSelect>
                 </IonItem>
                 <IonItemDivider>Type</IonItemDivider>
                 <IonItem lines="none">
-                    <IonSelect value={formData.name} placeholder="Select Type" interface="action-sheet" onIonChange={(e) => setFormData({...formData, name: e.detail.value!})}>
+                    <IonSelect value={formData.name} placeholder="Select Type" interface="alert" onIonChange={(e) => setFormData({...formData, name: e.detail.value!})}>
                         <IonSelectOption value="Gold">Gold</IonSelectOption>
                         <IonSelectOption value="Silver">Silver</IonSelectOption>
                     </IonSelect>
                 </IonItem>
                 <IonItemDivider>Period</IonItemDivider>
                 <IonItem lines="none">
-                    <IonSelect value={formData.duration} placeholder="Select Period" interface="action-sheet" onIonChange={(e) => setFormData({...formData, duration: e.detail.value!})}>
+                    <IonSelect value={formData.duration} placeholder="Select Period" interface="alert" onIonChange={(e) => setFormData({...formData, duration: e.detail.value!})}>
                         <IonSelectOption value="3 months">3 months</IonSelectOption>
                         <IonSelectOption value="6 months">6 months</IonSelectOption>
                         <IonSelectOption value="1 year">1 year</IonSelectOption>

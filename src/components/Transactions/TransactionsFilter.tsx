@@ -58,14 +58,14 @@ const TransactionsFilter: React.FC<FilterProps> = ({filter, setFilter, search, s
                     <IonList>
                         <IonLabel>Payment Method</IonLabel>
                         <IonItem lines="none">
-                            <IonSelect interface="action-sheet" name="type" value={type} onIonChange={(e) => setType(e.detail.value)} placeholder="Select payment method">
+                            <IonSelect interface="alert" name="type" value={type} onIonChange={(e) => setType(e.detail.value)} placeholder="Select payment method">
                                 <IonSelectOption value="cash">Cash</IonSelectOption>
                             </IonSelect>
                         </IonItem>
 
                         <IonLabel>Sort By</IonLabel>
                         <IonItem lines="none">
-                            <IonSelect interface="action-sheet" name="sort" value={sort} onIonChange={(e) => setSort(e.detail.value)}>
+                            <IonSelect interface="alert" name="sort" value={sort} onIonChange={(e) => setSort(e.detail.value)}>
                                 <IonSelectOption value="az">Newest to Oldest</IonSelectOption>
                                 <IonSelectOption value="za">Oldest to Newest</IonSelectOption>
                             </IonSelect>

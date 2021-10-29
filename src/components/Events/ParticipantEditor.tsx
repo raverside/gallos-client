@@ -148,7 +148,15 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         if (response.participant) {
             fetchEvent();
         }
-        close();
+        if (formData.id) {
+            close();
+        } else {
+            setFormData({
+                ...formData,
+                betting_amount: undefined,
+                betting_pref: "open"
+            });
+        }
     }
 
     const Approve = async () => {
@@ -223,7 +231,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                     {teams.length > 0 && <>
                         <IonItemDivider>Team</IonItemDivider>
                         <IonItem lines="none">
-                            <IonSelect value={formData.team_id} placeholder="Select Team" interface="action-sheet" onIonChange={(e) => setFormData({...formData, team_id: e.detail.value!})}>
+                            <IonSelect value={formData.team_id} placeholder="Select Team" interface="alert" onIonChange={(e) => setFormData({...formData, team_id: e.detail.value!})}>
                                 {teams.map((team) => (<IonSelectOption key={team.id} value={team.id}>{team.name}</IonSelectOption>))}
                             </IonSelect>
                         </IonItem>
@@ -256,7 +264,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         {stadiums.length > 0 && <>
                             <IonItemDivider>Stadium</IonItemDivider>
                             <IonItem lines="none">
-                                <IonSelect value={formData.stadium_id} interface="action-sheet" onIonChange={(e) => setFormData({...formData, stadium_id: e.detail.value!})}>
+                                <IonSelect value={formData.stadium_id} interface="alert" onIonChange={(e) => setFormData({...formData, stadium_id: e.detail.value!})}>
                                     {stadiums.map((stadium) => (<IonSelectOption key={stadium.id} value={stadium.id}>{stadium.name}</IonSelectOption>))}
                                 </IonSelect>
                             </IonItem>
@@ -386,7 +394,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
                     <IonItemDivider>Betting Amount</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect value={formData.betting_amount} interface="action-sheet" placeholder="Select Betting Amount" onIonChange={(e) => setFormData({...formData, betting_amount: e.detail.value!})}>
+                        <IonSelect value={formData.betting_amount} interface="alert" placeholder="Select Betting Amount" onIonChange={(e) => setFormData({...formData, betting_amount: e.detail.value!})}>
                             {event.bronze && <IonSelectOption value="bronze">Bronze: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze)}</IonSelectOption>}
                             {event.silver_one && <IonSelectOption value="silver">
                                 Silver: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one)}
@@ -401,7 +409,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
                     <IonItemDivider>Betting Preferences</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect value={formData.betting_pref} interface="action-sheet" placeholder="Select Betting Amount" onIonChange={(e) => setFormData({...formData, betting_pref: e.detail.value!})}>
+                        <IonSelect value={formData.betting_pref} interface="alert" placeholder="Select Betting Amount" onIonChange={(e) => setFormData({...formData, betting_pref: e.detail.value!})}>
                             {event.bronze && <IonSelectOption value="bronze">{(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze)}</IonSelectOption>}
                             {event.silver_one && <IonSelectOption value="silver">
                                 {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one)}
