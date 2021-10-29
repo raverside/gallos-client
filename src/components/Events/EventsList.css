@@ -96,3 +96,10 @@
 .event-image ion-img {
     width:100%;
 }
+.empty-list {
+    display: block;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 20px;
+}

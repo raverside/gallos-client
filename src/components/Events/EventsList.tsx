@@ -16,7 +16,7 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
     const [fullDescription, setFullDescription] = useState<string|false>(false);
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
 
-    return (<IonList className="eventsList">
+    return ((events.length > 0) ? <IonList className="eventsList">
         {events.map((event:any) => {
             const allBets = [event.bronze, event.silver_one, event.silver_two, event.gold_one, event.gold_two].filter(x => x !== null);
             const minBet = allBets.length > 0 ? Math.min(...allBets) : false;
@@ -63,7 +63,7 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                 </div>
             </IonCard></div>
         })}
-    </IonList>);
+    </IonList> : <IonText className="empty-list">No Events Available</IonText>);
 };
 
 export default EventsList;

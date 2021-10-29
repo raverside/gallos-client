@@ -16,6 +16,7 @@ import EventsList from "../components/Events/EventsList";
 import DateFilter from "../components/Events/DateFilter";
 import EventsFilter from "../components/Events/EventsFilter";
 import EventEditor from "../components/Events/EventEditor";
+import moment from 'moment';
 
 import './Events.css';
 import {AppContext} from "../State";
@@ -28,13 +29,13 @@ const Events: React.FC = () => {
     const [editorEvent, setEditorEvent] = useState<{}|boolean>(false);
     const [infiniteScrollPage, setInfiniteScrollPage] = useState<number>(1);
     const [disableInfiniteScroll, setDisableInfiniteScroll] = useState<boolean>(false);
-    const [dateFilter, setDateFilter] = useState<string>(state.user.role === "creator" ? "today" : "" );
+    const [dateFilter, setDateFilter] = useState<string>(state.user.role === "creator" ? "today" : state.user.role === "worker" ? moment().format("YYYY-MM-DD") : "" );
     const [eventsFilter, setEventsFilter] = useState<any>({});
     const [eventsFilterQuery, setEventsFilterQuery] = useState<string>("");
     const [eventsSearch, setEventsSearch] = useState<string>("");
 
     useEffect(() => {
-        fetchEvents();
+        updateFilter();
     }, []);
 
     const fetchEvents = async (filter = eventsFilterQuery, callback = () => {}) => {
