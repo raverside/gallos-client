@@ -144,10 +144,8 @@ const JudgeMatch: React.FC = () => {
     }
 
     const resetTime = () => {
-        setMatchTime(590);
-        setMatchTimeReverse(10);
-        // setMatchTime(0);
-        // setMatchTimeReverse(600);
+        setMatchTime(0);
+        setMatchTimeReverse(600);
         setTimer(60);
         if (matchTimeInterval) clearInterval(matchTimeInterval);
         if (timerInterval) clearInterval(timerInterval);
