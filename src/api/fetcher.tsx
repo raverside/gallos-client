@@ -10,7 +10,7 @@ type requestOptionsType = {
 };
 
 function fetcher(url: string, options:requestOptionsType = {}) {
-    return fetch(process.env.REACT_APP_DOMAIN + ":" + process.env.REACT_APP_NODE_PORT + url, {
+    return fetch(process.env.NODE_API_URL + url, {
         credentials: "same-origin",
         ...options,
         headers: {
