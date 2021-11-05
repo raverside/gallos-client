@@ -110,7 +110,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         const response = await fetchAllStadiums();
         if (response.stadiums) {
             setStadiums(response.stadiums);
-        };
+        }
     }
 
     const canCreate = () => {
@@ -153,6 +153,9 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         } else {
             setFormData({
                 ...formData,
+                id: undefined,
+                cage: (formData.cage || 1) + 1,
+                team_id: undefined,
                 betting_amount: undefined,
                 betting_pref: "open"
             });
@@ -228,14 +231,12 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         />
                     </IonItem>
 
-                    {teams.length > 0 && <>
-                        <IonItemDivider>Team</IonItemDivider>
-                        <IonItem lines="none">
-                            <IonSelect value={formData.team_id} placeholder="Select Team" interface="alert" onIonChange={(e) => setFormData({...formData, team_id: e.detail.value!})}>
-                                {teams.map((team) => (<IonSelectOption key={team.id} value={team.id}>{team.name}</IonSelectOption>))}
-                            </IonSelect>
-                        </IonItem>
-                    </>}
+                    <IonItemDivider>Team</IonItemDivider>
+                    <IonItem lines="none">
+                        <IonSelect value={formData.team_id} placeholder="Select Team" disabled={!(teams.length > 0)} interface="alert" onIonChange={(e) => setFormData({...formData, team_id: e.detail.value!})}>
+                            {teams.map((team) => (<IonSelectOption key={team.id} value={team.id}>{team.name}</IonSelectOption>))}
+                        </IonSelect>
+                    </IonItem>
 
                     {participant && participant.id && <>
                         <IonItemDivider>Type</IonItemDivider>
