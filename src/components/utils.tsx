@@ -6,7 +6,7 @@ export function formatPasscode(passcode: string) {
 }
 
 export function getImageUrl(filename: string) {
-    return process.env.NODE_API_URL + "/uploads/" + filename;
+    return process.env.REACT_APP_NODE_API_URL + "/uploads/" + filename;
 }
 
 export function formatOzToLbsOz(oz:string) {
