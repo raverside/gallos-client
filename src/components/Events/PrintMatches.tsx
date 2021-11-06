@@ -46,14 +46,14 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
     }
 
     return (!event ? null : <>
-        <div ref={ref} style={{textAlign:"center", width: "80mm", fontSize: "10px"}}>
-            <h1 style={{width: "100%", textAlign:"center", fontSize: "14px", fontWeight: "bold"}}>{event.stadium_name}</h1>
-            <h2 style={{width: "100%", textAlign:"center", fontSize: "11px", margin: "0 0 20px 0"}}>{event.title || "Traditional Event"}</h2>
+        <div ref={ref} style={{textAlign:"center", width: "80mm", fontSize: "14px"}}>
+            <h1 style={{width: "100%", textAlign:"center", fontSize: "16px", fontWeight: "bold"}}>{event.stadium_name}</h1>
+            <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", margin: "0 0 20px 0"}}>{event.title || "Traditional Event"}</h2>
             <div style={{display:"flex", justifyContent: "space-between", borderBottom: "1px solid black"}}>
                 <div>Date: {moment().format('YYYY-MM-DD')}</div>
                 <div>Time: {moment().format("HH:mm")}</div>
             </div>
-            <h2 style={{width: "100%", textAlign:"center", fontSize: "11px", fontWeight: "bold"}}>{title}</h2>
+            <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", fontWeight: "bold"}}>{title}</h2>
             {(mode == 1 || mode === 2) ? <div style={{width: "100%"}}>
                     {printMatches?.map((match:any, index:number) =>
                         <div>
@@ -78,9 +78,9 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                                 <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOz(match.opponent?.weight)}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
-                                <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.color}</div>
+                                <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.participant?.color}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Color</div>
-                                <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.color}</div>
+                                <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.opponent?.color}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.alas}</div>
@@ -88,9 +88,9 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.alas}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
-                                <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.cresta}</div>
+                                <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.participant?.cresta}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Cresta</div>
-                                <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.cresta}</div>
+                                <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.opponent?.cresta}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.pata}</div>
@@ -98,9 +98,9 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.pata}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
-                                <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.physical_advantage?.replace('_', ' ')}</div>
+                                <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.participant?.physical_advantage?.replace('_', ' ')}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Advantage</div>
-                                <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.physical_advantage.replace('_', ' ')}</div>
+                                <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.opponent?.physical_advantage.replace('_', ' ')}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.participated_before ? "Yes" : "No"}</div>
@@ -114,7 +114,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                             </div>
                         </div>
                     ) }
-            </div> : <table style={{width: "80mm", fontSize: "10px"}}>
+            </div> : <table style={{width: "80mm", fontSize: "14px"}}>
                 <thead>
                 <tr style={{background: "black", color: "white", fontWeight:"bold"}}>
                     <th>#</th>
@@ -128,7 +128,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                     <tr style={{borderBottom: "1px solid black", lineHeight: "12px"}}>
                         <td style={{textAlign:"center", fontWeight: "bold"}}>#{index + 1}</td>
                         <td style={{textAlign:"left"}}>
-                            <p style={{fontWeight: "bold", fontSize: "12px", margin: "5px 0"}}>{participant.team?.name}</p>
+                            <p style={{fontWeight: "bold", margin: "5px 0"}}>{participant.team?.name}</p>
                             <p style={{margin: "0", textTransform: "capitalize"}}>{participant.color} {participant.cresta}</p>
                             {participant.physical_advantage !== "none" && <p  style={{margin: "0", textTransform: "capitalize"}}>Ven: {participant.physical_advantage}</p>}
                             {participant.status === "rejected" && <div style={{maxWidth: "40mm"}}>
@@ -145,7 +145,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                 ) }
                 </tbody>
             </table>}
-            <p style={{ fontSize: "11px", textAlign: "center", fontWeight: "bold", borderTop: "1px dashed black"}}>gallosclub.com</p>
+            <p style={{ fontSize: "16px", textAlign: "center", fontWeight: "bold", borderTop: "1px dashed black", padding: "10px"}}>gallosclub.com</p>
         </div>
     </>);
 });

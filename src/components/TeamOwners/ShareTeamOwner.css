@@ -1,0 +1,54 @@
+.team_owner_card {
+    background-image: url('../../img/img_team-card_bg@2x.svg');
+    width:550px;
+    height:300px;
+    display:flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+.team_owner_card-name {
+    color:white;
+    font-size:32px;
+    font-weight:bold;
+    margin:15px;
+}
+.team_owner_card-location {
+    color:white;
+    font-size:16px;
+    margin:15px;
+    position:relative;
+}
+.location_marker {
+    width: 15px;
+    height: 19px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    background-image: url('../../img/icon_location.svg');
+}
+.team_owner_card-website {
+    color:white;
+    font-size:16px;
+    margin:15px;
+    position:relative;
+    text-align:right;
+}
+.globe {
+    content: '';
+    width:16px;
+    height:16px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    background-image: url('../../img/icon_website.svg');
+}
+.team_owner_card-id {
+    color:white;
+    font-size:32px;
+    font-weight:bold;
+    margin:15px;
+    text-align:right;
+}
+.team_owner_card-id .cherryred {
+    color:#EB0404;
+}

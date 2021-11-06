@@ -38,6 +38,9 @@ body {
     font-size:18px;
     font-weight:600;
 }
+.offset-title {
+    margin-left:48px;
+}
 .page-subtitle {
     font-weight: normal;
     font-size: 14px;

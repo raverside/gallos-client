@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="19px" viewBox="0 0 15 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon_location@2x</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="GallosClub_team-card" transform="translate(-19.000000, -258.000000)" stroke="#DD0000">
+            <g id="icon_location" transform="translate(20.000000, 259.000000)">
+                <path d="M13,6.4 C13,9.93464 6.5,16 6.5,16 C6.5,16 0,9.93464 0,6.4 C0,2.865376 2.9101475,0 6.5,0 C10.0898687,0 13,2.865376 13,6.4 Z" id="Path" stroke-width="1.5"></path>
+                <path d="M6.5,7.2 C6.94874375,7.2 7.3125,6.84184 7.3125,6.4 C7.3125,5.958176 6.94874375,5.6 6.5,5.6 C6.05125625,5.6 5.6875,5.958176 5.6875,6.4 C5.6875,6.84184 6.05125625,7.2 6.5,7.2 Z" id="Path" fill="#DD0000" fill-rule="nonzero" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>

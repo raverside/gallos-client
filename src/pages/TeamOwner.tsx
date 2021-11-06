@@ -4,9 +4,8 @@ import {
     IonText,
     IonSegment,
     IonSegmentButton,
-    IonLabel,
+    IonLabel, IonToolbar, IonButtons, IonBackButton, IonIcon, IonHeader, IonTitle, useIonActionSheet,
 } from '@ionic/react';
-import ArrowHeader from '../components/Header/ArrowHeader';
 import TeamOwnerNotesTab from '../components/TeamOwners/TeamOwnerNotesTab';
 import TeamOwnerLibertyTab from '../components/TeamOwners/TeamOwnerLibertyTab';
 import React, {useEffect, useState} from "react";
@@ -25,6 +24,10 @@ import {useParams} from 'react-router-dom';
 
 import './UserProfile.css';
 import TeamOwnersList from "../components/TeamOwners/TeamOwnersList";
+import ShareTeamOwner from "../components/TeamOwners/ShareTeamOwner";
+import {ellipsisHorizontal as menuIcon} from "ionicons/icons";
+// @ts-ignore
+import domtoimage from "dom-to-image-improved";
 
 type teamOwnerType = {
     id: string;
@@ -44,6 +47,9 @@ const TeamOwner: React.FC = () => {
     const [teamOwner, setTeamOwner] = useState<teamOwnerType>();
     const [teamOwners, setTeamOwners] = useState<teamOwnerType>();
     const [tabSelected, setTabSelected] = useState<string>("list");
+    const [showShare, setShowShare] = useState<boolean>(false);
+    const [present, dismiss] = useIonActionSheet();
+    const shareRef = React.useRef();
 
     useEffect(() => {
         fetchTeamOwners();
@@ -131,9 +137,40 @@ const TeamOwner: React.FC = () => {
         }
     }
 
+    const shareOwner = async () => {
+        if (!teamOwner) return false;
+        const element = shareRef.current;
+        setShowShare(true);
+        domtoimage.toBlob(element!).then((blob:Blob) => {
+            const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
+            const filesArray:any = [file];
+            setShowShare(false);
+            // @ts-ignore
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
+                navigator.share({title: teamOwner.name, files: filesArray});
+            }
+        });
+
+
+    }
+
     return (
         <IonPage>
-            <ArrowHeader title="Team Owner" backHref="/team_owners" />
+            <IonHeader>
+                <IonToolbar className="arrow-header">
+                    <IonButtons slot="start">
+                        <IonBackButton defaultHref="/team_owners"/>
+                    </IonButtons>
+                    <IonTitle className="page-title offset-title">Team Owner</IonTitle>
+                    <IonButtons slot="end"><IonIcon size="large" className="view-note-menu" icon={menuIcon} onClick={() => present({
+                        buttons: [
+                            { text: 'Share', handler: () => shareOwner() },
+                            { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
+                        ],
+                        header: 'Settings'
+                    })} /></IonButtons>
+                </IonToolbar>
+            </IonHeader>
 
             <IonContent fullscreen>
                 <div className="user-profile">
@@ -156,6 +193,7 @@ const TeamOwner: React.FC = () => {
                 {tabSelected === "liberty" && <TeamOwnerLibertyTab team_owner={teamOwner!} teamOwners={teamOwners} addLiberty={addLiberty} updateLiberty={updateLiberty} removeLiberty={removeLiberty}/>}
                 {tabSelected === "notes" && <TeamOwnerNotesTab team_owner={teamOwner!} addNote={addNote} updateNote={updateNote} removeNote={removeNote}/>}
 
+                <div style={{opacity: showShare ? 1 : 0}}><ShareTeamOwner teamOwner={teamOwner} ref={shareRef}/></div>
             </IonContent>
         </IonPage>
     );
