@@ -32,6 +32,7 @@
     margin:15px;
     position:relative;
     text-align:right;
+    width:140px;
 }
 .globe {
     content: '';
