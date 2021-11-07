@@ -67,7 +67,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
     };
 
     return (!event ? null : <>
-        <div ref={ref} style={{textAlign:"center", width: "80mm", fontSize: "14px"}}>
+        <div ref={ref} style={{textAlign:"center", width: "80mm", fontSize: "14px", fontFamily: "Arial"}}>
             <h1 style={{width: "100%", textAlign:"center", fontSize: "16px", fontWeight: "bold"}}>{event.stadium_name}</h1>
             <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", margin: "0 0 20px 0"}}>{event.title || "Traditional Event"}</h2>
             <div style={{display:"flex", justifyContent: "space-between", borderBottom: "1px solid black"}}>
