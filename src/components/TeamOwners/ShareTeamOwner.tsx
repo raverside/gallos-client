@@ -7,7 +7,7 @@ const ShareTeamOwner = React.forwardRef<any, any>(({teamOwner}, ref) => {
             <div ref={ref} className="team_owner_card">
                 <div>
                     <div className="team_owner_card-name">{teamOwner?.name}</div>
-                    {teamOwner?.country && <div className="team_owner_card-location"><span className="location_marker"/>{teamOwner?.country}, {teamOwner?.city}</div>}
+                    {teamOwner?.country && <div className="team_owner_card-location"><span className="location_marker"/>{teamOwner?.country}, {teamOwner?.city || teamOwner?.state}</div>}
                 </div>
                 <div>
                     {teamOwner?.digital_id && <div className="team_owner_card-id"><span className="cherryred">ID:</span> {teamOwner.digital_id}</div>}

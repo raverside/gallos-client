@@ -143,8 +143,19 @@ const TeamOwner: React.FC = () => {
         setShowShare(true);
         domtoimage.toBlob(element!).then((blob:Blob) => {
             const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
+
+            //download the file
+            const a = document.createElement("a");
+            a.href  = window.URL.createObjectURL(file);
+            a.setAttribute("download", file.name);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
             const filesArray:any = [file];
             setShowShare(false);
+
+            //share the file
             // @ts-ignore
             if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
                 navigator.share({title: teamOwner.name, files: filesArray});
