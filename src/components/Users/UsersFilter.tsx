@@ -29,7 +29,7 @@ const UsersFilter: React.FC<FilterProps> = ({filter, setFilter, close}) => {
     const [sort, setSort] = useState<string>(filter.sort || "az");
 
     const fetchCountries = async () => {
-        const countries = await getCountries();
+        const countries = await getCountries(true);
         if (countries.countries?.length > 0) {
             setCountries(countries.countries);
         }

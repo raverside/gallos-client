@@ -32,7 +32,7 @@ const EventsFilter: React.FC<FilterProps> = ({filter, setFilter, search, setSear
     const [showFilterModal, setShowFilterModal] = useState<boolean>(false);
 
     const fetchCountries = async () => {
-        const countries = await getCountries();
+        const countries = await getCountries(true);
         if (countries.countries?.length > 0) {
             setCountries(countries.countries);
         }
