@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import {formatOzToLbsOz} from "../utils";
+import {formatOzToLbsOzShort} from "../utils";
 
 const PrintMatch = React.forwardRef<any, any>(({event, match}, ref) => {
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
@@ -51,9 +51,9 @@ const PrintMatch = React.forwardRef<any, any>(({event, match}, ref) => {
                         <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.type}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
-                        <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOz(match.participant?.weight)}</div>
+                        <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOzShort(match.participant?.weight)}</div>
                         <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Weight</div>
-                        <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOz(match.opponent?.weight)}</div>
+                        <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOzShort(match.opponent?.weight)}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
                         <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.participant?.color}</div>

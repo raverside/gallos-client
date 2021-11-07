@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import {formatOzToLbsOz} from "../utils";
+import {formatOzToLbsOzShort} from "../utils";
 import {IonSelectOption} from "@ionic/react";
 
 const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
@@ -94,9 +94,9 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.type}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
-                                <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOz(match.participant?.weight)}</div>
+                                <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOzShort(match.participant?.weight)}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Weight</div>
-                                <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOz(match.opponent?.weight)}</div>
+                                <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOzShort(match.opponent?.weight)}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.participant?.color}</div>
@@ -165,7 +165,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                             </div>}
                         </td>
                         <td style={{textAlign:"center"}}>
-                            <p style={{margin: "2px"}}>{formatOzToLbsOz(participant.weight)}</p>
+                            <p style={{margin: "2px"}}>{formatOzToLbsOzShort(participant.weight)}</p>
                             <p style={{margin: "2px"}}>{betting_amount}</p>
                             <p style={{margin: "2px"}}>{participant.participated_before ? "Peliado" : "Sin Pelear"}</p>
                         </td>
