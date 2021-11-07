@@ -3,6 +3,26 @@ import moment from "moment";
 import {formatOzToLbsOz} from "../utils";
 
 const PrintMatch = React.forwardRef<any, any>(({event, match}, ref) => {
+    const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
+
+    const getBettingAmount = (participant:any) => {
+        if (!participant) return "";
+        let betting_pref = 'Open';
+        switch (participant.betting_amount) {
+            case "bronze":
+                if (event.bronze > 0) betting_pref = ((event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze));
+                break;
+            case "silver":
+                if (event.silver_one > 0) betting_pref = " | " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one);
+                if (event.silver_two > 0) betting_pref = " & " + numberFormatter.formatToParts(event.silver_two).find(x => x.type === "integer")?.value;
+                break;
+            case "gold":
+                if (event.gold_one > 0) betting_pref = " | " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one);
+                if (event.gold_two > 0) betting_pref = " & " + numberFormatter.formatToParts(event.gold_two).find(x => x.type === "integer")?.value;
+                break;
+        }
+        return betting_pref;
+    };
 
     return ((!event || !match) ? null : <>
         <div ref={ref} style={{textAlign:"center", width: "80mm", fontSize: "14px"}}>
@@ -69,6 +89,11 @@ const PrintMatch = React.forwardRef<any, any>(({event, match}, ref) => {
                         <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.breeder_name}</div>
                         <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Breeder</div>
                         <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.breeder_name}</div>
+                    </div>
+                    <div style={{display:"flex", justifyContent: "space-between"}}>
+                        <div style={{textAlign: "center", width: "25mm"}}>{getBettingAmount(match.participant)}</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Bet</div>
+                        <div style={{textAlign: "center", width: "25mm"}}>{getBettingAmount(match.participant)}</div>
                     </div>
                 </div>
             </div>
