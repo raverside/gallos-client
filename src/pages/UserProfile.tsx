@@ -68,10 +68,8 @@ const UserProfile: React.FC = () => {
         }
     }
 
-    const addLabel = async (label:string) => {
-        const labels = user?.labels.split(',').filter(l =>  l);
-        const labelList = [...labels!, label];
-        const response = await updateUserLabels(id, labelList.join(','));
+    const addLabel = async (labels:[]) => {
+        const response = await updateUserLabels(id, labels.filter((l:any) => !!l).join(','));
         if (response.user) {
             setUser(response.user);
         } else {

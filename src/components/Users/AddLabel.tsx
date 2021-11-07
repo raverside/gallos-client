@@ -41,12 +41,11 @@ const AddLabel: React.FC<addLabelProps> = ({allLabels, userLabels, onSubmit}) =>
     }
 
     const addLabel = (label:any) => {
-        // setLabels(labels)
-        // setLabels((currentLabels:any) => currentLabels.split(',').filter((l:any) =>  l && l !== label));
+        setLabels((currentLabels:any) => [...currentLabels, label]);
     }
 
     const deleteLabel = (label:any) => {
-        // setLabels((currentLabels:any) => currentLabels?.split(',').filter((l:any) =>  l && l !== label));
+        setLabels((currentLabels:any) => currentLabels?.filter((l:any) => l && l !== label));
     }
 
     return (
@@ -62,18 +61,18 @@ const AddLabel: React.FC<addLabelProps> = ({allLabels, userLabels, onSubmit}) =>
                     <div className="add-note-wrapper">
                         <div>
                             <IonText className="add-note-title">Labels</IonText>
-                            {allLabels.map((label, index) => (<div className="team-input_wrapper" key={index}>
-                                <IonInput key={index} className={(label && labels.includes(label)) ? "add-note-input active" : "add-note-input"} placeholder="Label" value={label} onIonChange={(e) => setLabels(labels.map((t:any, ti:number) => ti === index ? e.detail.value! : t))} />
+                            {allLabels.filter((al:any) => !labels.includes(al)).map((label, index) => (<div className="team-input_wrapper" key={index}>
+                                <IonInput key={index} className={(label && labels.includes(label)) ? "add-note-input active" : "add-note-input"} placeholder="Label" value={label} onIonChange={(e) => setLabels((currentLabels:any) => currentLabels.map((t:any, ti:number) => ti === index ? e.detail.value! : t))} />
                                 <IonIcon className="view-note-menu tag_menu" icon={menuIcon} slot="end" onClick={() => present({
                                     buttons: [
-                                        { text: labels.includes(label) ? 'Delete Label' : 'Add Label', handler: () => label.includes(label ? deleteLabel(label) : addLabel(label)) },
+                                        { text: labels.includes(label) ? 'Delete Label' : 'Add Label', handler: () => labels.includes(label) ? deleteLabel(label) : addLabel(label) },
                                         { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                                     ],
                                     header: 'Settings'
                                 })} />
                             </div>))}
-                            {labels.filter((al:any) => !allLabels.includes(al)).map((label:any, index:number) => (<div className="team-input_wrapper" key={index}>
-                                <IonInput key={index} className="add-note-input active" placeholder="Label" value={label} onIonChange={(e) => setLabels(labels.map((t:any, ti:number) => ti === index ? e.detail.value! : t))} />
+                            {labels.map((label:any, index:number) => (<div className="team-input_wrapper" key={index}>
+                                <IonInput key={index} className="add-note-input active" placeholder="Label" value={label} onIonChange={(e) => setLabels((currentLabels:any) => currentLabels.map((t:any, ti:number) => ti === index ? e.detail.value! : t))} />
                                 <IonIcon className="view-note-menu tag_menu" icon={menuIcon} slot="end" onClick={() => present({
                                     buttons: [
                                         { text: 'Delete Label', handler: () => deleteLabel(label) },
@@ -82,7 +81,7 @@ const AddLabel: React.FC<addLabelProps> = ({allLabels, userLabels, onSubmit}) =>
                                     header: 'Settings'
                                 })} />
                             </div>))}
-                            <IonButton fill="outline" className="add-team-input-button" onClick={() => setLabels([...labels, ""])}>Add New Label</IonButton>
+                            <IonButton fill="outline" className="add-team-input-button" onClick={() => setLabels((currentLabels:any) => [...currentLabels, ""])}>Add New Label</IonButton>
                         </div>
                         <IonButton disabled={labels.length <= 0} expand="block" className="split-button" onClick={Submit}><div><p>Labels: {labels.length}</p><p>Save</p></div></IonButton>
                     </div>
