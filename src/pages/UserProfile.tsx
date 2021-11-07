@@ -14,7 +14,7 @@ import ProfileInfoTab from '../components/Users/ProfileInfoTab';
 import ProfileNotesTab from '../components/Users/ProfileNotesTab';
 import ConfirmPrompt from '../components/ConfirmPrompt';
 import React, {useEffect, useState} from "react";
-import {getUser, updateUserLabels, addUserNote, updateUserNote, removeUserNote} from "../api/Users";
+import {getUser, updateUserLabels, addUserNote, updateUserNote, removeUserNote, getAllLabels} from "../api/Users";
 import {useParams} from 'react-router-dom';
 import {getImageUrl} from '../components/utils';
 import moment from 'moment';
@@ -43,9 +43,11 @@ const UserProfile: React.FC = () => {
     const [labelToDelete, setLabelToDelete] = useState<string|boolean>(false);
     const [tabSelected, setTabSelected] = useState<string>("info");
     const [showLoading, setShowLoading] = useState<boolean>(false);
+    const [allLabels, setAllLabels] = useState<any>([]);
 
     useEffect(() => {
-        fetchUser()
+        fetchUser();
+        fetchAllLabels();
     }, []);
 
     const fetchUser = async () => {
@@ -56,6 +58,13 @@ const UserProfile: React.FC = () => {
             setShowLoading(false);
         } else {
             setShowLoading(false);
+        }
+    }
+
+    const fetchAllLabels = async () => {
+        const response = await getAllLabels();
+        if (response.labels) {
+            setAllLabels(response.labels);
         }
     }
 
@@ -121,7 +130,7 @@ const UserProfile: React.FC = () => {
                     </div>
                 </div>
 
-                <AddLabel onSubmit={addLabel} />
+                <AddLabel allLabels={allLabels} userLabels={user?.labels || ""} onSubmit={addLabel} />
                 <ConfirmPrompt
                     data={labelToDelete}
                     show={showLabelConfirmPrompt}

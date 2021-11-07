@@ -27,3 +27,7 @@ export async function updateUserNote(note_id:string, noteTitle:string, note:stri
 export async function removeUserNote(id:string) {
     return fetcher.post(`/removeUserNote`, {id});
 }
+
+export async function getAllLabels() {
+    return fetcher.get(`/getAllLabels`);
+}

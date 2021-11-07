@@ -23,3 +23,15 @@
 .add-label-modal ion-button {
     text-transform: none;
 }
+.add-note-input.active {
+    border: 1px solid #EB0404;
+}
+.team-input_wrapper {
+    position: relative;
+}
+.tag_menu {
+    position: absolute;
+    right: 10px;
+    top: 17px;
+    z-index: 2;
+}
