@@ -59,7 +59,6 @@ const Auth: React.FC = () => {
                             <IonImg src={logo} className="logo" />
                             <IonText className="admin-logo-subtext">Admin</IonText>
                             <PhoneInput
-                                country={'us'}
                                 placeholder="Phone"
                                 value={phone}
                                 onChange={(phone) => {setError(false); setPhone(phone)}}
