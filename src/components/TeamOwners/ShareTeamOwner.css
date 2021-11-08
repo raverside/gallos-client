@@ -20,12 +20,13 @@
     position:relative;
 }
 .location_marker {
-    width: 15px;
-    height: 19px;
+    width: 30px;
+    height: 38px;
     display: inline-block;
     vertical-align: middle;
     margin-right: 10px;
     background-image: url('../../img/icon_location.svg');
+    background-size:cover;
 }
 .team_owner_card-website {
     color:white;
@@ -37,12 +38,13 @@
 }
 .globe {
     content: '';
-    width:16px;
-    height:16px;
+    width:32px;
+    height:32px;
     display: inline-block;
     vertical-align: middle;
     margin-right: 10px;
     background-image: url('../../img/icon_website.svg');
+    background-size:cover;
 }
 .team_owner_card-id {
     color:white;
