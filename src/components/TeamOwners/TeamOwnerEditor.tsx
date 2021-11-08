@@ -110,6 +110,7 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
         if (!formData.citizen_id) isFormFilled = false;
         if (!formData.phone) isFormFilled = false;
         if (!formData.country) isFormFilled = false;
+        if (!formData.state) isFormFilled = false;
 
         return isFormFilled;
     }
