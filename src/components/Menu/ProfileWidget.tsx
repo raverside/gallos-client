@@ -21,12 +21,12 @@ const ProfileWidget: React.FC = () => {
                 <IonItem lines="none">
                     <IonText className="profile-widget_info--bold">{state.user.role}</IonText>
                 </IonItem>
-                <IonItem lines="none">
+                {(state.user.role !== "admin_manager" && state.user.role !== "admin_worker") && <><IonItem lines="none">
                     <IonText className="profile-widget_info--bold">{state.user.stadium?.name}</IonText>
                 </IonItem>
                 <IonItem lines="none">
                     <IonText color="gold">Gold</IonText>
-                </IonItem>
+                </IonItem></>}
                 {state.user.phone && <IonItem lines="none">
                     <IonText>+{state.user.phone}</IonText>
                 </IonItem>}
