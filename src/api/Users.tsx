@@ -31,3 +31,11 @@ export async function removeUserNote(id:string) {
 export async function getAllLabels() {
     return fetcher.get(`/getAllLabels`);
 }
+
+export async function upsertUserLabel(id:string, label:string) {
+    return fetcher.post(`/upsertUserLabel`, {id, label});
+}
+
+export async function deleteUserLabel(id:string) {
+    return fetcher.get(`/deleteUserLabel/${id}`);
+}

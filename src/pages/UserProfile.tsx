@@ -128,7 +128,7 @@ const UserProfile: React.FC = () => {
                     </div>
                 </div>
 
-                <AddLabel allLabels={allLabels} userLabels={user?.labels || ""} onSubmit={addLabel} />
+                <AddLabel allLabels={allLabels} userLabels={user?.labels || ""} onSubmit={addLabel} refreshLabels={() => fetchAllLabels()}/>
                 <ConfirmPrompt
                     data={labelToDelete}
                     show={showLabelConfirmPrompt}

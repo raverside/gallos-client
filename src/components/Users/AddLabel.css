@@ -23,8 +23,11 @@
 .add-label-modal ion-button {
     text-transform: none;
 }
+.add-note-input {
+    border: 2px solid transparent;
+}
 .add-note-input.active {
-    border: 1px solid #EB0404;
+    border: 2px solid #EB0404;
 }
 .team-input_wrapper {
     position: relative;
