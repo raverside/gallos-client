@@ -60,7 +60,6 @@ const Auth: React.FC = () => {
                             <IonText className="admin-logo-subtext">Admin</IonText>
                             <PhoneInput
                                 country={'us'}
-                                countryCodeEditable={false}
                                 placeholder="Phone"
                                 value={phone}
                                 onChange={(phone) => {setError(false); setPhone(phone)}}
