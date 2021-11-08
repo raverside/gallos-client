@@ -32,6 +32,8 @@ const AddLabel: React.FC<addLabelProps> = ({allLabels, userLabels, onSubmit, ref
     useEffect(() => {
         if (userLabels) {
             setLabels(userLabels?.split(','));
+        } else {
+            setLabels([]);
         }
     }, [userLabels]);
 
