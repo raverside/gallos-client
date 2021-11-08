@@ -26,8 +26,11 @@ type TeamOwnerFormData = {
     citizen_id?: string;
     phone?: string;
     country?: number|null;
+    country_id?: number|null;
     state?: number|null;
+    state_id?: number|null;
     city?: number|null;
+    city_id?: number|null;
 };
 type EventProps = {
     close: () => void;
@@ -36,14 +39,15 @@ type EventProps = {
 };
 
 const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner = false}) => {
+    console.log(teamOwner);
     const [formData, setFormData] = useState<TeamOwnerFormData>({
         id: teamOwner ? teamOwner.id : undefined,
         name: teamOwner ? teamOwner.name : "",
         citizen_id: teamOwner ? teamOwner.citizen_id : "",
         phone: teamOwner ? teamOwner.phone : "",
-        country: teamOwner && teamOwner.country ? +teamOwner.country : null,
-        state: teamOwner && teamOwner.state ? +teamOwner.state : null,
-        city: teamOwner && teamOwner.city ? +teamOwner.city : null,
+        country: teamOwner && teamOwner.country_id ? +teamOwner.country_id : null,
+        state: teamOwner && teamOwner.state_id ? +teamOwner.state_id : null,
+        city: teamOwner && teamOwner.city_id ? +teamOwner.city_id : null,
     });
 
     const [countries, setCountries] = useState<[{id: number, name: string}]>();
@@ -58,16 +62,20 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
     }
 
     const fetchStates = async (country_id:number) => {
-        const states = await getStatesByCountry(country_id);
-        if (states.states?.length > 0) {
-            setStates(states.states);
+        if (country_id > 0) {
+            const states = await getStatesByCountry(country_id);
+            if (states.states?.length > 0) {
+                setStates(states.states);
+            }
         }
     }
 
     const fetchCities = async (state_id:number) => {
-        const cities = await getCitiesByState(state_id);
-        if (cities.cities?.length > 0) {
-            setCities(cities.cities);
+        if (state_id > 0) {
+            const cities = await getCitiesByState(state_id);
+            if (cities.cities?.length > 0) {
+                setCities(cities.cities);
+            }
         }
     }
 
@@ -78,6 +86,7 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
     }, []);
 
     const onCountryChange = (country_id:number) => {
+        if (!country_id) return false;
         setFormData({
             ...formData,
             country: country_id,
@@ -88,6 +97,7 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
     }
 
     const onStateChange = (state_id:number) => {
+        if (!state_id) return false;
         setFormData({
             ...formData,
             state: state_id,
@@ -97,6 +107,7 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
     }
 
     const onCityChange = (city_id:number) => {
+        if (!city_id) return false;
         setFormData({
             ...formData,
             city: city_id

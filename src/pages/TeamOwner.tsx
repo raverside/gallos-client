@@ -4,7 +4,7 @@ import {
     IonText,
     IonSegment,
     IonSegmentButton,
-    IonLabel, IonToolbar, IonButtons, IonBackButton, IonIcon, IonHeader, IonTitle, useIonActionSheet,
+    IonLabel, IonToolbar, IonButtons, IonBackButton, IonIcon, IonHeader, IonTitle, useIonActionSheet, IonModal,
 } from '@ionic/react';
 import TeamOwnerNotesTab from '../components/TeamOwners/TeamOwnerNotesTab';
 import TeamOwnerLibertyTab from '../components/TeamOwners/TeamOwnerLibertyTab';
@@ -28,6 +28,7 @@ import ShareTeamOwner from "../components/TeamOwners/ShareTeamOwner";
 import {ellipsisHorizontal as menuIcon} from "ionicons/icons";
 // @ts-ignore
 import domtoimage from "dom-to-image-improved";
+import TeamOwnerEditor from "../components/TeamOwners/TeamOwnerEditor";
 
 type teamOwnerType = {
     id: string;
@@ -44,10 +45,11 @@ type teamOwnerType = {
 
 const TeamOwner: React.FC = () => {
     const { id } = useParams<{id:string}>();
-    const [teamOwner, setTeamOwner] = useState<teamOwnerType>();
+    const [teamOwner, setTeamOwner] = useState<any>();
     const [teamOwners, setTeamOwners] = useState<teamOwnerType>();
     const [tabSelected, setTabSelected] = useState<string>("list");
     const [showShare, setShowShare] = useState<boolean>(false);
+    const [showTeamOwnerEditorModal, setShowTeamOwnerEditorModal] = useState<boolean>(false);
     const [present, dismiss] = useIonActionSheet();
     const shareRef = React.useRef();
 
@@ -175,6 +177,7 @@ const TeamOwner: React.FC = () => {
                     <IonTitle className="page-title offset-title">Team Owner</IonTitle>
                     <IonButtons slot="end"><IonIcon size="large" className="view-note-menu" icon={menuIcon} onClick={() => present({
                         buttons: [
+                            { text: 'Edit', handler: () => setShowTeamOwnerEditorModal(true) },
                             { text: 'Share', handler: () => shareOwner() },
                             { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                         ],
@@ -205,6 +208,9 @@ const TeamOwner: React.FC = () => {
                 {tabSelected === "notes" && <TeamOwnerNotesTab team_owner={teamOwner!} addNote={addNote} updateNote={updateNote} removeNote={removeNote}/>}
 
                 <div style={showShare ? {opacity: 1, transform: "translateX(100%)"} : {opacity: 0}}><ShareTeamOwner teamOwner={teamOwner} ref={shareRef}/></div>
+                <IonModal isOpen={showTeamOwnerEditorModal} onDidDismiss={() => setShowTeamOwnerEditorModal(false)}>
+                    <TeamOwnerEditor addTeamOwner={() => {fetchTeamOwners(); fetchTeamOwner();}} close={() => setShowTeamOwnerEditorModal(false)} teamOwner={teamOwner || false} />
+                </IonModal>
             </IonContent>
         </IonPage>
     );
