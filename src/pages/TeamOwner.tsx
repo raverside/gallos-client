@@ -204,7 +204,7 @@ const TeamOwner: React.FC = () => {
                 {tabSelected === "liberty" && <TeamOwnerLibertyTab team_owner={teamOwner!} teamOwners={teamOwners} addLiberty={addLiberty} updateLiberty={updateLiberty} removeLiberty={removeLiberty}/>}
                 {tabSelected === "notes" && <TeamOwnerNotesTab team_owner={teamOwner!} addNote={addNote} updateNote={updateNote} removeNote={removeNote}/>}
 
-                <div style={{opacity: showShare ? 1 : 0}}><ShareTeamOwner teamOwner={teamOwner} ref={shareRef}/></div>
+                <div style={showShare ? {opacity: 1, transform: "translateX(100%)"} : {opacity: 0}}><ShareTeamOwner teamOwner={teamOwner} ref={shareRef}/></div>
             </IonContent>
         </IonPage>
     );

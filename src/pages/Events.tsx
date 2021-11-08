@@ -107,7 +107,7 @@ const Events: React.FC = () => {
                         <IonLabel>Past{eventCount.past > 0 && <span className="barely-visible"> • {eventCount.past}</span>}</IonLabel>
                     </IonSegmentButton>
                 </IonSegment>}
-                {((state.user.role === "worker" || state.user.role === "admin_manager" || state.user.role === "admin") || (state.user.role === "creator" && dateFilter !== "upcoming" && dateFilter !== "today")) &&
+                {((state.user.role === "worker" || state.user.role === "admin_manager" || state.user.role === "admin_worker" || state.user.role === "admin") || (state.user.role === "creator" && dateFilter !== "upcoming" && dateFilter !== "today")) &&
                     <DateFilter
                         eventDates={eventCount.dates}
                         filter={dateFilter}
@@ -115,7 +115,7 @@ const Events: React.FC = () => {
                         updateFilter={(date) => updateFilter(eventsSearch, eventsFilter, date)}
                     />
                 }
-                {(state.user.role === "worker" || state.user.role === "admin_manager" || state.user.role === "admin") &&
+                {(state.user.role === "worker" || state.user.role === "admin_manager" || state.user.role === "admin_worker" || state.user.role === "admin") &&
                     <EventsFilter
                         filter={eventsFilter}
                         setFilter={(filter) => setEventsFilter(filter)}

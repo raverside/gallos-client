@@ -54,7 +54,6 @@
     --margin-top:0;
     --margin-bottom:0;
     min-height: initial;
-    max-width:150px;
     text-transform:none;
     --indicator-height:0;
 }
