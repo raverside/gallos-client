@@ -1,19 +1,20 @@
 import {IonContent, IonPage, IonImg, IonText, IonButton, IonGrid, IonRow, IonCol, IonInput, IonRouterLink, IonLoading} from '@ionic/react';
 import './Auth.css';
-import {useState, useContext, useEffect} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import {formatPasscode} from '../../components/utils';
 import {loginAdmin} from '../../api/Auth';
 import Cookies from "js-cookie";
 import { AppContext } from '../../State';
 import {useHistory} from "react-router-dom";
 import logo from '../../img/logo.png';
+import PhoneInput from "react-phone-input-2";
 
 const Auth: React.FC = () => {
     const { state, dispatch } = useContext(AppContext);
     const history = useHistory();
     const [showLoading, setShowLoading] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
-    const [username, setUsername] = useState<string>("");
+    const [phone, setPhone] = useState<string>("");
     const [passcode, setPasscode] = useState<string>("");
     const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
     const [error, setError] = useState<string|boolean>(false);
@@ -21,7 +22,7 @@ const Auth: React.FC = () => {
     const Submit = async () => {
         setSubmitDisabled(true);
         setShowLoading(true);
-        const response = await loginAdmin(username, passcode);
+        const response = await loginAdmin(phone, passcode);
         if (response.error) {
             setError(response.error);
             setShowLoading(false);
@@ -46,8 +47,8 @@ const Auth: React.FC = () => {
     }, [state.user?.id]);
 
     useEffect(() => {
-        setSubmitDisabled(passcode.length !== 11 || username.length < 3);
-    }, [passcode, username]);
+        setSubmitDisabled(passcode.length !== 11 || phone.length < 3);
+    }, [passcode, phone]);
 
     return (
         <IonPage>
@@ -57,12 +58,13 @@ const Auth: React.FC = () => {
                         <IonCol>
                             <IonImg src={logo} className="logo" />
                             <IonText className="admin-logo-subtext">Admin</IonText>
-                            <IonInput
-                                placeholder="Username"
-                                value={username}
-                                maxlength={30}
-                                onIonChange={e => {setError(false); setUsername(e.detail.value!)}}
-                                className={error ? "auth-error-border" : ""}
+                            <PhoneInput
+                                country={'us'}
+                                countryCodeEditable={false}
+                                placeholder="Phone"
+                                value={phone}
+                                onChange={(phone) => {setError(false); setPhone(phone)}}
+                                inputClass={error ? "auth-error-border" : ""}
                             />
                             <div style={{position: "relative"}}>
                                 <IonInput
@@ -77,7 +79,7 @@ const Auth: React.FC = () => {
                                 />
                                 <IonButton className="toggle-passcode" fill="clear" onClick={() => setShowPassword(!showPassword)}>{showPassword ? "Hide" : "Show"}</IonButton>
                             </div>
-                            {error && <IonText color="primary" className="auth-error">Incorrect username or password. Please try again.</IonText>}
+                            {error && <IonText color="primary" className="auth-error">Incorrect phone or passcode. Please try again.</IonText>}
                             <IonRouterLink className="forgot-passcode" routerLink="/forgot_passcode">Forgot Passcode?</IonRouterLink>
                         </IonCol>
                     </IonRow>
