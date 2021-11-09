@@ -8,7 +8,7 @@ import {
 } from '@ionic/react';
 import TeamOwnerNotesTab from '../components/TeamOwners/TeamOwnerNotesTab';
 import TeamOwnerLibertyTab from '../components/TeamOwners/TeamOwnerLibertyTab';
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {
     getTeamOwner,
     addTeamOwnerNote,
@@ -29,6 +29,7 @@ import {ellipsisHorizontal as menuIcon} from "ionicons/icons";
 // @ts-ignore
 import domtoimage from "dom-to-image-improved";
 import TeamOwnerEditor from "../components/TeamOwners/TeamOwnerEditor";
+import {AppContext} from "../State";
 
 type teamOwnerType = {
     id: string;
@@ -44,6 +45,7 @@ type teamOwnerType = {
 };
 
 const TeamOwner: React.FC = () => {
+    const { state } = useContext(AppContext);
     const { id } = useParams<{id:string}>();
     const [teamOwner, setTeamOwner] = useState<any>();
     const [teamOwners, setTeamOwners] = useState<teamOwnerType>();
@@ -199,7 +201,7 @@ const TeamOwner: React.FC = () => {
 
                 <IonSegment value={tabSelected} onIonChange={(e) => setTabSelected(e.detail.value!)} className="user-profile-tabs-segment">
                     <IonSegmentButton value="list"><IonLabel>Team List</IonLabel></IonSegmentButton>
-                    <IonSegmentButton value="liberty"><IonLabel>Mutual Liberty</IonLabel></IonSegmentButton>
+                    {(state.user.role !== "worker") && <IonSegmentButton value="liberty"><IonLabel>Mutual Liberty</IonLabel></IonSegmentButton>}
                     <IonSegmentButton value="notes"><IonLabel>Notes</IonLabel></IonSegmentButton>
                 </IonSegment>
 
