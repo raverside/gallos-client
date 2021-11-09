@@ -42,7 +42,7 @@ const TeamOwners: React.FC = () => {
                     <IonSegmentButton value="account"><IonLabel>Team Accounts</IonLabel></IonSegmentButton>
                     <IonSegmentButton value="team"><IonLabel>List of Teams</IonLabel></IonSegmentButton>
                 </IonSegment>
-                <TeamOwnersList teamOwners={tabSelected === "account" ? teamOwners?.account : teamOwners?.team}/>
+                <TeamOwnersList teamOwners={tabSelected === "account" ? teamOwners?.account : teamOwners?.team} isTeam={tabSelected === "team"} />
                 <IonModal isOpen={showTeamOwnerEditorModal} onDidDismiss={() => setShowTeamOwnerEditorModal(false)}>
                     <TeamOwnerEditor addTeamOwner={addTeamOwner} close={() => setShowTeamOwnerEditorModal(false)} />
                 </IonModal>
