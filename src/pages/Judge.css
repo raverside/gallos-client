@@ -476,7 +476,8 @@ ion-content {
     padding: 20px;
 }
 .judge-time-button ion-img {
-    width: 25px;
+    width: 24px;
+    height: 24px;
     margin-right:10px;
 }
 .judge-time-button ion-text {
@@ -649,4 +650,7 @@ ion-content {
     display: flex;
     margin-top: 20px;
     justify-content: space-between;
+}
+.judge-match-restart-confirm {
+
 }
