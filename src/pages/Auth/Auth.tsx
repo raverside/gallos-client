@@ -22,7 +22,7 @@ const Auth: React.FC = () => {
                         <IonCol>
                             <IonImg src={logo} className="rooster-logo" />
                             <IonText className="auth-welcome">Próximamente en 2021 🚀</IonText>
-                            <IonText className="auth-welcome-subtext">Registre su equipo ahora poniéndose en contacto con nosotros por vía de Telegram: <span className="red_telegram">+1 849-876-9090</span></IonText>
+                            <IonText className="auth-welcome-subtext">Registre su equipo ahora poniéndose en contacto con nosotros por vía de Telegram: <a className="red_telegram" href="https://telegram.me/gallosclub" target="_blank">+1 849-876-9090</a></IonText>
                         </IonCol>
                     </IonRow>
                     {/*<IonRow>*/}
