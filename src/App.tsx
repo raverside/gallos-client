@@ -155,7 +155,7 @@ type RouteComponent = {
 const PrivateRoute: React.FC<RouteComponent> = ({ admin = false, children, ...rest }) => {
     const {state} = useContext(AppContext);
 
-    return <Route {...rest}>{state.user?.id ? children : <>{children}<Redirect to={admin ? "/auth_admin" : "/auth"} /></>}</Route>
+    return <Route {...rest}>{state.user?.id ? children : <>{children}<Redirect to={(admin && window.location.hostname !== 'gallosclub.com') ? "/auth_admin" : "/auth"} /></>}</Route>
 }
 
 export default App;
