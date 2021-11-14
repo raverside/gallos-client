@@ -3,7 +3,7 @@ import './Auth.css';
 import {useContext, useEffect} from "react";
 import {useHistory} from 'react-router-dom';
 import {AppContext} from "../../State";
-import logo from '../../img/rooster.png';
+import logo from '../../img/doublerooster.png';
 
 const Auth: React.FC = () => {
     const { state } = useContext(AppContext);
@@ -21,16 +21,16 @@ const Auth: React.FC = () => {
                     <IonRow>
                         <IonCol>
                             <IonImg src={logo} className="rooster-logo" />
-                            <IonText className="auth-welcome">Welcome to Gallos Club</IonText>
-                            <IonText className="auth-welcome-subtext">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at.</IonText>
+                            <IonText className="auth-welcome">Próximamente en 2021 🚀</IonText>
+                            <IonText className="auth-welcome-subtext">Registre su equipo ahora poniéndose en contacto con nosotros por vía de Telegram: <span className="red_telegram">+1 849-876-9090</span></IonText>
                         </IonCol>
                     </IonRow>
-                    <IonRow>
-                        <IonCol>
-                            <IonButton routerLink="/register" expand="block">Create Account</IonButton>
-                            <IonButton routerLink="/login" expand="block" fill="outline">Log In</IonButton>
-                        </IonCol>
-                    </IonRow>
+                    {/*<IonRow>*/}
+                    {/*    <IonCol>*/}
+                    {/*        <IonButton routerLink="/register" expand="block">Create Account</IonButton>*/}
+                    {/*        <IonButton routerLink="/login" expand="block" fill="outline">Log In</IonButton>*/}
+                    {/*    </IonCol>*/}
+                    {/*</IonRow>*/}
                 </IonGrid>
             </IonContent>
         </IonPage>

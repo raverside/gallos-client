@@ -12,7 +12,7 @@
     height:auto;
 }
 .rooster-logo {
-    max-width:143px;
+    max-width:285px;
     margin: 100px auto 20px auto;
 }
 .auth-grid {
@@ -98,4 +98,11 @@
 }
 .auth-error-border {
     border:1px solid red;
+}
+.red_telegram {
+    display:block;
+    color: #E20000;
+    font-size:20px;
+    margin:20px;
+    font-weight:bold;
 }
