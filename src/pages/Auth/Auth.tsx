@@ -1,9 +1,10 @@
-import {IonContent, IonPage, IonImg, IonText, IonButton, IonGrid, IonRow, IonCol} from '@ionic/react';
+import {IonContent, IonPage, IonImg, IonText, IonButton, IonGrid, IonRow, IonCol, IonIcon} from '@ionic/react';
 import './Auth.css';
-import {useContext, useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import {useHistory} from 'react-router-dom';
 import {AppContext} from "../../State";
 import logo from '../../img/doublerooster.png';
+import {paperPlane as paperPlaneIcon} from "ionicons/icons";
 
 const Auth: React.FC = () => {
     const { state } = useContext(AppContext);
@@ -22,7 +23,11 @@ const Auth: React.FC = () => {
                         <IonCol>
                             <IonImg src={logo} className="rooster-logo" />
                             <IonText className="auth-welcome">Próximamente en 2021 🚀</IonText>
-                            <IonText className="auth-welcome-subtext">Registre su equipo ahora poniéndose en contacto con nosotros por vía de Telegram: <a className="red_telegram" href="https://telegram.me/gallosclub" target="_blank">+1 849-876-9090</a></IonText>
+                            <IonText className="auth-welcome-subtext">Registre su equipo ahora poniéndose en contacto con nosotros por vía de Telegram:
+                                <IonButton expand="block" color="tertiary" href="https://telegram.me/gallosclub" target="_blank">
+                                    <IonIcon icon={paperPlaneIcon} style={{marginRight: "10px", fontSize: "14px"}} /> Contáctenos
+                                </IonButton>
+                            </IonText>
                         </IonCol>
                     </IonRow>
                     {/*<IonRow>*/}
