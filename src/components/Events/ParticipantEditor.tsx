@@ -69,7 +69,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         image_flipped: participant ? participant.image_flipped : false,
         cage: participant ? participant.cage : (event?.participants?.length > 0 ? +event.participants?.length + 1 : 1),
         owner_account_number: participant ? participant.owner_account_number : undefined,
-        betting_pref: participant ? participant.betting_pref : "open",
+        betting_pref: participant ? participant.betting_pref : undefined,
         betting_amount: participant ? participant.betting_amount : undefined,
         team_id: participant ? participant.team_id : undefined,
         type: participant ? participant.type : undefined,
@@ -151,14 +151,14 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         if (formData.id) {
             close();
         } else {
-            setFormData({
-                ...formData,
+            setFormData((currentFormData:ParticipantFormData) => ({
+                ...currentFormData,
                 id: undefined,
-                cage: (formData.cage || 1) + 1,
+                cage: (response.participant.cage || formData.cage || 1) + 1,
                 team_id: undefined,
                 betting_amount: undefined,
-                betting_pref: "open"
-            });
+                betting_pref: undefined
+            }));
         }
     }
 
@@ -202,9 +202,9 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         <IonItem className="animalImagePicker" lines="none">
                             <AnimalImagePicker
                                 eventImage={participant ? participant.image : null}
-                                onPick={(file) => {setFormData({...formData, image: null, image_upload: file, image_flipped: false});}}
+                                onPick={(file) => setFormData((currentFormData) => ({...currentFormData, image: null, image_upload: file, image_flipped: false}))}
                                 isFlipped={formData.image_flipped || false}
-                                setIsFlipped={(isFlipped) => setFormData({...formData, image_flipped: isFlipped})}
+                                setIsFlipped={(isFlipped) => setFormData((currentFormData) => ({...currentFormData, image_flipped: isFlipped}))}
                             />
                         </IonItem>
                     </>}
@@ -227,13 +227,22 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             className="fullsize-input"
                             type="number"
                             placeholder="Owner Account Number"
-                            onIonChange={(e) => { setFormData({...formData, owner_account_number: +e.detail.value!}); fetchTeamOwner(+e.detail.value!) }}
+                            onIonChange={(e) => {
+                                setFormData((currentFormData) => ({...currentFormData, owner_account_number: +e.detail.value!}));
+                                fetchTeamOwner(+e.detail.value!);
+                            }}
                         />
                     </IonItem>
 
                     <IonItemDivider>Team</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect value={formData.team_id} placeholder="Select Team" disabled={!(teams.length > 0)} interface="alert" onIonChange={(e) => setFormData({...formData, team_id: e.detail.value!})}>
+                        <IonSelect
+                            value={formData.team_id}
+                            placeholder="Select Team"
+                            disabled={!(teams.length > 0)}
+                            interface="alert"
+                            onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, team_id: e.detail.value!}))}
+                        >
                             {teams.map((team) => (<IonSelectOption key={team.id} value={team.id}>{team.name}</IonSelectOption>))}
                         </IonSelect>
                     </IonItem>
@@ -242,7 +251,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         <IonItemDivider>Type</IonItemDivider>
                         <IonItem lines="none">
                             <IonSelect value={formData.type} placeholder="Select type" onIonChange={(e) => {
-                                setFormData({...formData, type: e.detail.value});
+                                setFormData((currentFormData) => ({...currentFormData, type: e.detail.value}));
                             }}>
                                 <IonSelectOption value="M1">M1</IonSelectOption>
                                 <IonSelectOption value="M2">M2</IonSelectOption>
@@ -265,7 +274,11 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         {stadiums.length > 0 && <>
                             <IonItemDivider>Stadium</IonItemDivider>
                             <IonItem lines="none">
-                                <IonSelect value={formData.stadium_id} interface="alert" onIonChange={(e) => setFormData({...formData, stadium_id: e.detail.value!})}>
+                                <IonSelect
+                                    value={formData.stadium_id}
+                                    interface="alert"
+                                    onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, stadium_id: e.detail.value!}))}
+                                >
                                     {stadiums.map((stadium) => (<IonSelectOption key={stadium.id} value={stadium.id}>{stadium.name}</IonSelectOption>))}
                                 </IonSelect>
                             </IonItem>
@@ -274,7 +287,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         <IonItemDivider>Color</IonItemDivider>
                         <IonItem lines="none">
                             <IonSelect value={formData.color} placeholder="Select color" onIonChange={(e) => {
-                                setFormData({...formData, color: e.detail.value});
+                                setFormData((currentFormData) => ({...currentFormData, color: e.detail.value}));
                             }}>
                                 <IonSelectOption value="canelo">Canelo</IonSelectOption>
                                 <IonSelectOption value="cenizo">Cenizo</IonSelectOption>
@@ -293,7 +306,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         <IonItemDivider>Cresta</IonItemDivider>
                         <IonItem lines="none">
                             <IonSelect value={formData.cresta} placeholder="Animal cresta" onIonChange={(e) => {
-                                setFormData({...formData, cresta: e.detail.value});
+                                setFormData((currentFormData) => ({...currentFormData, cresta: e.detail.value}));
                             }}>
                                 <IonSelectOption value="peine">Peine</IonSelectOption>
                                 <IonSelectOption value="rosa">Rosa</IonSelectOption>
@@ -309,7 +322,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 className="fullsize-input"
                                 placeholder="Animal Alas"
                                 onIonChange={(e) => {
-                                    setFormData({...formData, alas: e.detail.value!});
+                                    setFormData((currentFormData) => ({...currentFormData, alas: e.detail.value!}));
                                 }}
                             />
                         </IonItem>
@@ -317,7 +330,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         <IonItemDivider>Pata</IonItemDivider>
                         <IonItem lines="none">
                             <IonSelect value={formData.pata} placeholder="Select pata" onIonChange={(e) => {
-                                setFormData({...formData, pata: e.detail.value});
+                                setFormData((currentFormData) => ({...currentFormData, pata: e.detail.value}));
                             }}>
                                 <IonSelectOption value="A">A</IonSelectOption>
                                 <IonSelectOption value="AB">AB</IonSelectOption>
@@ -334,7 +347,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 type="number"
                                 placeholder="Breeder ID"
                                 onIonChange={(e) => {
-                                    setFormData({...formData, breeder_id: +e.detail.value!});
+                                    setFormData((currentFormData) => ({...currentFormData, breeder_id: +e.detail.value!}));
                                 }}
                             />
                         </IonItem>
@@ -346,7 +359,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 className="fullsize-input"
                                 placeholder="Breeder Name"
                                 onIonChange={(e) => {
-                                    setFormData({...formData, breeder_name: e.detail.value!});
+                                    setFormData((currentFormData) => ({...currentFormData, breeder_name: e.detail.value!}));
                                 }}
                             />
                         </IonItem>
@@ -360,13 +373,17 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 type="number"
                                 step=".01"
                                 onIonChange={(e) => {
-                                    setFormData({...formData, weight: e.detail.value!});
+                                    setFormData((currentFormData) => ({...currentFormData, weight: e.detail.value!}));
                                 }}
                             />
                         </IonItem>
 
                         <IonItemDivider>Participated Before</IonItemDivider>
-                        <IonRadioGroup value={formData.participated_before} onIonChange={(e) => setFormData({...formData, participated_before: e.detail.value})} className="yesno_radio">
+                        <IonRadioGroup
+                            value={formData.participated_before}
+                            onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, participated_before: e.detail.value}))}
+                            className="yesno_radio"
+                        >
                             <IonItem lines="none">
                                 <IonLabel>Yes</IonLabel>
                                 <IonRadio className="yesno_radio_button" value={true} />
@@ -380,7 +397,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         <IonItemDivider>Physical Advantage</IonItemDivider>
                         <IonItem lines="none">
                             <IonSelect value={formData.physical_advantage} placeholder="Select physical advantage" onIonChange={(e) => {
-                                setFormData({...formData, physical_advantage: e.detail.value});
+                                setFormData((currentFormData) => ({...currentFormData, physical_advantage: e.detail.value}));
                             }}>
                                 <IonSelectOption value="none">None</IonSelectOption>
                                 <IonSelectOption value="tusa">Tusa</IonSelectOption>
@@ -395,7 +412,12 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
                     <IonItemDivider>Betting Amount</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect value={formData.betting_amount} interface="alert" placeholder="Select Betting Amount" onIonChange={(e) => setFormData({...formData, betting_amount: e.detail.value!})}>
+                        <IonSelect
+                            value={formData.betting_amount}
+                            interface="alert"
+                            placeholder="Select Betting Amount"
+                            onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, betting_amount: e.detail.value!}))}
+                        >
                             {event.bronze && <IonSelectOption value="bronze">Bronze: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze)}</IonSelectOption>}
                             {event.silver_one && <IonSelectOption value="silver">
                                 Silver: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one)}
@@ -410,7 +432,12 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
                     <IonItemDivider>Betting Preferences</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect value={formData.betting_pref} interface="alert" placeholder="Select Betting Preferences" onIonChange={(e) => setFormData({...formData, betting_pref: e.detail.value!})}>
+                        <IonSelect
+                            value={formData.betting_pref}
+                            interface="alert"
+                            placeholder="Select Betting Preferences"
+                            onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, betting_pref: e.detail.value!}))}
+                        >
                             {event.bronze && <IonSelectOption value="bronze">Bronze</IonSelectOption>}
                             {event.silver_one && <IonSelectOption value="silver">Silver</IonSelectOption>}
                             {event.gold_one && <IonSelectOption value="gold">Gold</IonSelectOption>}
@@ -438,7 +465,13 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         <div className="reject-participant-modal">
                             <div>
                                 <IonText className="add-note-title">Exclusion Reason</IonText>
-                                <IonTextarea className="add-note-input" placeholder="Write the reason here" rows={5} value={formData.reason} onIonChange={(e) => setFormData({...formData, reason: e.detail.value!})} />
+                                <IonTextarea
+                                    className="add-note-input"
+                                    placeholder="Write the reason here"
+                                    rows={5}
+                                    value={formData.reason}
+                                    onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, reason: e.detail.value!}))}
+                                />
                             </div>
                             <IonButton disabled={!formData.reason} expand="block" onClick={Reject}>Save</IonButton>
                         </div>
