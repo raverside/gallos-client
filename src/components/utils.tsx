@@ -12,16 +12,6 @@ export function getImageUrl(filename: string) {
 export function formatOzToLbsOz(oz:string) {
     const lbs = ""+(parseFloat(oz) / 16);
     const splitString = lbs.split('.');
-    const pounds = parseInt(splitString[0]);
-    const ozs = splitString[1] ? parseFloat("0."+splitString[1]) : false;
-    const ounces = ozs ? (ozs * 16).toFixed(2) : false;
-
-    return (pounds ? pounds + " Lbs " : "") + (ounces ? ounces + " Oz" : "");
-}
-
-export function formatOzToLbsOzShort(oz:string) {
-    const lbs = ""+(parseFloat(oz) / 16);
-    const splitString = lbs.split('.');
     const pounds = parseInt(splitString[0]) || 0;
     const ozs = splitString[1] ? parseFloat("0."+splitString[1]) : false;
     const ounces = ozs ? (ozs * 16).toFixed(2) : false;
@@ -29,4 +19,14 @@ export function formatOzToLbsOzShort(oz:string) {
     const pointsShort = (""+ounces).split('.')[1] || 0;
 
     return pounds+"." + ozshort+"." + pointsShort;
+}
+
+export function formatOzToLbsOzVerbal(oz:string) {
+    const lbs = ""+(parseFloat(oz) / 16);
+    const splitString = lbs.split('.');
+    const pounds = parseInt(splitString[0]);
+    const ozs = splitString[1] ? parseFloat("0."+splitString[1]) : false;
+    const ounces = ozs ? (ozs * 16).toFixed(2) : false;
+
+    return (pounds ? pounds + " Lbs " : "") + (ounces ? ounces + " Oz" : "");
 }
