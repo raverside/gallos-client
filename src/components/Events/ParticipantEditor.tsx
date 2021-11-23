@@ -410,27 +410,12 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
                     <IonItemDivider>Betting Preferences</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect value={formData.betting_pref} interface="alert" placeholder="Select Betting Amount" onIonChange={(e) => setFormData({...formData, betting_pref: e.detail.value!})}>
-                            {event.bronze && <IonSelectOption value="bronze">{(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze)}</IonSelectOption>}
-                            {event.silver_one && <IonSelectOption value="silver">
-                                {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one)}
-                                {event.silver_two && " & " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_two)}
-                            </IonSelectOption>}
-                            {event.gold_one && <IonSelectOption value="gold">
-                                {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one)}
-                                {event.gold_two && " & " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_two)}
-                            </IonSelectOption>}
-                            {(event.bronze && event.silver_one) && <IonSelectOption value="bronze_silver">
-                                {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze)}
-                                {" and " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one)}
-                                {event.silver_two && " & " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_two)}
-                            </IonSelectOption>}
-                            {(event.silver_one && event.gold_one) && <IonSelectOption value="silver_gold">
-                                {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one)}
-                                {event.silver_two && " & " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_two)}
-                                {" and " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one)}
-                                {event.gold_two && " & " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_two)}
-                            </IonSelectOption>}
+                        <IonSelect value={formData.betting_pref} interface="alert" placeholder="Select Betting Preferences" onIonChange={(e) => setFormData({...formData, betting_pref: e.detail.value!})}>
+                            {event.bronze && <IonSelectOption value="bronze">Bronze</IonSelectOption>}
+                            {event.silver_one && <IonSelectOption value="silver">Silver</IonSelectOption>}
+                            {event.gold_one && <IonSelectOption value="gold">Gold</IonSelectOption>}
+                            {(event.bronze && event.silver_one) && <IonSelectOption value="bronze_silver">Bronze & Silver</IonSelectOption>}
+                            {(event.silver_one && event.gold_one) && <IonSelectOption value="silver_gold">Silver & Gold</IonSelectOption>}
                             <IonSelectOption value="open">Open (Any)</IonSelectOption>
                         </IonSelect>
                     </IonItem>
