@@ -28,7 +28,6 @@ import PrintModal from "../components/Events/PrintModal";
 import ShareMatchImage from "../components/Events/ShareMatchImage";
 import {useReactToPrint} from "react-to-print";
 import PrintMatch from '../components/Events/PrintMatch';
-import PrintMatches from "../components/Events/PrintMatches";
 
 const Baloteo: React.FC = () => {
     const [event, setEvent] = useState<any>([]);

@@ -42,7 +42,12 @@ const EventReceiving: React.FC = () => {
         }
     };
 
-    const participants = participantsSearch ? event.participants?.filter((p:any) => p.cage === participantsSearch) : event.participants;
+    const participants = participantsSearch ? event.participants?.filter((p:any) =>
+        p.cage === +participantsSearch ||
+        p.team?.name?.includes(participantsSearch) ||
+        p.team?.digital_id === +participantsSearch ||
+        p.team?.team_owner?.digital_id === +participantsSearch
+    ) : event.participants;
     const savedParticipants = participants?.filter((p:any) => p.status === 'saved');
     const approvedParticipants = participants?.filter((p:any) => p.status === 'approved');
     const excludedParticipants = participants?.filter((p:any) => p.status === 'rejected');
