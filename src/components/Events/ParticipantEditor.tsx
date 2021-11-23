@@ -243,6 +243,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             interface="alert"
                             onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, team_id: e.detail.value!}))}
                         >
+                            <IonLabel>Team</IonLabel>
                             {teams.map((team) => (<IonSelectOption key={team.id} value={team.id}>{team.name}</IonSelectOption>))}
                         </IonSelect>
                     </IonItem>
@@ -253,6 +254,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             <IonSelect value={formData.type} placeholder="Select type" onIonChange={(e) => {
                                 setFormData((currentFormData) => ({...currentFormData, type: e.detail.value}));
                             }}>
+                                <IonLabel>Type</IonLabel>
                                 <IonSelectOption value="M1">M1</IonSelectOption>
                                 <IonSelectOption value="M2">M2</IonSelectOption>
                                 <IonSelectOption value="M3">M3</IonSelectOption>
@@ -279,6 +281,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                     interface="alert"
                                     onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, stadium_id: e.detail.value!}))}
                                 >
+                                    <IonLabel>Stadium</IonLabel>
                                     {stadiums.map((stadium) => (<IonSelectOption key={stadium.id} value={stadium.id}>{stadium.name}</IonSelectOption>))}
                                 </IonSelect>
                             </IonItem>
@@ -289,6 +292,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             <IonSelect value={formData.color} placeholder="Select color" onIonChange={(e) => {
                                 setFormData((currentFormData) => ({...currentFormData, color: e.detail.value}));
                             }}>
+                                <IonLabel>Color</IonLabel>
                                 <IonSelectOption value="canelo">Canelo</IonSelectOption>
                                 <IonSelectOption value="cenizo">Cenizo</IonSelectOption>
                                 <IonSelectOption value="indio">Indio</IonSelectOption>
@@ -308,6 +312,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             <IonSelect value={formData.cresta} placeholder="Animal cresta" onIonChange={(e) => {
                                 setFormData((currentFormData) => ({...currentFormData, cresta: e.detail.value}));
                             }}>
+                                <IonLabel>Cresta</IonLabel>
                                 <IonSelectOption value="peine">Peine</IonSelectOption>
                                 <IonSelectOption value="rosa">Rosa</IonSelectOption>
                                 <IonSelectOption value="pava">Pava</IonSelectOption>
@@ -332,6 +337,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             <IonSelect value={formData.pata} placeholder="Select pata" onIonChange={(e) => {
                                 setFormData((currentFormData) => ({...currentFormData, pata: e.detail.value}));
                             }}>
+                                <IonLabel>Pata</IonLabel>
                                 <IonSelectOption value="A">A</IonSelectOption>
                                 <IonSelectOption value="AB">AB</IonSelectOption>
                                 <IonSelectOption value="BCA">BCA</IonSelectOption>
@@ -399,6 +405,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             <IonSelect value={formData.physical_advantage} placeholder="Select physical advantage" onIonChange={(e) => {
                                 setFormData((currentFormData) => ({...currentFormData, physical_advantage: e.detail.value}));
                             }}>
+                                <IonLabel>Physical Advantage</IonLabel>
                                 <IonSelectOption value="none">None</IonSelectOption>
                                 <IonSelectOption value="tusa">Tusa</IonSelectOption>
                                 <IonSelectOption value="barba">Barba</IonSelectOption>
@@ -418,6 +425,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             placeholder="Select Betting Amount"
                             onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, betting_amount: e.detail.value!}))}
                         >
+                            <IonLabel>Betting Amount</IonLabel>
                             {event.bronze && <IonSelectOption value="bronze">Bronze: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze)}</IonSelectOption>}
                             {event.silver_one && <IonSelectOption value="silver">
                                 Silver: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one)}
@@ -438,6 +446,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             placeholder="Select Betting Preferences"
                             onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, betting_pref: e.detail.value!}))}
                         >
+                            <IonLabel>Betting Preferences</IonLabel>
                             {event.bronze && <IonSelectOption value="bronze">Bronze</IonSelectOption>}
                             {event.silver_one && <IonSelectOption value="silver">Silver</IonSelectOption>}
                             {event.gold_one && <IonSelectOption value="gold">Gold</IonSelectOption>}

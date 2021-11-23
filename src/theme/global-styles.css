@@ -70,3 +70,12 @@ body {
     justify-content: center;
     margin:10px;
 }
+.select-alert {
+    --width:80%;
+    --min-width:220px;
+    --max-width:80%;
+    --max-height:70%;
+}
+.alert-radio-group.sc-ion-alert-md, .alert-checkbox-group.sc-ion-alert-md {
+    max-height:initial;
+}
