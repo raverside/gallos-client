@@ -98,11 +98,13 @@ const EventView: React.FC = () => {
                         <div className="event-info_labels">
                             <div className="event-info_label">Receiving</div>
                             <div className="event-info_label">First Race</div>
+                            {(event.type?.length > 0) && <div className="event-info_label">Marcaje</div>}
                             {(minBet > 0) && <div className="event-info_label">Bet</div>}
                         </div>
                         <div className="event-info_values">
                             <div className="event-info_value">{moment(event?.receiving_time_start, "HH:mm").format("LT")} - {moment(event?.receiving_time_end, "HH:mm").format("LT")}</div>
                             <div className="event-info_value">{moment(event?.first_race_time, "HH:mm").format("LT")}</div>
+                            {(event.type?.length > 0) && <div className="event-info_value">{event.type.join(', ')}</div>}
                             {(minBet > 0) && <div className="event-info_value red">
                                 {event?.bronze > 0 && ((event?.currency === "DOP" ? "RD" : "") + numberFormatter.format(event?.bronze))}
                                 {(event?.silver_one > 0 && (" | " + (event?.currency === "DOP" ? "RD" : "") + numberFormatter.format(event?.silver_one)))}
