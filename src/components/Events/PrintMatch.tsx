@@ -36,7 +36,7 @@ const PrintMatch = React.forwardRef<any, any>(({event, match}, ref) => {
             <div style={{width: "100%"}}>
                 <div>
                     <div style={{display:"flex", justifyContent: "space-between", background: "black", color:"white"}}>
-                        <div style={{textAlign: "center", width: "25mm"}}>Pelea #1</div>
+                        <div style={{textAlign: "center", width: "25mm"}}></div>
                         <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>VS</div>
                         <div style={{textAlign: "center", width: "25mm"}}></div>
                     </div>
@@ -44,6 +44,16 @@ const PrintMatch = React.forwardRef<any, any>(({event, match}, ref) => {
                         <div style={{textAlign: "center", width: "25mm", fontWeight: "bold"}}>{match.participant?.team?.name}</div>
                         <div style={{textAlign: "center", width: "30mm"}}></div>
                         <div style={{textAlign: "center", width: "25mm", fontWeight: "bold"}}>{match.opponent?.team?.name}</div>
+                    </div>
+                    <div style={{display:"flex", justifyContent: "space-between"}}>
+                        <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.cage}</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Cage</div>
+                        <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.cage}</div>
+                    </div>
+                    <div style={{display:"flex", justifyContent: "space-between"}}>
+                        <div style={{textAlign: "center", width: "25mm"}}>Blue</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Side Color</div>
+                        <div style={{textAlign: "center", width: "25mm"}}>White</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
                         <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.type}</div>
@@ -54,6 +64,11 @@ const PrintMatch = React.forwardRef<any, any>(({event, match}, ref) => {
                         <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOz(match.participant?.weight)}</div>
                         <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Weight</div>
                         <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOz(match.opponent?.weight)}</div>
+                    </div>
+                    <div style={{display:"flex", justifyContent: "space-between"}}>
+                        <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.participated_before ? "Yes" : "No"}</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Participated?</div>
+                        <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.participated_before ? "Yes" : "No"}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
                         <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.participant?.color}</div>
@@ -79,11 +94,6 @@ const PrintMatch = React.forwardRef<any, any>(({event, match}, ref) => {
                         <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.participant?.physical_advantage?.replace('_', ' ')}</div>
                         <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Advantage</div>
                         <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.opponent?.physical_advantage.replace('_', ' ')}</div>
-                    </div>
-                    <div style={{display:"flex", justifyContent: "space-between"}}>
-                        <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.participated_before ? "Yes" : "No"}</div>
-                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Participated?</div>
-                        <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.participated_before ? "Yes" : "No"}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
                         <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.breeder_name}</div>

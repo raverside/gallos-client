@@ -54,16 +54,29 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                 if (event.bronze > 0) betting_pref = ((event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze));
                 break;
             case "silver":
-                if (event.silver_one > 0) betting_pref = " | " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one);
-                if (event.silver_two > 0) betting_pref = " & " + numberFormatter.formatToParts(event.silver_two).find(x => x.type === "integer")?.value;
+                if (event.silver_one > 0) betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one);
+                if (event.silver_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.silver_two).find(x => x.type === "integer")?.value;
                 break;
             case "gold":
-                if (event.gold_one > 0) betting_pref = " | " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one);
-                if (event.gold_two > 0) betting_pref = " & " + numberFormatter.formatToParts(event.gold_two).find(x => x.type === "integer")?.value;
+                if (event.gold_one > 0) betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one);
+                if (event.gold_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.gold_two).find(x => x.type === "integer")?.value;
                 break;
         }
         return betting_pref;
-    };
+    }
+
+    const getBettingPreference = (participant:any, opponent:any) => {
+        if (!participant || !opponent) return "";
+        if (participant.betting_pref !== "open" && opponent.betting_pref !== "open") {
+            if (participant.betting_pref.includes(opponent.betting_pref)) {
+                return getBettingAmount(opponent);
+            } else if (opponent.betting_pref.includes(participant.betting_pref)) {
+                return getBettingAmount(participant);
+            }
+        }
+
+        return getBettingAmount(participant);
+    }
 
     return (!event ? null : <>
         <div ref={ref} style={{textAlign:"center", width: "80mm", fontSize: "14px", fontFamily: "Arial"}}>
@@ -88,6 +101,16 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                                 <div style={{textAlign: "center", width: "25mm", fontWeight: "bold"}}>{match.opponent?.team?.name}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.cage}</div>
+                                <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Cage</div>
+                                <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.cage}</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "center", width: "25mm"}}>Blue</div>
+                                <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Side Color</div>
+                                <div style={{textAlign: "center", width: "25mm"}}>White</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.type}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Marcaje</div>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.type}</div>
@@ -96,6 +119,11 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                                 <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOz(match.participant?.weight)}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Weight</div>
                                 <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOz(match.opponent?.weight)}</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.participated_before ? "Yes" : "No"}</div>
+                                <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Participated?</div>
+                                <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.participated_before ? "Yes" : "No"}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.participant?.color}</div>
@@ -123,19 +151,14 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                                 <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.opponent?.physical_advantage.replace('_', ' ')}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
-                                <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.participated_before ? "Yes" : "No"}</div>
-                                <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Participated?</div>
-                                <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.participated_before ? "Yes" : "No"}</div>
-                            </div>
-                            <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.breeder_name}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Breeder</div>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.breeder_name}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
-                                <div style={{textAlign: "center", width: "25mm"}}>{getBettingAmount(match.participant)}</div>
+                                <div style={{textAlign: "center", width: "25mm"}}>{getBettingPreference(match.participant, match.opponent)}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Bet</div>
-                                <div style={{textAlign: "center", width: "25mm"}}>{getBettingAmount(match.participant)}</div>
+                                <div style={{textAlign: "center", width: "25mm"}}>{getBettingPreference(match.participant, match.opponent)}</div>
                             </div>
                         </div>
                     ) }
@@ -152,23 +175,23 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                 {printMatches?.map((participant:any, index:number) => {
                     const betting_amount = getBettingAmount(participant);
 
-                    return (<tr style={{borderBottom: "1px solid black", lineHeight: "12px"}}>
-                        <td style={{textAlign:"center", fontWeight: "bold"}}>#{index + 1}</td>
-                        <td style={{textAlign:"left"}}>
-                            <p style={{fontWeight: "bold", margin: "5px 0"}}>{participant.team?.name}</p>
-                            <p style={{margin: "0", textTransform: "capitalize"}}>{participant.color} {participant.cresta}</p>
-                            {participant.physical_advantage !== "none" && <p  style={{margin: "0", textTransform: "capitalize"}}>Ven: {participant.physical_advantage}</p>}
+                    return (<tr style={{borderBottom: "1px solid black", lineHeight: "14px"}}>
+                        <td style={{textAlign:"center", fontWeight: "bold", verticalAlign: "top"}}><p style={{margin: "5px 0"}}>#{index + 1}</p></td>
+                        <td style={{textAlign:"left", verticalAlign: "top"}}>
+                            <p style={{fontWeight: "bold", margin: "5px 0", verticalAlign: "top", display: "inline-block"}}>{participant.team?.name}</p>
+                            <p style={{margin: "5px 0", textTransform: "capitalize"}}>{participant.color} {participant.cresta}</p>
+                            {participant.physical_advantage !== "none" && <p  style={{margin: "5px 0", textTransform: "capitalize"}}>Ven: {participant.physical_advantage}</p>}
                             {participant.status === "rejected" && <div style={{maxWidth: "40mm"}}>
                                 <p style={{ background: "black", color: "white", fontWeight:"bold", padding:"2px 5px"}}>Rejected</p>
                                 <p>This animal was excluded since it doesn't meet the requirements</p>
                             </div>}
                         </td>
-                        <td style={{textAlign:"center"}}>
-                            <p style={{margin: "2px"}}>{formatOzToLbsOz(participant.weight)}</p>
-                            <p style={{margin: "2px"}}>{betting_amount}</p>
-                            <p style={{margin: "2px"}}>{participant.participated_before ? "Peliado" : "Sin Pelear"}</p>
+                        <td style={{textAlign:"center", verticalAlign: "top"}}>
+                            <p style={{margin: "5px 0", verticalAlign: "top", fontWeight: "bold"}}>{formatOzToLbsOz(participant.weight)}</p>
+                            <p style={{margin: "5px 0"}}>{betting_amount}</p>
+                            <p style={{margin: "5px 0"}}>{participant.participated_before ? "Peliado" : "Sin Pelear"}</p>
                         </td>
-                        <td style={{textAlign:"center"}}>{participant.type}</td>
+                        <td style={{textAlign:"center", verticalAlign: "top", fontWeight: "bold"}}><p style={{margin: "5px 0"}}>{participant.type}</p></td>
                     </tr>);}
                 ) }
                 </tbody>
