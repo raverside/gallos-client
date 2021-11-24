@@ -300,7 +300,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
                         <IonItemDivider>Stadium Name</IonItemDivider>
                         <IonItem lines="none">
-                            <IonSelect value={formData.stadium_name} placeholder="Select color" onIonChange={(e) => {
+                            <IonSelect value={formData.stadium_name} placeholder="Stadium Name" onIonChange={(e) => {
                                 setFormData((currentFormData) => {
                                     tryAutoFill(currentFormData.stadium_id, e.detail.value!);
                                     return {...currentFormData, stadium_name: e.detail.value!}
