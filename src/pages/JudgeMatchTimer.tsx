@@ -9,10 +9,7 @@ import {
 
 import './Judge.css';
 import startTimeIcon from "../img/icon_judge_start.svg";
-import sixtyTimeIcon from "../img/time_60.png";
 import timerTimeIcon from "../img/icon_judge_timer.svg";
-import alarmTimeIcon from "../img/time_alarm.png";
-import resetTimeIcon from "../img/time_reset.png";
 import resultTimeIcon from "../img/icon_judge_results.svg";
 import backIcon from "../img/icon_judge_back.svg";
 import yesIcon from "../img/icon_judge_yes.svg";
@@ -41,6 +38,8 @@ const JudgeMatch: React.FC = () => {
     const [matchTimeInterval, setMatchTimeInterval] = useState<number>();
     const [timerInterval, setTimerInterval] = useState<number>();
     const [alarmInterval, setAlarmInterval] = useState<number>();
+    const [fiveTimer, setFiveTimer] = useState<number>(5);
+    const [fiveTimerInterval, setFiveTimerInterval] = useState<number>();
     const [selectResult, setSelectResult] = useState<boolean>(false);
     const [configuration, setConfiguration] = useState<number>(0);
     const [confirmRestart, setConfirmRestart] = useState<boolean>(false);
@@ -48,6 +47,8 @@ const JudgeMatch: React.FC = () => {
     configRef.current = configuration;
     const timerRef = useRef(timer);
     timerRef.current = timer;
+    const fiveTimerRef = useRef(fiveTimer);
+    fiveTimerRef.current = fiveTimer;
     const sixtyIntervalRef = useRef(timerInterval);
     sixtyIntervalRef.current = timerInterval;
     const [result, setResult] = useState<number>(); // 0 - blue wins, 1 - white wins, 2 - draw, 3 - cancelled
@@ -78,10 +79,41 @@ const JudgeMatch: React.FC = () => {
         window.location.replace("/judge");
     }
 
+    const startFiveSeconds = () => {
+        if (fiveTimerInterval) {
+            clearInterval(fiveTimerInterval);
+            setFiveTimerInterval(undefined);
+            setFiveTimer(5);
+        } else {
+            const interval = window.setInterval(() => {
+                if (configRef.current !== 2) {
+                    setFiveTimer((currentFiveTimer) => {
+                        if (currentFiveTimer === 1) {
+                            if (matchTimeReverse > 0) {
+                                setTimer(60);
+                                clearInterval(interval);
+                                setFiveTimerInterval(undefined);
+                                setFiveTimer(5);
+                            } else {
+                                stopTime();
+                            }
+                        }
+                        return Math.max(currentFiveTimer - 1, 0);
+                    });
+                }
+            }, 1000);
+            setFiveTimerInterval((currentFiveTimerInterval) => {
+                clearInterval(currentFiveTimerInterval);
+                return interval
+            });
+        }
+    }
+
     const sixtyStop = () => {
         if (timerInterval) {
             clearInterval(timerInterval);
             setTimerInterval(undefined);
+
             setTimer(60);
         } else if (matchTimeReverse > 0) {
             sixtyStart();
@@ -125,7 +157,7 @@ const JudgeMatch: React.FC = () => {
                 setMatchTime((currentMatchTime) => {
                     if (currentMatchTime === 59) soundAlarm();
                     const maxAllowed = 600 + (timerRef.current <= 59 ? 59 : 0);
-                    if (currentMatchTime >= maxAllowed) {
+                    if (currentMatchTime >= maxAllowed && !fiveTimerInterval) {
                         stopTime();
                         return currentMatchTime;
                     }
@@ -141,9 +173,16 @@ const JudgeMatch: React.FC = () => {
     }
 
     const stopTime = () => {
-        if (matchTimeInterval) clearInterval(matchTimeInterval);
         setMatchTimeInterval((currentMatchTimeInterval) => {
             if (currentMatchTimeInterval) clearInterval(currentMatchTimeInterval);
+            return undefined;
+        });
+        setTimerInterval((currentTimerInterval) => {
+            if (currentTimerInterval) clearInterval(currentTimerInterval);
+            return undefined;
+        });
+        setFiveTimerInterval((currentFiveTimerInterval) => {
+            clearInterval(currentFiveTimerInterval);
             return undefined;
         });
     }
@@ -162,6 +201,11 @@ const JudgeMatch: React.FC = () => {
             if (currentTimerInterval) clearInterval(currentTimerInterval);
             return undefined;
         });
+        setFiveTimerInterval((currentFiveTimerInterval) => {
+            clearInterval(currentFiveTimerInterval);
+            return undefined;
+        });
+        setFiveTimer(5);
     }
 
     const restartMatch = () => {
@@ -265,6 +309,7 @@ const JudgeMatch: React.FC = () => {
                             </IonCol>
                         </IonRow>
                     </IonGrid>
+                    {fiveTimerInterval && <div className="five_sec_timer">{fiveTimer}s</div>}
                     {showAlarm ? <div className="judge-match-timer-buttons">
                         <IonButton fill="clear" className="judge-time-button green-time-button" onClick={() => {clearAlarm(); setShowAlarm(false);}}>
                             <IonImg src={backIcon} />
@@ -321,6 +366,9 @@ const JudgeMatch: React.FC = () => {
                         <IonButton fill="clear" color="success" className="judge-time-button green-time-button" onClick={showConfiguration}>
                             <IonImg src={timerConfigurationIcon} />
                             <IonText>{configuration === 1 ? "Confirm?" : "Config"}</IonText>
+                        </IonButton>
+                        <IonButton fill="clear" color="tertiary" disabled={!timerInterval || timer <= 5} className="judge-time-button blue-time-button" onClick={() => startFiveSeconds()}>
+                            <IonText>5 Seconds</IonText>
                         </IonButton>
                         <IonButton fill="clear" color="success" className="judge-time-button red-time-button" onClick={() => sixtyStop()}>
                             <IonText>60|Stop</IonText>
