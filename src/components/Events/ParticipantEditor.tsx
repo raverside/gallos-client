@@ -236,6 +236,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             className="fullsize-input"
                             type="number"
                             placeholder="Owner Account Number"
+                            onWheel={(e:any) => e.target.blur()}
                             onIonChange={(e) => {
                                 setFormData((currentFormData) => ({...currentFormData, owner_account_number: +e.detail.value!}));
                                 fetchTeamOwner(+e.detail.value!);
@@ -376,6 +377,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 value={formData.breeder_id}
                                 className="fullsize-input"
                                 type="number"
+                                onWheel={(e:any) => e.target.blur()}
                                 placeholder="Breeder ID"
                                 onIonChange={(e) => {
                                     setFormData((currentFormData) => ({...currentFormData, breeder_id: +e.detail.value!}));
