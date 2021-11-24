@@ -69,7 +69,7 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
     }, [formData.type]);
 
     useEffect(() => {
-        if (state.user?.role === "worker") {
+        if (state.user?.role === "admin_worker" || state.user?.role === "admin_manager" || state.user?.role === "admin_grand") {
             fetchStadiums();
         }
     }, []);
@@ -127,7 +127,7 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
                     <IonItemDivider>Stadium</IonItemDivider>
                     <IonItem lines="none">
                         <IonSelect value={formData.stadium_id} interface="alert" onIonChange={(e) => setFormData({...formData, stadium_id: e.detail.value!})}>
-                            {stadiums.map((stadium) => (<IonSelectOption value={stadium.id}>{stadium.name}</IonSelectOption>))}
+                            {stadiums.map((stadium) => (<IonSelectOption key={stadium.id} value={stadium.id}>{stadium.name}</IonSelectOption>))}
                         </IonSelect>
                     </IonItem>
                 </>}
