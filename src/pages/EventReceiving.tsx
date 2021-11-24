@@ -94,12 +94,12 @@ const EventReceiving: React.FC = () => {
                         <IonGrid>
                             <IonRow>
                                 <IonCol size="1">{participant.cage}</IonCol>
-                                <IonCol size="5">
+                                <IonCol size="7" style={{display: "flex", alignItems: "center"}}>
                                     {participant.image && <IonImg src={getImageUrl(participant.image)} className={participant.image_flipped ? "participant-thumb flipped" : "participant-thumb"} />}
                                     {!participant.image && <IonButton className="participant-placeholder" fill="clear" onClick={() => {setSelectedParticipant(participant); setShowParticipantPhotoUploader(true);}}><IonIcon icon={addPhotoIcon} slot="icon-only" /></IonButton>}
                                     <IonText>{participant.team?.name}</IonText>
                                 </IonCol>
-                                <IonCol size="4" className="participant-weight-class">
+                                <IonCol size="2" className="participant-weight-class">
                                     <div>{participant.type}</div>
                                     <div>{participant.weight && formatOzToLbsOz(participant.weight)}</div>
                                 </IonCol>
