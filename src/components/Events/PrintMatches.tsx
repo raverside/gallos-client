@@ -6,14 +6,14 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
     const matches = event.matches;
     const liveMatches = matches?.filter((p:any) => p.live) || [];
     const availableMatches = matches?.filter((p:any) => !p.live) || [];
-    const allParticipants = event.participants;
-    const allParticipantsNonLive = event.participants?.filter((p:any) => !event.matches.find((m:any) => m.live && (m.opponent_id === p.id || m.participant_id === p.id)));
+    const allParticipants = event.participants?.sort((a:any, b:any) => (+new Date(a.createdAt)) - (+new Date(b.createdAt)));
+    const allParticipantsNonLive = event.participants?.filter((p:any) => !event.matches.find((m:any) => m.live && (m.opponent_id === p.id || m.participant_id === p.id))).sort((a:any, b:any) => (+new Date(a.createdAt)) - (+new Date(b.createdAt)));
     const unmatchedParticipants = allParticipants?.filter((participant:any) =>
         participant.status === "approved" && !event.matches?.find((match:any) =>
         match.participant_id === participant.id || match.opponent_id === participant.id
         )
-    );
-    const excludedParticipants = allParticipants?.filter((participant:any) => participant.status === "rejected");
+    ).sort((a:any, b:any) => (+new Date(a.createdAt)) - (+new Date(b.createdAt)));
+    const excludedParticipants = allParticipants?.filter((participant:any) => participant.status === "rejected").sort((a:any, b:any) => (+new Date(a.createdAt)) - (+new Date(b.createdAt)));
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
 
     let printMatches = [];
@@ -176,7 +176,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                     const betting_amount = getBettingAmount(participant);
 
                     return (<tr style={{borderBottom: "1px solid black", lineHeight: "14px"}}>
-                        <td style={{textAlign:"center", fontWeight: "bold", verticalAlign: "top"}}><p style={{margin: "5px 0"}}>#{index + 1}</p></td>
+                        <td style={{textAlign:"center", fontWeight: "bold", verticalAlign: "top"}}><p style={{margin: "5px 0"}}>#{participant.cage || index + 1}</p></td>
                         <td style={{textAlign:"left", verticalAlign: "top"}}>
                             <p style={{fontWeight: "bold", margin: "5px 0", verticalAlign: "top", display: "inline-block"}}>{participant.team?.name}</p>
                             <p style={{margin: "5px 0", textTransform: "capitalize"}}>{participant.color} {participant.cresta}</p>
