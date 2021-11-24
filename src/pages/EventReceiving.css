@@ -26,3 +26,21 @@
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
 }
+.participant-placeholder {
+    width: 45px;
+    height: 35px;
+    border-radius: 5px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    --color:black;
+    --padding-start:0;
+    --padding-end:0;
+    --padding-top:0;
+    --padding-bottom:0;
+}
+.participant-placeholder ion-icon {
+    width: 45px;
+    height: 35px;
+}

@@ -6,7 +6,7 @@ import {
     IonSegmentButton,
     IonLabel, IonSearchbar,
     IonList, IonItem, IonImg, IonButton, IonText,
-    IonGrid, IonRow, IonCol, IonToolbar, IonButtons, IonBackButton, IonHeader, IonTitle,
+    IonGrid, IonRow, IonCol, IonToolbar, IonButtons, IonBackButton, IonHeader, IonTitle, IonIcon
 } from '@ionic/react';
 import React, {useContext, useEffect, useState} from "react";
 import {getEvent} from "../api/Events";
@@ -16,10 +16,13 @@ import {AppContext} from "../State";
 import {useParams} from "react-router-dom";
 import CreateParticipantButton from "../components/Events/CreateParticipantButton";
 import ParticipantEditor from "../components/Events/ParticipantEditor";
+import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploader";
 import Matchmaking from "../components/Events/Matchmaking";
 import editIcon from "../img/edit.png";
 import versusIcon from "../img/versus.png";
+import {cameraReverseOutline as addPhotoIcon} from 'ionicons/icons';
 import {getImageUrl, formatOzToLbsOz} from "../components/utils";
+import ConfirmPrompt from "../components/ConfirmPrompt";
 
 const EventReceiving: React.FC = () => {
     const { state } = useContext(AppContext);
@@ -28,6 +31,8 @@ const EventReceiving: React.FC = () => {
     const [participantsTab, setParticipantsTab] = useState<string>("saved");
     const [selectedParticipant, setSelectedParticipant] = useState<any>(false);
     const [showParticipantEditor, setShowParticipantEditor] = useState<boolean>(false);
+    const [showParticipantPhotoUploader, setShowParticipantPhotoUploader] = useState<boolean>(false);
+    const [showConfirmPhotoless, setShowConfirmPhotoless] = useState<boolean>(false);
     const [showMatchmaking, setShowMatchmaking] = useState<boolean>(false);
     const { id } = useParams<{id:string}>();
 
@@ -51,7 +56,7 @@ const EventReceiving: React.FC = () => {
     const savedParticipants = participants?.filter((p:any) => p.status === 'saved');
     const approvedParticipants = participants?.filter((p:any) => p.status === 'approved');
     const excludedParticipants = participants?.filter((p:any) => p.status === 'rejected');
-    const currentTabParticipants = participants?.filter((p:any) => p.status === participantsTab);
+    const currentTabParticipants = participants?.sort((a:any, b:any) => +(b.image===null) - +(a.image===null)).filter((p:any) => p.status === participantsTab);
 
     return !event ? null : (
         <IonPage>
@@ -65,7 +70,7 @@ const EventReceiving: React.FC = () => {
                         <p className="page-subtitle">{event.phase}</p>
                     </IonTitle>
                     <IonButtons slot="end">
-                        <IonButton fill="clear" onClick={() => setShowMatchmaking(true)} disabled={!approvedParticipants?.length}><IonImg className="versus-button" src={versusIcon} /></IonButton>
+                        <IonButton fill="clear" onClick={() => (participants.filter((p:any) => !p.image).length > 0) ? setShowConfirmPhotoless(true) : setShowMatchmaking(true)} disabled={!approvedParticipants?.length}><IonImg className="versus-button" src={versusIcon} /></IonButton>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
@@ -91,6 +96,7 @@ const EventReceiving: React.FC = () => {
                                 <IonCol size="1">{participant.cage}</IonCol>
                                 <IonCol size="5">
                                     {participant.image && <IonImg src={getImageUrl(participant.image)} className={participant.image_flipped ? "participant-thumb flipped" : "participant-thumb"} />}
+                                    {!participant.image && <IonButton className="participant-placeholder" fill="clear" onClick={() => {setSelectedParticipant(participant); setShowParticipantPhotoUploader(true);}}><IonIcon icon={addPhotoIcon} slot="icon-only" /></IonButton>}
                                     <IonText>{participant.team?.name}</IonText>
                                 </IonCol>
                                 <IonCol size="4" className="participant-weight-class">
@@ -116,7 +122,22 @@ const EventReceiving: React.FC = () => {
                         participant={selectedParticipant}
                     />
                 </IonModal>
+                <IonModal isOpen={!!showParticipantPhotoUploader} onDidDismiss={() => setShowParticipantPhotoUploader(false)}>
+                    <ParticipantPhotoUploader
+                        close={() => setShowParticipantPhotoUploader(false)}
+                        event={event}
+                        fetchEvent={fetchEvent}
+                        participant={selectedParticipant}
+                    />
+                </IonModal>
                 <Matchmaking event={event} show={showMatchmaking} setShow={setShowMatchmaking} />
+                <ConfirmPrompt
+                    data={showConfirmPhotoless}
+                    show={!!showConfirmPhotoless}
+                    title="Missing Photos"
+                    subtitle="Some participants don't have images. Do you want to continue with the matching process?"
+                    onResult={(data, isConfirmed) => {isConfirmed && setShowMatchmaking(true); setShowConfirmPhotoless(false)}}
+                />
             </IonContent>
         </IonPage>
     );
