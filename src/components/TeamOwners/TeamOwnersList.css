@@ -9,6 +9,7 @@
     font-weight: 600;
     font-size: 16px;
     display:block;
+    text-transform:capitalize;
 }
 .teamOwner-short-info_winrate {
     font-size: 12px;

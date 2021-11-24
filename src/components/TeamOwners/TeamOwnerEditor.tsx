@@ -19,6 +19,7 @@ import PhoneInput from 'react-phone-input-2';
 import {getCountries, getStatesByCountry, getCitiesByState} from '../../api/Geo';
 
 import './TeamOwnerEditor.css';
+import {useHistory} from "react-router-dom";
 
 type TeamOwnerFormData = {
     id?: string;
@@ -39,7 +40,6 @@ type EventProps = {
 };
 
 const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner = false}) => {
-    console.log(teamOwner);
     const [formData, setFormData] = useState<TeamOwnerFormData>({
         id: teamOwner ? teamOwner.id : undefined,
         name: teamOwner ? teamOwner.name : "",
@@ -53,6 +53,7 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
     const [countries, setCountries] = useState<[{id: number, name: string}]>();
     const [states, setStates] = useState<[{id: number, name: string}]>();
     const [cities, setCities] = useState<[{id: number, name: string}]>();
+    const history = useHistory();
 
     const fetchCountries = async () => {
         const countries = await getCountries(true);
@@ -132,6 +133,9 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
             addTeamOwner();
         }
         close();
+        if (response.team_owner) {
+            history.replace("/team_owner/" + response.team_owner.id);
+        }
     }
 
     return (<>

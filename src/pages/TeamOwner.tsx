@@ -192,7 +192,7 @@ const TeamOwner: React.FC = () => {
                 <div className="user-profile">
                     <div className="user-profile-info">
                         {teamOwner?.name && <IonText className="user-profile-info_username">{teamOwner.name}</IonText>}
-                        {teamOwner?.digital_id && <IonText>ID {teamOwner.digital_id}</IonText>}
+                        {teamOwner?.digital_id && <IonText>ID {(""+teamOwner.digital_id).substr(0, 3)+"-"+(""+teamOwner.digital_id).substr(3, 3)}</IonText>}
                         {teamOwner?.teams && <IonText>{teamOwner.teams.length} Teams</IonText>}
                         {teamOwner?.phone && <IonText>+{teamOwner.phone}</IonText>}
                         {(teamOwner?.country) && <IonText>{teamOwner.city && teamOwner.city + ","} {teamOwner.country}</IonText>}
