@@ -19,9 +19,8 @@ import {
 } from '@ionic/react';
 import {closeOutline as closeIcon} from "ionicons/icons";
 import AnimalImagePicker from './AnimalImagePicker';
-import {upsertParticipant} from '../../api/Events';
+import {upsertParticipant, findParticipantByStadiumData} from '../../api/Events';
 import {getTeamOwnerByDigitalId} from '../../api/TeamOwners';
-import {fetchAllStadiums} from '../../api/Stadiums';
 
 import './ParticipantEditor.css';
 
@@ -35,6 +34,7 @@ type ParticipantFormData = {
     owner_account_number?: number;
     team_id?: string;
     stadium_id?: string;
+    stadium_name?: string;
     betting_amount?: string;
     betting_pref?: string;
     type?: string;
@@ -58,7 +58,6 @@ type ParticipantProps = {
 };
 
 const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event, participant= false}) => {
-    const [stadiums, setStadiums] = useState<any[]>([]);
     const [teams, setTeams] = useState<any[]>([]);
     const [showRejectReason, setShowRejectReason] = useState<boolean>(false);
     const [formData, setFormData] = useState<ParticipantFormData>({
@@ -73,7 +72,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         betting_amount: participant ? participant.betting_amount : undefined,
         team_id: participant ? participant.team_id : undefined,
         type: participant ? participant.type : undefined,
-        stadium_id: participant ? participant.stadium_id : undefined,
         color: participant ? participant.color : undefined,
         cresta: participant ? participant.cresta : undefined,
         alas: participant ? participant.alas : undefined,
@@ -85,6 +83,8 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         participated_before: participant ? participant.participated_before : undefined,
         status: participant ? participant.status : undefined,
         reason: participant ? participant.reason : undefined,
+        stadium_id: participant ? participant.stadium_id : undefined,
+        stadium_name: participant ? participant.stadium_name : undefined,
     });
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
 
@@ -99,17 +99,25 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
     useEffect(() => {
         if (event.id) {
-            fetchStadiums();
             if (participant && participant.owner_account_number) {
                 fetchTeamOwner(participant.owner_account_number);
             }
         }
     }, []);
 
-    const fetchStadiums = async() => {
-        const response = await fetchAllStadiums();
-        if (response.stadiums) {
-            setStadiums(response.stadiums);
+    const tryAutoFill = async (stadiumId?:string, stadiumName?:string) => {
+        if (stadiumId && stadiumName) {
+            const {participant} = await findParticipantByStadiumData(stadiumId, stadiumName);
+            if (participant) {
+                setFormData((currentFormData) => ({
+                    ...currentFormData,
+                    type: participant.type,
+                    color: participant.color,
+                    cresta: participant.cresta,
+                    pata: participant.pata,
+                    physical_advantage: participant.physical_advantage
+                }));
+            }
         }
     }
 
@@ -133,6 +141,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         if (!formData.betting_amount) isFormFilled = false;
         if (!formData.type) isFormFilled = false;
         if (!formData.stadium_id) isFormFilled = false;
+        if (!formData.stadium_name) isFormFilled = false;
         if (!formData.color) isFormFilled = false;
         if (!formData.cresta) isFormFilled = false;
         if (!formData.alas) isFormFilled = false;
@@ -273,19 +282,35 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             </IonSelect>
                         </IonItem>
 
-                        {stadiums.length > 0 && <>
-                            <IonItemDivider>Stadium</IonItemDivider>
-                            <IonItem lines="none">
-                                <IonSelect
-                                    value={formData.stadium_id}
-                                    interface="alert"
-                                    onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, stadium_id: e.detail.value!}))}
-                                >
-                                    <IonLabel>Stadium</IonLabel>
-                                    {stadiums.map((stadium) => (<IonSelectOption key={stadium.id} value={stadium.id}>{stadium.name}</IonSelectOption>))}
-                                </IonSelect>
-                            </IonItem>
-                        </>}
+                        <IonItemDivider>Stadium ID</IonItemDivider>
+                        <IonItem lines="none">
+                            <IonInput
+                                value={formData.stadium_id}
+                                className="fullsize-input"
+                                placeholder="Stadium ID"
+                                onIonChange={(e) => {
+                                    setFormData((currentFormData) => {
+                                        tryAutoFill(e.detail.value!, currentFormData.stadium_name);
+                                        return {...currentFormData, stadium_id: e.detail.value!}
+                                    });
+                                }}
+                            />
+                        </IonItem>
+
+                        <IonItemDivider>Stadium Name</IonItemDivider>
+                        <IonItem lines="none">
+                            <IonInput
+                                value={formData.stadium_name}
+                                className="fullsize-input"
+                                placeholder="Stadium Name"
+                                onIonChange={(e) => {
+                                    setFormData((currentFormData) => {
+                                        tryAutoFill(currentFormData.stadium_id, e.detail.value!);
+                                        return {...currentFormData, stadium_name: e.detail.value!}
+                                    });
+                                }}
+                            />
+                        </IonItem>
 
                         <IonItemDivider>Color</IonItemDivider>
                         <IonItem lines="none">
@@ -378,6 +403,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 placeholder="Weight"
                                 type="number"
                                 step=".01"
+                                onWheel={(e:any) => e.target.blur()}
                                 onIonChange={(e) => {
                                     setFormData((currentFormData) => ({...currentFormData, weight: e.detail.value!}));
                                 }}

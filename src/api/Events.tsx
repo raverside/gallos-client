@@ -38,6 +38,10 @@ export async function upsertParticipant(payload: {image_upload?: File|null, imag
     return fetcher.post('/upsertParticipant', payload);
 }
 
+export async function findParticipantByStadiumData(stadium_id:string, stadium_name:string) {
+    return fetcher.post(`/findParticipantByStadiumData`, {stadium_id, stadium_name});
+}
+
 export async function generateMatches(event_id:string, method:number, special_guests:any) {
     return fetcher.post(`/generateMatches/${event_id}`, {method, special_guests});
 }
