@@ -300,17 +300,19 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
                         <IonItemDivider>Stadium Name</IonItemDivider>
                         <IonItem lines="none">
-                            <IonInput
-                                value={formData.stadium_name}
-                                className="fullsize-input"
-                                placeholder="Stadium Name"
-                                onIonChange={(e) => {
-                                    setFormData((currentFormData) => {
-                                        tryAutoFill(currentFormData.stadium_id, e.detail.value!);
-                                        return {...currentFormData, stadium_name: e.detail.value!}
-                                    });
-                                }}
-                            />
+                            <IonSelect value={formData.stadium_name} placeholder="Select color" onIonChange={(e) => {
+                                setFormData((currentFormData) => {
+                                    tryAutoFill(currentFormData.stadium_id, e.detail.value!);
+                                    return {...currentFormData, stadium_name: e.detail.value!}
+                                });
+                            }}>
+                                <IonLabel>Stadium Name</IonLabel>
+                                <IonSelectOption value="Santiago">Santiago</IonSelectOption>
+                                <IonSelectOption value="Santo Domingo">Santo Domingo</IonSelectOption>
+                                <IonSelectOption value="Jo Kelner">Jo Kelner</IonSelectOption>
+                                <IonSelectOption value="San Francisco">San Francisco</IonSelectOption>
+                                <IonSelectOption value="Regional">Regional</IonSelectOption>
+                            </IonSelect>
                         </IonItem>
 
                         <IonItemDivider>Color</IonItemDivider>
