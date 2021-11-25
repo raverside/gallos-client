@@ -13,8 +13,8 @@ export function formatOzToLbsOz(oz:string) {
     const lbs = ""+(parseFloat(oz) / 16);
     const splitString = lbs.split('.');
     const pounds = parseInt(splitString[0]) || 0;
-    const ozs = splitString[1] ? parseFloat("0."+splitString[1]) : false;
-    const ounces = ozs ? (ozs * 16).toFixed(2) : false;
+    const ozs = splitString[1] ? parseFloat("0."+splitString[1]) : 0;
+    const ounces = ozs ? (ozs * 16).toFixed(2) : 0;
     const ozshort = (""+ounces).split('.')[0] || 0;
     const pointsShort = (""+ounces).split('.')[1] || 0;
 
