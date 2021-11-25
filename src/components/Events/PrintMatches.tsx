@@ -12,7 +12,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
         participant.status === "approved" && !event.matches?.find((match:any) =>
         match.participant_id === participant.id || match.opponent_id === participant.id
         )
-    ).sort((a:any, b:any) => (+new Date(a.createdAt)) - (+new Date(b.createdAt)));
+    ).sort((a:any, b:any) => (+a.weight - +b.weight));
     const excludedParticipants = allParticipants?.filter((participant:any) => participant.status === "rejected").sort((a:any, b:any) => (+new Date(a.createdAt)) - (+new Date(b.createdAt)));
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
 

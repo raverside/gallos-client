@@ -65,7 +65,7 @@ const Baloteo: React.FC = () => {
         participant.status === "approved" && !event.matches?.find((match:any) =>
             match.participant_id === participant.id || match.opponent_id === participant.id
         )
-    );
+    ).sort((a:any, b:any) => (+a.weight - +b.weight));
     const excludedParticipants = event.participants?.filter((participant:any) => participant.status === "rejected");
 
     const shareMatch = async (match:any) => {
