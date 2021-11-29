@@ -87,7 +87,7 @@ const EventReceiving: React.FC = () => {
                         <IonLabel>Excluded<span className="barely-visible"> • {excludedParticipants?.length || 0}</span></IonLabel>
                     </IonSegmentButton>
                 </IonSegment>
-                <IonSearchbar className="searchbar" inputmode="numeric" placeholder="Search cage number" value={participantsSearch} onIonChange={e => {setParticipantsSearch(e.detail.value!)}} />
+                <IonSearchbar className="searchbar" inputmode="numeric" placeholder="Search" value={participantsSearch} onIonChange={e => {setParticipantsSearch(e.detail.value!)}} />
 
                 {currentTabParticipants?.length > 0 && <IonList>
                     {currentTabParticipants.map((participant:any) => <IonItem className="participant" lines="none" key={participant.id}>
