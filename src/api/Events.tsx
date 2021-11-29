@@ -54,6 +54,10 @@ export async function publishMatch(match_id:string) {
     return fetcher.get(`/publishMatch/${match_id}`);
 }
 
+export async function deleteMatch(match_id:string) {
+    return fetcher.get(`/deleteMatch/${match_id}`);
+}
+
 export async function cancelMatch(match_id:string) {
     return fetcher.get(`/cancelMatch/${match_id}`);
 }

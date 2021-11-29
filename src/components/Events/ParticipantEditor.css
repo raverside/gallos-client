@@ -69,3 +69,10 @@
 #event-editor ion-input {
     text-transform:capitalize;
 }
+.select_team {
+    --placeholder-opacity: 1;
+}
+.progressBar {
+    width: calc(100% - 40px);
+    margin: 15px auto 0 auto;
+}

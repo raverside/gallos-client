@@ -367,9 +367,9 @@ const JudgeMatch: React.FC = () => {
                             <IonImg src={timerConfigurationIcon} />
                             <IonText>{configuration === 1 ? "Confirm?" : "Config"}</IonText>
                         </IonButton>
-                        <IonButton fill="clear" color="tertiary" disabled={!timerInterval || timer <= 5} className="judge-time-button blue-time-button" onClick={() => startFiveSeconds()}>
+                        {event.stadium_five_sec && <IonButton fill="clear" color="tertiary" disabled={!timerInterval || timer <= 5} className="judge-time-button blue-time-button" onClick={() => startFiveSeconds()}>
                             <IonText>5 Seconds</IonText>
-                        </IonButton>
+                        </IonButton>}
                         <IonButton fill="clear" color="success" className="judge-time-button red-time-button" onClick={() => sixtyStop()}>
                             <IonText>60|Stop</IonText>
                         </IonButton>

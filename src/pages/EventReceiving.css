@@ -16,7 +16,7 @@
     width: 45px;
     border-radius: 5px;
     overflow: hidden;
-    display: block;
+    display: inline-block;
     vertical-align: middle;
     margin-right: 10px;
 }

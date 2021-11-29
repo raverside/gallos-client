@@ -15,7 +15,7 @@ import {
     IonRadioGroup,
     IonRadio,
     IonLabel,
-    IonText, IonTextarea, IonModal
+    IonText, IonTextarea, IonModal, IonProgressBar
 } from '@ionic/react';
 import {closeOutline as closeIcon} from "ionicons/icons";
 import AnimalImagePicker from './AnimalImagePicker';
@@ -86,6 +86,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         stadium_id: participant ? participant.stadium_id : undefined,
         stadium_name: participant ? participant.stadium_name : undefined,
     });
+    const [uploading, setUploading] = useState<boolean>(false);
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
 
     const fetchTeamOwner = async (id:number) => {
@@ -153,9 +154,11 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
     }
 
     const Submit = async () => {
+        setUploading(true);
         const response = await upsertParticipant(formData);
         if (response.participant) {
             fetchEvent();
+            setUploading(false);
         }
         if (formData.id) {
             close();
@@ -172,21 +175,25 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
     }
 
     const Approve = async () => {
+        setUploading(true);
         const newFormData = {...formData, status: "approved"};
         setFormData(newFormData);
         const response = await upsertParticipant(newFormData);
         if (response.participant) {
             fetchEvent();
+            setUploading(false);
         }
         close();
     }
 
     const Reject = async () => {
+        setUploading(true);
         const newFormData = {...formData, status: "rejected"};
         setFormData(newFormData);
         const response = await upsertParticipant(newFormData);
         if (response.participant) {
             fetchEvent();
+            setUploading(false);
         }
         close();
     }
@@ -247,6 +254,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                     <IonItemDivider>Team</IonItemDivider>
                     <IonItem lines="none">
                         <IonSelect
+                            className="select_team"
                             value={formData.team_id}
                             placeholder="Select Team"
                             disabled={!(teams.length > 0)}
@@ -489,12 +497,13 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                     <IonItem lines="none">
                     {(participant && participant.id) ?
                         <div className="participant-complete-buttons">
-                            <IonButton className="participant-approve-button" disabled={!canUpdate()} onClick={Approve}>Approve</IonButton>
-                            <IonButton className="participant-reject-button" onClick={() => setShowRejectReason(true)}>Reject</IonButton>
+                            <IonButton className="participant-approve-button" disabled={!canUpdate() || uploading} onClick={Approve}>Approve</IonButton>
+                            <IonButton className="participant-reject-button" disabled={uploading} onClick={() => setShowRejectReason(true)}>Reject</IonButton>
                         </div>
-                        : <IonButton expand="block" className="delete-button" disabled={!canCreate()} onClick={Submit}>Add</IonButton>
+                        : <IonButton expand="block" className="delete-button" disabled={!canCreate() || uploading} onClick={Submit}>Add</IonButton>
                     }
                     </IonItem>
+                    {uploading && <IonProgressBar className="progressBar" type="indeterminate" />}
                 <IonModal isOpen={showRejectReason} onDidDismiss={() => setShowRejectReason(false)} cssClass="reject-participant-modal">
                     <IonToolbar className="modal-header">
                         <IonButtons slot="start"><IonIcon size="large" icon={closeIcon} slot="start" onClick={() => setShowRejectReason(false)} /></IonButtons>

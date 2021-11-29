@@ -72,9 +72,10 @@
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:5px 15px;
+    padding:5px 5px 5px 0;
     background: #EB0404;
     clear:both;
+    margin:0;
 }
 .baloteoButton ion-text {
     color:white;
@@ -84,6 +85,14 @@
     width:12px;
     margin-left:10px;
     margin-right:-10px;
+    display:inline-block;
+}
+.ionButtonFix {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:0;
+    width:100%;
 }
 .event-image {
     height:auto;
@@ -102,4 +111,9 @@
     font-size: 18px;
     font-weight: 600;
     margin-top: 20px;
+}
+.eventMenu {
+    position: absolute;
+    right: 0;
+    top: 10px;
 }

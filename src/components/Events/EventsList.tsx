@@ -1,11 +1,26 @@
-import {IonCard, IonImg, IonList, IonItem, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonAvatar, IonRouterLink, IonText} from '@ionic/react';
+import {
+    IonCard,
+    IonImg,
+    IonList,
+    IonItem,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardSubtitle,
+    IonCardContent,
+    IonButton,
+    IonAvatar,
+    IonRouterLink,
+    IonText,
+    IonIcon, useIonActionSheet
+} from '@ionic/react';
 import {getImageUrl} from '../utils';
 import moment from 'moment';
 import editIcon from '../../img/edit.png';
 import arrowIcon from '../../img/arrow_forward.png';
-import {useState} from 'react';
+import React, {useState} from 'react';
 
 import './EventsList.css';
+import {ellipsisHorizontal as menuIcon} from "ionicons/icons";
 
 type EventsListProps = {
     events: Array<{}>;
@@ -15,6 +30,7 @@ type EventsListProps = {
 const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
     const [fullDescription, setFullDescription] = useState<string|false>(false);
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
+    const [present, dismiss] = useIonActionSheet();
 
     return ((events.length > 0) ? <IonList className="eventsList">
         {events.map((event:any) => {
@@ -22,7 +38,16 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
             const minBet = allBets.length > 0 ? Math.min(...allBets) : false;
 
             return <div key={event.id} className="event"><IonCard>
-                <IonButton fill="clear" className="event-stadium" routerLink={"/stadium/"+event.stadium_id}><IonAvatar><IonImg src={getImageUrl(event.stadium_image)}/></IonAvatar><span>{event.stadium_name}</span></IonButton>
+                <IonButton fill="clear" className="event-stadium" routerLink={"/stadium/"+event.stadium_id}>
+                    <IonAvatar><IonImg src={getImageUrl(event.stadium_image)}/></IonAvatar>
+                    <span>{event.stadium_name}</span>
+                </IonButton>
+                <IonButton fill="clear" color="dark" className="eventMenu" onClick={() => present({
+                    buttons: [
+                        { text: 'Edit', handler: () => {openEditor(event)} },
+                    ],
+                    header: 'Settings'
+                })}><IonIcon size="small" icon={menuIcon} /></IonButton>
                 <IonButton fill="clear" className="event-image" routerLink={"/event/"+event.id} ><IonImg src={event.is_special && event.image ? getImageUrl(event.image) : getImageUrl(event.stadium_image)} /></IonButton>
                 <IonCardHeader>
                     <IonCardTitle>{(event.is_special && event.title) ? event.title : "Traditional Events"}</IonCardTitle>
@@ -53,16 +78,15 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                         <>{event.description} {fullDescription === event.id && <IonButton className="read-more-button" fill="clear" color="primary" type="button" onClick={() => setFullDescription(false)}>Read less</IonButton>}</> :
                         <>{event.description.substring(0, 90)}... <IonButton className="read-more-button" fill="clear" color="primary" type="button" onClick={() => setFullDescription(event.id)}>Read more</IonButton></>
                     }</IonCardContent>}
-                <IonButton className="event-edit" fill="clear" onClick={() => {openEditor(event)}}>
-                    <IonImg src={editIcon} />
+                <IonButton fill="clear" className="baloteoButton" routerLink={event.phase === "on going" ? "/baloteo_stats/"+event.id : event.phase === "arrangement" ? "/baloteo/"+event.id : "/event_receiving/"+event.id}>
+                    <div className="ionButtonFix">
+                        <IonText>{event.phase}</IonText>
+                        <div>
+                            <IonText>See Baloteo</IonText>
+                            <IonImg src={arrowIcon} />
+                        </div>
+                    </div>
                 </IonButton>
-                <div className="baloteoButton">
-                    <IonText>{event.phase}</IonText>
-                    <IonButton fill="clear" routerLink={"/event_receiving/"+event.id}>
-                        <IonText>See Baloteo</IonText>
-                        <IonImg src={arrowIcon} />
-                    </IonButton>
-                </div>
             </IonCard></div>
         })}
     </IonList> : <IonText className="empty-list">No Events Available</IonText>);

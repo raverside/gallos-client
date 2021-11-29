@@ -18,7 +18,7 @@ export function formatOzToLbsOz(oz:string) {
     const ozshort = (""+ounces).split('.')[0] || 0;
     const pointsShort = (""+ounces).split('.')[1] || 0;
 
-    return pounds+"." + ozshort+"." + pointsShort;
+    return pounds+"." + ozshort+"." + (pointsShort.toString().substring(0,1));
 }
 
 export function formatOzToLbsOzVerbal(oz:string) {

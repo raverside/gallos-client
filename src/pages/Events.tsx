@@ -125,11 +125,13 @@ const Events: React.FC = () => {
                     />
                 }
                 <IonRefresher slot="fixed" onIonRefresh={(e) => fetchEvents(eventsFilterQuery, e.detail.complete)}><IonRefresherContent /></IonRefresher>
-                <EventsList openEditor={(event:{}) => {setShowEventEditorModal(3); setEditorEvent(event)}} events={events} />
+                <EventsList openEditor={(event:{}) => {setEditorEvent(event); setShowEventEditorModal(3)}} events={events} />
                 <IonInfiniteScroll disabled={disableInfiniteScroll} onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
                     <IonInfiniteScrollContent />
                 </IonInfiniteScroll>
-                <CreateEventButton showEventEditor={setShowEventEditorModal} />
+                {(state.user.role === "admin_manager" || state.user.role === "admin_worker" || state.user.role === "admin") &&
+                    <CreateEventButton showEventEditor={setShowEventEditorModal} />
+                }
                 <IonModal isOpen={!!showEventEditorModal} onDidDismiss={() => setShowEventEditorModal(false)}>
                     <EventEditor
                         fetchEvents={fetchEvents}

@@ -1,5 +1,6 @@
 .pair-manual {
     width:100%;
+    overflow: auto;
 }
 .pair-manual ion-row {
     align-items: center;
@@ -13,10 +14,10 @@
     color: #979797;
 }
 .create-match {
-    margin:15px;
+    margin:10px;
     text-transform: capitalize;
-    --padding-top:13px;
-    --padding-bottom:13px;
+    --padding-top:10px;
+    --padding-bottom:10px;
     font-weight: 600;
     font-size: 14px;
     height:auto;

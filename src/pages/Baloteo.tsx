@@ -16,7 +16,7 @@ import {
     IonButton, IonGrid, IonIcon, useIonActionSheet, IonList, IonItem, IonModal,
 } from '@ionic/react';
 import React, {useEffect, useRef, useState} from "react";
-import {getEvent, publishMatch, swapSides, announceEvent} from "../api/Events";
+import {getEvent, publishMatch, swapSides, announceEvent, deleteMatch} from "../api/Events";
 
 import './Baloteo.css';
 import {useHistory, useParams} from "react-router-dom";
@@ -95,6 +95,11 @@ const Baloteo: React.FC = () => {
         history.replace('/baloteo_stats/'+event.id);
     };
 
+    const unpairMatch = async (matchId:string) => {
+        await deleteMatch(matchId);
+        fetchEvent();
+    };
+
     return !event ? null : (
         <IonPage>
             <IonHeader>
@@ -150,6 +155,7 @@ const Baloteo: React.FC = () => {
                                             buttons: [
                                                 { text: 'Share this match', handler: () => shareMatch(match) },
                                                 { text: 'Print this match', handler: () => printMatch(match) },
+                                                match.manual && { text: 'Unmatch', handler: () => unpairMatch(match.id) },
                                                 { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                                             ],
                                             header: 'Settings'
@@ -267,7 +273,13 @@ const Baloteo: React.FC = () => {
                         <IonButtons slot="start" className="pair-manual-close"><IonIcon size="large" icon={closeIcon} slot="start" onClick={() => setShowPairModal(false)} /></IonButtons>
                         <IonTitle className="page-title">Pair Animal</IonTitle>
                     </IonToolbar>
-                    <PairManual participantId={showPairModal} opponents={unmatchedParticipants} fightNumber={liveMatches.length + availableMatches.length + 1} close={() => {fetchEvent(); setShowPairModal(false); setBaloteoTab("live")}} />
+                    <PairManual
+                        participantId={showPairModal}
+                        opponents={unmatchedParticipants}
+                        fightNumber={liveMatches.length + availableMatches.length + 1}
+                        fetchEvent={fetchEvent}
+                        close={() => {setShowPairModal(false); setBaloteoTab("live")}}
+                    />
                 </IonModal>
                 <IonModal isOpen={!!showShareMatch} onDidDismiss={() => setShowShareMatch(false)}>
                     <ShareMatchImage match={showShareMatch} close={() => setShowShareMatch(false)} />

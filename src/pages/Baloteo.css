@@ -110,12 +110,16 @@
     margin:0;
     text-transform:capitalize;
 }
+.baloteo-participants {
+    margin-bottom:70px;
+}
 .baloteo-announce {
     position:fixed;
     left:0;right:0;
     bottom:0;
-    padding:15px;
+    padding:10px;
     background-color:white;
+    z-index:1;
 }
 .baloteo-announce ion-button {
     text-transform:capitalize;

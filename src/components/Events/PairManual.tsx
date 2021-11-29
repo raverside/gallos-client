@@ -11,9 +11,10 @@ type PairManualProps = {
     opponents: any[];
     fightNumber: number;
     close: () => void;
+    fetchEvent: () => void;
 };
 
-const PairManual: React.FC<PairManualProps> = ({participantId, opponents, fightNumber, close}) => {
+const PairManual: React.FC<PairManualProps> = ({participantId, opponents, fightNumber, close, fetchEvent}) => {
     const participant = opponents?.find(o => o.id === participantId);
     const [opponent, setOpponent] = useState<any>(false);
     const [searchOpponent, setSearchOpponent] = useState<string>("");
@@ -21,7 +22,10 @@ const PairManual: React.FC<PairManualProps> = ({participantId, opponents, fightN
     const filteredOpponents = opponents?.filter(o => o.id !== participantId && (!searchOpponent || +o.cage === +searchOpponent));
 
     const pairMatch = async () => {
-        participantId && createMatch(opponent.event_id, participantId, opponent.id, true);
+        if (participantId) {
+            const response = await createMatch(opponent.event_id, participantId, opponent.id, true);
+            if (response) fetchEvent();
+        }
         close();
     };
 

@@ -9,7 +9,8 @@ import {
     IonItem,
     IonItemDivider,
     IonButton,
-    IonText
+    IonText,
+    IonProgressBar
 } from '@ionic/react';
 import {closeOutline as closeIcon} from "ionicons/icons";
 import AnimalImagePicker from './AnimalImagePicker';
@@ -57,6 +58,7 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
         image_upload: null,
         image_flipped: participant ? participant.image_flipped : false,
     });
+    const [uploading, setUploading] = useState<boolean>(false);
 
 
     const canUpload = () => {
@@ -68,9 +70,11 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
     }
 
     const Submit = async () => {
+        setUploading(true);
         const response = await upsertParticipant(formData);
         if (response.participant) {
             fetchEvent();
+            setUploading(false);
         }
         close();
     }
@@ -100,10 +104,11 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
                             setIsFlipped={(isFlipped) => setFormData((currentFormData:any) => ({...currentFormData, image_flipped: isFlipped}))}
                         />
                     </IonItem>
+                    {uploading && <IonProgressBar className="progressBar" type="indeterminate" />}
                 </>}
 
                 <IonItem lines="none">
-                    <IonButton expand="block" className="delete-button" disabled={!canUpload()} onClick={Submit}>Upload</IonButton>
+                    <IonButton expand="block" className="delete-button" disabled={!canUpload() || uploading} onClick={Submit}>Upload</IonButton>
                 </IonItem>
             </IonList>
         </IonContent>
