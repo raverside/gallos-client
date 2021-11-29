@@ -176,7 +176,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                     const betting_amount = getBettingAmount(participant);
 
                     return (<tr style={{borderBottom: "1px solid black", lineHeight: "14px"}}>
-                        <td style={{textAlign:"center", fontWeight: "bold", verticalAlign: "top"}}><p style={{margin: "5px 0"}}>#{participant.cage || index + 1}</p></td>
+                        <td style={{textAlign:"center", fontWeight: "bold", verticalAlign: "top"}}><p style={{margin: "5px 0"}}>#{participant.cage}</p></td>
                         <td style={{textAlign:"left", verticalAlign: "top"}}>
                             <p style={{fontWeight: "bold", margin: "5px 0", verticalAlign: "top", display: "inline-block"}}>{participant.team?.name}</p>
                             <p style={{margin: "5px 0", textTransform: "capitalize"}}>{participant.color} {participant.cresta}</p>
