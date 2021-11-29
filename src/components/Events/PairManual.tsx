@@ -58,8 +58,8 @@ const PairManual: React.FC<PairManualProps> = ({participantId, opponents, fightN
 
                         <IonCol size="1">{participant.cage}</IonCol>
                         <IonCol size="6">
-                            {participant.image && <IonImg src={getImageUrl(participant.image)} className={participant.image_flipped ? "participant-thumb flipped" : "participant-thumb"} />}
-                            <IonText>{participant.team?.name}</IonText>
+                            <IonImg src={getImageUrl(participant.image)} className={participant.image_flipped ? "participant-thumb flipped" : "participant-thumb"} />
+                            <IonText className="baloteo-participant-name">{participant.team?.name}</IonText>
                         </IonCol>
                         <IonCol size="3" className="participant-weight-class">
                             <div>{participant.type}</div>
