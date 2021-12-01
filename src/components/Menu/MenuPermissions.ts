@@ -8,6 +8,7 @@ import teamOwnersIcon from '../../img/menu_team_owners.png';
 import transactionsIcon from '../../img/menu_transactions.png';
 import usersIcon from '../../img/menu_users.png';
 import logoutIcon from '../../img/menu_logout.png';
+import {useHistory} from "react-router-dom";
 
 interface AppPage {
     title: string;
@@ -22,16 +23,18 @@ interface AppPage {
 const MenuPermissions = () => {
     const {dispatch} = useContext(AppContext);
     const appPages: { [key: string]: AppPage[] } = {};
+    const history = useHistory();
 
     appPages["user"] = [
         {title: 'Home', url: '/', icon: homeIcon},
         {title: 'Membership', url: '/membership', icon: membershipsIcon},
         {title: 'Contact Us', url: '/contact'},
         {
-            title: 'Log Out', url: '/auth_admin', icon: logoutIcon,
+            title: 'Log Out', url: '/auth', icon: logoutIcon,
             props: {
                 className: "logout-button",
                 onClick: () => {
+                    history.replace("/auth");
                     dispatch({
                         type: 'resetUser',
                     });

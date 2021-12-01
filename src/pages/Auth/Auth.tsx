@@ -11,7 +11,7 @@ const Auth: React.FC = () => {
     const history = useHistory();
     useEffect(() => {
         if (state.user?.id) {
-            history.push("/");
+            history.replace("/");
         }
     }, [state.user?.id]);
 
@@ -30,12 +30,12 @@ const Auth: React.FC = () => {
                             </IonText>
                         </IonCol>
                     </IonRow>
-                    {/*<IonRow>*/}
-                    {/*    <IonCol>*/}
-                    {/*        <IonButton routerLink="/register" expand="block">Create Account</IonButton>*/}
-                    {/*        <IonButton routerLink="/login" expand="block" fill="outline">Log In</IonButton>*/}
-                    {/*    </IonCol>*/}
-                    {/*</IonRow>*/}
+                    <IonRow>
+                        <IonCol>
+                            <IonButton routerLink="/register" expand="block">Create Account</IonButton>
+                            <IonButton routerLink="/login" expand="block" fill="outline">Log In</IonButton>
+                        </IonCol>
+                    </IonRow>
                 </IonGrid>
             </IonContent>
         </IonPage>

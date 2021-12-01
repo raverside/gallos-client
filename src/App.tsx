@@ -79,7 +79,7 @@ const App: React.FC = () => {
                                 <AuthAdmin/>
                             </Route>
 
-                            <PrivateRoute path="/" exact admin>
+                            <PrivateRoute path="/" exact>
                                 <Events/>
                             </PrivateRoute>
                             <PrivateRoute path="/events" exact admin>

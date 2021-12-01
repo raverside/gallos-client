@@ -41,7 +41,7 @@ const Auth: React.FC = () => {
             if (state.user.role === "judge") {
                 history.replace("/judge");
             } else {
-                history.replace("/");
+                history.replace("/events");
             }
         }
     }, [state.user?.id]);
