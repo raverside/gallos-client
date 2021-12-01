@@ -16,7 +16,7 @@ const ForgotPasscode: React.FC = () => {
             <ArrowHeader title="Forgot Passcode" backHref="/auth"/>
             <IonContent fullscreen id="auth-content">
                 <IonText className="restore-passcode-text">Write to us on Telegram to recover your password</IonText>
-                <IonButton expand="block" color="tertiary" href="https://telegram.me/raverside" target="_blank">
+                <IonButton expand="block" color="tertiary" href="https://telegram.me/gallosclub" target="_blank">
                     <IonIcon icon={paperPlaneIcon} style={{marginRight: "10px", fontSize: "14px"}} /> Restore Passcode
                 </IonButton>
             </IonContent>
