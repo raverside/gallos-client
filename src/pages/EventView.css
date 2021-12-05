@@ -115,3 +115,18 @@
     background-color:white;
     padding:0 15px 15px 15px;
 }
+.baloteo-participant-status {
+    text-transform:capitalize;
+    font-size:12px;
+}
+.baloteo-participant-status.green {
+    color:#307A0E;
+}
+.baloteo-participant-status.red {
+    color:#EB0404;
+}
+.baloteo-emptylist {
+    text-align:center;
+    margin:20px;
+    font-weight:600;
+}

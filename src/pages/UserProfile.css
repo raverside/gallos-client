@@ -63,7 +63,7 @@
     margin-bottom:0;
 }
 .user-profile-tabs-segment {
-    margin:0 10px;
+    padding:0 10px;
 }
 .user-profile-tabs-segment ion-segment-button {
     text-transform:none;

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useState, useRef, useContext} from "react";
 import {getEvent, announceMatchResult} from "../api/Events";
 import {
     IonContent,
@@ -24,8 +24,10 @@ import longAlarmSound from "../sfx/alarm_long.wav";
 
 import {useHistory, useParams} from "react-router-dom";
 import moment from "moment";
+import {AppContext} from "../State";
 
 const JudgeMatch: React.FC = () => {
+    const { state } = useContext(AppContext);
     const { event_id, match_id } = useParams<{event_id:string, match_id:string}>();
     const [event, setEvent] = useState<any>();
     const [match, setMatch] = useState<any>();
@@ -75,7 +77,8 @@ const JudgeMatch: React.FC = () => {
     }
 
     const onAnnounceMatch = async () => {
-        if (typeof result !== "undefined" && result >= 0 && match) await announceMatchResult(match.id, result);
+        if (typeof result !== "undefined" && result >= 0 && match) await announceMatchResult(match.id, result, matchTime);
+        state.socket?.emit('updateEvents');
         window.location.replace("/judge");
     }
 

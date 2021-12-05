@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
     IonButtons,
     IonContent,
@@ -17,6 +17,7 @@ import AnimalImagePicker from './AnimalImagePicker';
 import {upsertParticipant} from '../../api/Events';
 
 import './ParticipantEditor.css';
+import {AppContext} from "../../State";
 
 type ParticipantFormData = {
     id?: string|undefined;
@@ -52,6 +53,7 @@ type ParticipantProps = {
 };
 
 const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close, event, participant= false}) => {
+    const { state } = useContext(AppContext);
     const [formData, setFormData] = useState<any>({
         ...participant,
         image: participant ? participant.image : null,
@@ -75,6 +77,7 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
         if (response.participant) {
             fetchEvent();
             setUploading(false);
+            state.socket?.emit('updateEvents');
         }
         close();
     }

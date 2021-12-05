@@ -2,35 +2,66 @@ import {
     IonCard,
     IonImg,
     IonList,
-    IonItem,
     IonCardHeader,
     IonCardTitle,
     IonCardSubtitle,
     IonCardContent,
     IonButton,
     IonAvatar,
-    IonRouterLink,
     IonText,
     IonIcon, useIonActionSheet
 } from '@ionic/react';
 import {getImageUrl} from '../utils';
 import moment from 'moment';
-import editIcon from '../../img/edit.png';
 import arrowIcon from '../../img/arrow_forward.png';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 
 import './EventsList.css';
 import {ellipsisHorizontal as menuIcon} from "ionicons/icons";
+import {AppContext} from "../../State";
+import ShareEventImage from "./ShareEventImage";
+
+// @ts-ignore
+import domtoimage from "dom-to-image-improved";
 
 type EventsListProps = {
     events: Array<{}>;
-    openEditor: (event:{}) => void
+    openEditor?: (event:{}) => void
 };
 
 const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
+    const { state } = useContext(AppContext);
     const [fullDescription, setFullDescription] = useState<string|false>(false);
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
     const [present, dismiss] = useIonActionSheet();
+    const shareRef = React.useRef();
+    const [showShare, setShowShare] = useState<any>(false);
+
+    const shareEvent = async (event:any) => {
+        if (!event) return false;
+        const element = shareRef.current;
+        setShowShare(event);
+        domtoimage.toBlob(element!).then((blob:Blob) => {
+            const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
+
+            //download the file
+            const a = document.createElement("a");
+            a.href  = window.URL.createObjectURL(file);
+            a.setAttribute("download", file.name);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            const filesArray:any = [file];
+            setShowShare(false);
+
+            //share the file
+            // @ts-ignore
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
+                navigator.share({title: event.title || "Traditional Event", files: filesArray});
+            }
+        });
+    }
 
     return ((events.length > 0) ? <IonList className="eventsList">
         {events.map((event:any) => {
@@ -44,7 +75,7 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                 </IonButton>
                 <IonButton fill="clear" color="dark" className="eventMenu" onClick={() => present({
                     buttons: [
-                        { text: 'Edit', handler: () => {openEditor(event)} },
+                        state.user?.role !== "user" ? { text: 'Edit', handler: () => {openEditor && openEditor(event)} } : { text: "Share", handler: () => shareEvent(event)},
                     ],
                     header: 'Settings'
                 })}><IonIcon size="small" icon={menuIcon} /></IonButton>
@@ -78,7 +109,12 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                         <>{event.description} {fullDescription === event.id && <IonButton className="read-more-button" fill="clear" color="primary" type="button" onClick={() => setFullDescription(false)}>Read less</IonButton>}</> :
                         <>{event.description.substring(0, 90)}... <IonButton className="read-more-button" fill="clear" color="primary" type="button" onClick={() => setFullDescription(event.id)}>Read more</IonButton></>
                     }</IonCardContent>}
-                <IonButton fill="clear" className="baloteoButton" routerLink={event.phase === "on going" ? "/baloteo_stats/"+event.id : event.phase === "arrangement" ? "/baloteo/"+event.id : "/event_receiving/"+event.id}>
+                <IonButton
+                    fill="clear"
+                    className="baloteoButton"
+                    routerLink={state.user?.role === 'user' ? "/event/"+event.id : event.phase === "on going" ? "/baloteo_stats/"+event.id : event.phase === "arrangement" ? "/baloteo/"+event.id : "/event_receiving/"+event.id}
+                    disabled={!(state.user?.role === 'admin_manager' || state.user?.role === 'admin_worker' || state.user?.role === 'worker' || state.user?.role === 'user')}
+                >
                     <div className="ionButtonFix">
                         <IonText>{event.phase}</IonText>
                         <div>
@@ -89,6 +125,7 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                 </IonButton>
             </IonCard></div>
         })}
+        <div style={showShare ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}><ShareEventImage event={showShare} close={() => setShowShare(false)} ref={shareRef} /></div>
     </IonList> : <IonText className="empty-list">No Events Available</IonText>);
 };
 

@@ -5,7 +5,6 @@ import {getImageUrl} from '../utils';
 
 import flipperIcon from '../../img/flipper.png';
 import {closeOutline as closeIcon} from "ionicons/icons";
-import {reloadOutline as rotateIcon} from "ionicons/icons";
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import './AnimalImagePicker.css';
@@ -24,10 +23,8 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
     const [crop, setCrop] = useState<any>({
         unit: '%',
         aspect: 1,
-        width: 30,
-        rotate: 0
+        width: 30
     });
-    const [rotate, setRotate] = useState<number>(0);
     const imgRef = useRef(null);
 
     const openFileDialog = () => {
@@ -131,17 +128,11 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
                 <ReactCrop src={imagePreview}
                    crop={crop}
                    ruleOfThirds
-                   rotate={rotate}
                    onComplete={onCropComplete}
                    onChange={onCropChange}
                    onImageLoaded={onImageLoaded}
                    className={isFlipped ? "participant-preview-image flipped" : "participant-preview-image"}
                 />
-                <IonButton className="rotate_icon" fill="clear" onClick={() => {
-                    setRotate((currentRotate:number) => (currentRotate + 90 >= 180) ? -180 : currentRotate + 90);
-                    setImageForCropping(imgRef.current);
-                    pickCroppedImg(imgRef.current, crop, +new Date() + ".jpg");
-                }}><IonIcon slot="icon-only" icon={rotateIcon}/></IonButton>
             </>}
         </> : <div className="add-photo" onClick={openFileDialog}>
             <IonImg src={imageAddIcon}/>

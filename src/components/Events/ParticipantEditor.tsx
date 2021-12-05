@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
     IonButtons,
     IonContent,
@@ -23,6 +23,7 @@ import {upsertParticipant, findParticipantByStadiumData} from '../../api/Events'
 import {getTeamOwnerByDigitalId} from '../../api/TeamOwners';
 
 import './ParticipantEditor.css';
+import {AppContext} from "../../State";
 
 type ParticipantFormData = {
     id?: string|undefined;
@@ -58,6 +59,7 @@ type ParticipantProps = {
 };
 
 const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event, participant= false}) => {
+    const { state } = useContext(AppContext);
     const [teams, setTeams] = useState<any[]>([]);
     const [showRejectReason, setShowRejectReason] = useState<boolean>(false);
     const [formData, setFormData] = useState<ParticipantFormData>({
@@ -159,6 +161,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         if (response.participant) {
             fetchEvent();
             setUploading(false);
+            state.socket?.emit('updateEvents');
         }
         if (formData.id) {
             close();
@@ -182,6 +185,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         if (response.participant) {
             fetchEvent();
             setUploading(false);
+            state.socket?.emit('updateEvents');
         }
         close();
     }
@@ -194,6 +198,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         if (response.participant) {
             fetchEvent();
             setUploading(false);
+            state.socket?.emit('updateEvents');
         }
         close();
     }

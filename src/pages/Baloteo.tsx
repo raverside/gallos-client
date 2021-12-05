@@ -135,7 +135,7 @@ const Baloteo: React.FC = () => {
                 <IonSearchbar className="searchbar" placeholder="Search cage number or team name" value={baloteoSearch} onIonChange={e => {setBaloteoSearch(e.detail.value!)}} />
                 {(baloteoTab === "live") && <div className="baloteo-matches">
                     <IonGrid className="baloteo-match">
-                        <IonRow>
+                        <IonRow className="baloteo-side-header">
                             <IonCol size="5">
                                 <div className="blue_side">
                                     <div className="baloteo-match-blue_side">Blue Side</div>
@@ -148,7 +148,7 @@ const Baloteo: React.FC = () => {
                                 </div>
                             </IonCol>
                         </IonRow>
-                        {liveMatches.map((match:any, index:number) => (<>
+                        {liveMatches.map((match:any, index:number) => (<IonGrid className="baloteo-match-wrapper">
                                 <IonRow>
                                     <IonCol size="2" offset="10">
                                         <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
@@ -182,40 +182,42 @@ const Baloteo: React.FC = () => {
                                     </IonCol>
                                 </IonRow>
 
-                        </>))}</IonGrid></div>}
+                        </IonGrid>))}</IonGrid></div>}
                 {(baloteoTab === "available") && <div className="baloteo-matches">
                     {availableMatches.map((match:any, index:number) => (
                         <IonGrid key={index} className="baloteo-match">
-                            <IonRow>
-                                <IonCol size="2" offset="10">
-                                    <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
-                                        buttons: [
-                                            { text: 'Share this match', handler: () => printMatch(match) },
-                                            { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
-                                        ],
-                                        header: 'Settings'
-                                    })}><IonIcon size="small" icon={menuIcon} /></IonButton>
-                                </IonCol>
-                            </IonRow>
-                            <IonRow>
-                                <IonCol size="5">
-                                    <IonImg className={(match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image")  + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.participant?.image)} />
-                                    <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
-                                </IonCol>
-                                <IonCol size="2">
-                                    <p className="baloteo-match-fight">Pelea {index + 1}</p>
-                                    <p className="baloteo-match-vs">VS</p>
-                                </IonCol>
-                                <IonCol size="5">
-                                    <IonImg className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.opponent?.image)} />
-                                    <p className="baloteo-match-team_name">{match.opponent?.team?.name}</p>
-                                </IonCol>
-                            </IonRow>
-                            <IonRow>
-                                <IonCol size="12">
-                                    <IonButton fill="clear" className="baloteo-manual-live" onClick={() => addToLive(match.id)}>Add to Live</IonButton>
-                                </IonCol>
-                            </IonRow>
+                            <IonGrid className="baloteo-match-wrapper">
+                                <IonRow>
+                                    <IonCol size="2" offset="10">
+                                        <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
+                                            buttons: [
+                                                { text: 'Share this match', handler: () => printMatch(match) },
+                                                { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
+                                            ],
+                                            header: 'Settings'
+                                        })}><IonIcon size="small" icon={menuIcon} /></IonButton>
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol size="5">
+                                        <IonImg className={(match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image")  + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.participant?.image)} />
+                                        <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
+                                    </IonCol>
+                                    <IonCol size="2">
+                                        <p className="baloteo-match-fight">Pelea {index + 1}</p>
+                                        <p className="baloteo-match-vs">VS</p>
+                                    </IonCol>
+                                    <IonCol size="5">
+                                        <IonImg className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.opponent?.image)} />
+                                        <p className="baloteo-match-team_name">{match.opponent?.team?.name}</p>
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol size="12">
+                                        <IonButton fill="clear" className="baloteo-manual-live" onClick={() => addToLive(match.id)}>Add to Live</IonButton>
+                                    </IonCol>
+                                </IonRow>
+                            </IonGrid>
                         </IonGrid>
                     ))}</div>}
                     {(baloteoTab === "unmatched") && <div className="baloteo-participants">

@@ -6,14 +6,22 @@ import React from "react";
 
 type StadiumsListProps = {
     stadiums: Array<{}>;
+    selectStadium?: (stadium:any) => void;
 };
 
-const StadiumsList: React.FC<StadiumsListProps> = ({stadiums}) => {
+const StadiumsList: React.FC<StadiumsListProps> = ({stadiums, selectStadium}) => {
 
 
     return (<IonList className="eventsList">
         {stadiums.map((stadium:any, index:number) => {
-            return <IonItem key={stadium.id} lines="none" className="stadium" button routerLink={"/stadium/"+stadium.id}>
+            return <IonItem
+                key={stadium.id}
+                lines="none"
+                className="stadium"
+                button
+                routerLink={selectStadium ? undefined : "/stadium/"+stadium.id}
+                onClick={selectStadium ? () => selectStadium(stadium) : undefined}
+            >
                     <p className="stadium-index">{index + 1}</p>
                     <IonImg className="stadium-image" src={getImageUrl(stadium.image)} />
                     <IonLabel className="stadium-short-info">

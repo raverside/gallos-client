@@ -10,7 +10,7 @@ const ProfileWidget: React.FC = () => {
     if (!state.user) return null;
 
     return (
-        <IonItem className="profile-widget" lines="none">
+        <IonItem routerLink={'/user_profile'} className="profile-widget" lines="none">
             <IonThumbnail className="profile-widget_photo">
                 <IonImg src={getImageUrl(state.user.photo)} />
             </IonThumbnail>

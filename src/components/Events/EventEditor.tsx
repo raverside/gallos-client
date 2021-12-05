@@ -85,6 +85,7 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
         removeEvent(id);
         fetchEvents();
         close();
+        state.socket?.emit('updateEvents');
     }
 
     const canSubmit = () => {
@@ -102,6 +103,7 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
         const response = await upsertEvent(formData);
         if (response.event) {
             fetchEvents();
+            state.socket?.emit('updateEvents');
         }
         close();
     }

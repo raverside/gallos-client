@@ -1,0 +1,44 @@
+.current-user-membership {
+    margin:15px;
+}
+.current-user-membership ion-text {
+    font-weight: 600;
+    font-size: 14px;
+    display:block;
+}
+.current-membership {
+    font-size: 18px;
+    margin:10px 0;
+    display:block;
+}
+.select-membership {
+    text-align: center;
+    padding:15px 0;
+    background: #F5F5F5;
+}
+.pick-membership {
+    background-color:white;
+    text-transform:initial;
+    margin:15px;
+    padding:40px 15px;
+    opacity:0.4;
+}
+.membership-name {
+    font-weight: 600;
+    font-size: 20px;
+    display:block;
+    line-height: 27px;
+}
+.membership-price {
+    font-weight: bold;
+    font-size: 36px;
+    color: #EB0404;
+    display:block;
+    line-height: 49px;
+}
+.membership-duration {
+    font-weight: 600;
+    font-size: 14px;
+    display:block;
+    line-height: 19px;
+}

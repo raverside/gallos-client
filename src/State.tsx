@@ -1,5 +1,10 @@
 import React, { createContext, useReducer } from "react";
 import Cookies from "js-cookie";
+import { io } from "socket.io-client";
+const socket = io(process.env.REACT_APP_NODE_API_URL!, {
+    transports: ['websocket'],
+    rejectUnauthorized: false
+});
 
 const initialState = {user: {}};
 const AppContext = createContext(initialState as any);
@@ -7,11 +12,11 @@ const AppContext = createContext(initialState as any);
 const reducer = (state: any, action: any) => {
     switch(action.type) {
         case "setUser": {
-            return { ...state, user: action.user }
+            return { ...state, user: action.user, socket }
         }
         case "resetUser": {
             Cookies.remove('token');
-            return { ...state, user: {}};
+            return { ...state, user: {}, socket: undefined };
         }
     }
     return state;

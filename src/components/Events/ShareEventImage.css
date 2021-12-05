@@ -2,6 +2,10 @@
     background:black;
     position:relative;
     overflow: auto;
+    width:500px;
+}
+.shareable-image_image {
+    width:100%;
 }
 .shareable-image_content {
     display:flex;

@@ -39,7 +39,7 @@ const BaloteoStats: React.FC = () => {
         }
     };
 
-    const matches = (event && baloteoSearch) ? event.matches?.filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name === baloteoSearch || m.opponent?.team?.name === baloteoSearch) : event.matches;
+    const matches = (event && baloteoSearch) ? event.matches?.filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name === baloteoSearch || m.opponent?.team?.name === baloteoSearch) : event?.matches;
     const liveMatches = matches?.filter((p:any) => p.live) || [];
 
     return !event ? null : (
@@ -66,7 +66,7 @@ const BaloteoStats: React.FC = () => {
                 {(baloteoTab === "matches") && <div className="baloteo-matches">
                     <IonSearchbar className="searchbar" placeholder="Search cage number or team name" value={baloteoSearch} onIonChange={e => {setBaloteoSearch(e.detail.value!)}} />
                     <IonGrid className="baloteo-match">
-                        <IonRow>
+                        <IonRow className="baloteo-side-header">
                             <IonCol size="5">
                                 <div className="blue_side">
                                     <div className="baloteo-match-blue_side">Blue Side</div>
@@ -81,7 +81,7 @@ const BaloteoStats: React.FC = () => {
                         </IonRow>
                         {liveMatches.map((match:any, index:number) => (
 
-                                <IonRow>
+                                <IonRow className="baloteo-match-wrapper">
                                     <IonCol size="5">
                                         <div className="blue_side">
                                             <IonImg className={match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image"} src={getImageUrl(match.participant?.image)} />

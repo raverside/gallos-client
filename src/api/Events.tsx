@@ -62,8 +62,8 @@ export async function cancelMatch(match_id:string) {
     return fetcher.get(`/cancelMatch/${match_id}`);
 }
 
-export async function announceMatchResult(match_id:string, result:number) {
-    return fetcher.post(`/announceMatchResult/${match_id}`, {result});
+export async function announceMatchResult(match_id:string, result:number, match_time:number) {
+    return fetcher.post(`/announceMatchResult/${match_id}`, {result, match_time});
 }
 
 export async function swapSides(match_id:string) {
@@ -76,4 +76,8 @@ export async function announceEvent(event_id:string) {
 
 export async function createMatch(event_id:string, participant_id:string, opponent_id:string, live:boolean) {
     return fetcher.post(`/createMatch`, {event_id, participant_id, opponent_id, live});
+}
+
+export async function getStatisticsByStadium(stadium_id:string, type: string, dateFilter: {}) {
+    return fetcher.post(`/statistics/${stadium_id}/${type}`, {dateFilter});
 }

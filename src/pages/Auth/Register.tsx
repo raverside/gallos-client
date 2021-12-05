@@ -78,7 +78,7 @@ const Register: React.FC = () => {
                                     value={phone}
                                     onChange={(phone) => {setError(false);setPhone(phone)}}
                                 />
-                                {error && <IonText color="primary" className="auth-error">This phone number is already attached to an account</IonText>}
+                                {error && <IonText color="primary" className="auth-error">Phone number is already registered. Please enter another phone number</IonText>}
                             </IonCol>
                         </IonRow>
                         <IonRow>

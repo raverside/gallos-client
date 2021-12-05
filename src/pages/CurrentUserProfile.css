@@ -1,0 +1,57 @@
+.current-user-profile {
+    text-align:center;
+}
+.current-user-profile ion-text {
+    font-weight:600;
+    margin-top:25px;
+    margin-bottom:15px;
+    display: block;
+}
+.current-user-profile ion-button {
+    text-transform: initial;
+    font-weight:600;
+}
+.current-user-profile ion-avatar {
+    width:120px;
+    height:120px;
+    margin:auto;
+}
+.current-user-profile ion-item-divider {
+    border:none;
+    font-weight: 600;
+    --color:#2C2626;
+    margin-top:20px;
+}
+.current-user-profile ion-item-divider.small-divider {
+    font-size: 12px;
+    margin-top:0px;
+}
+#root .current-user-profile ion-input {
+    max-width:157px;
+    font-size: 14px;
+    border: 1px solid #EAE9E9;
+    background:white;
+    --background:white;
+    border-radius: 5px;
+    margin: 5px 15px 5px 10px;
+}
+#root .current-user-profile ion-input.fullsize-input {
+    max-width:100%;
+}
+#root .current-user-profile ion-input:first-of-type {
+    margin-left:0;
+}
+#root .current-user-profile ion-input:last-of-type {
+    margin-right:0;
+}
+.save-button {
+    width: 100%;
+    --padding-top: 13px;
+    --padding-bottom: 13px;
+    font-weight: 600;
+    font-size: 14px;
+    display: block;
+    height: auto;
+    margin: 20px 0;
+    text-transform: capitalize;
+}

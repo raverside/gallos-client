@@ -39,3 +39,14 @@ export async function upsertUserLabel(id:string, label:string) {
 export async function deleteUserLabel(id:string) {
     return fetcher.get(`/deleteUserLabel/${id}`);
 }
+
+export async function updateCurrentUser(payload:any) {
+    if (payload.photo_upload) {
+        let formData = new FormData();
+        formData.append('user', payload.photo_upload);
+        const {filename} = await fetcher.upload('/uploadUserPicture', formData);
+        payload.photo = filename;
+    }
+
+    return fetcher.post('/updateCurrentUser', payload);
+}

@@ -129,7 +129,7 @@ const Events: React.FC = () => {
                 <IonInfiniteScroll disabled={disableInfiniteScroll} onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
                     <IonInfiniteScrollContent />
                 </IonInfiniteScroll>
-                {(state.user.role === "admin_manager" || state.user.role === "admin_worker" || state.user.role === "admin") &&
+                {(state.user.role === "admin_manager" || state.user.role === "admin_worker" || state.user.role === "admin" || state.user.role === "creator") &&
                     <CreateEventButton showEventEditor={setShowEventEditorModal} />
                 }
                 <IonModal isOpen={!!showEventEditorModal} onDidDismiss={() => setShowEventEditorModal(false)}>

@@ -3,8 +3,10 @@ import {IonApp, IonRouterOutlet, setupConfig} from '@ionic/react';
 import {IonReactRouter} from '@ionic/react-router';
 import {Route, Redirect} from 'react-router-dom';
 import Menu from './components/Menu/Menu';
+import UserEvents from './pages/UserEvents';
 import Events from './pages/Events';
 import EventView from './pages/EventView';
+import UserEventView from './pages/UserEventView';
 import EventReceiving from './pages/EventReceiving';
 import Baloteo from './pages/Baloteo';
 import BaloteoStats from './pages/BaloteoStats';
@@ -17,6 +19,8 @@ import Transactions from './pages/Transactions';
 import Contact from './pages/Contact';
 import Users from './pages/Users';
 import UserProfile from './pages/UserProfile';
+import CurrentUserProfile from './pages/CurrentUserProfile';
+import CurrentUserMembership from './pages/CurrentUserMembership';
 import Auth from './pages/Auth/Auth';
 import AuthAdmin from './pages/Auth/AuthAdmin';
 import Login from './pages/Auth/Login';
@@ -54,7 +58,6 @@ const JudgeMatchTimer = React.lazy( () => import('./pages/JudgeMatchTimer'));
 setupConfig({mode: 'md'});
 
 const App: React.FC = () => {
-
     return (
         <IonApp>
             <AppContextProvider>
@@ -79,14 +82,20 @@ const App: React.FC = () => {
                                 <AuthAdmin/>
                             </Route>
 
+                            <PrivateRoute path="/user_profile" exact>
+                                <CurrentUserProfile/>
+                            </PrivateRoute>
+                            <PrivateRoute path="/user_membership" exact>
+                                <CurrentUserMembership/>
+                            </PrivateRoute>
                             <PrivateRoute path="/" exact>
-                                <Events/>
+                                <EventsRoute />
                             </PrivateRoute>
-                            <PrivateRoute path="/events" exact admin>
-                                <Events/>
+                            <PrivateRoute path="/events" exact>
+                                <EventsRoute />
                             </PrivateRoute>
-                            <PrivateRoute path="/event/:id" admin>
-                                <EventView/>
+                            <PrivateRoute path="/event/:id">
+                                <EventViewRoute/>
                             </PrivateRoute>
                             <PrivateRoute path="/event_receiving/:id" admin>
                                 <EventReceiving/>
@@ -100,7 +109,7 @@ const App: React.FC = () => {
                             <PrivateRoute path="/stadiums" exact admin>
                                 <Stadiums/>
                             </PrivateRoute>
-                            <PrivateRoute path="/stadium/:id" admin>
+                            <PrivateRoute path="/stadium/:id">
                                 <StadiumView />
                             </PrivateRoute>
                             <PrivateRoute path="/team_owners" exact admin>
@@ -118,7 +127,7 @@ const App: React.FC = () => {
                             <PrivateRoute path="/user/:id" admin>
                                 <UserProfile />
                             </PrivateRoute>
-                            <PrivateRoute path="/contact" exact admin>
+                            <PrivateRoute path="/contact" exact>
                                 <Contact/>
                             </PrivateRoute>
                             <PrivateRoute path="/judge" exact admin>
@@ -155,7 +164,21 @@ type RouteComponent = {
 const PrivateRoute: React.FC<RouteComponent> = ({ admin = false, children, ...rest }) => {
     const {state} = useContext(AppContext);
 
+    if (admin && state.user?.role === "user" && rest.path !== '/') {
+        return <Redirect to="/" />
+    }
+
     return <Route {...rest}>{state.user?.id ? children : <>{children}<Redirect to={(admin && window.location.hostname !== 'gallosclub.com') ? "/auth_admin" : "/auth"} /></>}</Route>
+}
+
+const EventsRoute: React.FC<any> = () => {
+    const {state} = useContext(AppContext);
+    return (state?.user?.role === "user") ? <UserEvents/> : <Events/>
+}
+
+const EventViewRoute: React.FC<any> = () => {
+    const {state} = useContext(AppContext);
+    return (state?.user?.role === "user") ? <UserEventView/> : <EventView/>
 }
 
 export default App;

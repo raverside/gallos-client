@@ -26,6 +26,9 @@ import ShareEventImage from "../components/Events/ShareEventImage";
 import ConfirmPrompt from "../components/ConfirmPrompt";
 import {useHistory} from "react-router-dom";
 
+// @ts-ignore
+import domtoimage from "dom-to-image-improved";
+
 type eventType = any;
 
 const EventView: React.FC = () => {
@@ -38,6 +41,7 @@ const EventView: React.FC = () => {
     const [showLoading, setShowLoading] = useState<boolean>(false);
     const [showShare, setShowShare] = useState<eventType|false>(false);
     const history = useHistory();
+    const shareRef = React.useRef();
 
     useEffect(() => {
         fetchEvent()
@@ -60,6 +64,32 @@ const EventView: React.FC = () => {
         history.replace("/events");
     }
 
+    const shareEvent = async () => {
+        if (!event) return false;
+        const element = shareRef.current;
+        setShowShare(event);
+        domtoimage.toBlob(element!).then((blob:Blob) => {
+            const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
+
+            //download the file
+            const a = document.createElement("a");
+            a.href  = window.URL.createObjectURL(file);
+            a.setAttribute("download", file.name);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            const filesArray:any = [file];
+            setShowShare(false);
+
+            //share the file
+            // @ts-ignore
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
+                navigator.share({title: event.title || "Traditional Event", files: filesArray});
+            }
+        });
+    }
+
     const title = (event?.is_special && event?.title) ? event?.title! : "Traditional Events";
     const image = (event?.is_special && event?.image) ? getImageUrl(event?.image!) : getImageUrl(event?.stadium_image!);
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
@@ -76,7 +106,7 @@ const EventView: React.FC = () => {
                     <IonButtons slot="end"><IonIcon size="large" className="view-note-menu" icon={menuIcon} slot="end" onClick={() => present({
                         buttons: [
                             { text: 'Edit Event', handler: () => { if (event) setShowEventEditorModal(true); } },
-                            { text: 'Share Event', handler: () => { setShowShare(event)} },
+                            { text: 'Share Event', handler: () => { shareEvent()} },
                             { text: 'Delete Event', handler: () => { setShowDeleteModal(event ? event.id : false)} },
                             { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                         ],
@@ -134,9 +164,9 @@ const EventView: React.FC = () => {
                         close={() => setShowEventEditorModal(false)}
                     />
                 </IonModal>
-                <IonModal isOpen={!!showShare} onDidDismiss={() => setShowShare(false)}>
-                    <ShareEventImage event={event} close={() => setShowShare(false)} />
-                </IonModal>
+                <div style={showShare ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
+                    <ShareEventImage event={event} close={() => setShowShare(false)}  ref={shareRef} />
+                </div>
                 <ConfirmPrompt
                     data={showDeleteModal}
                     show={!!showDeleteModal}

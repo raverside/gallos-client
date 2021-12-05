@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
     IonButton,
     IonButtons,
@@ -17,6 +17,7 @@ import {generateMatches, goLive} from "../../api/Events";
 import {getTeamOwners} from "../../api/TeamOwners";
 import {useHistory} from "react-router-dom";
 import SpecialGuestList from "../Events/SpecialGuestList";
+import {AppContext} from "../../State";
 
 type MatchmakingProps = {
     event: { id: string, phase: string };
@@ -25,6 +26,7 @@ type MatchmakingProps = {
 };
 
 const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
+    const { state } = useContext(AppContext);
     const [method, setMethod] = useState(0); // 0 - Regular, 1 - Special Guest, 2 - Versus
     const [step, setStep] = useState(0); // 0 - Select MM Method, 1 - Regular Generated, 2 - Select Special, 3 - Select Versus
     const [matches, setMatches] = useState([]);
@@ -61,6 +63,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
 
     const GoLive = async () => {
         await goLive({event_id: event.id, matches_limit: matchesLimit, method, versus_category: versusCategory, special_guests: selectedTeamOwners});
+        state.socket?.emit('updateEvents');
         history.replace("/baloteo/"+event.id);
     }
 

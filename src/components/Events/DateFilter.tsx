@@ -24,7 +24,7 @@ const DateFilter: React.FC<FilterProps> = ({filter, setFilter, updateFilter, eve
 
     const upcomingDays:any = [];
     for (let i = -3; i <= 10; i++) {
-        const nextDay = filter ? moment(filter).add(i, 'days') : moment().add(i, 'days');
+        const nextDay = (filter && moment(filter).isValid()) ? moment(filter).add(i, 'days') : moment().add(i, 'days');
         upcomingDays.push({
             weekDay: nextDay.format('ddd'),
             day: nextDay.format('DD MMM'),
@@ -42,7 +42,7 @@ const DateFilter: React.FC<FilterProps> = ({filter, setFilter, updateFilter, eve
 
     return (<>
         <div className="datepicker-block">
-            <IonText className="datepicker-current-date">{filter ? moment(filter).format("D MMMM YYYY") : moment().format("D MMMM YYYY")}</IonText>
+            <IonText className="datepicker-current-date">{(filter && moment(filter).isValid()) ? moment(filter).format("D MMMM YYYY") : moment().format("D MMMM YYYY")}</IonText>
             <IonButton fill="clear" color="dark" onClick={() => setShowFilterModal(true)}><IonIcon slot="icon-only" icon={calendarIcon} size="medium" /></IonButton>
         </div>
         <IonSegment scrollable value={filter} className="datepicker-shortcuts">

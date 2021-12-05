@@ -26,6 +26,9 @@
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
 }
+.participant-thumb::part(image) {
+    object-fit:cover;
+}
 .participant-placeholder {
     width: 45px;
     height: 35px;
