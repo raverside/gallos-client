@@ -23,6 +23,7 @@ import ShareEventImage from "./ShareEventImage";
 
 // @ts-ignore
 import domtoimage from "dom-to-image-improved";
+import {useTranslation} from "react-multi-lang";
 
 type EventsListProps = {
     events: Array<{}>;
@@ -30,6 +31,7 @@ type EventsListProps = {
 };
 
 const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
+    const t = useTranslation();
     const { state } = useContext(AppContext);
     const [fullDescription, setFullDescription] = useState<string|false>(false);
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
@@ -58,7 +60,7 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
             //share the file
             // @ts-ignore
             if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
-                navigator.share({title: event.title || "Traditional Event", files: filesArray});
+                navigator.share({title: event.title || t('events.default_event_name'), files: filesArray});
             }
         });
     }
@@ -75,20 +77,20 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                 </IonButton>
                 <IonButton fill="clear" color="dark" className="eventMenu" onClick={() => present({
                     buttons: [
-                        state.user?.role !== "user" ? { text: 'Edit', handler: () => {openEditor && openEditor(event)} } : { text: "Share", handler: () => shareEvent(event)},
+                        state.user?.role !== "user" ? { text: t('events.edit'), handler: () => {openEditor && openEditor(event)} } : { text: t('events.share'), handler: () => shareEvent(event)},
                     ],
-                    header: 'Settings'
+                    header: t('events.settings')
                 })}><IonIcon size="small" icon={menuIcon} /></IonButton>
                 <IonButton fill="clear" className="event-image" routerLink={"/event/"+event.id} ><IonImg src={event.is_special && event.image ? getImageUrl(event.image) : getImageUrl(event.stadium_image)} /></IonButton>
                 <IonCardHeader>
-                    <IonCardTitle>{(event.is_special && event.title) ? event.title : "Traditional Events"}</IonCardTitle>
+                    <IonCardTitle>{(event.is_special && event.title) ? event.title : t('events.default_event_name')}</IonCardTitle>
                     <IonCardSubtitle>{moment(event.event_date).format("dddd, D MMMM YYYY")}</IonCardSubtitle>
                     <div className="event-info">
                         <div className="event-info_labels">
-                            <div className="event-info_label">Receiving</div>
-                            <div className="event-info_label">First Race</div>
-                            {(event.type?.length > 0) && <div className="event-info_label">Marcaje</div>}
-                            {(minBet > 0) && <div className="event-info_label">Bet</div>}
+                            <div className="event-info_label">{t('events.receiving')}</div>
+                            <div className="event-info_label">{t('events.first_race')}</div>
+                            {(event.type?.length > 0) && <div className="event-info_label">{t('events.type')}</div>}
+                            {(minBet > 0) && <div className="event-info_label">{t('events.bet')}</div>}
                         </div>
                         <div className="event-info_values">
                             <div className="event-info_value">{moment(event.receiving_time_start, "HH:mm").format("LT")} - {moment(event.receiving_time_end, "HH:mm").format("LT")}</div>
@@ -106,8 +108,8 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                 </IonCardHeader>
                 {event.description && <IonCardContent>
                     {(event.description.length < 90 || fullDescription === event.id) ?
-                        <>{event.description} {fullDescription === event.id && <IonButton className="read-more-button" fill="clear" color="primary" type="button" onClick={() => setFullDescription(false)}>Read less</IonButton>}</> :
-                        <>{event.description.substring(0, 90)}... <IonButton className="read-more-button" fill="clear" color="primary" type="button" onClick={() => setFullDescription(event.id)}>Read more</IonButton></>
+                        <>{event.description} {fullDescription === event.id && <IonButton className="read-more-button" fill="clear" color="primary" type="button" onClick={() => setFullDescription(false)}>{t('events.read_less')}</IonButton>}</> :
+                        <>{event.description.substring(0, 90)}... <IonButton className="read-more-button" fill="clear" color="primary" type="button" onClick={() => setFullDescription(event.id)}>{t('events.read_more')}</IonButton></>
                     }</IonCardContent>}
                 <IonButton
                     fill="clear"
@@ -118,7 +120,7 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                     <div className="ionButtonFix">
                         <IonText>{event.phase}</IonText>
                         <div>
-                            <IonText>See Baloteo</IonText>
+                            <IonText>{t('events.see_baloteo')}</IonText>
                             <IonImg src={arrowIcon} />
                         </div>
                     </div>
@@ -126,7 +128,7 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
             </IonCard></div>
         })}
         <div style={showShare ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}><ShareEventImage event={showShare} close={() => setShowShare(false)} ref={shareRef} /></div>
-    </IonList> : <IonText className="empty-list">No Events Available</IonText>);
+    </IonList> : <IonText className="empty-list">{t('events.no_events')}</IonText>);
 };
 
 export default EventsList;

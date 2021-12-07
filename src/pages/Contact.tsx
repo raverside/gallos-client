@@ -10,17 +10,19 @@ import React from "react";
 import ArrowHeader from '../components/Header/ArrowHeader';
 
 import './Contact.css';
+import {useTranslation} from "react-multi-lang";
 
 const Contact: React.FC = () => {
+    const t = useTranslation();
 
     return (
         <IonPage>
-            <ArrowHeader title="Contact Us" />
+            <ArrowHeader title={t('contact.header')} />
             <IonContent fullscreen id="contact-content">
                 <div className="contact-wrapper">
-                    <IonText className="restore-passcode-text">Write to us on Telegram if you have any inquiries or suggestions</IonText>
+                    <IonText className="restore-passcode-text">{t('contact.text')}</IonText>
                     <IonButton expand="block" color="tertiary" href="https://telegram.me/gallosclub" target="_blank">
-                        <IonIcon icon={paperPlaneIcon} style={{marginRight: "10px", fontSize: "14px"}} /> Contact Us
+                        <IonIcon icon={paperPlaneIcon} style={{marginRight: "10px", fontSize: "14px"}} /> {t('contact.button')}
                     </IonButton>
                 </div>
             </IonContent>

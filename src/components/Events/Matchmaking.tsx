@@ -18,6 +18,7 @@ import {getTeamOwners} from "../../api/TeamOwners";
 import {useHistory} from "react-router-dom";
 import SpecialGuestList from "../Events/SpecialGuestList";
 import {AppContext} from "../../State";
+import {useTranslation} from "react-multi-lang";
 
 type MatchmakingProps = {
     event: { id: string, phase: string };
@@ -26,6 +27,7 @@ type MatchmakingProps = {
 };
 
 const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
+    const t = useTranslation();
     const { state } = useContext(AppContext);
     const [method, setMethod] = useState(0); // 0 - Regular, 1 - Special Guest, 2 - Versus
     const [step, setStep] = useState(0); // 0 - Select MM Method, 1 - Regular Generated, 2 - Select Special, 3 - Select Versus
@@ -71,7 +73,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
         default:
             return (<IonModal isOpen={show} onDidDismiss={() => setShow(false)}>
                 <IonToolbar className="modal-header">
-                    <IonTitle className="page-title">Matching Method</IonTitle>
+                    <IonTitle className="page-title">{t('events.matching_method')}</IonTitle>
                     <IonButtons slot="start">
                         <IonIcon
                             icon={closeIcon}
@@ -82,24 +84,24 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
                     </IonButtons>
                 </IonToolbar>
                 <IonContent>
-                    <p className="select-matchmaking">Select Matching Method</p>
+                    <p className="select-matchmaking">{t('events.select_matching_method')}</p>
                     <IonRadioGroup value={method} onIonChange={(e) => setMethod(e.detail.value)} className="matchmaking_radio">
                         <IonItem lines="none">
-                            <IonLabel>Regular</IonLabel>
+                            <IonLabel>{t('events.mm_regular')}</IonLabel>
                             <IonRadio className="matchmaking_radio_button" value={0} />
                         </IonItem>
                         <IonItem lines="none">
-                            <IonLabel>Special Honor Guest</IonLabel>
+                            <IonLabel>{t('events.mm_guest')}</IonLabel>
                             <IonRadio className="matchmaking_radio_button" value={1} />
                         </IonItem>
                         <IonItem lines="none">
-                            <IonLabel>Versus</IonLabel>
+                            <IonLabel>{t('events.mm_versus')}</IonLabel>
                             <IonRadio className="matchmaking_radio_button" value={2} />
                         </IonItem>
                     </IonRadioGroup>
                     {method === 0 ?
-                        <IonButton expand="block" className="generate-button" onClick={GenerateMatches}>Generate</IonButton>
-                        : <IonButton expand="block" className="generate-button" onClick={() => setStep(method === 1 ? 2 : 3)}>Next</IonButton>
+                        <IonButton expand="block" className="generate-button" onClick={GenerateMatches}>{t('events.mm_generate')}</IonButton>
+                        : <IonButton expand="block" className="generate-button" onClick={() => setStep(method === 1 ? 2 : 3)}>{t('events.mm_next')}</IonButton>
                     }
 
                 </IonContent>
@@ -107,7 +109,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
         case 1:
             return (<IonModal isOpen={show} onDidDismiss={() => setShow(false)}>
                 <IonToolbar className="modal-header">
-                    <IonTitle className="page-title">Matches Generated</IonTitle>
+                    <IonTitle className="page-title">{t('events.mm_generated')}</IonTitle>
                     <IonButtons slot="start">
                         <IonIcon
                             icon={closeIcon}
@@ -119,14 +121,14 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
                 </IonToolbar>
                 <IonContent>
                     <p className="matches-generated">{matches.length}</p>
-                    <p className="matches-generated-text">Matches generated</p>
-                    <p className="matches-livelimit-label">Enter number of matches you want to accept and publish</p>
+                    <p className="matches-generated-text">{t('events.mm_generated')}</p>
+                    <p className="matches-livelimit-label">{t('events.mm_generated_number')}</p>
                     <IonInput
                         value={matchesLimit}
                         className="matches-limit-input"
                         type="number"
                         max={""+matches.length}
-                        placeholder="Number of matches"
+                        placeholder={t('events.mm_generated_number_placeholder')}
                         onIonChange={(e) => {
                             if (+e.detail.value! > matches.length) {
                                 setMatchesLimit(+matches.length);
@@ -138,14 +140,14 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
                         }}
                     />
 
-                    <IonButton expand="block" className="generate-button" disabled={!matchesLimit} onClick={GoLive}>Confirm</IonButton>
+                    <IonButton expand="block" className="generate-button" disabled={!matchesLimit} onClick={GoLive}>{t('events.mm_confirm')}</IonButton>
                 </IonContent>
             </IonModal>);
         case 2:
             return (
                 <IonModal isOpen={show} onDidDismiss={() => setShow(false)}>
                     <IonToolbar className="modal-header">
-                        <IonTitle className="page-title">Select Special Guest</IonTitle>
+                        <IonTitle className="page-title">{t('events.mm_select_guest')}</IonTitle>
                         <IonButtons slot="start">
                             <IonIcon
                                 icon={closeIcon}
@@ -159,8 +161,8 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
                         <div className="special-guest-wrapper">
                         <SpecialGuestList teamOwners={teamOwners} selectedTeamOwners={selectedTeamOwners} setSelectedTeamOwners={(selected:any) => setSelectedTeamOwners(selected)} />
                         <IonButton expand="block" disabled={!selectedTeamOwners.length} className="guests-selected-generate" onClick={GenerateMatches}>
-                            <span>{selectedTeamOwners.length} selected</span>
-                            <span>Generate</span>
+                            <span>{selectedTeamOwners.length} {t('events.mm_selected')}</span>
+                            <span>{t('events.mm_generate')}</span>
                         </IonButton>
                         </div>
                     </IonContent>
@@ -170,7 +172,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
             return (
                 <IonModal isOpen={show} onDidDismiss={() => setShow(false)}>
                     <IonToolbar className="modal-header">
-                        <IonTitle className="page-title">Versus Category</IonTitle>
+                        <IonTitle className="page-title">{t('events.mm_versus_category')}</IonTitle>
                         <IonButtons slot="start">
                             <IonIcon
                                 icon={closeIcon}
@@ -181,19 +183,19 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
                         </IonButtons>
                     </IonToolbar>
                     <IonContent>
-                        <p className="select-matchmaking">Select versus category</p>
+                        <p className="select-matchmaking">{t('events.mm_select_versus_category')}</p>
                         <IonRadioGroup value={versusCategory} onIonChange={(e) => setVersusCategory(e.detail.value)} className="matchmaking_radio">
                             <IonItem lines="none">
-                                <IonLabel>vs Team</IonLabel>
+                                <IonLabel>{t('events.mm_versus_vs_team')}</IonLabel>
                                 <IonRadio className="matchmaking_radio_button" value={1} />
                             </IonItem>
                             <IonItem lines="none">
-                                <IonLabel>vs All</IonLabel>
+                                <IonLabel>{t('events.mm_versus_vs_all')}</IonLabel>
                                 <IonRadio className="matchmaking_radio_button" value={2} />
                             </IonItem>
                         </IonRadioGroup>
 
-                        <IonButton expand="block" disabled={!versusCategory} className="generate-button" onClick={() => setStep(4)}>Next</IonButton>
+                        <IonButton expand="block" disabled={!versusCategory} className="generate-button" onClick={() => setStep(4)}>{t('events.mm_next')}</IonButton>
 
                     </IonContent>
                 </IonModal>
@@ -202,7 +204,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
             return (
                 <IonModal isOpen={show} onDidDismiss={() => setShow(false)}>
                     <IonToolbar className="modal-header">
-                        <IonTitle className="page-title">Select Owner</IonTitle>
+                        <IonTitle className="page-title">{t('events.mm_select_owner')}</IonTitle>
                         <IonButtons slot="start">
                             <IonIcon
                                 icon={closeIcon}
@@ -216,8 +218,8 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
                         <div className="special-guest-wrapper">
                             <SpecialGuestList teamOwners={teamOwners} selectedTeamOwners={selectedTeamOwners} setSelectedTeamOwners={(selected:any) => setSelectedTeamOwners(selected)} />
                             <IonButton expand="block" disabled={!selectedTeamOwners.length} className="guests-selected-generate" onClick={GenerateMatches}>
-                                <span>{selectedTeamOwners.length} selected</span>
-                                <span>Generate</span>
+                                <span>{selectedTeamOwners.length} {t('events.mm_selected')}</span>
+                                <span>{t('events.mm_generate')}</span>
                             </IonButton>
                         </div>
                     </IonContent>

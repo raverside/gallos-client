@@ -13,6 +13,7 @@ import React, {useState} from "react";
 import './TeamOwnerTabs.css';
 import {closeOutline as closeIcon, trashOutline as trashIcon} from "ionicons/icons";
 import ConfirmPrompt from "../ConfirmPrompt";
+import {useTranslation} from "react-multi-lang";
 
 type libertyType = {
     id: string;
@@ -35,6 +36,7 @@ type TeamOwnerTabProps = {
 };
 
 const TeamOwnerNotesTab: React.FC<TeamOwnerTabProps> = ({team_owner, teamOwners, addLiberty, updateLiberty, removeLiberty}) => {
+    const t = useTranslation();
     const [showAddModal, setShowAddModal] = useState<libertyType|boolean>(false);
     const [showDeleteLiberty, setShowDeleteLiberty] = useState<libertyType|boolean>(false);
     const [search, setSearch] = useState<string>("");
@@ -65,7 +67,7 @@ const TeamOwnerNotesTab: React.FC<TeamOwnerTabProps> = ({team_owner, teamOwners,
     return (
         <div className="user-profile-notes-tab">
             <div className="user-profile-section">
-                <IonButton fill="clear" onClick={() => setShowAddModal(true)}>Add</IonButton>
+                <IonButton fill="clear" onClick={() => setShowAddModal(true)}>{t('teams.mutual_liberty_add')}</IonButton>
             </div>
             {(team_owner?.liberty && team_owner?.liberty?.length > 0) && <IonList>
                 {team_owner?.liberty?.map((liberty:any, index:number) => (
@@ -81,14 +83,14 @@ const TeamOwnerNotesTab: React.FC<TeamOwnerTabProps> = ({team_owner, teamOwners,
             <IonModal isOpen={!!showAddModal} onDidDismiss={() => hideEditModal()} cssClass="add-note-modal">
                 <IonToolbar className="modal-header">
                     <IonButtons slot="start"><IonIcon size="large" icon={closeIcon} slot="start" onClick={() => hideEditModal()} /></IonButtons>
-                    <IonTitle className="page-title"><p>{(typeof showAddModal !== "boolean" && showAddModal.id) ? "Edit" : "Add"} Mutual Liberty</p><p className="page-subtitle">{team_owner.name}</p></IonTitle>
+                    <IonTitle className="page-title"><p>{(typeof showAddModal !== "boolean" && showAddModal.id) ? t('teams.mutual_liberty_edit') : t('teams.mutual_liberty_add')} {t('teams.mutual_liberty')}</p><p className="page-subtitle">{team_owner.name}</p></IonTitle>
                     {(typeof showAddModal !== "boolean" && showAddModal?.id) && <IonButtons slot="end"><IonIcon className="trash-icon" icon={trashIcon} slot="end" onClick={() => setShowDeleteLiberty(showAddModal)} /></IonButtons>}
                 </IonToolbar>
                 <IonContent>
                     <div className="add-note-wrapper">
                         <div>
                             <IonList className="teamOwnersList user-profile-notes-tab">
-                                <IonSearchbar className="searchbar" placeholder={"Search account number or name"} value={search} onIonChange={e => {setSearch(e.detail.value!);}} />
+                                <IonSearchbar className="searchbar" placeholder={t('teams.search_owners')} value={search} onIonChange={e => {setSearch(e.detail.value!);}} />
                                 {(search || selectedTeamOwners.length > 0) && teamOwners?.filter((t:any) => t.name?.toLowerCase().includes(search.toLowerCase()) || t.digital_id == +search ).map((teamOwner:any, index:number) => {
                                     return <IonItem key={teamOwner.id} lines="none" className={selectedTeamOwners.find((sto:any) => sto === teamOwner.id) ? "teamOwner specialGuest selected" : "teamOwner specialGuest"} onClick={() =>
                                         setSelectedTeamOwners && (selectedTeamOwners.find((sto:any) => sto === teamOwner.id) ? setSelectedTeamOwners([]) : setSelectedTeamOwners([teamOwner.id]))
@@ -96,21 +98,21 @@ const TeamOwnerNotesTab: React.FC<TeamOwnerTabProps> = ({team_owner, teamOwners,
                                         <p className="teamOwner-index">{index + 1}</p>
                                         <IonLabel className="teamOwner-short-info">
                                             <IonText className="teamOwner-short-info_name" color={teamOwner.name.toLowerCase().replace(/\s+/g, '')}>{teamOwner.name}</IonText>
-                                            <IonText className="teamOwner-short-info_winrate">{teamOwner.teams?.length || 0} Teams</IonText>
+                                            <IonText className="teamOwner-short-info_winrate">{teamOwner.teams?.length || 0} {t('teams.teams')}</IonText>
                                         </IonLabel>
                                     </IonItem>
                                 })}
                             </IonList>
-                            <IonText className="add-note-title">Reason</IonText>
+                            <IonText className="add-note-title">{t('teams.mutual_liberty_reason')}</IonText>
                             <IonTextarea className="add-note-input" placeholder="" rows={5} value={libertyReason} onIonChange={(e) => setLibertyReason(e.detail.value!)} />
                         </div>
-                        <IonButton disabled={!libertyReason || selectedTeamOwners.length <= 0} expand="block" onClick={Submit}>Post</IonButton>
+                        <IonButton disabled={!libertyReason || selectedTeamOwners.length <= 0} expand="block" onClick={Submit}>{t('teams.note_save')}</IonButton>
                     </div>
                     <ConfirmPrompt
                         data={showDeleteLiberty}
                         show={!!showDeleteLiberty}
-                        title="Delete Mutual Liberty"
-                        subtitle="Are you sure you want to delete this Mutual Liberty?"
+                        title={t('teams.mutual_liberty_delete_title')}
+                        subtitle={t('teams.mutual_liberty_delete_subtitle')}
                         onResult={(data, isConfirmed) => {if (isConfirmed && data?.id) { removeLiberty(data.id); hideEditModal(); } setShowDeleteLiberty(false)}}
                     />
                 </IonContent>

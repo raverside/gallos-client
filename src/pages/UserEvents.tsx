@@ -25,8 +25,10 @@ import {fetchAllStadiums} from "../api/Stadiums";
 import StadiumsList from "../components/Stadiums/StadiumsList";
 import {getImageUrl} from "../components/utils";
 import medalIcon from "../img/medal.png";
+import {useTranslation} from "react-multi-lang";
 
 const UserEvents: React.FC = () => {
+    const t = useTranslation();
     const { state } = useContext(AppContext);
     const [events, setEvents] = useState<Array<{id:string}>>([]);
     const [eventCount, setEventCount] = useState<{today: number, upcoming: number, past: number, dates: []}>({today: 0, upcoming: 0, past: 0, dates: []});
@@ -114,8 +116,8 @@ const UserEvents: React.FC = () => {
 
             <IonContent fullscreen>
                 <IonSegment value={tabSelected} onIonChange={(e) => setTabSelected(e.detail.value!)} className="events-segment">
-                    <IonSegmentButton value="events"><IonLabel><IonIcon icon={calendarIcon} />Events</IonLabel></IonSegmentButton>
-                    <IonSegmentButton value="statistic"><IonLabel><IonIcon icon={chartIcon} />Statistic</IonLabel></IonSegmentButton>
+                    <IonSegmentButton value="events"><IonLabel><IonIcon icon={calendarIcon} />{t('events.events')}</IonLabel></IonSegmentButton>
+                    <IonSegmentButton value="statistic"><IonLabel><IonIcon icon={chartIcon} />{t('events.statistic')}</IonLabel></IonSegmentButton>
                 </IonSegment>
 
                 {tabSelected === "events" && <>
@@ -148,10 +150,10 @@ const UserEvents: React.FC = () => {
                             <IonButton fill="clear" color="dark" className="cancel-stadium-selected" onClick={() => setStadiumSelected(false)}><IonIcon slot="icon-only" icon={closeIcon}/></IonButton>
                         </IonItem>
                         <IonSegment scrollable className="events-tabs baloteo-tabs" value={statisticTab} onIonChange={(e) => {setStatisticsData([]); setStatisticTab(e.detail.value!)}}>
-                            <IonSegmentButton value="average"><IonLabel>Best Average</IonLabel></IonSegmentButton>
-                            <IonSegmentButton value="totm"><IonLabel>Team of the Month</IonLabel></IonSegmentButton>
-                            <IonSegmentButton value="twmw"><IonLabel>Team with Most Wins</IonLabel></IonSegmentButton>
-                            <IonSegmentButton value="fastest"><IonLabel>Fastest Match</IonLabel></IonSegmentButton>
+                            <IonSegmentButton value="average"><IonLabel>{t('events.statistic_ba')}</IonLabel></IonSegmentButton>
+                            <IonSegmentButton value="totm"><IonLabel>{t('events.statistic_totm')}</IonLabel></IonSegmentButton>
+                            <IonSegmentButton value="twmw"><IonLabel>{t('events.statistic_twmw')}</IonLabel></IonSegmentButton>
+                            <IonSegmentButton value="fastest"><IonLabel>{t('events.statistic_fm')}</IonLabel></IonSegmentButton>
                         </IonSegment>
                         {statisticTab === "totm" && <div className="statistic_datepicker">
                             <IonSegment scrollable className="events-tabs baloteo-tabs" value={""+moment(statisticsDateFilter.start).get('month')} onIonChange={(e) => setStatisticsDateFilter({
@@ -180,21 +182,21 @@ const UserEvents: React.FC = () => {
                                 {/*<IonSelectOption value={moment().startOf("year").subtract(2, 'year').format("YYYY")}>{moment().subtract(2, 'year').format("YYYY")}</IonSelectOption>*/}
                             </IonSelect>
                         </div>}
-                        {(!statisticsData.length) ? <IonText className="empty-list">Not available yet</IonText> : <>
+                        {(!statisticsData.length) ? <IonText className="empty-list">{t('events.statistic_not_available')}</IonText> : <>
                             {(statisticTab === "average" || statisticTab === "totm") && <>
                                 <div className="statistics-winner">
                                     <div className="statistics-winner-data">
                                         <p>{statisticsData[0].name}</p>
-                                        <IonText className="teamOwner-short-info_winrate">{Math.max(0, +statisticsData[0].wins)} wins • {Math.max(0, +statisticsData[0].loses)} loses • {Math.min(100, Math.max(0, Math.round(+statisticsData[0].wins / Math.max(1, (+statisticsData[0].wins || 0) + (+statisticsData[0].draws || 0) + (+statisticsData[0].loses || 0)) * 100)))}%</IonText>
+                                        <IonText className="teamOwner-short-info_winrate">{Math.max(0, +statisticsData[0].wins)} {t('teams.wins')} • {Math.max(0, +statisticsData[0].loses)} {t('teams.loses')} • {Math.min(100, Math.max(0, Math.round(+statisticsData[0].wins / Math.max(1, (+statisticsData[0].wins || 0) + (+statisticsData[0].draws || 0) + (+statisticsData[0].loses || 0)) * 100)))}%</IonText>
                                     </div>
                                     <IonImg className="medal" src={medalIcon}/>
                                 </div>
                                 <IonGrid className="stats-grid">
                                     <IonRow>
                                         <IonCol>#</IonCol>
-                                        <IonCol>Name</IonCol>
-                                        <IonCol>W</IonCol>
-                                        <IonCol>L</IonCol>
+                                        <IonCol>{t('teams.name')}</IonCol>
+                                        <IonCol>{t('teams.w')}</IonCol>
+                                        <IonCol>{t('teams.l')}</IonCol>
                                         <IonCol>%</IonCol>
                                     </IonRow>
                                     {statisticsData.map((row, i) => i > 0 && (
@@ -219,8 +221,8 @@ const UserEvents: React.FC = () => {
                                 <IonGrid className="stats-grid">
                                     <IonRow>
                                         <IonCol>#</IonCol>
-                                        <IonCol>Name</IonCol>
-                                        <IonCol>Wins</IonCol>
+                                        <IonCol>{t('teams.name')}</IonCol>
+                                        <IonCol>{t('teams.wins')}</IonCol>
                                     </IonRow>
                                     {statisticsData.map((row, i) => i > 0 && (
                                         <IonRow key={i + 1}>
@@ -236,7 +238,7 @@ const UserEvents: React.FC = () => {
                                     <div className="statistics-winner-data">
                                         <p>{statisticsData[0]?.matches[0]?.participant?.team?.name} vs {statisticsData[0]?.matches[0]?.opponent?.team?.name}</p>
                                         <IonText className="teamOwner-short-info_winrate">{moment.utc(statisticsData[0]?.matches[0].match_time*1000).format('mm:ss')}</IonText>
-                                        <IonText className="teamOwner-short-info_winrate">{statisticsData[0]?.title || "Traditional Event"}</IonText>
+                                        <IonText className="teamOwner-short-info_winrate">{statisticsData[0]?.title || t('events.default_event_name')}</IonText>
                                     </div>
                                     <IonImg className="medal" src={medalIcon}/>
                                 </div>

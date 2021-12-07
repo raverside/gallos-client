@@ -7,8 +7,10 @@ import {
 
 import {AppContext} from "../../State";
 import ProfileWidget from "../Menu/ProfileWidget";
+import {useTranslation} from "react-multi-lang";
 
 const ProfileModal: React.FC = () => {
+    const t = useTranslation();
     const {dispatch} = useContext(AppContext);
     const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -29,7 +31,7 @@ const ProfileModal: React.FC = () => {
                         type: 'resetUser',
                     });
                     window.location.replace("/auth_admin");
-                }}>Logout</IonButton>
+                }}>{t('general.logout')}</IonButton>
             </IonContent>
         </IonModal>
     </>);

@@ -5,8 +5,10 @@ import {useHistory} from 'react-router-dom';
 import {AppContext} from "../../State";
 import logo from '../../img/doublerooster.png';
 import {paperPlane as paperPlaneIcon} from "ionicons/icons";
+import { useTranslation } from 'react-multi-lang';
 
 const Auth: React.FC = () => {
+    const t = useTranslation();
     const { state } = useContext(AppContext);
     const history = useHistory();
     useEffect(() => {
@@ -22,18 +24,18 @@ const Auth: React.FC = () => {
                     <IonRow>
                         <IonCol>
                             <IonImg src={logo} className="rooster-logo" />
-                            <IonText className="auth-welcome">Próximamente en 2021 🚀</IonText>
-                            <IonText className="auth-welcome-subtext">Registre su equipo ahora poniéndose en contacto con nosotros por vía de Telegram:
+                            <IonText className="auth-welcome">{t('auth.welcome_text')}</IonText>
+                            <IonText className="auth-welcome-subtext">{t('auth.welcome_subtext')}
                                 <IonButton expand="block" color="tertiary" href="https://telegram.me/gallosclub" target="_blank">
-                                    <IonIcon icon={paperPlaneIcon} style={{marginRight: "10px", fontSize: "14px"}} /> Contáctenos
+                                    <IonIcon icon={paperPlaneIcon} style={{marginRight: "10px", fontSize: "14px"}} /> {t('auth.welcome_button')}
                                 </IonButton>
                             </IonText>
                         </IonCol>
                     </IonRow>
                     <IonRow>
                         <IonCol>
-                            <IonButton routerLink="/register" expand="block">Create Account</IonButton>
-                            <IonButton routerLink="/login" expand="block" fill="outline">Log In</IonButton>
+                            <IonButton routerLink="/register" expand="block">{t('auth.register')}</IonButton>
+                            <IonButton routerLink="/login" expand="block" fill="outline">{t('auth.login')}</IonButton>
                         </IonCol>
                     </IonRow>
                 </IonGrid>

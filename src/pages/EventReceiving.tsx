@@ -23,8 +23,10 @@ import versusIcon from "../img/versus.png";
 import {cameraReverseOutline as addPhotoIcon} from 'ionicons/icons';
 import {getImageUrl, formatOzToLbsOz} from "../components/utils";
 import ConfirmPrompt from "../components/ConfirmPrompt";
+import {useTranslation} from "react-multi-lang";
 
 const EventReceiving: React.FC = () => {
+    const t = useTranslation();
     const { state } = useContext(AppContext);
     const [event, setEvent] = useState<any>([]);
     const [participantsSearch, setParticipantsSearch] = useState<string>("");
@@ -78,16 +80,16 @@ const EventReceiving: React.FC = () => {
             <IonContent fullscreen>
                 <IonSegment className="events-tabs" value={(participantsTab === "rejected" || participantsTab === "approved") ? participantsTab : "saved"} onIonChange={(e) => {setParticipantsTab(e.detail.value!);}}>
                     <IonSegmentButton value="saved">
-                        <IonLabel>Saved<span className="barely-visible"> • {savedParticipants?.length || 0}</span></IonLabel>
+                        <IonLabel>{t('events.saved')}<span className="barely-visible"> • {savedParticipants?.length || 0}</span></IonLabel>
                     </IonSegmentButton>
                     <IonSegmentButton value="approved">
-                        <IonLabel>Approved<span className="barely-visible"> • {approvedParticipants?.length || 0}</span></IonLabel>
+                        <IonLabel>{t('events.approved')}<span className="barely-visible"> • {approvedParticipants?.length || 0}</span></IonLabel>
                     </IonSegmentButton>
                     <IonSegmentButton value="rejected">
-                        <IonLabel>Excluded<span className="barely-visible"> • {excludedParticipants?.length || 0}</span></IonLabel>
+                        <IonLabel>{t('events.excluded')}<span className="barely-visible"> • {excludedParticipants?.length || 0}</span></IonLabel>
                     </IonSegmentButton>
                 </IonSegment>
-                <IonSearchbar className="searchbar" inputmode="numeric" placeholder="Search" value={participantsSearch} onIonChange={e => {setParticipantsSearch(e.detail.value!)}} />
+                <IonSearchbar className="searchbar" inputmode="numeric" placeholder={t('events.search')} value={participantsSearch} onIonChange={e => {setParticipantsSearch(e.detail.value!)}} />
 
                 {currentTabParticipants?.length > 0 && <IonList>
                     {currentTabParticipants.map((participant:any) => <IonItem className="participant" lines="none" key={participant.id}>
@@ -134,8 +136,8 @@ const EventReceiving: React.FC = () => {
                 <ConfirmPrompt
                     data={showConfirmPhotoless}
                     show={!!showConfirmPhotoless}
-                    title="Missing Photos"
-                    subtitle="Some participants don't have images. Do you want to continue with the matching process?"
+                    title={t('events.confirm_matchmaking_title')}
+                    subtitle={t('events.confirm_matchmaking_subtitle')}
                     onResult={(data, isConfirmed) => {isConfirmed && setShowMatchmaking(true); setShowConfirmPhotoless(false)}}
                 />
             </IonContent>

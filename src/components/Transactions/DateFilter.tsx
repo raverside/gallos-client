@@ -9,6 +9,7 @@ import Calendar from 'react-calendar';
 
 import './DateFilter.css';
 import {calendarOutline as calendarIcon} from "ionicons/icons";
+import {useTranslation} from "react-multi-lang";
 
 type FilterProps = {
     filter: any;
@@ -17,6 +18,7 @@ type FilterProps = {
 };
 
 const DateFilter: React.FC<FilterProps> = ({filter, setFilter, updateFilter}) => {
+    const t = useTranslation();
     const [dateFilter, setDateFilter] = useState<Date>(new Date());
     const [showFilterModal, setShowFilterModal] = useState<boolean>(false);
 
@@ -35,7 +37,7 @@ const DateFilter: React.FC<FilterProps> = ({filter, setFilter, updateFilter}) =>
         <IonModal id="overlay-modal" isOpen={showFilterModal} onDidDismiss={() => setShowFilterModal(false)}>
             <form className="datepicker-filter-form">
                 <Calendar value={dateFilter} onChange={(value:Date) => setDateFilter(value)}/>
-                <IonButton expand="block" onClick={Submit}>Select</IonButton>
+                <IonButton expand="block" onClick={Submit}>{t('general.calendar_select')}</IonButton>
             </form>
         </IonModal>
     </>);

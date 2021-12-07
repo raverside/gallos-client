@@ -11,6 +11,7 @@ import {getCountries, getStatesByCountry, getCitiesByState} from '../../api/Geo'
 
 import './EventsFilter.css';
 import {filter as filterIcon} from "ionicons/icons";
+import {useTranslation} from "react-multi-lang";
 
 type FilterProps = {
     filter: any;
@@ -21,6 +22,7 @@ type FilterProps = {
 };
 
 const EventsFilter: React.FC<FilterProps> = ({filter, setFilter, search, setSearch, updateFilter}) => {
+    const t = useTranslation();
     const [countries, setCountries] = useState<[{id: number, name: string}]>();
     const [states, setStates] = useState<[{id: number, name: string}]>();
     const [cities, setCities] = useState<[{id: number, name: string}]>();
@@ -95,7 +97,7 @@ const EventsFilter: React.FC<FilterProps> = ({filter, setFilter, search, setSear
 
     return (<>
         <div className="search-filter-block">
-            <IonSearchbar className="searchbar" placeholder="Search stadium name" value={search} onIonChange={e => {setSearch(e.detail.value!); updateFilter(e.detail.value!, filter);}} />
+            <IonSearchbar className="searchbar" placeholder={t('events.filter_stadium')} value={search} onIonChange={e => {setSearch(e.detail.value!); updateFilter(e.detail.value!, filter);}} />
             <IonButton fill="clear" onClick={() => setShowFilterModal(!showFilterModal)}>
                 <IonIcon icon={filterIcon} color="dark" />
             </IonButton>
@@ -104,56 +106,56 @@ const EventsFilter: React.FC<FilterProps> = ({filter, setFilter, search, setSear
             <form className="users-filter-form" onSubmit={Submit}>
                 <div className="users-filter-wrapper">
                     <div className="users-filter-header">
-                        <IonButton fill="clear" onClick={clear}>Clear</IonButton>
-                        <IonText>Filter and Sort</IonText>
-                        <IonButton fill="clear" onClick={() => setShowFilterModal(false)}>Cancel</IonButton>
+                        <IonButton fill="clear" onClick={clear}>{t('events.filter_clear')}</IonButton>
+                        <IonText>{t('events.filter_header')}</IonText>
+                        <IonButton fill="clear" onClick={() => setShowFilterModal(false)}>{t('events.filter_cancel')}</IonButton>
                     </div>
                     <IonList>
-                        <IonLabel>Country</IonLabel>
+                        <IonLabel>{t('general.country')}</IonLabel>
                         <IonItem lines="none">
-                            <IonSelect interface="alert" name="country" value={country} onIonChange={(e) => onCountryChange(e.detail.value)} placeholder="Select country">
+                            <IonSelect interface="alert" name="country" value={country} onIonChange={(e) => onCountryChange(e.detail.value)} placeholder={t('general.country_placeholder')}>
                                 {countries && countries.map((country) => (
                                     <IonSelectOption key={country.id} value={country.id}>{country.name}</IonSelectOption>
                                 ))}
                             </IonSelect>
                         </IonItem>
 
-                        {(states && states.length > 0) && <><IonLabel>State</IonLabel>
+                        {(states && states.length > 0) && <><IonLabel>{t('general.state')}</IonLabel>
                             <IonItem lines="none">
-                                <IonSelect interface="alert" disabled={!country} name="state" value={state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder="Select state">
+                                <IonSelect interface="alert" disabled={!country} name="state" value={state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder={t('general.state_placeholder')}>
                                     {states.map((state) => (
                                         <IonSelectOption key={state.id} value={state.id}>{state.name}</IonSelectOption>
                                     ))}
                                 </IonSelect>
                             </IonItem></>}
 
-                        {(cities && cities.length > 0) && <><IonLabel>City</IonLabel>
+                        {(cities && cities.length > 0) && <><IonLabel>{t('general.city')}</IonLabel>
                             <IonItem lines="none">
-                                <IonSelect interface="alert" disabled={!country || !state} name="city" value={city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder="Select city">
+                                <IonSelect interface="alert" disabled={!country || !state} name="city" value={city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder={t('general.city_placeholder')}>
                                     {cities.map((city, index) => (
                                         <IonSelectOption key={city.id} value={city.id}>{city.name}</IonSelectOption>
                                     ))}
                                 </IonSelect>
                             </IonItem></>}
 
-                        <IonLabel>Event Type</IonLabel>
+                        <IonLabel>{t('events.filter_type')}</IonLabel>
                         <IonItem lines="none">
-                            <IonSelect interface="alert" name="type" value={type} onIonChange={(e) => setType(e.detail.value)} placeholder="Select event type">
-                                <IonSelectOption value="special">Special</IonSelectOption>
-                                <IonSelectOption value="regular">Regular</IonSelectOption>
+                            <IonSelect interface="alert" name="type" value={type} onIonChange={(e) => setType(e.detail.value)} placeholder={t('events.filter_type_placeholder')}>
+                                <IonSelectOption value="special">{t('events.special_event')}</IonSelectOption>
+                                <IonSelectOption value="regular">{t('events.regular_event')}</IonSelectOption>
                             </IonSelect>
                         </IonItem>
 
-                        <IonLabel>Sort By</IonLabel>
+                        <IonLabel>{t('general.filter_sort')}</IonLabel>
                         <IonItem lines="none">
                             <IonSelect interface="alert" name="sort" value={sort} onIonChange={(e) => setSort(e.detail.value)}>
-                                <IonSelectOption value="az">A-Z</IonSelectOption>
-                                <IonSelectOption value="za">Z-A</IonSelectOption>
+                                <IonSelectOption value="az">{t('general.filter_sort_az')}</IonSelectOption>
+                                <IonSelectOption value="za">{t('general.filter_sort_za')}</IonSelectOption>
                             </IonSelect>
                         </IonItem>
                     </IonList>
                 </div>
-                <IonButton expand="block" type="submit">Apply</IonButton>
+                <IonButton expand="block" type="submit">{t('general.filter_apply')}</IonButton>
             </form>
         </IonModal>
     </>);

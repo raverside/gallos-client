@@ -14,6 +14,7 @@ import {closeOutline as closeIcon} from "ionicons/icons";
 import {ellipsisHorizontal as menuIcon} from "ionicons/icons";
 import ConfirmPrompt from "../ConfirmPrompt";
 import React, {useState} from "react";
+import {useTranslation} from "react-multi-lang";
 
 type noteType = {
     id: string;
@@ -32,6 +33,7 @@ type TeamOwnerNotesTabProps = {
 };
 
 const TeamOwnerNotesTab: React.FC<TeamOwnerNotesTabProps> = ({note, team_owner, onClose, onEdit, onRemoveNote}) => {
+    const t = useTranslation();
     const [present, dismiss] = useIonActionSheet();
     const [showDeleteModal, setShowDeleteModal] = useState<string|false>(false);
 
@@ -39,14 +41,14 @@ const TeamOwnerNotesTab: React.FC<TeamOwnerNotesTabProps> = ({note, team_owner, 
         <IonModal isOpen={!!note} onDidDismiss={() => onClose()} cssClass="view-note-modal">
             <IonToolbar className="modal-header">
                 <IonButtons slot="start"><IonIcon size="large" icon={closeIcon} slot="start" onClick={() => onClose()} /></IonButtons>
-                <IonTitle className="page-title"><p>Note</p><p className="page-subtitle">{team_owner.name}</p></IonTitle>
+                <IonTitle className="page-title"><p>{t('teams.note')}</p><p className="page-subtitle">{team_owner.name}</p></IonTitle>
                 <IonButtons slot="end"><IonIcon size="large" className="view-note-menu" icon={menuIcon} slot="end" onClick={() => present({
                     buttons: [
-                        { text: 'Edit Note', handler: () => { if (note) onEdit(note); onClose(); } },
-                        { text: 'Delete Note', handler: () => {onClose(); setShowDeleteModal(note ? note.id : false)} },
-                        { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
+                        { text: t('teams.note_edit'), handler: () => { if (note) onEdit(note); onClose(); } },
+                        { text: t('teams.note_delete'), handler: () => {onClose(); setShowDeleteModal(note ? note.id : false)} },
+                        { text: t('teams.note_cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                     ],
-                    header: 'Settings'
+                    header: t('teams.note_settings')
                 })} /></IonButtons>
             </IonToolbar>
             {note && <IonContent>
@@ -61,8 +63,8 @@ const TeamOwnerNotesTab: React.FC<TeamOwnerNotesTabProps> = ({note, team_owner, 
         <ConfirmPrompt
             data={showDeleteModal}
             show={!!showDeleteModal}
-            title="Delete Note"
-            subtitle="Are you sure you want to delete this note?"
+            title={t('teams.note_delete_confirm_title')}
+            subtitle={t('teams.note_delete_confirm_subtitle')}
             onResult={(data, isConfirmed) => {isConfirmed && onRemoveNote(data); setShowDeleteModal(false)}}
         />
     </>);

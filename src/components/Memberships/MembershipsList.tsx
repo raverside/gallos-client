@@ -4,6 +4,7 @@ import './MembershipsList.css';
 import React, {useContext} from "react";
 import {ellipsisHorizontal as menuIcon} from "ionicons/icons";
 import {AppContext} from "../../State";
+import {useTranslation} from "react-multi-lang";
 
 type MembershipsListProps = {
     memberships: Array<{}>;
@@ -12,6 +13,7 @@ type MembershipsListProps = {
 };
 
 const MembershipsList: React.FC<MembershipsListProps> = ({memberships, editMembership, deleteMembership}) => {
+    const t = useTranslation();
     const { state } = useContext(AppContext);
     const [present, dismiss] = useIonActionSheet();
 
@@ -21,17 +23,17 @@ const MembershipsList: React.FC<MembershipsListProps> = ({memberships, editMembe
                 <p className="membership-index">{index + 1}</p>
                 <IonLabel className="membership-short-info">
                     <IonText className="membership-short-info_name" color={membership.name.toLowerCase().replace(/\s+/g, '')}>{membership.name}</IonText>
-                    <IonText className="membership-short-info_type">{membership.type} Membership</IonText>
+                    <IonText className="membership-short-info_type">{membership.type} {t('membership.membership')}</IonText>
                     <IonText className="membership-short-info_duration">{membership.duration}</IonText>
                     <IonText className="membership-short-info_price">${membership.price}</IonText>
                 </IonLabel>
                 {(state.user.role === "admin_manager" || state.user.role === "admin") && <IonButtons slot="end"><IonIcon className="view-note-menu" icon={menuIcon} slot="end" onClick={() => present({
                     buttons: [
-                        { text: 'Edit Membership', handler: () => editMembership(membership) },
-                        { text: 'Delete Membership', handler: () => deleteMembership(membership.id) },
-                        { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
+                        { text: t('membership.edit_membership'), handler: () => editMembership(membership) },
+                        { text: t('membership.delete_membership'), handler: () => deleteMembership(membership.id) },
+                        { text: t('membership.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                     ],
-                    header: 'Settings'
+                    header: t('membership.settings')
                 })} /></IonButtons>}
             </IonItem>
         })}

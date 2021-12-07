@@ -20,6 +20,7 @@ import {getCountries, getStatesByCountry, getCitiesByState} from '../../api/Geo'
 
 import './TeamOwnerEditor.css';
 import {useHistory} from "react-router-dom";
+import {useTranslation} from "react-multi-lang";
 
 type TeamOwnerFormData = {
     id?: string;
@@ -40,6 +41,7 @@ type EventProps = {
 };
 
 const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner = false}) => {
+    const t = useTranslation();
     const [formData, setFormData] = useState<TeamOwnerFormData>({
         id: teamOwner ? teamOwner.id : undefined,
         name: teamOwner ? teamOwner.name : "",
@@ -140,7 +142,7 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
 
     return (<>
         <IonToolbar className="modal-header">
-            <IonTitle className="page-title">{formData.id ? "Update Team Owner" : "Create Team Owner"}</IonTitle>
+            <IonTitle className="page-title">{formData.id ? t('teams.update_team_owner') : t('teams.create_team_owner')}</IonTitle>
             <IonButtons slot="start">
                 <IonIcon
                     icon={closeIcon}
@@ -150,61 +152,61 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
                 />
             </IonButtons>
             <IonButtons slot="end">
-                <IonButton type="button" slot="end" disabled={!canSubmit()} color={canSubmit() ? "primary" : "dark"} fill="clear" className="create-event-post" onClick={Submit}>Save</IonButton>
+                <IonButton type="button" slot="end" disabled={!canSubmit()} color={canSubmit() ? "primary" : "dark"} fill="clear" className="create-event-post" onClick={Submit}>{t('teams.save')}</IonButton>
             </IonButtons>
         </IonToolbar>
         <IonContent id="event-editor">
             <IonList>
-                <IonItemDivider>Name</IonItemDivider>
+                <IonItemDivider>{t('teams.name')}</IonItemDivider>
                 <IonItem lines="none">
                     <IonInput
                         value={formData.name}
                         className="fullsize-input"
-                        placeholder="Name"
+                        placeholder={t('teams.name')}
                         onIonChange={(e) => setFormData({...formData, name: e.detail.value!})}
                     />
                 </IonItem>
 
-                <IonItemDivider>Citizen ID</IonItemDivider>
+                <IonItemDivider>{t('teams.citizen_id')}</IonItemDivider>
                 <IonItem lines="none">
                     <IonInput
                         value={formData.citizen_id}
                         className="fullsize-input"
-                        placeholder="Your Citizen ID"
+                        placeholder={t('teams.citizen_id')}
                         onIonChange={(e) => setFormData({...formData, citizen_id: e.detail.value!})}
                     />
                 </IonItem>
 
-                <IonItemDivider>Phone number</IonItemDivider>
+                <IonItemDivider>{t('teams.phone')}</IonItemDivider>
                 <PhoneInput
                     country={'us'}
                     countryCodeEditable={false}
-                    placeholder="Your phone number"
+                    placeholder={t('teams.phone')}
                     value={formData.phone}
                     onChange={(phone) => setFormData({...formData, phone})}
                 />
 
-                <IonItemDivider>Country</IonItemDivider>
+                <IonItemDivider>{t('general.country')}</IonItemDivider>
                 <IonItem lines="none">
-                    <IonSelect interface="alert" name="country" value={formData.country} onIonChange={(e) => onCountryChange(e.detail.value)} placeholder="Select country">
+                    <IonSelect interface="alert" name="country" value={formData.country} onIonChange={(e) => onCountryChange(e.detail.value)} placeholder={t('general.country_placeholder')}>
                         {countries && countries.map((country) => (
                             <IonSelectOption key={country.id} value={country.id}>{country.name}</IonSelectOption>
                         ))}
                     </IonSelect>
                 </IonItem>
 
-                {(states && states.length > 0) && <><IonItemDivider>State</IonItemDivider>
+                {(states && states.length > 0) && <><IonItemDivider>{t('general.state')}</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect interface="alert" disabled={!formData.country} name="state" value={formData.state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder="Select state">
+                        <IonSelect interface="alert" disabled={!formData.country} name="state" value={formData.state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder={t('general.state_placeholder')}>
                             {states.map((state) => (
                                 <IonSelectOption key={state.id} value={state.id}>{state.name}</IonSelectOption>
                             ))}
                         </IonSelect>
                     </IonItem></>}
 
-                {(cities && cities.length > 0) && <><IonItemDivider>City</IonItemDivider>
+                {(cities && cities.length > 0) && <><IonItemDivider>{t('general.city')}</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect interface="alert" disabled={!formData.country || !formData.state} name="city" value={formData.city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder="Select city">
+                        <IonSelect interface="alert" disabled={!formData.country || !formData.state} name="city" value={formData.city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder={t('general.city_placeholder')}>
                             {cities.map((city) => (
                                 <IonSelectOption key={city.id} value={city.id}>{city.name}</IonSelectOption>
                             ))}

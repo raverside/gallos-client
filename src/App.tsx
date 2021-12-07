@@ -29,6 +29,8 @@ import ForgotPasscode from './pages/Auth/ForgotPasscode';
 import {AppContext, AppContextProvider} from './State';
 import {useContext} from "react";
 import AutoRelogin from './AutoRelogin';
+import { setDefaultLanguage, setDefaultTranslations } from 'react-multi-lang';
+import staticEN from './translations/en.json';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -55,7 +57,11 @@ const Judge = React.lazy( () => import('./pages/Judge'));
 const JudgeMatch = React.lazy( () => import('./pages/JudgeMatch'));
 const JudgeMatchTimer = React.lazy( () => import('./pages/JudgeMatchTimer'));
 
+
 setupConfig({mode: 'md'});
+
+setDefaultTranslations({en: staticEN});
+setDefaultLanguage('en');
 
 const App: React.FC = () => {
     return (
@@ -168,7 +174,7 @@ const PrivateRoute: React.FC<RouteComponent> = ({ admin = false, children, ...re
         return <Redirect to="/" />
     }
 
-    return <Route {...rest}>{state.user?.id ? children : <>{children}<Redirect to={(admin && window.location.hostname !== 'gallosclub.com') ? "/auth_admin" : "/auth"} /></>}</Route>
+    return <Route {...rest}>{state.user?.id ? children : <>{children}<Redirect to={(admin && !window.location.hostname?.includes('gallosclub.com')) ? "/auth_admin" : "/auth"} /></>}</Route>
 }
 
 const EventsRoute: React.FC<any> = () => {

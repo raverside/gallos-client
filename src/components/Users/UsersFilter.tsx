@@ -10,6 +10,7 @@ import React, {useState, useEffect} from 'react';
 import {getCountries, getStatesByCountry, getCitiesByState} from '../../api/Geo';
 
 import './UsersFilter.css';
+import {useTranslation} from "react-multi-lang";
 
 type FilterProps = {
     filter: any;
@@ -18,7 +19,7 @@ type FilterProps = {
 };
 
 const UsersFilter: React.FC<FilterProps> = ({filter, setFilter, close}) => {
-
+    const t = useTranslation();
     const [countries, setCountries] = useState<[{id: number, name: string}]>();
     const [states, setStates] = useState<[{id: number, name: string}]>();
     const [cities, setCities] = useState<[{id: number, name: string}]>();
@@ -92,55 +93,55 @@ const UsersFilter: React.FC<FilterProps> = ({filter, setFilter, close}) => {
     return (<form className="users-filter-form" onSubmit={Submit}>
         <div className="users-filter-wrapper">
             <div className="users-filter-header">
-                <IonButton fill="clear" onClick={clear}>Clear</IonButton>
-                <IonText>Filter and Sort</IonText>
-                <IonButton fill="clear" onClick={close}>Cancel</IonButton>
+                <IonButton fill="clear" onClick={clear}>{t('users.filter_clear')}</IonButton>
+                <IonText>{t('users.filter_header')}</IonText>
+                <IonButton fill="clear" onClick={close}>{t('users.filter_cancel')}</IonButton>
             </div>
             <IonList>
-                <IonLabel>Country</IonLabel>
+                <IonLabel>{t('general.country')}</IonLabel>
                 <IonItem lines="none">
-                    <IonSelect interface="alert" name="country" value={country} onIonChange={(e) => {onCountryChange(e.detail.value)}} placeholder="Select country">
+                    <IonSelect interface="alert" name="country" value={country} onIonChange={(e) => {onCountryChange(e.detail.value)}} placeholder={t('general.country_placeholder')}>
                         {countries && countries.map((country) => (
                             <IonSelectOption key={country.id} value={country.id}>{country.name}</IonSelectOption>
                         ))}
                     </IonSelect>
                 </IonItem>
 
-                {(states && states.length > 0) && <><IonLabel>State</IonLabel>
+                {(states && states.length > 0) && <><IonLabel>{t('general.state')}</IonLabel>
                 <IonItem lines="none">
-                    <IonSelect interface="alert" disabled={!country} name="state" value={state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder="Select state">
+                    <IonSelect interface="alert" disabled={!country} name="state" value={state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder={t('general.state_placeholder')}>
                         {states.map((state) => (
                             <IonSelectOption key={state.id} value={state.id}>{state.name}</IonSelectOption>
                         ))}
                     </IonSelect>
                 </IonItem></>}
 
-                {(cities && cities.length > 0) && <><IonLabel>City</IonLabel>
+                {(cities && cities.length > 0) && <><IonLabel>{t('general.city')}</IonLabel>
                 <IonItem lines="none">
-                    <IonSelect interface="alert" disabled={!country || !state} name="city" value={city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder="Select city">
+                    <IonSelect interface="alert" disabled={!country || !state} name="city" value={city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder={t('general.city_placeholder')}>
                         {cities.map((city) => (
                             <IonSelectOption key={city.id} value={city.id}>{city.name}</IonSelectOption>
                         ))}
                     </IonSelect>
                 </IonItem></>}
 
-                <IonLabel>Membership Type</IonLabel>
+                <IonLabel>{t('users.filter_membership_type')}</IonLabel>
                 <IonItem lines="none">
-                    <IonSelect interface="alert" name="membership" value={membership} onIonChange={(e) => setMembership(e.detail.value)} placeholder="Select membership type">
+                    <IonSelect interface="alert" name="membership" value={membership} onIonChange={(e) => setMembership(e.detail.value)} placeholder={t('users.filter_membership_type')}>
                         <IonSelectOption value="gold">Gold</IonSelectOption>
                     </IonSelect>
                 </IonItem>
 
-                <IonLabel>Sort By</IonLabel>
+                <IonLabel>{t('general.filter_sort')}</IonLabel>
                 <IonItem lines="none">
                     <IonSelect interface="alert" name="sort" value={sort} onIonChange={(e) => setSort(e.detail.value)}>
-                        <IonSelectOption value="az">A-Z</IonSelectOption>
-                        <IonSelectOption value="za">Z-A</IonSelectOption>
+                        <IonSelectOption value="az">{t('general.filter_sort_az')}</IonSelectOption>
+                        <IonSelectOption value="za">{t('general.filter_sort_za')}</IonSelectOption>
                     </IonSelect>
                 </IonItem>
             </IonList>
         </div>
-        <IonButton expand="block" type="submit">Apply</IonButton>
+        <IonButton expand="block" type="submit">{t('general.filter_apply')}</IonButton>
     </form>);
 };
 

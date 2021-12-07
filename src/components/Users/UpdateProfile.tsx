@@ -10,6 +10,7 @@ import {updateUserProfile} from "../../api/Users";
 import {formatPasscode} from '../utils';
 
 import './UpdateProfile.css';
+import {useTranslation} from "react-multi-lang";
 
 type UpdateProfileProps = {
     user: {
@@ -21,6 +22,7 @@ type UpdateProfileProps = {
 };
 
 const UpdateProfile: React.FC<UpdateProfileProps> = ({user, updateUser}) => {
+    const t = useTranslation();
     const [showModal, setShowModal] = useState<boolean>(false);
     const [phone, setPhone] = useState<string>(user.phone || "");
     const [passcode, setPasscode] = useState<string>(user.passcode);
@@ -46,10 +48,10 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({user, updateUser}) => {
     }
 
     return (<>
-        <IonButton fill="clear" onClick={() => setShowModal(true)}>Update</IonButton>
+        <IonButton fill="clear" onClick={() => setShowModal(true)}>{t('users.update')}</IonButton>
         <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)} cssClass="update-profile-modal">
             <IonToolbar className="modal-header">
-                <IonTitle className="page-title">Account Information</IonTitle>
+                <IonTitle className="page-title">{t('users.account_information')}</IonTitle>
                 <IonButtons slot="start">
                     <IonIcon
                         icon={closeIcon}
@@ -59,24 +61,24 @@ const UpdateProfile: React.FC<UpdateProfileProps> = ({user, updateUser}) => {
                     />
                 </IonButtons>
                 <IonButtons slot="end">
-                    <IonButton type="button" slot="end" disabled={!canSubmit()} color={canSubmit() ? "primary" : "dark"} fill="clear" className="update-profile-save" onClick={Submit}>Save</IonButton>
+                    <IonButton type="button" slot="end" disabled={!canSubmit()} color={canSubmit() ? "primary" : "dark"} fill="clear" className="update-profile-save" onClick={Submit}>{t('users.save')}</IonButton>
                 </IonButtons>
             </IonToolbar>
             <IonContent>
                 <div className="update-profile-form">
-                    <IonText className="update-label">Phone number</IonText>
+                    <IonText className="update-label">{t('users.phone')}</IonText>
                     <PhoneInput
                         country={'us'}
                         countryCodeEditable={false}
-                        placeholder="Phone number"
+                        placeholder={t('users.phone')}
                         value={phone}
                         onChange={(phone) => setPhone(phone)}
                     />
 
-                    <IonText className="update-label">Passcode</IonText>
+                    <IonText className="update-label">{t('users.passcode')}</IonText>
                     <IonText>{showPasscode ? formatPasscode(passcode) : "*** *** ***"}</IonText>
-                    <IonButton className="update-toggle-passcode" fill="clear" onClick={() => setShowPasscode(!showPasscode)}>{showPasscode ? "Hide" : "Show"}</IonButton>
-                    <IonButton expand="block" className="generate-passcode" onClick={generatePasscode}>Generate a New Passcode</IonButton>
+                    <IonButton className="update-toggle-passcode" fill="clear" onClick={() => setShowPasscode(!showPasscode)}>{showPasscode ? t('auth.hide') : t('auth.show')}</IonButton>
+                    <IonButton expand="block" className="generate-passcode" onClick={generatePasscode}>{t('users.generate_passcode')}</IonButton>
                 </div>
             </IonContent>
         </IonModal>

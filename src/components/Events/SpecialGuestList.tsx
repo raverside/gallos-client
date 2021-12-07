@@ -8,6 +8,7 @@ import {
 import '../TeamOwners/TeamOwnersList.css';
 
 import React, {useState} from "react";
+import {useTranslation} from "react-multi-lang";
 
 type TeamOwnersListProps = {
     teamOwners?: Array<{name?: string; digital_id:number}>;
@@ -18,6 +19,7 @@ type TeamOwnersListProps = {
 };
 
 const SpecialGuestList: React.FC<TeamOwnersListProps> = ({teamOwners, isTeam = false, selectedTeamOwners = [], setSelectedTeamOwners}) => {
+    const t = useTranslation();
     const [search, setSearch] = useState<string>("");
 
     return (<IonList className="teamOwnersList user-profile-notes-tab">
@@ -29,7 +31,7 @@ const SpecialGuestList: React.FC<TeamOwnersListProps> = ({teamOwners, isTeam = f
                 <p className="teamOwner-index">{index + 1}</p>
                 <IonLabel className="teamOwner-short-info">
                     <IonText className="teamOwner-short-info_name" color={teamOwner.name.toLowerCase().replace(/\s+/g, '')}>{teamOwner.name}</IonText>
-                    <IonText className="teamOwner-short-info_winrate">{teamOwner.teams?.length || 0} Teams</IonText>
+                    <IonText className="teamOwner-short-info_winrate">{teamOwner.teams?.length || 0} {t('teams.teams')}</IonText>
                 </IonLabel>
             </IonItem>
         })}

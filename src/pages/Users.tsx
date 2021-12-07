@@ -14,8 +14,10 @@ import UsersFilter from "../components/Users/UsersFilter";
 import {filter as filterIcon} from 'ionicons/icons';
 
 import './Users.css';
+import {useTranslation} from "react-multi-lang";
 
 const Users: React.FC = () => {
+    const t = useTranslation();
     const [users, setUsers] = useState<Array<{id:string}>>([]);
     const [infiniteScrollPage, setInfiniteScrollPage] = useState<number>(1);
     const [disableInfiniteScroll, setDisableInfiniteScroll] = useState<boolean>(false);
@@ -76,7 +78,7 @@ const Users: React.FC = () => {
 
     return (
         <IonPage>
-            <Header title="Users" isRed={false} notifications={false}/>
+            <Header title={t('users.users')} isRed={false} notifications={false}/>
 
             <IonContent fullscreen>
                 <IonModal id="overlay-modal" isOpen={showFilterModal} onDidDismiss={() => setShowFilterModal(false)}>
@@ -84,7 +86,7 @@ const Users: React.FC = () => {
                 </IonModal>
                 <IonRefresher slot="fixed" onIonRefresh={(e) => fetchUsers(usersFilterQuery, e.detail.complete)}><IonRefresherContent /></IonRefresher>
                 <div className="search-filter-block">
-                    <IonSearchbar className="searchbar" placeholder="Search username or label" value={usersSearch} onIonChange={e => {setUsersSearch(e.detail.value!); updateFilter(e.detail.value!);}} />
+                    <IonSearchbar className="searchbar" placeholder={t('users.search')} value={usersSearch} onIonChange={e => {setUsersSearch(e.detail.value!); updateFilter(e.detail.value!);}} />
                     <IonButton fill="clear" onClick={() => setShowFilterModal(!showFilterModal)}>
                         <IonIcon icon={filterIcon} color="dark" />
                     </IonButton>

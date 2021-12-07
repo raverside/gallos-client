@@ -15,6 +15,7 @@ import ProfileNoteView from './ProfileNoteView';
 
 import './ProfileTabs.css';
 import {closeOutline as closeIcon} from "ionicons/icons";
+import {useTranslation} from "react-multi-lang";
 
 type noteType = {
     id: string;
@@ -35,6 +36,7 @@ type ProfileTabProps = {
 };
 
 const ProfileNotesTab: React.FC<ProfileTabProps> = ({user, addNote, updateNote, removeNote}) => {
+    const t = useTranslation();
     const [showAddModal, setShowAddModal] = useState<noteType|boolean>(false);
     const [showNoteModal, setShowNoteModal] = useState<noteType|false>(false);
     const [noteTitle, setNoteTitle] = useState<string>("");
@@ -64,7 +66,7 @@ const ProfileNotesTab: React.FC<ProfileTabProps> = ({user, addNote, updateNote, 
     return (
         <div className="user-profile-notes-tab">
             <div className="user-profile-section">
-                <IonButton fill="clear" onClick={() => setShowAddModal(true)}>Add</IonButton>
+                <IonButton fill="clear" onClick={() => setShowAddModal(true)}>{t('users.note_add')}</IonButton>
             </div>
             {(user.notes?.length > 0) && <IonList>
                 {user.notes.map((note, index) => (
@@ -83,17 +85,17 @@ const ProfileNotesTab: React.FC<ProfileTabProps> = ({user, addNote, updateNote, 
             <IonModal isOpen={!!showAddModal} onDidDismiss={() => hideEditModal()} cssClass="add-note-modal">
                 <IonToolbar className="modal-header">
                     <IonButtons slot="start"><IonIcon size="large" icon={closeIcon} slot="start" onClick={() => hideEditModal()} /></IonButtons>
-                    <IonTitle className="page-title"><p>{(typeof showAddModal !== "boolean" && showAddModal.id) ? "Edit" : "Add"} Note</p><p className="page-subtitle">{user.username}</p></IonTitle>
+                    <IonTitle className="page-title"><p>{(typeof showAddModal !== "boolean" && showAddModal.id) ? t('users.note_edit') : t('users.note_add')} {t('users.note')}</p><p className="page-subtitle">{user.username}</p></IonTitle>
                 </IonToolbar>
                 <IonContent>
                     <div className="add-note-wrapper">
                         <div>
-                            <IonText className="add-note-title">Title</IonText>
-                            <IonInput className="add-note-input" placeholder="Note title" value={noteTitle} onIonChange={(e) => setNoteTitle(e.detail.value!)} />
-                            <IonText className="add-note-title">Note</IonText>
-                            <IonTextarea className="add-note-input" placeholder={"Note for "+user.username} rows={5} value={note} onIonChange={(e) => setNote(e.detail.value!)} />
+                            <IonText className="add-note-title">{t('users.note_title')}</IonText>
+                            <IonInput className="add-note-input" placeholder={t('users.note_title')} value={noteTitle} onIonChange={(e) => setNoteTitle(e.detail.value!)} />
+                            <IonText className="add-note-title">{t('users.note')}</IonText>
+                            <IonTextarea className="add-note-input" placeholder={t('users.note_for')+" "+user.username} rows={5} value={note} onIonChange={(e) => setNote(e.detail.value!)} />
                         </div>
-                        <IonButton disabled={!noteTitle || !note} expand="block" onClick={Submit}>Post</IonButton>
+                        <IonButton disabled={!noteTitle || !note} expand="block" onClick={Submit}>{t('users.note_save')}</IonButton>
                     </div>
                 </IonContent>
             </IonModal>

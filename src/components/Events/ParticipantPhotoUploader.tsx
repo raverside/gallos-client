@@ -18,6 +18,7 @@ import {upsertParticipant} from '../../api/Events';
 
 import './ParticipantEditor.css';
 import {AppContext} from "../../State";
+import {useTranslation} from "react-multi-lang";
 
 type ParticipantFormData = {
     id?: string|undefined;
@@ -53,6 +54,7 @@ type ParticipantProps = {
 };
 
 const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close, event, participant= false}) => {
+    const t = useTranslation();
     const { state } = useContext(AppContext);
     const [formData, setFormData] = useState<any>({
         ...participant,
@@ -84,7 +86,7 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
 
     return (<>
         <IonToolbar className="modal-header">
-            <IonTitle className="page-title"><p>Upload Photo</p></IonTitle>
+            <IonTitle className="page-title"><p>{t('events.upload_photo')}</p></IonTitle>
             <IonButtons slot="start">
                 <IonIcon
                     icon={closeIcon}
@@ -97,8 +99,8 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
         <IonContent id="event-editor">
             <IonList>
                 {participant && participant.id && <>
-                    <IonItemDivider>Animal Image</IonItemDivider>
-                    <IonText className="image-flipper-text">Make sure animal image is facing right</IonText>
+                    <IonItemDivider>{t('events.animal_image')}</IonItemDivider>
+                    <IonText className="image-flipper-text">{t('events.animal_image_hint')}</IonText>
                     <IonItem className="animalImagePicker" lines="none">
                         <AnimalImagePicker
                             eventImage={participant ? participant.image : null}
@@ -111,7 +113,7 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
                 </>}
 
                 <IonItem lines="none">
-                    <IonButton expand="block" className="delete-button" disabled={!canUpload() || uploading} onClick={Submit}>Upload</IonButton>
+                    <IonButton expand="block" className="delete-button" disabled={!canUpload() || uploading} onClick={Submit}>{t('events.upload')}</IonButton>
                 </IonItem>
             </IonList>
         </IonContent>

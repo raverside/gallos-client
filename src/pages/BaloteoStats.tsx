@@ -21,8 +21,10 @@ import {getEvent} from "../api/Events";
 import './Baloteo.css';
 import {useParams} from "react-router-dom";
 import {getImageUrl, formatOzToLbsOz} from "../components/utils";
+import {useTranslation} from "react-multi-lang";
 
 const BaloteoStats: React.FC = () => {
+    const t = useTranslation();
     const [event, setEvent] = useState<any>([]);
     const [baloteoSearch, setBaloteoSearch] = useState<string>("");
     const [baloteoTab, setBaloteoTab] = useState<string>("matches");
@@ -51,31 +53,31 @@ const BaloteoStats: React.FC = () => {
                     </IonButtons>
                     <IonTitle>
                         <p>{event.title || event.stadium_name}</p>
-                        <p className="page-subtitle">Baloteo {event.phase}</p>
+                        <p className="page-subtitle">{t('baloteo.baloteo')} {event.phase}</p>
                     </IonTitle>
                 </IonToolbar>
             </IonHeader>
 
             <IonContent fullscreen>
                 <IonSegment value={baloteoTab} onIonChange={(e) => setBaloteoTab(e.detail.value!)} className="user-profile-tabs-segment">
-                    <IonSegmentButton value="matches"><IonLabel>Matches</IonLabel></IonSegmentButton>
-                    <IonSegmentButton disabled value="results"><IonLabel>Results</IonLabel></IonSegmentButton>
-                    <IonSegmentButton disabled value="statistics"><IonLabel>Statistics</IonLabel></IonSegmentButton>
-                    <IonSegmentButton value="animals"><IonLabel>Animals</IonLabel></IonSegmentButton>
+                    <IonSegmentButton value="matches"><IonLabel>{t('baloteo.tab_matches')}</IonLabel></IonSegmentButton>
+                    <IonSegmentButton disabled value="results"><IonLabel>{t('baloteo.tab_results')}</IonLabel></IonSegmentButton>
+                    <IonSegmentButton disabled value="statistics"><IonLabel>{t('baloteo.tab_statistics')}</IonLabel></IonSegmentButton>
+                    <IonSegmentButton value="animals"><IonLabel>{t('baloteo.tab_animals')}</IonLabel></IonSegmentButton>
                 </IonSegment>
                 {(baloteoTab === "matches") && <div className="baloteo-matches">
-                    <IonSearchbar className="searchbar" placeholder="Search cage number or team name" value={baloteoSearch} onIonChange={e => {setBaloteoSearch(e.detail.value!)}} />
+                    <IonSearchbar className="searchbar" placeholder={t('baloteo.search')} value={baloteoSearch} onIonChange={e => {setBaloteoSearch(e.detail.value!)}} />
                     <IonGrid className="baloteo-match">
                         <IonRow className="baloteo-side-header">
                             <IonCol size="5">
                                 <div className="blue_side">
-                                    <div className="baloteo-match-blue_side">Blue Side</div>
+                                    <div className="baloteo-match-blue_side">{t('baloteo.blue_side')}</div>
                                 </div>
                             </IonCol>
                             <IonCol size="2" />
                             <IonCol size="5">
                                 <div className="white_side">
-                                    <div className="baloteo-match-white_side">White Side</div>
+                                    <div className="baloteo-match-white_side">{t('baloteo.white_side')}</div>
                                 </div>
                             </IonCol>
                         </IonRow>
@@ -89,9 +91,9 @@ const BaloteoStats: React.FC = () => {
                                         </div>
                                     </IonCol>
                                     <IonCol size="2">
-                                        <p className="baloteo-match-fight">Pelea {index + 1}</p>
+                                        <p className="baloteo-match-fight">{t('baloteo.fight')} {index + 1}</p>
                                         <p className="baloteo-match-vs">VS</p>
-                                        {match.manual && <p className="baloteo-match-manual">Manual</p>}
+                                        {match.manual && <p className="baloteo-match-manual">{t('baloteo.manual')}</p>}
                                     </IonCol>
                                     <IonCol size="5">
                                         <div className="white_side">
@@ -104,32 +106,32 @@ const BaloteoStats: React.FC = () => {
                     </IonGrid></div>}
                 {(baloteoTab === "animals") && <div className="baloteo-participants">
                     <IonCard className="baloteo-stats-card">
-                        <p>Total Animals Received</p>
+                        <p>{t('baloteo.total_animals_received')}</p>
                         <span>{event.participants?.length}</span>
                     </IonCard>
                     <IonGrid>
                         <IonRow>
                             <IonCol size="4">
                                 <IonCard className="baloteo-stats-card">
-                                    <p>Lowest Animal Weight</p>
+                                    <p>{t('baloteo.lowest_animal_weight')}</p>
                                     <span>{formatOzToLbsOz(""+Math.min(...event.participants.map((p:any) => parseFloat(p.weight))))}</span>
                                 </IonCard>
                             </IonCol>
                             <IonCol size="4">
                                 <IonCard className="baloteo-stats-card">
-                                    <p>Average Weight</p>
+                                    <p>{t('baloteo.average_weight')}</p>
                                     <span>{formatOzToLbsOz(""+event.participants.reduce((total:any, next:any) => total + parseFloat(next.weight), 0) / event.participants.length || "0")}</span>
                                 </IonCard>
                             </IonCol>
                             <IonCol size="4">
                                 <IonCard className="baloteo-stats-card">
-                                    <p>Highest Animal Weight</p>
+                                    <p>{t('baloteo.highest_animal_weight')}</p>
                                     <span>{formatOzToLbsOz(""+Math.max(...event.participants.map((p:any) => parseFloat(p.weight))))}</span>
                                 </IonCard>
                             </IonCol>
                         </IonRow>
                     </IonGrid>
-                    <IonSearchbar className="searchbar" placeholder="Search cage number or team name" value={baloteoSearch} onIonChange={e => {setBaloteoSearch(e.detail.value!)}} />
+                    <IonSearchbar className="searchbar" placeholder={t('baloteo.search')} value={baloteoSearch} onIonChange={e => {setBaloteoSearch(e.detail.value!)}} />
                     {event.participants?.length > 0 && <IonList>
                         {event.participants.map((participant:any) => <IonItem className="participant" lines="none" key={participant.id}>
                             <IonGrid>

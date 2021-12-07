@@ -5,6 +5,7 @@ import React, {useState} from "react";
 import {createMatch} from "../../api/Events";
 
 import './PairManual.css';
+import {useTranslation} from "react-multi-lang";
 
 type PairManualProps = {
     participantId: string|false;
@@ -15,6 +16,7 @@ type PairManualProps = {
 };
 
 const PairManual: React.FC<PairManualProps> = ({participantId, opponents, fightNumber, close, fetchEvent}) => {
+    const t = useTranslation();
     const participant = opponents?.find(o => o.id === participantId);
     const [opponent, setOpponent] = useState<any>(false);
     const [searchOpponent, setSearchOpponent] = useState<string>("");
@@ -36,22 +38,22 @@ const PairManual: React.FC<PairManualProps> = ({participantId, opponents, fightN
                 <p className="baloteo-match-team_name">{participant?.team?.name}</p>
             </IonCol>
             <IonCol size="2">
-                <p className="baloteo-match-fight">Pelea {fightNumber}</p>
+                <p className="baloteo-match-fight">{t('baloteo.fight')} {fightNumber}</p>
                 <p className="baloteo-match-vs">VS</p>
             </IonCol>
             <IonCol size="5">
                 {opponent.id ? <>
                     <IonImg className={opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped"} src={getImageUrl(opponent?.image)} />
                     <p className="baloteo-match-team_name">{opponent?.team?.name}</p>
-                </> : <IonText className="animal">Animal</IonText>}
+                </> : <IonText className="animal">{t('events.animal')}</IonText>}
             </IonCol>
         </IonRow>
         <IonRow>
             <IonCol size="12">
-                <IonText className="select-pair-text">Select animal to be paired with</IonText>
+                <IonText className="select-pair-text">{t('events.select_animal')}</IonText>
             </IonCol>
         </IonRow>
-        <IonSearchbar className="searchbar" inputmode="numeric" placeholder="Search cage number" value={searchOpponent} onIonChange={e => {setSearchOpponent(e.detail.value!)}} />
+        <IonSearchbar className="searchbar" inputmode="numeric" placeholder={t('events.search_opponent')} value={searchOpponent} onIonChange={e => {setSearchOpponent(e.detail.value!)}} />
 
         {filteredOpponents?.length > 0 && <IonList>
             {filteredOpponents.map((participant:any) => <IonRow className={opponent?.id === participant.id ? "participant manual-opponent selected" : "participant manual-opponent"} key={participant.id} onClick={() => setOpponent(participant)}>
@@ -67,7 +69,7 @@ const PairManual: React.FC<PairManualProps> = ({participantId, opponents, fightN
                         </IonCol>
             </IonRow>)}
         </IonList>}
-    </IonGrid><IonButton expand="block" disabled={!participant?.id || !opponent?.id} className="create-match" onClick={pairMatch}>Create Match</IonButton></>);
+    </IonGrid><IonButton expand="block" disabled={!participant?.id || !opponent?.id} className="create-match" onClick={pairMatch}>{t('events.create_match')}</IonButton></>);
 };
 
 export default PairManual;

@@ -8,8 +8,10 @@ import { AppContext } from '../../State';
 import {useHistory} from "react-router-dom";
 import logo from '../../img/logo.png';
 import PhoneInput from "react-phone-input-2";
+import {useTranslation} from "react-multi-lang";
 
 const Auth: React.FC = () => {
+    const t = useTranslation();
     const { state, dispatch } = useContext(AppContext);
     const history = useHistory();
     const [showLoading, setShowLoading] = useState<boolean>(false);
@@ -57,16 +59,16 @@ const Auth: React.FC = () => {
                     <IonRow>
                         <IonCol>
                             <IonImg src={logo} className="logo" />
-                            <IonText className="admin-logo-subtext">Admin</IonText>
+                            <IonText className="admin-logo-subtext">{t('auth.admin')}</IonText>
                             <PhoneInput
-                                placeholder="Phone"
+                                placeholder={t('auth.placeholder_phone')}
                                 value={phone}
                                 onChange={(phone) => {setError(false); setPhone(phone)}}
                                 inputClass={error ? "auth-error-border" : ""}
                             />
                             <div style={{position: "relative"}}>
                                 <IonInput
-                                    placeholder="Passcode"
+                                    placeholder={t('auth.placeholder_passcode')}
                                     type={showPassword ? "text" : "password"}
                                     value={passcode}
                                     onIonChange={e => {setError(false); setPasscode(formatPasscode(e.detail.value!))}}
@@ -75,10 +77,10 @@ const Auth: React.FC = () => {
                                     style={{marginTop: "15px"}}
                                     className={error ? "auth-error-border" : ""}
                                 />
-                                <IonButton className="toggle-passcode" fill="clear" onClick={() => setShowPassword(!showPassword)}>{showPassword ? "Hide" : "Show"}</IonButton>
+                                <IonButton className="toggle-passcode" fill="clear" onClick={() => setShowPassword(!showPassword)}>{showPassword ? t('auth.hide') : t('auth.show')}</IonButton>
                             </div>
-                            {error && <IonText color="primary" className="auth-error">Incorrect phone or passcode. Please try again.</IonText>}
-                            <IonRouterLink className="forgot-passcode" routerLink="/forgot_passcode">Forgot Passcode?</IonRouterLink>
+                            {error && <IonText color="primary" className="auth-error">{t('auth.error')}</IonText>}
+                            <IonRouterLink className="forgot-passcode" routerLink="/forgot_passcode">{t('auth.forgot_passcode')}</IonRouterLink>
                         </IonCol>
                     </IonRow>
                     <IonRow>
@@ -87,7 +89,7 @@ const Auth: React.FC = () => {
                                 onClick={Submit}
                                 disabled={submitDisabled}
                                 expand="block"
-                            >Log In</IonButton>
+                            >{t('auth.login')}</IonButton>
                         </IonCol>
                     </IonRow>
                 </IonGrid>

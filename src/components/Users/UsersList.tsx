@@ -1,4 +1,4 @@
-import {IonText, IonImg, IonList, IonItem, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonButton, IonAvatar, IonLabel} from '@ionic/react';
+import {IonText, IonImg, IonList, IonItem, IonAvatar, IonLabel} from '@ionic/react';
 import {getImageUrl} from '../utils';
 
 import './UsersList.css';

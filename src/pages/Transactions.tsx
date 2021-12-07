@@ -1,20 +1,19 @@
 import {
-    IonContent, IonLabel,
+    IonContent,
     IonPage,
-    IonSegment,
-    IonSegmentButton,
 } from '@ionic/react';
 import Header from '../components/Header/Header';
-import MembershipsList from '../components/Memberships/MembershipsList';
 import React, {useEffect, useState} from "react";
 import {getMemberships} from "../api/Memberships";
 
 import './Memberships.css';
 import DateFilter from "../components/Transactions/DateFilter";
 import TransactionsFilter from "../components/Transactions/TransactionsFilter";
+import {useTranslation} from "react-multi-lang";
 
 
 const Transactions: React.FC = () => {
+    const t = useTranslation();
     const [memberships, setMemberships] = useState<Array<{id:string; type:string}>>([]);
     const [dateFilter, setDateFilter] = useState<string>("" );
     const [transactionsFilter, setTransactionsFilter] = useState<any>({});
@@ -49,7 +48,7 @@ const Transactions: React.FC = () => {
 
     return (
         <IonPage>
-            <Header title="Transactions" isRed={false} notifications={false}/>
+            <Header title={t('transactions.transactions')} isRed={false} notifications={false}/>
 
             <IonContent fullscreen>
                 <DateFilter

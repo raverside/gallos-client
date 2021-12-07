@@ -28,8 +28,10 @@ import PrintModal from "../components/Events/PrintModal";
 import ShareMatchImage from "../components/Events/ShareMatchImage";
 import {useReactToPrint} from "react-to-print";
 import PrintMatch from '../components/Events/PrintMatch';
+import {useTranslation} from "react-multi-lang";
 
 const Baloteo: React.FC = () => {
+    const t = useTranslation();
     const [event, setEvent] = useState<any>([]);
     const [baloteoSearch, setBaloteoSearch] = useState<string>("");
     const [baloteoTab, setBaloteoTab] = useState<string>("live");
@@ -120,31 +122,31 @@ const Baloteo: React.FC = () => {
             <IonContent fullscreen>
                 <IonSegment className="events-tabs baloteo-tabs" scrollable value={baloteoTab} onIonChange={(e) => {setBaloteoTab(e.detail.value!);}}>
                     <IonSegmentButton value="live">
-                        <IonLabel>Live Matches<span className="barely-visible"> • {liveMatches?.length || 0}</span></IonLabel>
+                        <IonLabel>{t('baloteo.tab_live')}<span className="barely-visible"> • {liveMatches?.length || 0}</span></IonLabel>
                     </IonSegmentButton>
                     <IonSegmentButton value="available">
-                        <IonLabel>Available Matches<span className="barely-visible"> • {availableMatches?.length || 0}</span></IonLabel>
+                        <IonLabel>{t('baloteo.tab_available')}<span className="barely-visible"> • {availableMatches?.length || 0}</span></IonLabel>
                     </IonSegmentButton>
                     <IonSegmentButton value="unmatched">
-                        <IonLabel>Unmatched<span className="barely-visible"> • {unmatchedParticipants?.length || 0}</span></IonLabel>
+                        <IonLabel>{t('baloteo.tab_unmatched')}<span className="barely-visible"> • {unmatchedParticipants?.length || 0}</span></IonLabel>
                     </IonSegmentButton>
                     <IonSegmentButton value="excluded">
-                        <IonLabel>Excluded<span className="barely-visible"> • {excludedParticipants?.length || 0}</span></IonLabel>
+                        <IonLabel>{t('baloteo.tab_excluded')}<span className="barely-visible"> • {excludedParticipants?.length || 0}</span></IonLabel>
                     </IonSegmentButton>
                 </IonSegment>
-                <IonSearchbar className="searchbar" placeholder="Search cage number or team name" value={baloteoSearch} onIonChange={e => {setBaloteoSearch(e.detail.value!)}} />
+                <IonSearchbar className="searchbar" placeholder={t('baloteo.search')} value={baloteoSearch} onIonChange={e => {setBaloteoSearch(e.detail.value!)}} />
                 {(baloteoTab === "live") && <div className="baloteo-matches">
                     <IonGrid className="baloteo-match">
                         <IonRow className="baloteo-side-header">
                             <IonCol size="5">
                                 <div className="blue_side">
-                                    <div className="baloteo-match-blue_side">Blue Side</div>
+                                    <div className="baloteo-match-blue_side">{t('baloteo.blue_side')}</div>
                                 </div>
                             </IonCol>
                             <IonCol size="2" />
                             <IonCol size="5">
                                 <div className="white_side">
-                                    <div className="baloteo-match-white_side">White Side</div>
+                                    <div className="baloteo-match-white_side">{t('baloteo.white_side')}</div>
                                 </div>
                             </IonCol>
                         </IonRow>
@@ -153,12 +155,12 @@ const Baloteo: React.FC = () => {
                                     <IonCol size="2" offset="10">
                                         <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
                                             buttons: [
-                                                { text: 'Share this match', handler: () => shareMatch(match) },
-                                                { text: 'Print this match', handler: () => printMatch(match) },
-                                                match.manual && { text: 'Unmatch', handler: () => unpairMatch(match.id) },
-                                                { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
+                                                { text: t('baloteo.share_match'), handler: () => shareMatch(match) },
+                                                { text: t('baloteo.print_match'), handler: () => printMatch(match) },
+                                                match.manual && { text: t('baloteo.unmatch'), handler: () => unpairMatch(match.id) },
+                                                { text: t('baloteo.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                                             ],
-                                            header: 'Settings'
+                                            header: t('baloteo.popup_header')
                                         })}><IonIcon size="small" icon={menuIcon} /></IonButton>
                                     </IonCol>
                                 </IonRow>
@@ -170,9 +172,9 @@ const Baloteo: React.FC = () => {
                                         </div>
                                     </IonCol>
                                     <IonCol size="2">
-                                        <p className="baloteo-match-fight">Pelea {index + 1}</p>
+                                        <p className="baloteo-match-fight">{t('baloteo.fight')} {index + 1}</p>
                                         <p className="baloteo-match-vs">VS</p>
-                                        {match.manual && <p className="baloteo-match-manual">Manual</p>}
+                                        {match.manual && <p className="baloteo-match-manual">{t('baloteo.manual')}</p>}
                                     </IonCol>
                                     <IonCol size="5">
                                         <div className="white_side" onClick={() => switchSides(match.id)}>
@@ -191,10 +193,10 @@ const Baloteo: React.FC = () => {
                                     <IonCol size="2" offset="10">
                                         <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
                                             buttons: [
-                                                { text: 'Share this match', handler: () => printMatch(match) },
-                                                { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
+                                                { text: t('baloteo.share_match'), handler: () => printMatch(match) },
+                                                { text: t('baloteo.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                                             ],
-                                            header: 'Settings'
+                                            header: t('baloteo.popup_header')
                                         })}><IonIcon size="small" icon={menuIcon} /></IonButton>
                                     </IonCol>
                                 </IonRow>
@@ -204,7 +206,7 @@ const Baloteo: React.FC = () => {
                                         <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
                                     </IonCol>
                                     <IonCol size="2">
-                                        <p className="baloteo-match-fight">Pelea {index + 1}</p>
+                                        <p className="baloteo-match-fight">{t('baloteo.fight')} {index + 1}</p>
                                         <p className="baloteo-match-vs">VS</p>
                                     </IonCol>
                                     <IonCol size="5">
@@ -214,7 +216,7 @@ const Baloteo: React.FC = () => {
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="12">
-                                        <IonButton fill="clear" className="baloteo-manual-live" onClick={() => addToLive(match.id)}>Add to Live</IonButton>
+                                        <IonButton fill="clear" className="baloteo-manual-live" onClick={() => addToLive(match.id)}>{t('baloteo.add_to_live')}</IonButton>
                                     </IonCol>
                                 </IonRow>
                             </IonGrid>
@@ -235,7 +237,7 @@ const Baloteo: React.FC = () => {
                                             </div>
                                         </IonCol>
                                         <IonCol size="3">
-                                            <IonButton fill="clear" className="pair-button" onClick={() => setShowPairModal(participant.id)}>Pair</IonButton>
+                                            <IonButton fill="clear" className="pair-button" onClick={() => setShowPairModal(participant.id)}>{t('baloteo.pair')}</IonButton>
                                         </IonCol>
                                     </IonRow>
                                 </IonGrid>
@@ -262,18 +264,18 @@ const Baloteo: React.FC = () => {
                         </IonList>}
                     </div>}
                     <div className="baloteo-announce">
-                        <IonButton expand="block" disabled={!liveMatches.length} onClick={() => setShowAnnouncePrompt(true)}>Announce</IonButton>
+                        <IonButton expand="block" disabled={!liveMatches.length} onClick={() => setShowAnnouncePrompt(true)}>{t('baloteo.announce')}</IonButton>
                     </div>
                     <ConfirmPrompt
                         show={showAnnouncePrompt}
-                        title="Announce Matches"
-                        subtitle="Are you sure you want to announce matches? You can't change participant sides after you announce them."
+                        title={t('baloteo.prompt_announce_title')}
+                        subtitle={t('baloteo.prompt_announce_subtitle')}
                         onResult={(data, isConfirmed) => isConfirmed ? Announce() : setShowAnnouncePrompt(false)}
                     />
                 <IonModal isOpen={!!showPairModal} onDidDismiss={() => setShowPairModal(false)}>
                     <IonToolbar className="modal-header">
                         <IonButtons slot="start" className="pair-manual-close"><IonIcon size="large" icon={closeIcon} slot="start" onClick={() => setShowPairModal(false)} /></IonButtons>
-                        <IonTitle className="page-title">Pair Animal</IonTitle>
+                        <IonTitle className="page-title">{t('baloteo.pair_animal')}</IonTitle>
                     </IonToolbar>
                     <PairManual
                         participantId={showPairModal}

@@ -1,10 +1,6 @@
 import {
-    IonButtons,
     IonContent,
     IonPage,
-    IonTitle,
-    IonToolbar,
-    IonBackButton,
     IonText,
     IonRow, IonCol, IonGrid, IonButton, IonInput
 } from '@ionic/react';
@@ -18,8 +14,10 @@ import {formatPasscode} from "../../components/utils";
 import {AppContext} from "../../State";
 import Cookies from "js-cookie";
 import {useHistory} from "react-router-dom";
+import { useTranslation } from 'react-multi-lang';
 
 const Register: React.FC = () => {
+    const t = useTranslation();
     const [stage, setStage] = useState(0);
     const [phone, setPhone] = useState<string>("");
     const [passcode, setPasscode] = useState<string>("");
@@ -64,36 +62,36 @@ const Register: React.FC = () => {
 
     return (
         <IonPage>
-            <ArrowHeader title="Create an Account" backHref="/auth"/>
+            <ArrowHeader title={t('auth.register')} backHref="/auth"/>
             <IonContent fullscreen id="auth-content">
                 <IonGrid className="auth-grid">
                     {(stage === 0) ? <>
                         <IonRow>
                             <IonCol>
-                                <IonText className="register-phone-label">Enter your phone number</IonText>
+                                <IonText className="register-phone-label">{t('auth.register_phone_label')}</IonText>
                                 <PhoneInput
                                     country={'us'}
                                     countryCodeEditable={false}
-                                    placeholder="Your phone number"
+                                    placeholder={t('auth.register_phone_placeholder')}
                                     value={phone}
                                     onChange={(phone) => {setError(false);setPhone(phone)}}
                                 />
-                                {error && <IonText color="primary" className="auth-error">Phone number is already registered. Please enter another phone number</IonText>}
+                                {error && <IonText color="primary" className="auth-error">{t('auth.register_error')}</IonText>}
                             </IonCol>
                         </IonRow>
                         <IonRow>
                             <IonCol>
-                                <IonButton expand="block" disabled={phone.length < 5} onClick={submitPhone}>Next</IonButton>
+                                <IonButton expand="block" disabled={phone.length < 5} onClick={submitPhone}>{t('auth.register_next')}</IonButton>
                             </IonCol>
                         </IonRow>
                     </> : <>
                         <IonRow>
                             <IonCol>
-                                <IonText className="register-phone-label">Set your passcode</IonText>
-                                <IonText className="register-phone-subtext">Create a 9 characters passcode. It should be something others couldn't guess</IonText>
+                                <IonText className="register-phone-label">{t('auth.register_set_passcode')}</IonText>
+                                <IonText className="register-phone-subtext">{t('auth.register_set_passcode_hint')}</IonText>
                                 <div style={{position: "relative"}}>
                                     <IonInput
-                                        placeholder="Passcode"
+                                        placeholder={t('auth.placeholder_passcode')}
                                         type={showPassword ? "text" : "password"}
                                         value={passcode}
                                         onIonChange={e => {setError(false); setPasscode(formatPasscode(e.detail.value!))}}
@@ -102,14 +100,14 @@ const Register: React.FC = () => {
                                         style={{marginTop: "15px"}}
                                         className={error ? "auth-error-border" : ""}
                                     />
-                                    <IonButton className="toggle-passcode" fill="clear" onClick={() => setShowPassword(!showPassword)}>{showPassword ? "Hide" : "Show"}</IonButton>
+                                    <IonButton className="toggle-passcode" fill="clear" onClick={() => setShowPassword(!showPassword)}>{showPassword ? t('auth.hide') : t('auth.show')}</IonButton>
                                 </div>
-                                <IonButton expand="block" fill="clear" className="generate-passcode" onClick={generatePasscode}>Or automatically generate passcode</IonButton>
+                                <IonButton expand="block" fill="clear" className="generate-passcode" onClick={generatePasscode}>{t('auth.auto_passcode')}</IonButton>
                             </IonCol>
                         </IonRow>
                         <IonRow>
                             <IonCol>
-                                <IonButton expand="block" disabled={passcode.length !== 11} onClick={submitRegister}>Register</IonButton>
+                                <IonButton expand="block" disabled={passcode.length !== 11} onClick={submitRegister}>{t('auth.register')}</IonButton>
                             </IonCol>
                         </IonRow>
                     </>}

@@ -3,8 +3,6 @@ import {getOngoingEvents} from "../api/Events";
 import {
     IonContent,
     IonPage,
-    IonSelectOption,
-    IonSelect,
     IonText,
     IonSegmentButton,
     IonLabel,
@@ -17,8 +15,10 @@ import ProfileModal from '../components/Judge/ProfileModal';
 
 import './Judge.css';
 import {getImageUrl} from "../components/utils";
+import {useTranslation} from "react-multi-lang";
 
 const Judge: React.FC = () => {
+    const t = useTranslation();
     const [event, setEvent] = useState<any>();
     const [events, setEvents] = useState<any>();
     const [baloteoTab, setBaloteoTab] = useState<string>("matches");
@@ -40,7 +40,7 @@ const Judge: React.FC = () => {
         if (targetEvent) setEvent(targetEvent);
     };
 
-    const title = (event?.is_special && event?.title) ? event?.title! : "Traditional Events";
+    const title = (event?.is_special && event?.title) ? event?.title! : t('events.default_event_name');
 
     return (
         <IonPage>
@@ -49,36 +49,36 @@ const Judge: React.FC = () => {
                     {/*{(events?.length > 0) ? <IonSelect value={event?.id} placeholder="No Baloteo" interface="alert" onIonChange={(e) => selectEvent(e.detail.value!)}>*/}
                     {/*    {events.map((e:any) => <IonSelectOption key={e.id} value={e.id}>{title}</IonSelectOption>)}*/}
                     {/*</IonSelect> : <IonText>No Baloteo</IonText>}*/}
-                    <IonText>{event ? title : "No Baloteo"}</IonText>
+                    <IonText>{event ? title : t('judge.no_baloteo')}</IonText>
                     <ProfileModal />
                 </div>
                 <div className="judge-content">
                     {(!event) ? <IonText className="judge-no-matches">No Baloteo for you right now</IonText> :
                         (event?.matches?.length > 0) ? <>
                                 <IonSegment value={baloteoTab} onIonChange={(e) => setBaloteoTab(e.detail.value!)} className="judge-tabs-segment">
-                                    <IonSegmentButton value="matches"><IonLabel>Live Matches</IonLabel></IonSegmentButton>
-                                    <IonSegmentButton value="results"><IonLabel>Results</IonLabel></IonSegmentButton>
+                                    <IonSegmentButton value="matches"><IonLabel>{t('judge.live_matches')}</IonLabel></IonSegmentButton>
+                                    <IonSegmentButton value="results"><IonLabel>{t('judge.results')}</IonLabel></IonSegmentButton>
                                 </IonSegment>
                                 {(baloteoTab === "results") ? <>
                                     <div className="judge-results-totals">
                                         <div className="judge-results-total">
-                                            <IonText>Total Matches</IonText>
+                                            <IonText>{t('judge.total_matches')}</IonText>
                                             <p>{event?.matches?.length || 0}</p>
                                         </div>
                                         <div className="judge-results-total">
-                                            <IonText>Blue Side Wins</IonText>
+                                            <IonText>{t('judge.blue_side_wins')}</IonText>
                                             <p>{event?.matches?.filter((m:any) => m.result === 0)?.length || 0}</p>
                                         </div>
                                         <div className="judge-results-total">
-                                            <IonText>White Side Wins</IonText>
+                                            <IonText>{t('judge.white_side_wins')}</IonText>
                                             <p>{event?.matches?.filter((m:any) => m.result === 1)?.length || 0}</p>
                                         </div>
                                         <div className="judge-results-total">
-                                            <IonText>Draws</IonText>
+                                            <IonText>{t('judge.draws')}</IonText>
                                             <p>{event?.matches?.filter((m:any) => m.result === 2)?.length || 0}</p>
                                         </div>
                                         <div className="judge-results-total">
-                                            <IonText>Cancelled</IonText>
+                                            <IonText>{t('judge.cancelled')}</IonText>
                                             <p>{event?.matches?.filter((m:any) => m.result === 3)?.length || 0}</p>
                                         </div>
                                     </div>
@@ -92,9 +92,9 @@ const Judge: React.FC = () => {
                                                         {match.participant.team.name}
                                                     </IonCol>
                                                     <IonCol size="2" className="judge-versus">
-                                                        <p>Pelea {index+1}</p>
-                                                        {match.result === 2 && <IonText>Draw</IonText>}
-                                                        {match.result === 3 && <IonText color="danger">Cancelled</IonText>}
+                                                        <p>{t('baloteo.fight')} {index+1}</p>
+                                                        {match.result === 2 && <IonText>{t('judge.draw')}</IonText>}
+                                                        {match.result === 3 && <IonText color="danger">{t('judge.cancelled')}</IonText>}
                                                     </IonCol>
                                                     <IonCol size="5" className="judge-white_side">
                                                         {match.opponent.team.name}
@@ -113,7 +113,7 @@ const Judge: React.FC = () => {
                                                     {match.participant?.image && <IonImg className={match.participant?.image_flipped ? "judge-match-image flipped" : "judge-match-image"} src={getImageUrl(match.participant?.image)} />}
                                                     {match.participant.team.name}
                                                 </IonCol>
-                                                <IonCol size="2" className="judge-versus">Pelea {index+1}</IonCol>
+                                                <IonCol size="2" className="judge-versus">{t('baloteo.fight')} {index+1}</IonCol>
                                                 <IonCol size="5" className="judge-white_side">
                                                     {match.opponent.team.name}
                                                     {match.opponent?.image && <IonImg className={match.opponent?.image_flipped ? "judge-match-image" : "judge-match-image flipped"} src={getImageUrl(match.opponent?.image)} />}
@@ -123,7 +123,7 @@ const Judge: React.FC = () => {
                                     </IonItem>)}
                                 </IonList>}
                             </> :
-                            <IonText className="judge-no-matches">Matches are not announced yet</IonText>
+                            <IonText className="judge-no-matches">{t('judge.no_matches')}</IonText>
                     }
                 </div>
             </IonContent>

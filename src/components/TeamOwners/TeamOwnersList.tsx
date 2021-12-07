@@ -15,6 +15,7 @@ import './TeamOwnersList.css';
 
 import React, {useEffect, useState} from "react";
 import {closeOutline as closeIcon} from "ionicons/icons";
+import {useTranslation} from "react-multi-lang";
 
 type TeamOwnersListProps = {
     teamOwners?: Array<{name?: string; digital_id:number}>;
@@ -23,6 +24,7 @@ type TeamOwnersListProps = {
 };
 
 const TeamOwnersList: React.FC<TeamOwnersListProps> = ({teamOwners, isTeam = false, addTeams}) => {
+    const t = useTranslation();
     const [showAddModal, setShowAddModal] = useState<boolean>(false);
     const [teams, setTeams] = useState<string[]>([""]);
     const [search, setSearch] = useState<string>("");
@@ -38,25 +40,25 @@ const TeamOwnersList: React.FC<TeamOwnersListProps> = ({teamOwners, isTeam = fal
     }
 
     return (<IonList className="teamOwnersList user-profile-notes-tab">
-        <IonSearchbar className="searchbar" placeholder={isTeam ? "Search team name or ID" : "Search names"} value={search} onIonChange={e => {setSearch(e.detail.value!);}} />
+        <IonSearchbar className="searchbar" placeholder={isTeam ? t('teams.search_owners') : t('teams.search_teams')} value={search} onIonChange={e => {setSearch(e.detail.value!);}} />
         {addTeams && <div className="user-profile-section">
-            <IonButton fill="clear" onClick={() => setShowAddModal(true)}>Add</IonButton>
+            <IonButton fill="clear" onClick={() => setShowAddModal(true)}>{t('teams.add')}</IonButton>
             <IonModal isOpen={!!showAddModal} onDidDismiss={() => hideAddModal()} cssClass="add-note-modal">
                 <IonToolbar className="modal-header">
                     <IonButtons slot="start"><IonIcon size="large" icon={closeIcon} slot="start" onClick={() => hideAddModal()} /></IonButtons>
-                    <IonTitle className="page-title">Add Team</IonTitle>
+                    <IonTitle className="page-title">{t('teams.add_team')}</IonTitle>
                 </IonToolbar>
                 <IonContent>
                     <div className="add-note-wrapper">
                         <div>
-                            <IonText className="add-note-title">Team Name</IonText>
+                            <IonText className="add-note-title">{t('teams.team_name')}</IonText>
                             {teams.map((team, index) => (<div className="team-input-wrapper" key={index}>
                                 <IonText className="team-index">{index + 1}</IonText>
-                                <IonInput key={index} className="add-note-input" placeholder="Note title" value={team} onIonChange={(e) => setTeams(teams.map((t, ti) => ti === index ? e.detail.value! : t))} />
+                                <IonInput key={index} className="add-note-input" placeholder={t('teams.team_name')} value={team} onIonChange={(e) => setTeams(teams.map((t, ti) => ti === index ? e.detail.value! : t))} />
                             </div>))}
-                            <IonButton fill="outline" className="add-team-input-button" onClick={() => setTeams([...teams, ""])}>Add another team</IonButton>
+                            <IonButton fill="outline" className="add-team-input-button" onClick={() => setTeams([...teams, ""])}>{t('teams.add_another_team')}</IonButton>
                         </div>
-                        <IonButton disabled={teams.length <= 0} expand="block" className="split-button" onClick={Submit}><div><p>Teams: {teams.length}</p><p>Save</p></div></IonButton>
+                        <IonButton disabled={teams.length <= 0} expand="block" className="split-button" onClick={Submit}><div><p>{t('teams.teams')}: {teams.length}</p><p>{t('teams.submit')}</p></div></IonButton>
                     </div>
                 </IonContent>
             </IonModal>
@@ -69,9 +71,9 @@ const TeamOwnersList: React.FC<TeamOwnersListProps> = ({teamOwners, isTeam = fal
                     {isTeam ?
                         <>
                             <IonText className="teamOwner-short-info_winrate">ID {teamOwner.digital_id}</IonText>
-                            <IonText className="teamOwner-short-info_winrate">{Math.max(0, teamOwner.wins)} wins • {Math.max(0, teamOwner.draws)} draws • {Math.max(0, teamOwner.loses)} loses • {Math.min(100, Math.max(0, Math.round(teamOwner.wins / Math.max(1, (teamOwner.wins || 0) + (teamOwner.draws || 0) + (teamOwner.loses || 0)) * 100)))}%</IonText>
+                            <IonText className="teamOwner-short-info_winrate">{Math.max(0, teamOwner.wins)} {t('teams.wins')} • {Math.max(0, teamOwner.draws)} {t('teams.draws')} • {Math.max(0, teamOwner.loses)} {t('teams.loses')} • {Math.min(100, Math.max(0, Math.round(teamOwner.wins / Math.max(1, (teamOwner.wins || 0) + (teamOwner.draws || 0) + (teamOwner.loses || 0)) * 100)))}%</IonText>
                         </> :
-                        <IonText className="teamOwner-short-info_winrate">{teamOwner.teams?.length || 0} Teams</IonText>
+                        <IonText className="teamOwner-short-info_winrate">{teamOwner.teams?.length || 0} {t('teams.teams')}</IonText>
                     }
                 </IonLabel>
             </IonItem>

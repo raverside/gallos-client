@@ -10,6 +10,7 @@ import usersIcon from '../../img/menu_users.png';
 import logoutIcon from '../../img/menu_logout.png';
 import contactIcon from '../../img/phone_black.png';
 import {useHistory} from "react-router-dom";
+import {useTranslation} from "react-multi-lang";
 
 interface AppPage {
     title: string;
@@ -22,16 +23,17 @@ interface AppPage {
 }
 
 const MenuPermissions = () => {
+    const t = useTranslation();
     const {dispatch} = useContext(AppContext);
     const appPages: { [key: string]: AppPage[] } = {};
     const history = useHistory();
 
     appPages["user"] = [
-        {title: 'Home', url: '/', icon: homeIcon},
-        {title: 'Membership', url: '/user_membership', icon: membershipsIcon},
-        {title: 'Contact Us', url: '/contact', icon: contactIcon},
+        {title: t('general.home'), url: '/', icon: homeIcon},
+        {title: t('membership.membership'), url: '/user_membership', icon: membershipsIcon},
+        {title: t('contact.header'), url: '/contact', icon: contactIcon},
         {
-            title: 'Log Out', url: '/auth', icon: logoutIcon,
+            title: t('general.logout'), url: '/auth', icon: logoutIcon,
             props: {
                 className: "logout-button",
                 onClick: () => {
@@ -45,10 +47,10 @@ const MenuPermissions = () => {
     ];
 
     appPages["creator"] = [
-        {title: 'Events', url: '/', icon: eventsIcon},
-        {title: 'Contact Us', url: '/contact', icon: contactIcon},
+        {title: t('events.events'), url: '/', icon: eventsIcon},
+        {title:  t('contact.header'), url: '/contact', icon: contactIcon},
         {
-            title: 'Log Out', url: '/auth_admin', icon: logoutIcon,
+            title: t('general.logout'), url: '/auth_admin', icon: logoutIcon,
             props: {
                 className: "logout-button",
                 onClick: () => {
@@ -61,11 +63,11 @@ const MenuPermissions = () => {
     ];
 
     appPages["worker"] = [
-        {title: 'Events', url: '/events', icon: eventsIcon},
-        {title: 'Teams', url: '/team_owners', icon: teamOwnersIcon},
-        {title: 'Contact Us', url: '/contact', icon: contactIcon},
+        {title: t('events.events'), url: '/events', icon: eventsIcon},
+        {title: t('teams.teams'), url: '/team_owners', icon: teamOwnersIcon},
+        {title: t('contact.header'), url: '/contact', icon: contactIcon},
         {
-            title: 'Log Out', url: '/auth_admin', icon: logoutIcon,
+            title: t('general.logout'), url: '/auth_admin', icon: logoutIcon,
             props: {
                 className: "logout-button",
                 onClick: () => {
@@ -78,13 +80,13 @@ const MenuPermissions = () => {
     ];
 
     appPages["admin_worker"] = [
-        {title: 'Users', url: '/users', icon: usersIcon},
-        {title: 'Events', url: '/events', icon: eventsIcon},
-        {title: 'Stadiums', url: '/stadiums', icon: stadiumsIcon},
-        {title: 'Team Owners', url: '/team_owners', icon: teamOwnersIcon},
-        {title: 'Memberships', url: '/memberships', icon: membershipsIcon},
+        {title: t('users.users'), url: '/users', icon: usersIcon},
+        {title: t('events.events'), url: '/events', icon: eventsIcon},
+        {title: t('stadiums.header'), url: '/stadiums', icon: stadiumsIcon},
+        {title: t('teams.team_owners'), url: '/team_owners', icon: teamOwnersIcon},
+        {title: t('memberships.memberships_header'), url: '/memberships', icon: membershipsIcon},
         {
-            title: 'Log Out', url: '/auth_admin', icon: logoutIcon,
+            title: t('general.logout'), url: '/auth_admin', icon: logoutIcon,
             props: {
                 className: "logout-button",
                 onClick: () => {
@@ -97,14 +99,14 @@ const MenuPermissions = () => {
     ];
 
     appPages["admin_manager"] = [
-        {title: 'Users', url: '/users', icon: usersIcon},
-        {title: 'Events', url: '/events', icon: eventsIcon},
-        {title: 'Stadiums', url: '/stadiums', icon: stadiumsIcon},
-        {title: 'Team Owners', url: '/team_owners', icon: teamOwnersIcon},
-        {title: 'Transactions', url: '/transactions', icon: transactionsIcon},
-        {title: 'Memberships', url: '/memberships', icon: membershipsIcon},
+        {title: t('users.users'), url: '/users', icon: usersIcon},
+        {title: t('events.events'), url: '/events', icon: eventsIcon},
+        {title: t('stadiums.header'), url: '/stadiums', icon: stadiumsIcon},
+        {title: t('teams.team_owners'), url: '/team_owners', icon: teamOwnersIcon},
+        {title: t('transactions.transactions'), url: '/transactions', icon: transactionsIcon},
+        {title: t('memberships.memberships_header'), url: '/memberships', icon: membershipsIcon},
         {
-            title: 'Log Out', url: '/auth_admin', icon: logoutIcon,
+            title: t('general.logout'), url: '/auth_admin', icon: logoutIcon,
             props: {
                 className: "logout-button",
                 onClick: () => {
@@ -118,7 +120,7 @@ const MenuPermissions = () => {
 
     appPages["judge"] = [
         {
-            title: 'Log Out', url: '/auth_admin', icon: logoutIcon,
+            title: t('general.logout'), url: '/auth_admin', icon: logoutIcon,
             props: {
                 className: "logout-button",
                 onClick: () => {

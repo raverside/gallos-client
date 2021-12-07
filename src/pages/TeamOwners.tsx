@@ -11,9 +11,11 @@ import React, {useEffect, useState} from "react";
 import {getTeamOwners} from "../api/TeamOwners";
 
 import './TeamOwners.css';
+import {useTranslation} from "react-multi-lang";
 
 
 const TeamOwners: React.FC = () => {
+    const t = useTranslation();
     const [teamOwners, setTeamOwners] = useState<{account: [], team: []}>();
     const [tabSelected, setTabSelected] = useState<string>("account");
     const [showTeamOwnerEditorModal, setShowTeamOwnerEditorModal] = useState<boolean>(false);
@@ -35,12 +37,12 @@ const TeamOwners: React.FC = () => {
 
     return (
         <IonPage>
-            <Header title="Team Owners" isRed={false} notifications={false} addButton={() => setShowTeamOwnerEditorModal(true)} />
+            <Header title={t('teams.team_owners')} isRed={false} notifications={false} addButton={() => setShowTeamOwnerEditorModal(true)} />
 
             <IonContent fullscreen>
                 <IonSegment value={tabSelected} onIonChange={(e) => setTabSelected(e.detail.value!)} className="team-owners-tabs-segment">
-                    <IonSegmentButton value="account"><IonLabel>Team Accounts</IonLabel></IonSegmentButton>
-                    <IonSegmentButton value="team"><IonLabel>List of Teams</IonLabel></IonSegmentButton>
+                    <IonSegmentButton value="account"><IonLabel>{t('teams.team_accounts')}</IonLabel></IonSegmentButton>
+                    <IonSegmentButton value="team"><IonLabel>{t('teams.list_of_teams')}</IonLabel></IonSegmentButton>
                 </IonSegment>
                 <TeamOwnersList teamOwners={tabSelected === "account" ? teamOwners?.account : teamOwners?.team} isTeam={tabSelected === "team"} />
                 <IonModal isOpen={showTeamOwnerEditorModal} onDidDismiss={() => setShowTeamOwnerEditorModal(false)}>

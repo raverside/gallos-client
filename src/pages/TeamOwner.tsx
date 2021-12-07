@@ -30,6 +30,7 @@ import {ellipsisHorizontal as menuIcon} from "ionicons/icons";
 import domtoimage from "dom-to-image-improved";
 import TeamOwnerEditor from "../components/TeamOwners/TeamOwnerEditor";
 import {AppContext} from "../State";
+import {useTranslation} from "react-multi-lang";
 
 type teamOwnerType = {
     id: string;
@@ -45,6 +46,7 @@ type teamOwnerType = {
 };
 
 const TeamOwner: React.FC = () => {
+    const t = useTranslation();
     const { state } = useContext(AppContext);
     const { id } = useParams<{id:string}>();
     const [teamOwner, setTeamOwner] = useState<any>();
@@ -176,14 +178,14 @@ const TeamOwner: React.FC = () => {
                     <IonButtons slot="start">
                         <IonBackButton defaultHref="/team_owners"/>
                     </IonButtons>
-                    <IonTitle className="page-title offset-title">Team Owner</IonTitle>
+                    <IonTitle className="page-title offset-title">{t('teams.team_owner')}</IonTitle>
                     <IonButtons slot="end"><IonIcon size="large" className="view-note-menu" icon={menuIcon} onClick={() => present({
                         buttons: [
-                            { text: 'Edit', handler: () => setShowTeamOwnerEditorModal(true) },
-                            { text: 'Share', handler: () => shareOwner() },
-                            { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
+                            { text: t('teams.edit'), handler: () => setShowTeamOwnerEditorModal(true) },
+                            { text: t('teams.share'), handler: () => shareOwner() },
+                            { text: t('teams.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                         ],
-                        header: 'Settings'
+                        header: t('teams.settings')
                     })} /></IonButtons>
                 </IonToolbar>
             </IonHeader>
@@ -193,16 +195,16 @@ const TeamOwner: React.FC = () => {
                     <div className="user-profile-info">
                         {teamOwner?.name && <IonText className="user-profile-info_username">{teamOwner.name}</IonText>}
                         {teamOwner?.digital_id && <IonText>ID {(""+teamOwner.digital_id).substr(0, 3)+"-"+(""+teamOwner.digital_id).substr(3, 3)}</IonText>}
-                        {teamOwner?.teams && <IonText>{teamOwner.teams.length} Teams</IonText>}
+                        {teamOwner?.teams && <IonText>{teamOwner.teams.length} {t('teams.teams')}</IonText>}
                         {teamOwner?.phone && <IonText>+{teamOwner.phone}</IonText>}
                         {(teamOwner?.country) && <IonText>{teamOwner.city && teamOwner.city + ","} {teamOwner.country}</IonText>}
                     </div>
                 </div>
 
                 <IonSegment value={tabSelected} onIonChange={(e) => setTabSelected(e.detail.value!)} className="user-profile-tabs-segment">
-                    <IonSegmentButton value="list"><IonLabel>Team List</IonLabel></IonSegmentButton>
-                    {(state.user.role !== "worker") && <IonSegmentButton value="liberty"><IonLabel>Mutual Liberty</IonLabel></IonSegmentButton>}
-                    <IonSegmentButton value="notes"><IonLabel>Notes</IonLabel></IonSegmentButton>
+                    <IonSegmentButton value="list"><IonLabel>{t('teams.team_list')}</IonLabel></IonSegmentButton>
+                    {(state.user.role !== "worker") && <IonSegmentButton value="liberty"><IonLabel>{t('teams.mutual_liberty')}</IonLabel></IonSegmentButton>}
+                    <IonSegmentButton value="notes"><IonLabel>{t('teams.notes')}</IonLabel></IonSegmentButton>
                 </IonSegment>
 
                 {tabSelected === "list" && <TeamOwnersList teamOwners={teamOwner?.teams} isTeam addTeams={addTeams} />}

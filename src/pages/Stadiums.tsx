@@ -12,8 +12,10 @@ import './Stadiums.css';
 import StadiumsFilter from "../components/Stadiums/StadiumsFilter";
 import {filter as filterIcon} from "ionicons/icons";
 import StadiumsList from "../components/Stadiums/StadiumsList";
+import {useTranslation} from "react-multi-lang";
 
 const Stadiums: React.FC = () => {
+    const t = useTranslation();
     const [stadiums, setStadiums] = useState<Array<{id:string}>>([]);
     const [stadiumsSearch, setStadiumsSearch] = useState<string>("");
     const [stadiumsFilter, setStadiumsFilter] = useState<any>({});
@@ -58,7 +60,7 @@ const Stadiums: React.FC = () => {
 
     return (
         <IonPage>
-            <Header title="Stadiums" isRed={false} notifications={false}/>
+            <Header title={t('stadiums.header')} isRed={false} notifications={false}/>
 
             <IonContent fullscreen>
                 <IonModal id="overlay-modal" isOpen={showFilterModal} onDidDismiss={() => setShowFilterModal(false)}>
@@ -66,7 +68,7 @@ const Stadiums: React.FC = () => {
                 </IonModal>
                 <IonRefresher slot="fixed" onIonRefresh={(e) => fetchStadiums(filterQuery, e.detail.complete)}><IonRefresherContent /></IonRefresher>
                 <div className="search-filter-block">
-                    <IonSearchbar className="searchbar" placeholder="Search stadium name" value={stadiumsSearch} onIonChange={e => {setStadiumsSearch(e.detail.value!); updateFilter(e.detail.value!);}} />
+                    <IonSearchbar className="searchbar" placeholder={t('stadiums.search')} value={stadiumsSearch} onIonChange={e => {setStadiumsSearch(e.detail.value!); updateFilter(e.detail.value!);}} />
                     <IonButton fill="clear" onClick={() => setShowFilterModal(!showFilterModal)}>
                         <IonIcon icon={filterIcon} color="dark" />
                     </IonButton>

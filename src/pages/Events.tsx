@@ -20,8 +20,10 @@ import moment from 'moment';
 
 import './Events.css';
 import {AppContext} from "../State";
+import {useTranslation} from "react-multi-lang";
 
 const Events: React.FC = () => {
+    const t = useTranslation();
     const { state } = useContext(AppContext);
     const [events, setEvents] = useState<Array<{id:string}>>([]);
     const [eventCount, setEventCount] = useState<{today: number, upcoming: number, past: number, dates: []}>({today: 0, upcoming: 0, past: 0, dates: []});
@@ -93,18 +95,18 @@ const Events: React.FC = () => {
 
     return (
         <IonPage>
-            <Header title={state.user.role === "creator" ? "My Events" : "Events"} isRed={false} notifications={false}/>
+            <Header title={state.user.role === "creator" ? t('events.my_events') : t('events.events')} isRed={false} notifications={false}/>
 
             <IonContent fullscreen>
                 {(state.user.role === "creator") && <IonSegment className="events-tabs" value={(dateFilter === "upcoming" || dateFilter === "today") ? dateFilter : "past"} onIonChange={(e) => {setDateFilter(e.detail.value!); updateFilter(eventsSearch, eventsFilter, e.detail.value!)}}>
                     <IonSegmentButton value="today">
-                        <IonLabel>Today{eventCount.today > 0 && <span className="barely-visible"> • {eventCount.today}</span>}</IonLabel>
+                        <IonLabel>{t('events.today')}{eventCount.today > 0 && <span className="barely-visible"> • {eventCount.today}</span>}</IonLabel>
                     </IonSegmentButton>
                     <IonSegmentButton value="upcoming">
-                        <IonLabel>Upcoming{eventCount.upcoming > 0 && <span className="barely-visible"> • {eventCount.upcoming}</span>}</IonLabel>
+                        <IonLabel>{t('events.upcoming')}{eventCount.upcoming > 0 && <span className="barely-visible"> • {eventCount.upcoming}</span>}</IonLabel>
                     </IonSegmentButton>
                     <IonSegmentButton value="past">
-                        <IonLabel>Past{eventCount.past > 0 && <span className="barely-visible"> • {eventCount.past}</span>}</IonLabel>
+                        <IonLabel>{t('events.past')}{eventCount.past > 0 && <span className="barely-visible"> • {eventCount.past}</span>}</IonLabel>
                     </IonSegmentButton>
                 </IonSegment>}
                 {((state.user.role === "worker" || state.user.role === "admin_manager" || state.user.role === "admin_worker" || state.user.role === "admin") || (state.user.role === "creator" && dateFilter !== "upcoming" && dateFilter !== "today")) &&

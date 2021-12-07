@@ -21,6 +21,7 @@ import moment from 'moment';
 import {closeOutline as closeIcon} from "ionicons/icons";
 
 import './UserProfile.css';
+import {useTranslation} from "react-multi-lang";
 
 type userType = {
     id: string;
@@ -37,6 +38,7 @@ type userType = {
 };
 
 const UserProfile: React.FC = () => {
+    const t = useTranslation();
     const { id } = useParams<{id:string}>();
     const [user, setUser] = useState<userType>();
     const [showLabelConfirmPrompt, setShowLabelConfirmPrompt] = useState<boolean>(false);
@@ -114,7 +116,7 @@ const UserProfile: React.FC = () => {
 
     return (
         <IonPage>
-            <ArrowHeader title="Profile" backHref="/users" />
+            <ArrowHeader title={t('profile.profile')} backHref="/users" />
 
             <IonContent fullscreen>
                 <div className="user-profile">
@@ -123,8 +125,8 @@ const UserProfile: React.FC = () => {
                         {user?.username && <IonText className="user-profile-info_username">{user.username}</IonText>}
                         {user?.phone && <IonText>+{user.phone}</IonText>}
                         {(user?.country && user?.city) && <IonText>{user.city}, {user.country}</IonText>}
-                        {user?.created_at && <IonText className="user-profile-info-smalltext">Joined {moment(user.created_at).format('DD/MM/YYYY')}</IonText>}
-                        {user?.last_login && <IonText className="user-profile-info-smalltext">Last online {moment(user.last_login).fromNow()}</IonText>}
+                        {user?.created_at && <IonText className="user-profile-info-smalltext">{t('profile.joined')} {moment(user.created_at).format('DD/MM/YYYY')}</IonText>}
+                        {user?.last_login && <IonText className="user-profile-info-smalltext">{t('profile.last_online')} {moment(user.last_login).fromNow()}</IonText>}
                     </div>
                 </div>
 
@@ -132,8 +134,8 @@ const UserProfile: React.FC = () => {
                 <ConfirmPrompt
                     data={labelToDelete}
                     show={showLabelConfirmPrompt}
-                    title="Delete Label"
-                    subtitle="Are you sure you want to delete this label?"
+                    title={t('profile.delete_label_title')}
+                    subtitle={t('profile.delete_label_subtitle')}
                     onResult={(data, isConfirmed) => {isConfirmed && removeLabel(data); setShowLabelConfirmPrompt(false)}}
                 />
                 <IonSegment scrollable className="user-profile-labels-segment">
@@ -146,8 +148,8 @@ const UserProfile: React.FC = () => {
                 </IonSegment>
 
                 <IonSegment value={tabSelected} onIonChange={(e) => setTabSelected(e.detail.value!)} className="user-profile-tabs-segment">
-                    <IonSegmentButton value="info"><IonLabel>Information</IonLabel></IonSegmentButton>
-                    <IonSegmentButton value="notes"><IonLabel>Notes</IonLabel></IonSegmentButton>
+                    <IonSegmentButton value="info"><IonLabel>{t('profile.information')}</IonLabel></IonSegmentButton>
+                    <IonSegmentButton value="notes"><IonLabel>{t('profile.notes')}</IonLabel></IonSegmentButton>
                 </IonSegment>
 
                 {tabSelected === "info" && <ProfileInfoTab user={user!} updateUser={fetchUser} />}

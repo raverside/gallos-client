@@ -1,8 +1,10 @@
 import React from "react";
 import moment from "moment";
 import {formatOzToLbsOz} from "../utils";
+import {useTranslation} from "react-multi-lang";
 
 const PrintMatch = React.forwardRef<any, any>(({event, match}, ref) => {
+    const t = useTranslation();
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
 
     const getBettingAmount = (participant:any) => {
@@ -27,12 +29,12 @@ const PrintMatch = React.forwardRef<any, any>(({event, match}, ref) => {
     return ((!event || !match) ? null : <>
         <div ref={ref} style={{textAlign:"center", width: "80mm", fontSize: "14px", fontFamily: "Arial"}}>
             <h1 style={{width: "100%", textAlign:"center", fontSize: "16px", fontWeight: "bold"}}>{event.stadium_name}</h1>
-            <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", margin: "0 0 20px 0"}}>{event.title || "Traditional Event"}</h2>
+            <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", margin: "0 0 20px 0"}}>{event.title || t('events.default_event_name')}</h2>
             <div style={{display:"flex", justifyContent: "space-between", borderBottom: "1px solid black"}}>
-                <div>Date: {moment().format('YYYY-MM-DD')}</div>
-                <div>Time: {moment().format("HH:mm")}</div>
+                <div>{t('events.date')}: {moment().format('YYYY-MM-DD')}</div>
+                <div>{t('events.time')}: {moment().format("HH:mm")}</div>
             </div>
-            <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", fontWeight: "bold"}}>Individual Match</h2>
+            <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", fontWeight: "bold"}}>{t('events.individual_match')}</h2>
             <div style={{width: "100%"}}>
                 <div>
                     <div style={{display:"flex", justifyContent: "space-between", background: "black", color:"white"}}>
@@ -47,62 +49,62 @@ const PrintMatch = React.forwardRef<any, any>(({event, match}, ref) => {
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
                         <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.cage}</div>
-                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Cage</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.cage')}</div>
                         <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.cage}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
-                        <div style={{textAlign: "center", width: "25mm"}}>Blue</div>
-                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Side Color</div>
-                        <div style={{textAlign: "center", width: "25mm"}}>White</div>
+                        <div style={{textAlign: "center", width: "25mm"}}>{t('judge.blue')}</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('judge.side_color')}</div>
+                        <div style={{textAlign: "center", width: "25mm"}}>{t('judge.white')}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
                         <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.type}</div>
-                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Marcaje</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.type')}</div>
                         <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.type}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
                         <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOz(match.participant?.weight)}</div>
-                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Weight</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.weight')}</div>
                         <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOz(match.opponent?.weight)}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
-                        <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.participated_before ? "Yes" : "No"}</div>
-                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Participated?</div>
-                        <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.participated_before ? "Yes" : "No"}</div>
+                        <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.participated_before ? t('events.participated_yes') : t('events.participated_no')}</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.participated')}?</div>
+                        <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.participated_before ? t('events.participated_yes') : t('events.participated_no')}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
                         <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.participant?.color}</div>
-                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Color</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.color')}</div>
                         <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.opponent?.color}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
                         <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.alas}</div>
-                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Alas</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.alas')}</div>
                         <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.alas}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
                         <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.participant?.cresta}</div>
-                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Cresta</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.cresta')}</div>
                         <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.opponent?.cresta}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
                         <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.pata}</div>
-                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Patas</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.patas')}</div>
                         <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.pata}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
                         <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.participant?.physical_advantage?.replace('_', ' ')}</div>
-                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Advantage</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.advantage')}</div>
                         <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.opponent?.physical_advantage.replace('_', ' ')}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
                         <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.breeder_name}</div>
-                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Breeder</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.breeder')}</div>
                         <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.breeder_name}</div>
                     </div>
                     <div style={{display:"flex", justifyContent: "space-between"}}>
                         <div style={{textAlign: "center", width: "25mm"}}>{getBettingAmount(match.participant)}</div>
-                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>Bet</div>
+                        <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.bet')}</div>
                         <div style={{textAlign: "center", width: "25mm"}}>{getBettingAmount(match.participant)}</div>
                     </div>
                 </div>

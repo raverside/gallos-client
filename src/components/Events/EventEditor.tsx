@@ -9,6 +9,7 @@ import ConfirmPrompt from "../ConfirmPrompt";
 
 import './EventEditor.css';
 import {AppContext} from "../../State";
+import {useTranslation} from "react-multi-lang";
 
 type EventFormData = {
     id?: string|undefined;
@@ -38,6 +39,7 @@ type EventProps = {
 };
 
 const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, close, event= false}) => {
+    const t = useTranslation();
     const { state } = useContext(AppContext);
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>();
     const [stadiums, setStadiums] = useState<any[]>([]);
@@ -110,7 +112,7 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
 
     return (<>
         <IonToolbar className="modal-header">
-            <IonTitle className="page-title"><p>{formData.id ? "Update Event" : "Create Event"}</p><p className="page-subtitle">{formData.is_special ? "Special Event" : "Regular Event"}</p></IonTitle>
+            <IonTitle className="page-title"><p>{formData.id ? t('events.update_event') : t('events.create_event')}</p><p className="page-subtitle">{formData.is_special ? t('events.special_event') : t('events.regular_event')}</p></IonTitle>
             <IonButtons slot="start">
                 <IonIcon
                     icon={closeIcon}
@@ -120,13 +122,13 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
                 />
             </IonButtons>
             <IonButtons slot="end">
-                <IonButton type="button" slot="end" disabled={!canSubmit()} color={canSubmit() ? "primary" : "dark"} fill="clear" className="create-event-post" onClick={Submit}>Post</IonButton>
+                <IonButton type="button" slot="end" disabled={!canSubmit()} color={canSubmit() ? "primary" : "dark"} fill="clear" className="create-event-post" onClick={Submit}>{t('events.submit')}</IonButton>
             </IonButtons>
         </IonToolbar>
         <IonContent id="event-editor">
             <IonList>
                 {stadiums.length > 0 && <>
-                    <IonItemDivider>Stadium</IonItemDivider>
+                    <IonItemDivider>{t('stadiums.stadium')}</IonItemDivider>
                     <IonItem lines="none">
                         <IonSelect value={formData.stadium_id} interface="alert" onIonChange={(e) => setFormData({...formData, stadium_id: e.detail.value!})}>
                             {stadiums.map((stadium) => (<IonSelectOption key={stadium.id} value={stadium.id}>{stadium.name}</IonSelectOption>))}
@@ -135,34 +137,34 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
                 </>}
 
                 {formData.is_special && <>
-                    <IonItemDivider>Event Image</IonItemDivider>
+                    <IonItemDivider>{t('events.event_image')}</IonItemDivider>
                     <IonItem lines="none">
                         <ImagePicker eventImage={event ? event.image : null} onPick={(file) => {setFormData({...formData, image: null, image_upload: file});}} />
                     </IonItem>
 
 
-                    <IonItemDivider>Event Title</IonItemDivider>
+                    <IonItemDivider>{t('events.event_title')}</IonItemDivider>
                     <IonItem lines="none">
                         <IonInput
                             value={formData.title}
                             className="fullsize-input"
-                            placeholder="Title"
+                            placeholder={t('events.event_title_placeholder')}
                             onIonChange={(e) => setFormData({...formData, title: e.detail.value!})}
                         />
                     </IonItem>
                 </>}
 
-                <IonItemDivider>Event Date</IonItemDivider>
+                <IonItemDivider>{t('events.event_date')}</IonItemDivider>
                 <IonItem lines="none">
-                    <IonInput placeholder="Select Date" value={formData.event_date} type="date" onIonChange={(e) => setFormData({...formData, event_date: e.detail.value!})} />
+                    <IonInput placeholder={t('events.event_date_placeholder')} value={formData.event_date} type="date" onIonChange={(e) => setFormData({...formData, event_date: e.detail.value!})} />
                 </IonItem>
 
-                <IonItemDivider>Receiving Time</IonItemDivider>
+                <IonItemDivider>{t('events.receiving_time')}</IonItemDivider>
                 <IonItem lines="none">
                     <IonInput
                         value={formData.receiving_time_start}
                         type="time"
-                        placeholder="Starting time"
+                        placeholder={t('events.starting_time')}
                         onIonChange={(e) => setFormData({...formData,
                             receiving_time_start: (!formData.receiving_time_end || e.detail.value! < formData.receiving_time_end) ? e.detail.value! : formData.receiving_time_end
                         })}
@@ -171,21 +173,21 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
                     <IonInput
                         value={formData.receiving_time_end}
                         type="time"
-                        placeholder="Ending time"
+                        placeholder={t('events.ending_time')}
                         onIonChange={(e) => setFormData({...formData,
                             receiving_time_end: (!formData.receiving_time_start || e.detail.value! > formData.receiving_time_start) ? e.detail.value! : formData.receiving_time_start
                         })}
                     />
                 </IonItem>
 
-                <IonItemDivider>First Race Time</IonItemDivider>
+                <IonItemDivider>{t('events.first_race_time')}</IonItemDivider>
                 <IonItem lines="none">
-                    <IonInput value={formData.first_race_time} placeholder="First race time" type="time" onIonChange={(e) => setFormData({...formData,
+                    <IonInput value={formData.first_race_time} placeholder={t('events.first_race_time_placeholder')} type="time" onIonChange={(e) => setFormData({...formData,
                         first_race_time: (!formData.receiving_time_start || e.detail.value! > formData.receiving_time_start) ? e.detail.value! : formData.receiving_time_start
                     })} />
                 </IonItem>
 
-                <IonItemDivider>Currency</IonItemDivider>
+                <IonItemDivider>{t('events.currency')}</IonItemDivider>
                 <IonItem lines="none">
                     <IonSelect value={formData.currency} interface="alert" onIonChange={(e) => setFormData({...formData, currency: e.detail.value!})}>
                         <IonSelectOption value="USD">USD</IonSelectOption>
@@ -193,7 +195,7 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
                     </IonSelect>
                 </IonItem>
 
-                <IonItemDivider>Marcaje</IonItemDivider>
+                <IonItemDivider>{t('events.type')}</IonItemDivider>
                 <IonItem lines="none">
                     <IonSelect value={formData.type} multiple interface="alert" onIonChange={(e) => {
                         setFormData({...formData, type: e.detail.value});
@@ -217,24 +219,24 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
                     </IonSelect>
                 </IonItem>
 
-                <IonItemDivider>Betting Amount</IonItemDivider>
+                <IonItemDivider>{t('events.betting_amount')}</IonItemDivider>
                 <IonItemDivider className="small-divider">Bronze</IonItemDivider>
                 <IonItem lines="none">
-                    <IonInput value={formData.bronze} type="number" className="currency-input" min="0" max="9999999" placeholder="Enter amount" onIonChange={(e) => setFormData({...formData, bronze: +e.detail.value!})} />
+                    <IonInput value={formData.bronze} type="number" className="currency-input" min="0" max="9999999" placeholder={t('events.betting_amount_placeholder')} onIonChange={(e) => setFormData({...formData, bronze: +e.detail.value!})} />
                 </IonItem>
 
                 <IonItemDivider className="small-divider">Silver</IonItemDivider>
                 <IonItem lines="none">
-                    <IonInput value={formData.silver_one} type="number" className="currency-input" min="0" max="9999999" placeholder="Enter amount" onIonChange={(e) => setFormData({...formData, silver_one: +e.detail.value!})} />
+                    <IonInput value={formData.silver_one} type="number" className="currency-input" min="0" max="9999999" placeholder={t('events.betting_amount_placeholder')} onIonChange={(e) => setFormData({...formData, silver_one: +e.detail.value!})} />
                     &
-                    <IonInput value={formData.silver_two} type="number" className="currency-input" min="0" max="9999999" placeholder="Enter amount" onIonChange={(e) => setFormData({...formData, silver_two: +e.detail.value!})} />
+                    <IonInput value={formData.silver_two} type="number" className="currency-input" min="0" max="9999999" placeholder={t('events.betting_amount_placeholder')} onIonChange={(e) => setFormData({...formData, silver_two: +e.detail.value!})} />
                 </IonItem>
 
                 <IonItemDivider className="small-divider">Gold</IonItemDivider>
                 <IonItem lines="none">
-                    <IonInput value={formData.gold_one} type="number" className="currency-input" min="0" max="9999999" placeholder="Enter amount" onIonChange={(e) => setFormData({...formData, gold_one: +e.detail.value!})} />
+                    <IonInput value={formData.gold_one} type="number" className="currency-input" min="0" max="9999999" placeholder={t('events.betting_amount_placeholder')} onIonChange={(e) => setFormData({...formData, gold_one: +e.detail.value!})} />
                     &
-                    <IonInput value={formData.gold_two} type="number" className="currency-input" min="0" max="9999999" placeholder="Enter amount" onIonChange={(e) => setFormData({...formData, gold_two: +e.detail.value!})} />
+                    <IonInput value={formData.gold_two} type="number" className="currency-input" min="0" max="9999999" placeholder={t('events.betting_amount_placeholder')} onIonChange={(e) => setFormData({...formData, gold_two: +e.detail.value!})} />
                 </IonItem>
 
                 <IonItemDivider>Event Description</IonItemDivider>
@@ -243,12 +245,12 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
                 </IonItem>
 
                 {formData.id && <IonItem lines="none">
-                    <IonButton expand="block" className="delete-button" onClick={() => setShowDeleteModal(true)}>Delete</IonButton>
+                    <IonButton expand="block" className="delete-button" onClick={() => setShowDeleteModal(true)}>{t('events.delete_button')}</IonButton>
                     <ConfirmPrompt
                         data={formData.id}
                         show={!!showDeleteModal}
-                        title="Delete Event"
-                        subtitle="Are you sure you want to delete this event?"
+                        title={t('events.delete')}
+                        subtitle={t('events.delete_confirm')}
                         onResult={(data, isConfirmed) => {isConfirmed && deleteEvent(data); setShowDeleteModal(false)}}
                     />
                 </IonItem>}

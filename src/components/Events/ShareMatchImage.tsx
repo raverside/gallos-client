@@ -5,8 +5,8 @@ import {getImageUrl, formatOzToLbsOz} from '../utils';
 
 import './ShareEventImage.css';
 import {closeOutline as closeIcon} from "ionicons/icons";
-import moment from "moment";
 import logo from "../../img/logo.png";
+import {useTranslation} from "react-multi-lang";
 
 
 type EventImageProps = {
@@ -15,7 +15,7 @@ type EventImageProps = {
 };
 
 const ShareMatchImage: React.FC<EventImageProps> = ({match, close}) => {
-
+    const t = useTranslation();
     return (<>
         <IonToolbar className="modal-header">
             <IonTitle className="page-title">Share</IonTitle>
@@ -37,47 +37,47 @@ const ShareMatchImage: React.FC<EventImageProps> = ({match, close}) => {
             <div className="share-versus-info">
                 <div className="share-versus-info_row">
                     <div className="share-versus-type">{match.participant?.type}</div>
-                    <div className="share-versus-type_label">Marcaje</div>
+                    <div className="share-versus-type_label">{t('events.type')}</div>
                     <div className="share-versus-type">{match.opponent?.type}</div>
                 </div>
                 <div className="share-versus-info_row">
                     <div className="share-versus-type">{match.participant?.weight ? formatOzToLbsOz(match.participant.weight) : ""}</div>
-                    <div className="share-versus-type_label">Weight</div>
+                    <div className="share-versus-type_label">{t('events.weight')}</div>
                     <div className="share-versus-type">{match.opponent?.weight ? formatOzToLbsOz(match.opponent.weight) : ""}</div>
                 </div>
                 <div className="share-versus-info_row">
                     <div className="share-versus-type">{match.participant?.color}</div>
-                    <div className="share-versus-type_label">Color</div>
+                    <div className="share-versus-type_label">{t('events.color')}</div>
                     <div className="share-versus-type">{match.opponent?.color}</div>
                 </div>
                 <div className="share-versus-info_row">
                     <div className="share-versus-type">{match.participant?.alas}</div>
-                    <div className="share-versus-type_label">Alas</div>
+                    <div className="share-versus-type_label">{t('events.alas')}</div>
                     <div className="share-versus-type">{match.opponent?.alas}</div>
                 </div>
                 <div className="share-versus-info_row">
                     <div className="share-versus-type">{match.participant?.cresta}</div>
-                    <div className="share-versus-type_label">Cresta</div>
+                    <div className="share-versus-type_label">{t('events.cresta')}</div>
                     <div className="share-versus-type">{match.opponent?.cresta}</div>
                 </div>
                 <div className="share-versus-info_row">
                     <div className="share-versus-type">{match.participant?.pata}</div>
-                    <div className="share-versus-type_label">Patas</div>
+                    <div className="share-versus-type_label">{t('events.patas')}</div>
                     <div className="share-versus-type">{match.opponent?.pata}</div>
                 </div>
                 <div className="share-versus-info_row">
                     <div className="share-versus-type">{match.participant?.physical_advantage?.replace('_', ' ')}</div>
-                    <div className="share-versus-type_label">Advantage</div>
+                    <div className="share-versus-type_label">{t('events.advantage')}</div>
                     <div className="share-versus-type">{match.opponent?.physical_advantage.replace('_', ' ')}</div>
                 </div>
                 <div className="share-versus-info_row">
                     <div className="share-versus-type">{match.participant?.participated_before ? "Yes" : "No"}</div>
-                    <div className="share-versus-type_label">Participated?</div>
+                    <div className="share-versus-type_label">{t('events.participated')}?</div>
                     <div className="share-versus-type">{match.opponent?.participated_before ? "Yes" : "No"}</div>
                 </div>
                 <div className="share-versus-info_row">
                     <div className="share-versus-type">{match.participant?.breeder_name}</div>
-                    <div className="share-versus-type_label">Breeder</div>
+                    <div className="share-versus-type_label">{t('events.breeder')}</div>
                     <div className="share-versus-type">{match.opponent?.breeder_name}</div>
                 </div>
             </div>

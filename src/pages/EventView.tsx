@@ -28,10 +28,12 @@ import {useHistory} from "react-router-dom";
 
 // @ts-ignore
 import domtoimage from "dom-to-image-improved";
+import {useTranslation} from "react-multi-lang";
 
 type eventType = any;
 
 const EventView: React.FC = () => {
+    const t = useTranslation();
     const { id } = useParams<{id:string}>();
     const [event, setEvent] = useState<eventType>();
     const [showFullscreen, setShowFullscreen] = useState<boolean>(false);
@@ -85,12 +87,12 @@ const EventView: React.FC = () => {
             //share the file
             // @ts-ignore
             if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
-                navigator.share({title: event.title || "Traditional Event", files: filesArray});
+                navigator.share({title: event.title || t('events.default_event_name'), files: filesArray});
             }
         });
     }
 
-    const title = (event?.is_special && event?.title) ? event?.title! : "Traditional Events";
+    const title = (event?.is_special && event?.title) ? event?.title! : t('events.default_event_name');
     const image = (event?.is_special && event?.image) ? getImageUrl(event?.image!) : getImageUrl(event?.stadium_image!);
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
     const allBets = [event?.bronze, event?.silver_one, event?.silver_two, event?.gold_one, event?.gold_two].filter(x => x !== null);
@@ -105,12 +107,12 @@ const EventView: React.FC = () => {
                     </IonButtons>
                     <IonButtons slot="end"><IonIcon size="large" className="view-note-menu" icon={menuIcon} slot="end" onClick={() => present({
                         buttons: [
-                            { text: 'Edit Event', handler: () => { if (event) setShowEventEditorModal(true); } },
-                            { text: 'Share Event', handler: () => { shareEvent()} },
-                            { text: 'Delete Event', handler: () => { setShowDeleteModal(event ? event.id : false)} },
-                            { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
+                            { text: t('events.edit'), handler: () => { if (event) setShowEventEditorModal(true); } },
+                            { text: t('events.share'), handler: () => { shareEvent()} },
+                            { text: t('events.delete'), handler: () => { setShowDeleteModal(event ? event.id : false)} },
+                            { text: t('events.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                         ],
-                        header: 'Settings'
+                        header: t('events.settings')
                     })} /></IonButtons>
                 </IonToolbar>
             </IonHeader>
@@ -126,10 +128,10 @@ const EventView: React.FC = () => {
                     <IonRouterLink className="event-stadium" routerLink={"/stadium/"+event?.stadium_id}><IonAvatar><IonImg src={getImageUrl(event?.stadium_image)}/></IonAvatar><span>{event?.stadium_name}</span></IonRouterLink>
                     <div className="event-info">
                         <div className="event-info_labels">
-                            <div className="event-info_label">Receiving</div>
-                            <div className="event-info_label">First Race</div>
-                            {(event.type?.length > 0) && <div className="event-info_label">Marcaje</div>}
-                            {(minBet > 0) && <div className="event-info_label">Bet</div>}
+                            <div className="event-info_label">{t('events.receiving')}</div>
+                            <div className="event-info_label">{t('events.first_race')}</div>
+                            {(event.type?.length > 0) && <div className="event-info_label">{t('events.type')}</div>}
+                            {(minBet > 0) && <div className="event-info_label">{t('events.bet')}</div>}
                         </div>
                         <div className="event-info_values">
                             <div className="event-info_value">{moment(event?.receiving_time_start, "HH:mm").format("LT")} - {moment(event?.receiving_time_end, "HH:mm").format("LT")}</div>
@@ -146,8 +148,8 @@ const EventView: React.FC = () => {
                     </div>
                     <IonText>{event?.description}</IonText>
                     <div className="event-phase-baloteo">
-                        <IonText className="event-phase-header">Baloteo Available</IonText>
-                        <IonText className="event-phase">{event?.phase} Phase</IonText>
+                        <IonText className="event-phase-header">{t('event.baloteo_available')}</IonText>
+                        <IonText className="event-phase">{event?.phase} {t('event.phase')}</IonText>
                     </div>
                 </div>
                 <Gallery
@@ -170,8 +172,8 @@ const EventView: React.FC = () => {
                 <ConfirmPrompt
                     data={showDeleteModal}
                     show={!!showDeleteModal}
-                    title="Delete Event"
-                    subtitle="Are you sure you want to delete this event?"
+                    title={t('events.delete_event')}
+                    subtitle={t('events.delete_confirm')}
                     onResult={(data, isConfirmed) => {isConfirmed && deleteEvent(data); setShowDeleteModal(false)}}
                 />
                 <IonLoading

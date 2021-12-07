@@ -13,8 +13,10 @@ import swapIcon from "../img/swap.png";
 import {getImageUrl, formatOzToLbsOz} from "../components/utils";
 import {useHistory, useParams} from "react-router-dom";
 import ConfirmPrompt from "../components/ConfirmPrompt";
+import {useTranslation} from "react-multi-lang";
 
 const JudgeMatch: React.FC = () => {
+    const t = useTranslation();
     const { event_id, match_id } = useParams<{event_id:string, match_id:string}>();
     const [event, setEvent] = useState<any>();
     const [match, setMatch] = useState<any>();
@@ -78,7 +80,7 @@ const JudgeMatch: React.FC = () => {
         history.push("/match/" + event.id + "/" + match.id);
     }
 
-    const title = (event?.is_special && event?.title) ? event?.title! : "Traditional Events";
+    const title = (event?.is_special && event?.title) ? event?.title! : t('events.default_event_name');
 
     return (
         <IonPage>
@@ -100,16 +102,16 @@ const JudgeMatch: React.FC = () => {
                                     {!showSwitchSide ? <>
                                         <p>Pelea {event?.matches?.findIndex((m:any) => m.id === match_id)+1 || 1}</p>
                                         <div>
-                                            <IonButton expand="block" className="judge-match-view-open" onClick={() => openMatch()}>Open</IonButton>
-                                            <IonButton expand="block" className="judge-match-view-switch_side" onClick={() => startSwitchSide()}>Switch Side</IonButton>
-                                            <IonButton expand="block" className="judge-match-view-null" onClick={() => setShowCancelModal(match.id)}>Null</IonButton>
+                                            <IonButton expand="block" className="judge-match-view-open" onClick={() => openMatch()}>{t('judge.open')}</IonButton>
+                                            <IonButton expand="block" className="judge-match-view-switch_side" onClick={() => startSwitchSide()}>{t('judge.switch_side')}</IonButton>
+                                            <IonButton expand="block" className="judge-match-view-null" onClick={() => setShowCancelModal(match.id)}>{t('judge.null')}</IonButton>
                                         </div>
                                     </> : <>
                                         <div>
-                                            <p>Switch Side</p>
+                                            <p>{t('judge.switch_side')}</p>
                                             <IonButton fill="clear" className="judge-match-view-swap-button" onClick={() => switchSides()}><IonImg src={swapIcon} /></IonButton>
-                                            <IonButton expand="block" className="judge-match-view-open" onClick={() => saveSwitchSide()}>Save</IonButton>
-                                            <IonButton expand="block" className="judge-match-view-null" onClick={() => cancelSwitchSide()}>Cancel</IonButton>
+                                            <IonButton expand="block" className="judge-match-view-open" onClick={() => saveSwitchSide()}>{t('judge.save')}</IonButton>
+                                            <IonButton expand="block" className="judge-match-view-null" onClick={() => cancelSwitchSide()}>{t('judge.cancel')}</IonButton>
                                         </div>
                                     </>}
                                 </div>
@@ -122,47 +124,47 @@ const JudgeMatch: React.FC = () => {
                         <IonRow className="judge-match-view-info">
                             <div className="judge-match-view-info_row">
                                 <div className="judge-match-view-type">{match?.participant?.type}</div>
-                                <div className="judge-match-view-type_label">Marcaje</div>
+                                <div className="judge-match-view-type_label">{t('events.type')}</div>
                                 <div className="judge-match-view-type">{match?.opponent?.type}</div>
                             </div>
                             <div className="judge-match-view-info_row">
                                 <div className="judge-match-view-type">{match?.participant?.weight ? formatOzToLbsOz(match.participant.weight) : ""}</div>
-                                <div className="judge-match-view-type_label">Weight</div>
+                                <div className="judge-match-view-type_label">{t('events.weight')}</div>
                                 <div className="judge-match-view-type">{match?.opponent?.weight ? formatOzToLbsOz(match.opponent.weight) : ""}</div>
                             </div>
                             <div className="judge-match-view-info_row">
                                 <div className="judge-match-view-type">{match?.participant?.color}</div>
-                                <div className="judge-match-view-type_label">Color</div>
+                                <div className="judge-match-view-type_label">{t('events.color')}</div>
                                 <div className="judge-match-view-type">{match?.opponent?.color}</div>
                             </div>
                             <div className="judge-match-view-info_row">
                                 <div className="judge-match-view-type">{match?.participant?.alas}</div>
-                                <div className="judge-match-view-type_label">Alas</div>
+                                <div className="judge-match-view-type_label">{t('events.alas')}</div>
                                 <div className="judge-match-view-type">{match?.opponent?.alas}</div>
                             </div>
                             <div className="judge-match-view-info_row">
                                 <div className="judge-match-view-type">{match?.participant?.cresta}</div>
-                                <div className="judge-match-view-type_label">Cresta</div>
+                                <div className="judge-match-view-type_label">{t('events.cresta')}</div>
                                 <div className="judge-match-view-type">{match?.opponent?.cresta}</div>
                             </div>
                             <div className="judge-match-view-info_row">
                                 <div className="judge-match-view-type">{match?.participant?.pata}</div>
-                                <div className="judge-match-view-type_label">Patas</div>
+                                <div className="judge-match-view-type_label">{t('events.patas')}</div>
                                 <div className="judge-match-view-type">{match?.opponent?.pata}</div>
                             </div>
                             <div className="judge-match-view-info_row">
                                 <div className="judge-match-view-type">{match?.participant?.physical_advantage?.replace('_', ' ')}</div>
-                                <div className="judge-match-view-type_label">Advantage</div>
+                                <div className="judge-match-view-type_label">{t('events.advantage')}</div>
                                 <div className="judge-match-view-type">{match?.opponent?.physical_advantage.replace('_', ' ')}</div>
                             </div>
                             <div className="judge-match-view-info_row">
                                 <div className="judge-match-view-type">{match?.participant?.participated_before ? "Yes" : "No"}</div>
-                                <div className="judge-match-view-type_label">Participated?</div>
+                                <div className="judge-match-view-type_label">{t('events.participated')}?</div>
                                 <div className="judge-match-view-type">{match?.opponent?.participated_before ? "Yes" : "No"}</div>
                             </div>
                             <div className="judge-match-view-info_row">
                                 <div className="judge-match-view-type">{match?.participant?.breeder_name}</div>
-                                <div className="judge-match-view-type_label">Breeder</div>
+                                <div className="judge-match-view-type_label">{t('events.breeder')}</div>
                                 <div className="judge-match-view-type">{match?.opponent?.breeder_name}</div>
                             </div>
                         </IonRow>
@@ -171,7 +173,7 @@ const JudgeMatch: React.FC = () => {
                 <ConfirmPrompt
                     data={showCancelModal}
                     show={!!showCancelModal}
-                    title="Are you sure you want to cancel this match?"
+                    title={t('judge.cancel_confirm')}
                     onResult={(data, isConfirmed) => {isConfirmed && onCancelMatch(data); setShowCancelModal(false)}}
                 />
                 <IonLoading

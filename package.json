@@ -26,6 +26,7 @@
     "react-calendar": "^3.4.0",
     "react-dom": "^17.0.1",
     "react-image-crop": "^9.0.5",
+    "react-multi-lang": "^2.1.1",
     "react-phone-input-2": "^2.14.0",
     "react-router": "^5.2.1",
     "react-router-dom": "^5.3.0",

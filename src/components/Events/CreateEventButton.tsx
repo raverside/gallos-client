@@ -3,12 +3,14 @@ import {addOutline as addIcon} from 'ionicons/icons';
 import React, {useState, useRef} from "react";
 
 import './EventEditor.css';
+import {useTranslation} from "react-multi-lang";
 
 type EventButtonProps = {
     showEventEditor: (mode:number|boolean) => void;
 };
 
 const CreateEventButton: React.FC<EventButtonProps> = ({showEventEditor}) => {
+    const t = useTranslation();
     const [showBackdrop, setShowBackdrop] = useState(false);
     const fabRef = useRef<HTMLIonFabElement>(null);
 
@@ -24,8 +26,8 @@ const CreateEventButton: React.FC<EventButtonProps> = ({showEventEditor}) => {
                 <IonIcon icon={addIcon} />
             </IonFabButton>
             <IonFabList side="top">
-                <IonFabButton type="button" className="create-event-button" onClick={() => showCreateEvent(true)}>Special Event</IonFabButton>
-                <IonFabButton type="button" className="create-event-button" onClick={() => showCreateEvent()}>Regular Event</IonFabButton>
+                <IonFabButton type="button" className="create-event-button" onClick={() => showCreateEvent(true)}>{t('events.special_event')}</IonFabButton>
+                <IonFabButton type="button" className="create-event-button" onClick={() => showCreateEvent()}>{t('events.regular_event')}</IonFabButton>
             </IonFabList>
         </IonFab>
     </>);

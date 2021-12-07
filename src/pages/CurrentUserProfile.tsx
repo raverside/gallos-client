@@ -16,8 +16,10 @@ import './CurrentUserProfile.css';
 import {AppContext} from "../State";
 import {getCitiesByState, getCountries, getStatesByCountry} from "../api/Geo";
 import {useHistory} from "react-router-dom";
+import {useTranslation} from "react-multi-lang";
 
 const CurrentUserProfile: React.FC = () => {
+    const t = useTranslation();
     const { state, dispatch } = useContext(AppContext);
     const [showLoading, setShowLoading] = useState<boolean>(false);
     const [countries, setCountries] = useState<[{id: number, name: string}]>();
@@ -123,7 +125,7 @@ const CurrentUserProfile: React.FC = () => {
 
     return (
         <IonPage>
-            <ArrowHeader title="Profile" backHref="/" />
+            <ArrowHeader title={t('profile.header')} backHref="/" />
 
             <IonContent fullscreen>
                 <div className="current-user-profile">
@@ -134,59 +136,59 @@ const CurrentUserProfile: React.FC = () => {
                         onChange={setImage}
                         accept="image/jpeg, image/png"
                     />
-                    <IonText>Profile Picture</IonText>
+                    <IonText>{t('profile.picture')}</IonText>
                     {state.user?.photo && <IonAvatar><IonImg src={imagePreview} /></IonAvatar>}
-                    <IonButton fill="clear" onClick={() => fileInputRef.current!.click()}>Upload</IonButton>
+                    <IonButton fill="clear" onClick={() => fileInputRef.current!.click()}>{t('profile.upload')}</IonButton>
 
                     <IonList>
-                        <IonItemDivider>Name</IonItemDivider>
+                        <IonItemDivider>{t('profile.name')}</IonItemDivider>
                         <IonItem lines="none">
                             <IonInput
                                 value={formData.username}
                                 className="fullsize-input"
-                                placeholder="Your Name"
+                                placeholder={t('profile.name_placeholder')}
                                 onIonChange={(e) => setFormData({...formData, username: e.detail.value!})}
                             />
                         </IonItem>
 
-                        <IonItemDivider>Date of Birth</IonItemDivider>
+                        <IonItemDivider>{t('profile.dob')}</IonItemDivider>
                         <IonItem lines="none">
                             <IonDatetime
                                 displayFormat="DD MM YYYY"
-                                placeholder="Select DOB"
+                                placeholder={t('profile.dob_placeholder')}
                                 value={formData.birthday}
                                 onIonChange={e => setFormData({...formData, birthday: e.detail.value!})}
                             />
                         </IonItem>
 
-                        <IonItemDivider>Country</IonItemDivider>
+                        <IonItemDivider>{t('general.country')}</IonItemDivider>
                         <IonItem lines="none">
-                            <IonSelect interface="alert" name="country" value={formData.country} onIonChange={(e) => onCountryChange(e.detail.value)} placeholder="Select country">
+                            <IonSelect interface="alert" name="country" value={formData.country} onIonChange={(e) => onCountryChange(e.detail.value)} placeholder={t('general.country_placeholder')}>
                                 {countries && countries.map((country) => (
                                     <IonSelectOption key={country.id} value={country.id}>{country.name}</IonSelectOption>
                                 ))}
                             </IonSelect>
                         </IonItem>
 
-                        {(states && states.length > 0) && <><IonItemDivider>State</IonItemDivider>
+                        {(states && states.length > 0) && <><IonItemDivider>{t('general.state')}</IonItemDivider>
                             <IonItem lines="none">
-                                <IonSelect interface="alert" disabled={!formData.country} name="state" value={formData.state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder="Select state">
+                                <IonSelect interface="alert" disabled={!formData.country} name="state" value={formData.state} onIonChange={(e) => onStateChange(e.detail.value)} placeholder={t('general.state_placeholder')}>
                                     {states.map((state) => (
                                         <IonSelectOption key={state.id} value={state.id}>{state.name}</IonSelectOption>
                                     ))}
                                 </IonSelect>
                             </IonItem></>}
 
-                        {(cities && cities.length > 0) && <><IonItemDivider>City</IonItemDivider>
+                        {(cities && cities.length > 0) && <><IonItemDivider>{t('general.city')}</IonItemDivider>
                             <IonItem lines="none">
-                                <IonSelect interface="alert" disabled={!formData.country || !formData.state} name="city" value={formData.city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder="Select city">
+                                <IonSelect interface="alert" disabled={!formData.country || !formData.state} name="city" value={formData.city} onIonChange={(e) => onCityChange(e.detail.value)} placeholder={t('general.city_placeholder')}>
                                     {cities.map((city) => (
                                         <IonSelectOption key={city.id} value={city.id}>{city.name}</IonSelectOption>
                                     ))}
                                 </IonSelect>
                             </IonItem></>}
                             <IonItem>
-                                <IonButton disabled={!canSubmit()} expand="block" className="save-button" onClick={Submit}>Save</IonButton>
+                                <IonButton disabled={!canSubmit()} expand="block" className="save-button" onClick={Submit}>{t('profile.submit')}</IonButton>
                             </IonItem>
                     </IonList>
                 </div>

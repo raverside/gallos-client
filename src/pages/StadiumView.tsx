@@ -13,6 +13,7 @@ import {getImageUrl} from '../components/utils';
 
 import './StadiumView.css';
 import fullscreenIcon from "../img/fullscreen.png";
+import {useTranslation} from "react-multi-lang";
 
 type stadiumType = {
     id: string;
@@ -27,6 +28,7 @@ type stadiumType = {
 };
 
 const StadiumView: React.FC = () => {
+    const t = useTranslation();
     const { id } = useParams<{id:string}>();
     const [stadium, setStadium] = useState<stadiumType>();
     const [showFullscreen, setShowFullscreen] = useState<boolean>(false);
