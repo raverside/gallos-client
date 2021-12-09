@@ -2,6 +2,7 @@ import React, { createContext, useReducer } from "react";
 import Cookies from "js-cookie";
 import { io } from "socket.io-client";
 const socket = io(process.env.REACT_APP_NODE_API_URL!, {
+    path: process.env.REACT_APP_WEBSOCKET_PATH,
     transports: ['websocket'],
     rejectUnauthorized: false
 });
