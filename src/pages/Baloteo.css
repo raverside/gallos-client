@@ -24,6 +24,12 @@
     border-radius: 8px;
     margin-bottom:15px;
 }
+.baloteo-match-wrapper ion-row {
+    position:relative;
+}
+.baloteo-match-wrapper ion-col {
+    position:static;
+}
 .baloteo-side-header {
     padding:0 10px;
 }
@@ -191,8 +197,18 @@
     padding: 15px 30px 15px 15px;
 }
 .blue_side .placeholder_rooster {
-    filter: invert(37%) sepia(40%) saturate(4860%) hue-rotate(205deg) brightness(82%) contrast(105%);
+    filter: brightness(0) saturate(100%) invert(11%) sepia(29%) saturate(7366%) hue-rotate(207deg) brightness(105%) contrast(106%);
 }
 .white_side .placeholder_rooster {
-    filter: brightness(0) saturate(100%) invert(11%) sepia(86%);
+
+}
+.switch-sides {
+    --padding-start: 5px;
+    --padding-end: 5px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 13px;
+    width:40px;
+    margin:auto;
 }

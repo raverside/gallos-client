@@ -1,4 +1,5 @@
 import roosterPlaceholder from "../img/rooster_transparent.png";
+import roosterBlackPlaceholder from "../img/rooster_transparent_black.png";
 
 export function formatPasscode(passcode: string) {
     return passcode?.replace(/[^\dA-Z]/gi, '')
@@ -7,8 +8,8 @@ export function formatPasscode(passcode: string) {
         .trim() || "";
 }
 
-export function getImageUrl(filename: string) {
-    if (!filename) return roosterPlaceholder;
+export function getImageUrl(filename: string, black_placeholder = false) {
+    if (!filename) return black_placeholder ? roosterBlackPlaceholder : roosterPlaceholder;
     return process.env.REACT_APP_NODE_API_URL + "/uploads/" + filename;
 }
 

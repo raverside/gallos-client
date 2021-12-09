@@ -21,7 +21,7 @@ import {getEvent, publishMatch, swapSides, announceEvent, deleteMatch} from "../
 import './Baloteo.css';
 import {useHistory, useParams} from "react-router-dom";
 import {getImageUrl, formatOzToLbsOz} from "../components/utils";
-import {closeOutline as closeIcon, ellipsisHorizontal as menuIcon} from "ionicons/icons";
+import {swapHorizontalOutline as switchSidesIcon, closeOutline as closeIcon, ellipsisHorizontal as menuIcon} from "ionicons/icons";
 import ConfirmPrompt from "../components/ConfirmPrompt";
 import PairManual from "../components/Events/PairManual";
 import PrintModal from "../components/Events/PrintModal";
@@ -39,6 +39,7 @@ const Baloteo: React.FC = () => {
     const [showPairModal, setShowPairModal] = useState<string|false>(false);
     const [showShareMatch, setShowShareMatch] = useState<any>(false);
     const [selectPrintMatch, setSelectPrintMatch] = useState<any>(false);
+    const [switchSidesDisabled, setSwitchSidesDisabled] = useState<boolean>(false);
     const { id } = useParams<{id:string}>();
     const [present, dismiss] = useIonActionSheet();
     const history = useHistory();
@@ -61,7 +62,7 @@ const Baloteo: React.FC = () => {
     };
 
     const matches = (event && baloteoSearch) ? event.matches?.filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name === baloteoSearch || m.opponent?.team?.name === baloteoSearch) : event.matches;
-    const liveMatches = matches?.filter((p:any) => p.live) || [];
+    const liveMatches = matches?.filter((p:any) => p.live).sort((a:any, b:any) => a.manual - b.manual) || [];
     const availableMatches = matches?.filter((p:any) => !p.live) || [];
     const unmatchedParticipants = event.participants?.filter((participant:any) =>
         participant.status === "approved" && !event.matches?.find((match:any) =>
@@ -80,9 +81,13 @@ const Baloteo: React.FC = () => {
     };
 
     const switchSides = async (matchId:string) => {
+        setSwitchSidesDisabled(true);
         const response = await swapSides(matchId);
         if (response.event) {
             setEvent(response.event);
+            setSwitchSidesDisabled(false);
+        } else {
+            setSwitchSidesDisabled(false);
         }
     };
 
@@ -166,8 +171,8 @@ const Baloteo: React.FC = () => {
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="5">
-                                        <div className="blue_side" onClick={() => switchSides(match.id)}>
-                                            <IonImg className={(match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image") + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.participant?.image)} />
+                                        <div className="blue_side">
+                                            <IonImg className={(match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image") + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.participant?.image, true)} />
                                             <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
                                         </div>
                                     </IonCol>
@@ -175,10 +180,19 @@ const Baloteo: React.FC = () => {
                                         <p className="baloteo-match-fight">{t('baloteo.fight')} {index + 1}</p>
                                         <p className="baloteo-match-vs">VS</p>
                                         {match.manual && <p className="baloteo-match-manual">{t('baloteo.manual')}</p>}
+                                        <IonButton
+                                            fill="clear"
+                                            color="dark"
+                                            className="switch-sides"
+                                            onClick={()=>switchSides(match.id)}
+                                            disabled={switchSidesDisabled}
+                                        >
+                                            <IonIcon src={switchSidesIcon} size="large"/>
+                                        </IonButton>
                                     </IonCol>
                                     <IonCol size="5">
-                                        <div className="white_side" onClick={() => switchSides(match.id)}>
-                                            <IonImg className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.opponent?.image)} />
+                                        <div className="white_side">
+                                            <IonImg className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.opponent?.image, true)} />
                                             <p className="baloteo-match-team_name">{match.opponent?.team?.name}</p>
                                         </div>
                                     </IonCol>
@@ -202,7 +216,7 @@ const Baloteo: React.FC = () => {
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="5">
-                                        <IonImg className={(match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image")  + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.participant?.image)} />
+                                        <IonImg className={(match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image")  + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.participant?.image, true)} />
                                         <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
                                     </IonCol>
                                     <IonCol size="2">
@@ -210,7 +224,7 @@ const Baloteo: React.FC = () => {
                                         <p className="baloteo-match-vs">VS</p>
                                     </IonCol>
                                     <IonCol size="5">
-                                        <IonImg className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.opponent?.image)} />
+                                        <IonImg className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.opponent?.image, true)} />
                                         <p className="baloteo-match-team_name">{match.opponent?.team?.name}</p>
                                     </IonCol>
                                 </IonRow>

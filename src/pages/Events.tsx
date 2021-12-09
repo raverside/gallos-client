@@ -117,7 +117,7 @@ const Events: React.FC = () => {
                         updateFilter={(date) => updateFilter(eventsSearch, eventsFilter, date)}
                     />
                 }
-                {(state.user.role === "worker" || state.user.role === "admin_manager" || state.user.role === "admin_worker" || state.user.role === "admin") &&
+                {(state.user.role === "admin_manager" || state.user.role === "admin_worker" || state.user.role === "admin") &&
                     <EventsFilter
                         filter={eventsFilter}
                         setFilter={(filter) => setEventsFilter(filter)}

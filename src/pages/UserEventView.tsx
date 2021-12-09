@@ -13,15 +13,13 @@ import {
     IonAvatar,
     IonRouterLink,
     IonIcon,
-    IonModal,
     IonLoading,
     IonSegmentButton,
     IonLabel,
     IonSegment,
     IonCard,
     IonGrid,
-    IonRow, IonCol, IonSearchbar, IonList, IonItem, useIonActionSheet,
-} from '@ionic/react';
+    IonRow, IonCol, IonSearchbar, IonList, IonItem} from '@ionic/react';
 import Gallery from '../components/Gallery';
 import React, {useContext, useEffect, useState} from "react";
 import {getEvent} from "../api/Events";
@@ -31,7 +29,7 @@ import {formatOzToLbsOz, getImageUrl} from '../components/utils';
 import './EventView.css';
 import fullscreenIcon from "../img/fullscreen.png";
 import moment from "moment";
-import {ellipsisHorizontal as menuIcon, shareSocialOutline as shareIcon} from "ionicons/icons";
+import {shareSocialOutline as shareIcon} from "ionicons/icons";
 import ShareEventImage from "../components/Events/ShareEventImage";
 import {useHistory} from "react-router-dom";
 import {AppContext} from "../State";
@@ -53,17 +51,13 @@ const UserEventView: React.FC = () => {
     const [baloteoTab, setBaloteoTab] = useState<string>("receiving");
     const [baloteoSearch, setBaloteoSearch] = useState<string>("");
     const history = useHistory();
-    const [present, dismiss] = useIonActionSheet();
     const shareRef = React.useRef();
 
     useEffect(() => {
+        fetchEvent();
         state.socket.on("syncEvents", () => {
             fetchEvent();
         });
-    }, []);
-
-    useEffect(() => {
-        fetchEvent()
     }, []);
 
     const fetchEvent = async () => {

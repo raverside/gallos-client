@@ -58,7 +58,7 @@ const EventReceiving: React.FC = () => {
     const savedParticipants = participants?.filter((p:any) => p.status === 'saved');
     const approvedParticipants = participants?.filter((p:any) => p.status === 'approved');
     const excludedParticipants = participants?.filter((p:any) => p.status === 'rejected');
-    const currentTabParticipants = participants?.sort((a:any, b:any) => +(b.image===null) - +(a.image===null)).filter((p:any) => p.status === participantsTab);
+    const currentTabParticipants = participants?.sort((a:any, b:any) => +(b.image===null) - +(a.image===null) || b.cage - a.cage).filter((p:any) => p.status === participantsTab);
 
     return !event ? null : (
         <IonPage>
