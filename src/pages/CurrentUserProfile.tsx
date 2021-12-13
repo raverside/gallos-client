@@ -5,7 +5,7 @@ import {
     IonImg,
     IonText,
     IonButton,
-    IonDatetime, IonIcon, IonLoading, IonItemDivider, IonItem, IonInput, IonList, IonSelect, IonSelectOption
+    IonDatetime, IonLoading, IonItemDivider, IonItem, IonInput, IonList, IonSelect, IonSelectOption
 } from '@ionic/react';
 import ArrowHeader from '../components/Header/ArrowHeader';
 import React, {useContext, useEffect, useRef, useState} from "react";
@@ -154,7 +154,7 @@ const CurrentUserProfile: React.FC = () => {
                         <IonItemDivider>{t('profile.dob')}</IonItemDivider>
                         <IonItem lines="none">
                             <IonDatetime
-                                displayFormat="DD MM YYYY"
+                                displayFormat="DD MMM YYYY"
                                 placeholder={t('profile.dob_placeholder')}
                                 value={formData.birthday}
                                 onIonChange={e => setFormData({...formData, birthday: e.detail.value!})}
