@@ -22,7 +22,7 @@ import {
 } from "../api/TeamOwners";
 import {useParams} from 'react-router-dom';
 
-import './UserProfile.css';
+import './TeamOwner.css';
 import TeamOwnersList from "../components/TeamOwners/TeamOwnersList";
 import ShareTeamOwner from "../components/TeamOwners/ShareTeamOwner";
 import {ellipsisHorizontal as menuIcon} from "ionicons/icons";
@@ -194,7 +194,7 @@ const TeamOwner: React.FC = () => {
                 <div className="user-profile">
                     <div className="user-profile-info">
                         {teamOwner?.name && <IonText className="user-profile-info_username">{teamOwner.name}</IonText>}
-                        {teamOwner?.digital_id && <IonText>ID {(""+teamOwner.digital_id).substr(0, 3)+"-"+(""+teamOwner.digital_id).substr(3, 3)}</IonText>}
+                        {teamOwner?.digital_id && <IonText className="digital-id">ID {(""+teamOwner.digital_id).substr(0, 3)+"-"+(""+teamOwner.digital_id).substr(3, 3)}</IonText>}
                         {teamOwner?.teams && <IonText>{teamOwner.teams.length} {t('teams.teams')}</IonText>}
                         {teamOwner?.phone && <IonText>+{teamOwner.phone}</IonText>}
                         {(teamOwner?.country) && <IonText>{teamOwner.city && teamOwner.city + ","} {teamOwner.country}</IonText>}

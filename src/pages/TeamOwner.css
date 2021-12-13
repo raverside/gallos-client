@@ -75,3 +75,15 @@
     margin-top:0;
     margin-bottom:0;
 }
+.digital-id {
+    color: #E80000;
+    font-weight: 600;
+    font-size:16px;
+    margin-top: -8px;
+    margin-bottom: 8px;
+}
+.digital-id-small {
+    color: #E80000;
+    font-weight: 600;
+    font-size:14px;
+}

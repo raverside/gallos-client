@@ -63,14 +63,14 @@ const TeamOwnersList: React.FC<TeamOwnersListProps> = ({teamOwners, isTeam = fal
                 </IonContent>
             </IonModal>
         </div>}
-        {teamOwners?.filter(t => t.name?.toLowerCase().includes(search.toLowerCase()) || t.digital_id == +search ).map((teamOwner:any, index:number) => {
+        {teamOwners?.filter(t => t.name?.toLowerCase().includes(search.toLowerCase()) || (""+t.digital_id).includes(search.replace('-',''))).map((teamOwner:any, index:number) => {
             return <IonItem key={teamOwner.id} lines="none" className="teamOwner" button={!isTeam} routerLink={!isTeam ? "/team_owner/"+teamOwner.id : "/team_owner/"+teamOwner.team_owner_id}>
                 <p className="teamOwner-index">{index + 1}</p>
                 <IonLabel className="teamOwner-short-info">
                     <IonText className="teamOwner-short-info_name" color={teamOwner.name.toLowerCase().replace(/\s+/g, '')}>{teamOwner.name}</IonText>
                     {isTeam ?
                         <>
-                            <IonText className="teamOwner-short-info_winrate">ID {teamOwner.digital_id}</IonText>
+                            <IonText className="teamOwner-short-info_winrate digital-id-small">ID {(""+teamOwner.digital_id).substr(0, 3)+"-"+(""+teamOwner.digital_id).substr(3, 3)}</IonText>
                             <IonText className="teamOwner-short-info_winrate">{Math.max(0, teamOwner.wins)} {t('teams.wins')} • {Math.max(0, teamOwner.draws)} {t('teams.draws')} • {Math.max(0, teamOwner.loses)} {t('teams.loses')} • {Math.min(100, Math.max(0, Math.round(teamOwner.wins / Math.max(1, (teamOwner.wins || 0) + (teamOwner.draws || 0) + (teamOwner.loses || 0)) * 100)))}%</IonText>
                         </> :
                         <IonText className="teamOwner-short-info_winrate">{teamOwner.teams?.length || 0} {t('teams.teams')}</IonText>
