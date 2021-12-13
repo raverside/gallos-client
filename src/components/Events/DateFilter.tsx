@@ -60,7 +60,16 @@ const DateFilter: React.FC<FilterProps> = ({filter, setFilter, updateFilter, eve
         </IonSegment>
         <IonModal id="overlay-modal" isOpen={showFilterModal} onDidDismiss={() => setShowFilterModal(false)}>
             <form className="datepicker-filter-form">
-                <Calendar value={dateFilter} onChange={(value:Date) => setDateFilter(value)}/>
+                <Calendar
+                    value={dateFilter}
+                    onChange={(value:Date) => setDateFilter(value)}
+                    tileContent={({date, view}) => {
+                        if (view === 'month' && eventDates.find((ed:any) => ed.date === moment(date).format('YYYY-MM-DD'))){
+                            return <div className="datepicker-shortcut-hasEvent">•</div>;
+                        }
+                        return null;
+                    }}
+                />
                 <IonButton expand="block" onClick={Submit}>{t('general.select')}</IonButton>
             </form>
         </IonModal>

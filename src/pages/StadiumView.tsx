@@ -5,7 +5,7 @@ import {
     IonText, IonLoading, IonToolbar, IonButtons, IonBackButton, IonIcon, IonHeader, useIonActionSheet, IonModal,
 } from '@ionic/react';
 import Gallery from '../components/Gallery';
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {getStadium} from "../api/Stadiums";
 import {useParams} from 'react-router-dom';
 import {getImageUrl} from '../components/utils';
@@ -15,6 +15,7 @@ import fullscreenIcon from "../img/fullscreen.png";
 import {useTranslation} from "react-multi-lang";
 import {ellipsisHorizontal as menuIcon} from "ionicons/icons";
 import StadiumEditor from "../components/Stadiums/StadiumEditor";
+import {AppContext} from "../State";
 
 type stadiumType = {
     id: string;
@@ -30,6 +31,7 @@ type stadiumType = {
 
 const StadiumView: React.FC = () => {
     const t = useTranslation();
+    const { state } = useContext(AppContext);
     const { id } = useParams<{id:string}>();
     const [stadium, setStadium] = useState<stadiumType>();
     const [showFullscreen, setShowFullscreen] = useState<boolean>(false);
@@ -59,13 +61,13 @@ const StadiumView: React.FC = () => {
                     <IonButtons slot="start">
                         <IonBackButton defaultHref="/"/>
                     </IonButtons>
-                    <IonButtons slot="end"><IonIcon size="large" className="view-note-menu" icon={menuIcon} slot="end" onClick={() => present({
+                    {(state.user?.role === "admin" || state.user?.role === "admin_manager") && <IonButtons slot="end"><IonIcon size="large" className="view-note-menu" icon={menuIcon} slot="end" onClick={() => present({
                         buttons: [
                             { text: t('stadiums.edit'), handler: () => { if (stadium) setShowStadiumEditorModal(true); } },
                             { text: t('stadiums.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                         ],
                         header: t('stadiums.settings')
-                    })} /></IonButtons>
+                    })} /></IonButtons>}
                 </IonToolbar>
             </IonHeader>
 

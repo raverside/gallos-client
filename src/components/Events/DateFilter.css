@@ -54,6 +54,10 @@
 .react-calendar__month-view__days__day {
     border: none;
     background:none;
+    position:relative;
+}
+.react-calendar__month-view__days__day .datepicker-shortcut-hasEvent {
+    bottom: 7px;
 }
 .react-calendar__month-view__days__day abbr{
     border: 2px solid #EAE9E9;
