@@ -2,9 +2,8 @@ import {
     IonContent,
     IonPage,
     IonImg,
-    IonText, IonLoading,
+    IonText, IonLoading, IonToolbar, IonButtons, IonBackButton, IonIcon, IonHeader, useIonActionSheet, IonModal,
 } from '@ionic/react';
-import ArrowHeader from '../components/Header/ArrowHeader';
 import Gallery from '../components/Gallery';
 import React, {useEffect, useState} from "react";
 import {getStadium} from "../api/Stadiums";
@@ -14,6 +13,8 @@ import {getImageUrl} from '../components/utils';
 import './StadiumView.css';
 import fullscreenIcon from "../img/fullscreen.png";
 import {useTranslation} from "react-multi-lang";
+import {ellipsisHorizontal as menuIcon} from "ionicons/icons";
+import StadiumEditor from "../components/Stadiums/StadiumEditor";
 
 type stadiumType = {
     id: string;
@@ -32,13 +33,15 @@ const StadiumView: React.FC = () => {
     const { id } = useParams<{id:string}>();
     const [stadium, setStadium] = useState<stadiumType>();
     const [showFullscreen, setShowFullscreen] = useState<boolean>(false);
+    const [showStadiumEditorModal, setShowStadiumEditorModal] = useState<boolean>(false);
     const [showLoading, setShowLoading] = useState<boolean>(false);
+    const [present, dismiss] = useIonActionSheet();
 
     useEffect(() => {
         fetchStadium()
     }, []);
 
-    const fetchStadium= async () => {
+    const fetchStadium = async () => {
         setShowLoading(true);
         const response = (id) ? await getStadium(id) : false;
         if (response.stadium) {
@@ -51,7 +54,20 @@ const StadiumView: React.FC = () => {
 
     return (
         <IonPage>
-            <ArrowHeader title="" backHref="/stadiums" className="stadium-view-header"/>
+            <IonHeader className="event-view-header">
+                <IonToolbar className="arrow-header">
+                    <IonButtons slot="start">
+                        <IonBackButton defaultHref="/"/>
+                    </IonButtons>
+                    <IonButtons slot="end"><IonIcon size="large" className="view-note-menu" icon={menuIcon} slot="end" onClick={() => present({
+                        buttons: [
+                            { text: t('stadiums.edit'), handler: () => { if (stadium) setShowStadiumEditorModal(true); } },
+                            { text: t('stadiums.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
+                        ],
+                        header: t('stadiums.settings')
+                    })} /></IonButtons>
+                </IonToolbar>
+            </IonHeader>
 
             <IonContent fullscreen>
                 <div className="stadium-big-image">
@@ -72,6 +88,13 @@ const StadiumView: React.FC = () => {
                     setShowModal={setShowFullscreen}
                     images={[getImageUrl(stadium?.image!)]}
                 />
+                <IonModal isOpen={!!showStadiumEditorModal} onDidDismiss={() => setShowStadiumEditorModal(false)}>
+                    <StadiumEditor
+                        fetchStadiums={fetchStadium}
+                        stadium={stadium}
+                        close={() => setShowStadiumEditorModal(false)}
+                    />
+                </IonModal>
             </IonContent>
             <IonLoading
                 isOpen={showLoading}

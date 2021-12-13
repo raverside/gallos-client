@@ -154,6 +154,8 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         if (!formData.pata) isFormFilled = false;
         if (!formData.physical_advantage) isFormFilled = false;
         if (!formData.weight) isFormFilled = false;
+        if (!formData.breeder_id) isFormFilled = false;
+        if (!formData.breeder_name) isFormFilled = false;
         if (formData.participated_before === undefined) isFormFilled = false;
 
         return isFormFilled;
@@ -390,7 +392,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             </IonSelect>
                         </IonItem>
 
-                        <IonItemDivider>{t('events.breeder_id')}</IonItemDivider>
+                        <IonItemDivider>{t('events.breeder_id')}<IonText color="primary">*</IonText></IonItemDivider>
                         <IonItem lines="none">
                             <IonInput
                                 value={formData.breeder_id}
@@ -404,7 +406,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             />
                         </IonItem>
 
-                        <IonItemDivider>{t('events.breeder_name')}</IonItemDivider>
+                        <IonItemDivider>{t('events.breeder_name')}<IonText color="primary">*</IonText></IonItemDivider>
                         <IonItem lines="none">
                             <IonInput
                                 value={formData.breeder_name}

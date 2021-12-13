@@ -1,5 +1,20 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {IonButtons, IonContent, IonIcon, IonTitle, IonToolbar, IonList, IonItem, IonItemDivider, IonInput, IonTextarea, IonButton, IonSelect, IonSelectOption } from '@ionic/react';
+import {
+    IonButtons,
+    IonContent,
+    IonIcon,
+    IonTitle,
+    IonToolbar,
+    IonList,
+    IonItem,
+    IonItemDivider,
+    IonInput,
+    IonTextarea,
+    IonButton,
+    IonSelect,
+    IonSelectOption,
+    IonText
+} from '@ionic/react';
 import {closeOutline as closeIcon} from "ionicons/icons";
 import ImagePicker from '../ImagePicker';
 import {upsertEvent, removeEvent} from '../../api/Events';
@@ -130,7 +145,7 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
                 {stadiums.length > 0 && <>
                     <IonItemDivider>{t('stadiums.stadium')}</IonItemDivider>
                     <IonItem lines="none">
-                        <IonSelect value={formData.stadium_id} interface="alert" onIonChange={(e) => setFormData({...formData, stadium_id: e.detail.value!})}>
+                        <IonSelect value={formData.stadium_id} placeholder={t('stadiums.stadium')} interface="alert" onIonChange={(e) => setFormData({...formData, stadium_id: e.detail.value!})}>
                             {stadiums.map((stadium) => (<IonSelectOption key={stadium.id} value={stadium.id}>{stadium.name}</IonSelectOption>))}
                         </IonSelect>
                     </IonItem>
@@ -154,12 +169,12 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
                     </IonItem>
                 </>}
 
-                <IonItemDivider>{t('events.event_date')}</IonItemDivider>
+                <IonItemDivider>{t('events.event_date')}<IonText color="primary">*</IonText></IonItemDivider>
                 <IonItem lines="none">
                     <IonInput placeholder={t('events.event_date_placeholder')} value={formData.event_date} type="date" onIonChange={(e) => setFormData({...formData, event_date: e.detail.value!})} />
                 </IonItem>
 
-                <IonItemDivider>{t('events.receiving_time')}</IonItemDivider>
+                <IonItemDivider>{t('events.receiving_time')}<IonText color="primary">*</IonText></IonItemDivider>
                 <IonItem lines="none">
                     <IonInput
                         value={formData.receiving_time_start}
@@ -180,7 +195,7 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
                     />
                 </IonItem>
 
-                <IonItemDivider>{t('events.first_race_time')}</IonItemDivider>
+                <IonItemDivider>{t('events.first_race_time')}<IonText color="primary">*</IonText></IonItemDivider>
                 <IonItem lines="none">
                     <IonInput value={formData.first_race_time} placeholder={t('events.first_race_time_placeholder')} type="time" onIonChange={(e) => setFormData({...formData,
                         first_race_time: (!formData.receiving_time_start || e.detail.value! > formData.receiving_time_start) ? e.detail.value! : formData.receiving_time_start

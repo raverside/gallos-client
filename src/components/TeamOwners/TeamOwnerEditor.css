@@ -17,6 +17,7 @@ ion-backdrop {
     font-size: 16px;
     text-transform: none;
     margin-right:10px;
+    margin-left:-10px;
 }
 #event-editor ion-item-divider {
     border:none;

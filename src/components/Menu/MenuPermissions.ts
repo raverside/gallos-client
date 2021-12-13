@@ -84,7 +84,7 @@ const MenuPermissions = () => {
         {title: t('events.events'), url: '/events', icon: eventsIcon},
         {title: t('stadiums.header'), url: '/stadiums', icon: stadiumsIcon},
         {title: t('teams.team_owners'), url: '/team_owners', icon: teamOwnersIcon},
-        {title: t('memberships.memberships_header'), url: '/memberships', icon: membershipsIcon},
+        {title: t('membership.memberships_header'), url: '/memberships', icon: membershipsIcon},
         {
             title: t('general.logout'), url: '/auth_admin', icon: logoutIcon,
             props: {
@@ -104,7 +104,7 @@ const MenuPermissions = () => {
         {title: t('stadiums.header'), url: '/stadiums', icon: stadiumsIcon},
         {title: t('teams.team_owners'), url: '/team_owners', icon: teamOwnersIcon},
         {title: t('transactions.transactions'), url: '/transactions', icon: transactionsIcon},
-        {title: t('memberships.memberships_header'), url: '/memberships', icon: membershipsIcon},
+        {title: t('membership.memberships_header'), url: '/memberships', icon: membershipsIcon},
         {
             title: t('general.logout'), url: '/auth_admin', icon: logoutIcon,
             props: {
