@@ -91,7 +91,7 @@ const EventReceiving: React.FC = () => {
                 </IonSegment>
                 <IonSearchbar className="searchbar" inputmode="numeric" placeholder={t('events.search')} value={participantsSearch} onIonChange={e => {setParticipantsSearch(e.detail.value!)}} />
 
-                {currentTabParticipants?.length > 0 && <IonList>
+                {currentTabParticipants?.length > 0 && <IonList className="participants-list">
                     {currentTabParticipants.map((participant:any) => <IonItem className="participant" lines="none" key={participant.id}>
                         <IonGrid>
                             <IonRow>
