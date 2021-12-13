@@ -156,7 +156,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         if (!formData.weight) isFormFilled = false;
         if (!formData.breeder_id) isFormFilled = false;
         if (!formData.breeder_name) isFormFilled = false;
-        if (formData.participated_before === undefined) isFormFilled = false;
+        if (formData.participated_before === undefined || formData.participated_before === null) isFormFilled = false;
 
         return isFormFilled;
     }
