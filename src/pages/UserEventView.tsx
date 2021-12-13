@@ -232,6 +232,7 @@ const UserEventView: React.FC = () => {
                     {event.participants?.length > 0 && <IonList>
                         {event.participants
                             .filter((p:any) => !baloteoSearch || +p.cage === +baloteoSearch || p.team?.name.toLowerCase().includes(baloteoSearch.toLowerCase()))
+                            .sort((a:any, b:any) => a.team?.name - b.team?.name)
                             .map((participant:any) => <IonItem className="participant" lines="none" key={participant.id}>
                             <IonGrid>
                                 <IonRow>
