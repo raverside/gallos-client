@@ -38,7 +38,7 @@ const CurrentUserProfile: React.FC = () => {
     const history = useHistory();
 
     const fetchCountries = async () => {
-        const countries = await getCountries(true);
+        const countries = await getCountries(false);
         if (countries.countries?.length > 0) {
             setCountries(countries.countries);
         }
