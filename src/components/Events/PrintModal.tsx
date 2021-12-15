@@ -56,15 +56,18 @@ const PrintModal: React.FC<PrintModalType> = ({event}) => {
             </IonToolbar>
             <IonContent>
                 <IonList>
-                    <IonItemDivider>Print Option{t('events.print_option')}</IonItemDivider>
+                    <IonItemDivider>{t('events.print_option')}</IonItemDivider>
                     <IonItem lines="none">
                         <IonSelect value={printOption} placeholder="Select print option" interface="alert" onIonChange={(e) => setPrintOption(e.detail.value!)}>
                             <IonSelectOption value={1}>{t('events.print_live_matches')}</IonSelectOption>
-                            <IonSelectOption value={2}>{t('events.print_available_matches')}</IonSelectOption>
-                            <IonSelectOption value={3}>{t('events.print_unmatched')}</IonSelectOption>
-                            <IonSelectOption value={4}>{t('events.print_excluded')}</IonSelectOption>
-                            <IonSelectOption value={5}>{t('events.print_all_animals')}</IonSelectOption>
-                            <IonSelectOption value={6}>{t('events.print_all_animals_nonlive')}</IonSelectOption>
+                            <IonSelectOption value={2}>{t('events.print_live_matches_cut')}</IonSelectOption>
+                            <IonSelectOption value={3}>{t('events.print_available_matches')}</IonSelectOption>
+                            <IonSelectOption value={4}>{t('events.print_available_matches_cut')}</IonSelectOption>
+                            <IonSelectOption value={5}>{t('events.print_unmatched')}</IonSelectOption>
+                            <IonSelectOption value={6}>{t('events.print_excluded')}</IonSelectOption>
+                            <IonSelectOption value={7}>{t('events.print_all_animals')}</IonSelectOption>
+                            <IonSelectOption value={8}>{t('events.print_all_animals_cut')}</IonSelectOption>
+                            <IonSelectOption value={9}>{t('events.print_all_animals_nonlive')}</IonSelectOption>
                         </IonSelect>
                     </IonItem>
                 </IonList>

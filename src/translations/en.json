@@ -191,7 +191,9 @@
       "print_unmatched": "Unmatched Animals",
       "print_excluded": "Excluded Animals",
       "print_all_animals": "All Animals",
+      "print_all_animals_cut": "All Animals (Cut)",
       "print_all_animals_nonlive": "All Animals (non-live matches)",
+      "print_participant_summary": "Animal Summary",
       "rejected": "Rejected",
       "rejected_hint": "This animal was excluded since it doesn't meet the requirements"
   },

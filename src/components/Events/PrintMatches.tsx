@@ -20,6 +20,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
 
     let printMatches = [];
     let title = "";
+    let cut = false;
 
     switch(mode) {
         case 1:
@@ -27,22 +28,37 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
             printMatches = liveMatches;
         break;
         case 2:
+            title = t('events.print_live_matches');
+            printMatches = liveMatches;
+            cut = true;
+            break;
+        case 3:
             title = t('events.print_available_matches');
             printMatches = availableMatches;
         break;
-        case 3:
+        case 4:
+            title = t('events.print_available_matches');
+            printMatches = availableMatches;
+            cut = true;
+            break;
+        case 5:
             title = t('events.print_unmatched');
             printMatches = unmatchedParticipants;
         break;
-        case 4:
+        case 6:
             title = t('events.print_excluded');
             printMatches = excludedParticipants;
         break;
-        case 5:
+        case 7:
             title = t('events.print_all_animals');
             printMatches = allParticipants;
         break;
-        case 6:
+        case 8:
+            title = t('events.print_participant_summary');
+            printMatches = allParticipants;
+            cut = true;
+            break;
+        case 9:
             title = t('events.print_all_animals_nonlive');
             printMatches = allParticipantsNonLive;
         break;
@@ -82,16 +98,18 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
 
     return (!event ? null : <>
         <div ref={ref} style={{textAlign:"center", width: "80mm", fontSize: "14px", fontFamily: "Arial"}}>
-            <h1 style={{width: "100%", textAlign:"center", fontSize: "16px", fontWeight: "bold"}}>{event.stadium_name}</h1>
-            <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", margin: "0 0 20px 0"}}>{event.title || t('events.default_event_name')}</h2>
-            <div style={{display:"flex", justifyContent: "space-between", borderBottom: "1px solid black"}}>
-                <div>Date: {moment().format('YYYY-MM-DD')}</div>
-                <div>Time: {moment().format("HH:mm")}</div>
-            </div>
-            <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", fontWeight: "bold"}}>{title}</h2>
-            {(mode == 1 || mode === 2) ? <div style={{width: "100%"}}>
-                    {printMatches?.map((match:any, index:number) =>
-                        <div>
+            {(mode == 1 || mode === 2 || mode === 3 || mode === 4) ? <div style={{width: "100%"}}>
+                    {printMatches?.map((match:any, index:number) => (<>
+                        {(index === 0 || cut) && <>
+                            <h1 style={{width: "100%", textAlign:"center", fontSize: "16px", fontWeight: "bold"}}>{event.stadium_name}</h1>
+                            <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", margin: "0 0 20px 0"}}>{event.title || t('events.default_event_name')}</h2>
+                            <div style={{display:"flex", justifyContent: "space-between", borderBottom: "1px solid black"}}>
+                                <div>Date: {moment().format('YYYY-MM-DD')}</div>
+                                <div>Time: {moment().format("HH:mm")}</div>
+                            </div>
+                            <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", fontWeight: "bold"}}>{title}</h2>
+                        </>}
+                        <div style={cut ? {pageBreakAfter: "always"} : {}}>
                             <div style={{display:"flex", justifyContent: "space-between", background: "black", color:"white"}}>
                                 <div style={{textAlign: "center", width: "25mm"}}>{t('baloteo.fight')} #{index + 1}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>VS</div>
@@ -162,43 +180,121 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.bet')}</div>
                                 <div style={{textAlign: "center", width: "25mm"}}>{getBettingPreference(match.participant, match.opponent)}</div>
                             </div>
+                            {(((index + 1) === printMatches.length) || cut) && <p style={{ fontSize: "16px", textAlign: "center", fontWeight: "bold", borderTop: "1px dashed black", padding: "10px"}}>gallosclub.com</p>}
                         </div>
+                        </>)
                     ) }
-            </div> : <table style={{width: "80mm", fontSize: "14px"}}>
-                <thead>
-                <tr style={{background: "black", color: "white", fontWeight:"bold"}}>
-                    <th>#</th>
-                    <th style={{textAlign:"left"}}>{t('events.team')}</th>
-                    <th>{t('events.weight')}</th>
-                    <th>M</th>
-                </tr>
-                </thead>
-                <tbody>
-                {printMatches?.map((participant:any, index:number) => {
-                    const betting_amount = getBettingAmount(participant);
-
-                    return (<tr style={{borderBottom: "1px solid black", lineHeight: "14px"}}>
-                        <td style={{textAlign:"center", fontWeight: "bold", verticalAlign: "top"}}><p style={{margin: "5px 0"}}>#{participant.cage}</p></td>
-                        <td style={{textAlign:"left", verticalAlign: "top"}}>
-                            <p style={{fontWeight: "bold", margin: "5px 0", verticalAlign: "top", display: "inline-block"}}>{participant.team?.name}</p>
-                            <p style={{margin: "5px 0", textTransform: "capitalize"}}>{participant.color} {participant.cresta}</p>
-                            {participant.physical_advantage !== "none" && <p  style={{margin: "5px 0", textTransform: "capitalize"}}>Ven: {participant.physical_advantage}</p>}
-                            {participant.status === "rejected" && <div style={{maxWidth: "40mm"}}>
-                                <p style={{ background: "black", color: "white", fontWeight:"bold", padding:"2px 5px"}}>{t('events.rejected')}</p>
-                                <p>{t('events.rejected_hint')}</p>
-                            </div>}
-                        </td>
-                        <td style={{textAlign:"center", verticalAlign: "top"}}>
-                            <p style={{margin: "5px 0", verticalAlign: "top", fontWeight: "bold"}}>{formatOzToLbsOz(participant.weight)}</p>
-                            <p style={{margin: "5px 0"}}>{betting_amount}</p>
-                            <p style={{margin: "5px 0"}}>{participant.participated_before ? "Peliado" : "Sin Pelear"}</p>
-                        </td>
-                        <td style={{textAlign:"center", verticalAlign: "top", fontWeight: "bold"}}><p style={{margin: "5px 0"}}>{participant.type}</p></td>
-                    </tr>);}
+            </div> : (mode === 8) ? <div style={{width: "100%"}}>
+                {printMatches?.map((participant:any, index:number) => (<>
+                        {(index === 0 || cut) && <>
+                            <h1 style={{width: "100%", textAlign:"center", fontSize: "16px", fontWeight: "bold"}}>{event.stadium_name}</h1>
+                            <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", margin: "0 0 20px 0"}}>{event.title || t('events.default_event_name')}</h2>
+                            <div style={{display:"flex", justifyContent: "space-between", borderBottom: "1px solid black"}}>
+                                <div>Date: {moment().format('YYYY-MM-DD')}</div>
+                                <div>Time: {moment().format("HH:mm")}</div>
+                            </div>
+                            <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", fontWeight: "bold"}}>{title}</h2>
+                        </>}
+                        <div style={cut ? {pageBreakAfter: "always"} : {}}>
+                            <div style={{width: "100%", textAlign:"center", fontSize: "16px", fontWeight: "bold", background: "black", color:"white", padding: "5px 0"}}>
+                                #{participant.cage} {participant.team?.name}
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.type')}</div>
+                                <div style={{textAlign: "center", width: "40mm"}}>{participant.type}</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.stadium_id')}</div>
+                                <div style={{textAlign: "center", width: "40mm"}}>{participant.stadium_id}</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.color')}</div>
+                                <div style={{textAlign: "center", width: "40mm", textTransform: "capitalize"}}>{participant.color}</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.cresta')}</div>
+                                <div style={{textAlign: "center", width: "40mm", textTransform: "capitalize"}}>{participant.cresta}</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.alas')}</div>
+                                <div style={{textAlign: "center", width: "40mm"}}>{participant.alas}</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.patas')}</div>
+                                <div style={{textAlign: "center", width: "40mm"}}>{participant.pata}</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.breeder_id')}</div>
+                                <div style={{textAlign: "center", width: "40mm"}}>{participant.breeder_id}</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.breeder_name')}</div>
+                                <div style={{textAlign: "center", width: "40mm"}}>{participant.breeder_name}</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.weight')}</div>
+                                <div style={{textAlign: "center", width: "40mm"}}>{formatOzToLbsOz(participant.weight)}</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.participated_before')}</div>
+                                <div style={{textAlign: "center", width: "40mm"}}>{participant.participated_before ? "Peliado" : "Sin Pelear"}</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.advantage')}</div>
+                                <div style={{textAlign: "center", width: "40mm", textTransform: "capitalize"}}>{participant.physical_advantage}</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.betting_amount')}</div>
+                                <div style={{textAlign: "center", width: "40mm"}}>{getBettingAmount(participant)}</div>
+                            </div>
+                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                                <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.betting_preference')}</div>
+                                <div style={{textAlign: "center", width: "40mm", textTransform: "capitalize"}}>{participant.betting_pref}</div>
+                            </div>
+                            <div style={{textTransform:"uppercase", width: "100%", textAlign:"center", fontSize: "20px", fontWeight: "bold", borderTop: "5px solid black", borderBottom: "5px solid black", margin: "10px 0", padding: "5px 0"}}>
+                                {participant.status}
+                            </div>
+                            {(index === printMatches.length || cut) && <p style={{ fontSize: "16px", textAlign: "center", fontWeight: "bold", borderTop: "1px dashed black", padding: "10px"}}>gallosclub.com</p>}
+                        </div>
+                    </>)
                 ) }
-                </tbody>
-            </table>}
-            <p style={{ fontSize: "16px", textAlign: "center", fontWeight: "bold", borderTop: "1px dashed black", padding: "10px"}}>gallosclub.com</p>
+            </div> : <>
+                <table style={{width: "80mm", fontSize: "14px"}}>
+                    <thead>
+                    <tr style={{background: "black", color: "white", fontWeight:"bold"}}>
+                        <th>#</th>
+                        <th style={{textAlign:"left"}}>{t('events.team')}</th>
+                        <th>{t('events.weight')}</th>
+                        <th>M</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {printMatches?.map((participant:any, index:number) => {
+                        const betting_amount = getBettingAmount(participant);
+
+                        return (<tr style={{borderBottom: "1px solid black", lineHeight: "14px"}}>
+                            <td style={{textAlign:"center", fontWeight: "bold", verticalAlign: "top"}}><p style={{margin: "5px 0"}}>#{participant.cage}</p></td>
+                            <td style={{textAlign:"left", verticalAlign: "top"}}>
+                                <p style={{fontWeight: "bold", margin: "5px 0", verticalAlign: "top", display: "inline-block"}}>{participant.team?.name}</p>
+                                <p style={{margin: "5px 0", textTransform: "capitalize"}}>{participant.color} {participant.cresta}</p>
+                                {participant.physical_advantage !== "none" && <p  style={{margin: "5px 0", textTransform: "capitalize"}}>Ven: {participant.physical_advantage}</p>}
+                                {participant.status === "rejected" && <div style={{maxWidth: "40mm"}}>
+                                    <p style={{ background: "black", color: "white", fontWeight:"bold", padding:"2px 5px"}}>{t('events.rejected')}</p>
+                                    <p>{t('events.rejected_hint')}</p>
+                                </div>}
+                            </td>
+                            <td style={{textAlign:"center", verticalAlign: "top"}}>
+                                <p style={{margin: "5px 0", verticalAlign: "top", fontWeight: "bold"}}>{formatOzToLbsOz(participant.weight)}</p>
+                                <p style={{margin: "5px 0"}}>{betting_amount}</p>
+                                <p style={{margin: "5px 0"}}>{participant.participated_before ? "Peliado" : "Sin Pelear"}</p>
+                            </td>
+                            <td style={{textAlign:"center", verticalAlign: "top", fontWeight: "bold"}}><p style={{margin: "5px 0"}}>{participant.type}</p></td>
+                        </tr>);}
+                    ) }
+                    </tbody>
+                </table>
+                <p style={{ fontSize: "16px", textAlign: "center", fontWeight: "bold", borderTop: "1px dashed black", padding: "10px"}}>gallosclub.com</p>
+            </>}
         </div>
     </>);
 });

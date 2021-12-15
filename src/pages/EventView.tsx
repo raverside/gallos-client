@@ -148,8 +148,8 @@ const EventView: React.FC = () => {
                     </div>
                     <IonText>{event?.description}</IonText>
                     <div className="event-phase-baloteo">
-                        <IonText className="event-phase-header">{t('event.baloteo_available')}</IonText>
-                        <IonText className="event-phase">{event?.phase} {t('event.phase')}</IonText>
+                        <IonText className="event-phase-header">{t('events.baloteo_available')}</IonText>
+                        <IonText className="event-phase">{event?.phase} {t('events.phase')}</IonText>
                     </div>
                 </div>
                 <Gallery
