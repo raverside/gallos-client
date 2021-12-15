@@ -30,7 +30,7 @@ const MenuPermissions = () => {
 
     appPages["user"] = [
         {title: t('general.home'), url: '/', icon: homeIcon},
-        {title: t('membership.membership'), url: '/user_membership', icon: membershipsIcon},
+        // {title: t('membership.membership'), url: '/user_membership', icon: membershipsIcon},
         {title: t('contact.header'), url: '/contact', icon: contactIcon},
         {
             title: t('general.logout'), url: '/auth', icon: logoutIcon,
