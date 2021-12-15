@@ -2,6 +2,7 @@ import {IonSelect, IonSelectOption} from '@ionic/react';
 import React, {useState} from "react";
 import {setLanguage} from "react-multi-lang";
 import Cookies from "js-cookie";
+import moment from 'moment';
 
 import './LanguagePicker.css';
 
@@ -14,6 +15,7 @@ const LanguagePicker: React.FC = () => {
         setLang(lang);
         setLanguage(lang);
         Cookies.set('lang', lang, { expires: 365 });
+        moment.locale(lang);
     }
 
     return (
