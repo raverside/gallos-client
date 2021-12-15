@@ -17,9 +17,9 @@ const LanguagePicker: React.FC = () => {
     }
 
     return (
-        <IonSelect className="language-picker" value={lang} interface="alert" onIonChange={(e) => pickLanguage(e.detail.value)}>
-            <IonSelectOption value="en">EN</IonSelectOption>
-            <IonSelectOption value="esp">ESP</IonSelectOption>
+        <IonSelect className="language-picker" value={lang} interface="popover" onIonChange={(e) => pickLanguage(e.detail.value)}>
+            <IonSelectOption value="en">English</IonSelectOption>
+            <IonSelectOption value="esp">Español</IonSelectOption>
         </IonSelect>);
 };
 

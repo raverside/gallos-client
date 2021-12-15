@@ -4,3 +4,6 @@
     right:15px;
     font-weight:600;
 }
+.popover-wrapper ion-item:last-of-type {
+    --border-color:transparent;
+}
