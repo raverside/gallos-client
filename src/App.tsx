@@ -31,6 +31,8 @@ import {useContext} from "react";
 import AutoRelogin from './AutoRelogin';
 import { setDefaultLanguage, setDefaultTranslations } from 'react-multi-lang';
 import staticEN from './translations/en.json';
+import staticESP from './translations/esp.json';
+import Cookies from "js-cookie";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -60,8 +62,9 @@ const JudgeMatchTimer = React.lazy( () => import('./pages/JudgeMatchTimer'));
 
 setupConfig({mode: 'md'});
 
-setDefaultTranslations({en: staticEN});
-setDefaultLanguage('en');
+setDefaultTranslations({en: staticEN, esp: staticESP});
+const currentLang = Cookies.get('lang');
+setDefaultLanguage(currentLang ? currentLang : 'en');
 
 const App: React.FC = () => {
     return (

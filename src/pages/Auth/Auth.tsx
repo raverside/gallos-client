@@ -6,6 +6,7 @@ import {AppContext} from "../../State";
 import logo from '../../img/doublerooster.png';
 import {paperPlane as paperPlaneIcon} from "ionicons/icons";
 import { useTranslation } from 'react-multi-lang';
+import LanguagePicker from "../../components/LanguagePicker";
 
 const Auth: React.FC = () => {
     const t = useTranslation();
@@ -20,6 +21,7 @@ const Auth: React.FC = () => {
     return (
         <IonPage>
             <IonContent fullscreen id="auth-content">
+                <LanguagePicker />
                 <IonGrid className="auth-grid">
                     <IonRow>
                         <IonCol>

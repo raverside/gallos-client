@@ -2,6 +2,7 @@ import {IonContent, IonPage, IonImg, IonText, IonButton, IonGrid, IonRow, IonCol
 import './Auth.css';
 import React, {useState, useContext, useEffect} from "react";
 import {formatPasscode} from '../../components/utils';
+import LanguagePicker from '../../components/LanguagePicker';
 import {loginAdmin} from '../../api/Auth';
 import Cookies from "js-cookie";
 import { AppContext } from '../../State';
@@ -55,6 +56,7 @@ const Auth: React.FC = () => {
     return (
         <IonPage>
             <IonContent fullscreen id="auth-content">
+                <LanguagePicker />
                 <IonGrid className="auth-grid">
                     <IonRow>
                         <IonCol>
