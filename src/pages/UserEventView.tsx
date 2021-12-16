@@ -31,12 +31,14 @@ import fullscreenIcon from "../img/fullscreen.png";
 import moment from "moment";
 import {shareSocialOutline as shareIcon} from "ionicons/icons";
 import ShareEventImage from "../components/Events/ShareEventImage";
+import ShareParticipantImage from "../components/Events/ShareParticipantImage";
 import {useHistory} from "react-router-dom";
 import {AppContext} from "../State";
 
 // @ts-ignore
 import domtoimage from "dom-to-image-improved";
 import {useTranslation} from "react-multi-lang";
+import ParticipantGallery from "../components/Events/ParticipantGallery";
 
 type eventType = any;
 
@@ -48,10 +50,14 @@ const UserEventView: React.FC = () => {
     const [showFullscreen, setShowFullscreen] = useState<boolean>(false);
     const [showLoading, setShowLoading] = useState<boolean>(false);
     const [showShare, setShowShare] = useState<eventType|false>(false);
+    const [showShareParticipant, setShowShareParticipant] = useState<any>(false);
     const [baloteoTab, setBaloteoTab] = useState<string>("receiving");
     const [baloteoSearch, setBaloteoSearch] = useState<string>("");
+    const [selectedGalleryParticipant, setSelectedGalleryParticipant] = useState<any>(false);
+    const [showGalleryImage, setShowGalleryImage] = useState<boolean>(false);
     const history = useHistory();
     const shareRef = React.useRef();
+    const shareParticipantRef = React.useRef();
 
     useEffect(() => {
         fetchEvent();
@@ -59,6 +65,11 @@ const UserEventView: React.FC = () => {
             fetchEvent();
         });
     }, []);
+
+    const viewParticipantImage = (participant:any) => {
+        setSelectedGalleryParticipant(participant);
+        setShowGalleryImage(true);
+    }
 
     const fetchEvent = async () => {
         setShowLoading(true);
@@ -97,6 +108,32 @@ const UserEventView: React.FC = () => {
             // @ts-ignore
             if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
                 navigator.share({title: event.title || t('events.default_event_name'), files: filesArray});
+            }
+        });
+    }
+
+    const shareParticipant = async (participant:any) => {
+        if (!participant) return false;
+        const element = shareParticipantRef.current;
+        setShowShareParticipant(participant);
+        domtoimage.toBlob(element!).then((blob:Blob) => {
+            const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
+
+            //download the file
+            const a = document.createElement("a");
+            a.href  = window.URL.createObjectURL(file);
+            a.setAttribute("download", file.name);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            const filesArray:any = [file];
+            setShowShareParticipant(false);
+
+            //share the file
+            // @ts-ignore
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
+                navigator.share({title: participant.team?.name, files: filesArray});
             }
         });
     }
@@ -162,7 +199,11 @@ const UserEventView: React.FC = () => {
                                 <IonRow>
                                     <IonCol size="5">
                                         <div className="blue_side">
-                                            <IonImg className={match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image"} src={getImageUrl(match.participant?.image)} />
+                                            <IonImg
+                                                className={match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image"}
+                                                src={getImageUrl(match.participant?.image)}
+                                                onClick={() => viewParticipantImage(match.participant)}
+                                            />
                                             <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
                                         </div>
                                     </IonCol>
@@ -173,7 +214,11 @@ const UserEventView: React.FC = () => {
                                     </IonCol>
                                     <IonCol size="5">
                                         <div className="white_side">
-                                            <IonImg className={match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped"} src={getImageUrl(match.opponent?.image)} />
+                                            <IonImg
+                                                className={match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped"}
+                                                src={getImageUrl(match.opponent?.image)}
+                                                onClick={() => viewParticipantImage(match.opponent)}
+                                            />
                                             <p className="baloteo-match-team_name">{match.opponent?.team?.name}</p>
                                         </div>
                                     </IonCol>
@@ -232,13 +277,17 @@ const UserEventView: React.FC = () => {
                     {event.participants?.length > 0 && <IonList>
                         {event.participants
                             .filter((p:any) => !baloteoSearch || +p.cage === +baloteoSearch || p.team?.name.toLowerCase().includes(baloteoSearch.toLowerCase()))
-                            .sort((a:any, b:any) => a.team?.name - b.team?.name)
+                            .sort((a:any, b:any) => a.cage - b.cage)
                             .map((participant:any) => <IonItem className="participant" lines="none" key={participant.id}>
                             <IonGrid>
                                 <IonRow>
                                     <IonCol size="2">{participant.cage}</IonCol>
                                     <IonCol size="6">
-                                        {participant.image && <IonImg src={getImageUrl(participant.image)} className={participant.image_flipped ? "participant-thumb baloteo flipped" : "participant-thumb baloteo"} />}
+                                        {participant.image && <IonImg
+                                            src={getImageUrl(participant.image)}
+                                            className={participant.image_flipped ? "participant-thumb baloteo flipped" : "participant-thumb baloteo"}
+                                            onClick={() => viewParticipantImage(participant)}
+                                        />}
                                         <div className="baloteo-participant-creds">
                                             <div className="baloteo-participant-name">{participant.team?.name}</div>
                                             {(participant.status === "approved") && <div className="baloteo-participant-status green">{participant.status}</div>}
@@ -252,7 +301,7 @@ const UserEventView: React.FC = () => {
                                         </div>
                                     </IonCol>
                                     <IonCol size="2">
-                                        <IonButton fill="clear" color="dark" onClick={() => {}}><IonIcon className="view-note-menu" icon={shareIcon} /></IonButton>
+                                        <IonButton fill="clear" color="dark" onClick={() => shareParticipant(participant)}><IonIcon className="view-note-menu" icon={shareIcon} /></IonButton>
                                     </IonCol>
                                 </IonRow>
                             </IonGrid>
@@ -266,8 +315,18 @@ const UserEventView: React.FC = () => {
                     setShowModal={setShowFullscreen}
                     images={[image]}
                 />
+
+                <ParticipantGallery
+                    participant={selectedGalleryParticipant}
+                    showModal={showGalleryImage}
+                    setShowModal={setShowGalleryImage}
+                    eventPhase={event.phase}
+                />
                 <div style={showShare ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
                     <ShareEventImage event={event} close={() => setShowShare(false)}  ref={shareRef} />
+                </div>
+                <div style={showShareParticipant ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
+                    <ShareParticipantImage participant={showShareParticipant} close={() => setShowShareParticipant(false)}  ref={shareParticipantRef} />
                 </div>
                 <IonLoading
                     isOpen={showLoading}

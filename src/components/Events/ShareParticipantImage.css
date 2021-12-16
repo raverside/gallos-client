@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+.share-participant-info {
+    width:300px;
+    display:inline-block;
+}
+.share-participant-wrapper {
+    width: 900px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.shareable-participant-image {
+    width:600px;
+    height:600px;
+    position:relative;
+    display:inline-block;
+}
+.shareable-participant-image img {
+    width:100%;
+}
+.shareable-participant-image_title {
+    position:absolute;
+    bottom:-5px;
+    left:0;right:0;
+    text-align:center;
+    color:white;
+    font-size:32px;
+    text-transform:uppercase;
+    padding:20px 10px;
+    background-color: #EB0404;
+    font-weight:600;
+    font-family: 'Open Sans', sans-serif;
+}
+.shareable-image_footer {
+    text-align:center;
+    background-color: #EB0404;
+    font-weight: 600;
+    color: white;
+    padding: 6px;
+    font-size:18px;
+    width:100%;
+}
+.share-logo {
+    width:900px;
+}
+.share-logo .logo {
+    background-color:white;
+    margin:0 auto 0 auto;
+    padding:10px;
+    display:block;
+    height:50px;
+}
+.share-participant-type_label {
+    font-size:14px;
+    margin-top:10px;
+    font-family: 'Open Sans', sans-serif;
+}
+.share-participant-type {
+    color: #EB0404;
+    font-weight:600;
+    font-family: 'Open Sans', sans-serif;
+    font-size:16px;
+    text-transform:uppercase;
+}

@@ -12,7 +12,7 @@ import {AppContext} from "../../State";
 type GalleryProps = {
     showModal: boolean;
     setShowModal: (show:boolean) => void;
-    showPhotoUploader: (participant:any) => void;
+    showPhotoUploader?: (participant:any) => void;
     eventPhase: string;
     participant: any;
 };
@@ -27,12 +27,12 @@ const ParticipantGallery: React.FC<GalleryProps> = ({participant, showModal, set
         <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)} cssClass="gallery-modal">
             <IonHeader>
                 <IonToolbar className="modal-header">
-                    {(eventPhase === "receiving" || (state.user.role === "admin" || state.user.role === "admin_manager" || state.user.role === "admin_worker")) &&
+                    {(state.user.role !== "user" && showPhotoUploader && (eventPhase === "receiving" || (state.user.role === "admin" || state.user.role === "admin_manager" || state.user.role === "admin_worker"))) &&
                         <IonButton
                             fill="clear"
                             slot="start"
                             className="edit-photo-button"
-                            onClick={() => {setShowModal(false);showPhotoUploader(participant)}}
+                            onClick={() => {setShowModal(false); showPhotoUploader(participant)}}
                         >
                             {t('events.edit_photo')}
                         </IonButton>
