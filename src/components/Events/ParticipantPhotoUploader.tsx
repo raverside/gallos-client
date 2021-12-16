@@ -10,7 +10,7 @@ import {
     IonItemDivider,
     IonButton,
     IonText,
-    IonProgressBar
+    IonProgressBar, useIonToast
 } from '@ionic/react';
 import {closeOutline as closeIcon} from "ionicons/icons";
 import AnimalImagePicker from './AnimalImagePicker';
@@ -56,6 +56,7 @@ type ParticipantProps = {
 const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close, event, participant= false}) => {
     const t = useTranslation();
     const { state } = useContext(AppContext);
+    const [presentToast] = useIonToast();
     const [formData, setFormData] = useState<any>({
         ...participant,
         image: participant ? participant.image : null,
@@ -80,6 +81,7 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
             fetchEvent();
             setUploading(false);
             state.socket?.emit('updateEvents');
+            presentToast(t('events.saved'), 1000);
         }
         close();
     }

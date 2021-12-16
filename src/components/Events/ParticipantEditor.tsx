@@ -15,7 +15,7 @@ import {
     IonRadioGroup,
     IonRadio,
     IonLabel,
-    IonText, IonTextarea, IonModal, IonProgressBar
+    IonText, IonTextarea, IonModal, IonProgressBar, useIonToast
 } from '@ionic/react';
 import {closeOutline as closeIcon} from "ionicons/icons";
 import AnimalImagePicker from './AnimalImagePicker';
@@ -90,6 +90,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         stadium_id: participant ? participant.stadium_id : undefined,
         stadium_name: participant ? participant.stadium_name : undefined,
     });
+    const [presentToast] = useIonToast();
     const [uploading, setUploading] = useState<boolean>(false);
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
 
@@ -168,6 +169,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
             fetchEvent();
             setUploading(false);
             state.socket?.emit('updateEvents');
+            presentToast(t('events.saved'), 1000);
         }
         if (formData.id) {
             close();
@@ -192,6 +194,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
             fetchEvent();
             setUploading(false);
             state.socket?.emit('updateEvents');
+            presentToast(t('events.saved'), 1000);
         }
         close();
     }
@@ -205,6 +208,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
             fetchEvent();
             setUploading(false);
             state.socket?.emit('updateEvents');
+            presentToast(t('events.saved'), 1000);
         }
         close();
     }
