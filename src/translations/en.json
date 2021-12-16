@@ -195,7 +195,8 @@
       "print_all_animals_nonlive": "All Animals (non-live matches)",
       "print_participant_summary": "Animal Summary",
       "rejected": "Rejected",
-      "rejected_hint": "This animal was excluded since it doesn't meet the requirements"
+      "rejected_hint": "This animal was excluded since it doesn't meet the requirements",
+      "edit_photo": "Edit"
   },
   "judge": {
       "no_baloteo": "No Baloteo",

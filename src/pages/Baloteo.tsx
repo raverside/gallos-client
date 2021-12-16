@@ -34,6 +34,8 @@ import ShareMatchImage from "../components/Events/ShareMatchImage";
 import {useReactToPrint} from "react-to-print";
 import PrintMatch from '../components/Events/PrintMatch';
 import {useTranslation} from "react-multi-lang";
+import ParticipantGallery from "../components/Events/ParticipantGallery";
+import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploader";
 
 const Baloteo: React.FC = () => {
     const t = useTranslation();
@@ -46,6 +48,10 @@ const Baloteo: React.FC = () => {
     const [selectPrintMatch, setSelectPrintMatch] = useState<any>(false);
     const [showPrintModal, setShowPrintModal] = useState<boolean>(false);
     const [switchSidesDisabled, setSwitchSidesDisabled] = useState<boolean>(false);
+    const [selectedParticipant, setSelectedParticipant] = useState<any>(false);
+    const [selectedGalleryParticipant, setSelectedGalleryParticipant] = useState<any>(false);
+    const [showParticipantPhotoUploader, setShowParticipantPhotoUploader] = useState<boolean>(false);
+    const [showGalleryImage, setShowGalleryImage] = useState<boolean>(false);
     const { id } = useParams<{id:string}>();
     const [present, dismiss] = useIonActionSheet();
     const history = useHistory();
@@ -66,6 +72,16 @@ const Baloteo: React.FC = () => {
             setEvent(response.event);
         }
     };
+
+    const viewParticipantImage = (participant:any) => {
+        setSelectedGalleryParticipant(participant);
+        setShowGalleryImage(true);
+    }
+
+    const showPhotoUploader = (participant:any) => {
+        setSelectedParticipant(participant);
+        setShowParticipantPhotoUploader(true);
+    }
 
     const matches = (event && baloteoSearch) ? event.matches?.filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name === baloteoSearch || m.opponent?.team?.name === baloteoSearch) : event.matches;
     const liveMatches = matches?.filter((p:any) => p.live).sort((a:any, b:any) => a.manual - b.manual) || [];
@@ -184,7 +200,11 @@ const Baloteo: React.FC = () => {
                                 <IonRow>
                                     <IonCol size="5">
                                         <div className="blue_side">
-                                            <IonImg className={(match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image") + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.participant?.image, true)} />
+                                            <IonImg
+                                                onClick={() => viewParticipantImage(match.participant)}
+                                                className={(match.participant?.image_flipped ? "baloteo-match-image flipped " : "baloteo-match-image") + (!match.participant?.image ? " placeholder_rooster" : "")}
+                                                src={getImageUrl(match.participant?.image, true)}
+                                            />
                                             <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
                                         </div>
                                     </IonCol>
@@ -204,7 +224,11 @@ const Baloteo: React.FC = () => {
                                     </IonCol>
                                     <IonCol size="5">
                                         <div className="white_side">
-                                            <IonImg className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.opponent?.image, true)} />
+                                            <IonImg
+                                                onClick={() => viewParticipantImage(match.opponent)}
+                                                className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image ? " placeholder_rooster" : "")}
+                                                src={getImageUrl(match.opponent?.image, true)}
+                                            />
                                             <p className="baloteo-match-team_name">{match.opponent?.team?.name}</p>
                                         </div>
                                     </IonCol>
@@ -228,7 +252,11 @@ const Baloteo: React.FC = () => {
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="5">
-                                        <IonImg className={(match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image")  + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.participant?.image, true)} />
+                                        <IonImg
+                                            className={(match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image")  + (!match.participant?.image ? " placeholder_rooster" : "")}
+                                            src={getImageUrl(match.participant?.image, true)}
+                                            onClick={() => viewParticipantImage(match.participant)}
+                                        />
                                         <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
                                     </IonCol>
                                     <IonCol size="2">
@@ -236,7 +264,11 @@ const Baloteo: React.FC = () => {
                                         <p className="baloteo-match-vs">VS</p>
                                     </IonCol>
                                     <IonCol size="5">
-                                        <IonImg className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image && " placeholder_rooster")} src={getImageUrl(match.opponent?.image, true)} />
+                                        <IonImg
+                                            onClick={() => viewParticipantImage(match.opponent)}
+                                            className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image ? " placeholder_rooster" : "")}
+                                            src={getImageUrl(match.opponent?.image, true)}
+                                        />
                                         <p className="baloteo-match-team_name">{match.opponent?.team?.name}</p>
                                     </IonCol>
                                 </IonRow>
@@ -255,7 +287,11 @@ const Baloteo: React.FC = () => {
                                     <IonRow>
                                         <IonCol size="1">{participant.cage}</IonCol>
                                         <IonCol size="6">
-                                            <IonImg src={getImageUrl(participant.image)} className={participant.image_flipped ? "participant-thumb baloteo flipped" : "participant-thumb baloteo"} />
+                                            <IonImg
+                                                onClick={() => viewParticipantImage(participant)}
+                                                src={getImageUrl(participant.image)}
+                                                className={participant.image_flipped ? "participant-thumb baloteo flipped" : "participant-thumb baloteo"}
+                                            />
                                             <div className="baloteo-participant-creds">
                                                 <div className="baloteo-participant-name">{participant.team?.name}</div>
                                                 <div className="baloteo-participant-type">{participant.type}</div>
@@ -277,7 +313,11 @@ const Baloteo: React.FC = () => {
                                     <IonRow>
                                         <IonCol size="1">{participant.cage}</IonCol>
                                         <IonCol size="6">
-                                            <IonImg src={getImageUrl(participant.image)} className={participant.image_flipped ? "participant-thumb baloteo flipped" : "participant-thumb baloteo"} />
+                                            <IonImg
+                                                onClick={() => viewParticipantImage(participant)}
+                                                src={getImageUrl(participant.image)}
+                                                className={participant.image_flipped ? "participant-thumb baloteo flipped" : "participant-thumb baloteo"}
+                                            />
                                             <div className="baloteo-participant-creds">
                                                 <div className="baloteo-participant-name">{participant.team?.name}</div>
                                                 <div className="baloteo-participant-type">{participant.type}</div>
@@ -315,6 +355,21 @@ const Baloteo: React.FC = () => {
                     <ShareMatchImage match={showShareMatch} close={() => setShowShareMatch(false)} />
                 </IonModal>
                 <div style={{ overflow: "hidden", height: 0, width: 0 }}><PrintMatch ref={printWrapperRef} event={event} match={selectPrintMatch} /></div>
+                <ParticipantGallery
+                    participant={selectedGalleryParticipant}
+                    showModal={showGalleryImage}
+                    setShowModal={setShowGalleryImage}
+                    showPhotoUploader={showPhotoUploader}
+                    eventPhase={event.phase}
+                />
+                <IonModal isOpen={!!showParticipantPhotoUploader} onDidDismiss={() => setShowParticipantPhotoUploader(false)}>
+                    <ParticipantPhotoUploader
+                        close={() => setShowParticipantPhotoUploader(false)}
+                        event={event}
+                        fetchEvent={fetchEvent}
+                        participant={selectedParticipant}
+                    />
+                </IonModal>
                 </IonContent>
         </IonPage>
     );

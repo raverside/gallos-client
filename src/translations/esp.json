@@ -195,7 +195,8 @@
       "print_all_animals_nonlive": "Gallos Sin Combates En Vivo",
       "print_participant_summary": "Resumen de Gallo",
       "rejected": "Rechazado",
-      "rejected_hint": "Este animal fue excluido de ser baloteado."
+      "rejected_hint": "Este animal fue excluido de ser baloteado.",
+      "edit_photo": "Editar"
   },
   "judge": {
       "no_baloteo": "Tablero de Baloteo",

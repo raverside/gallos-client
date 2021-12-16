@@ -19,12 +19,12 @@ import ParticipantEditor from "../components/Events/ParticipantEditor";
 import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploader";
 import Matchmaking from "../components/Events/Matchmaking";
 import editIcon from "../img/edit.png";
-import versusIcon from "../img/versus.png";
 import {cameraReverseOutline as addPhotoIcon, ellipsisHorizontal as menuIcon} from 'ionicons/icons';
 import {getImageUrl, formatOzToLbsOz} from "../components/utils";
 import ConfirmPrompt from "../components/ConfirmPrompt";
 import {useTranslation} from "react-multi-lang";
 import PrintModal from "../components/Events/PrintModal";
+import ParticipantGallery from "../components/Events/ParticipantGallery";
 
 const EventReceiving: React.FC = () => {
     const t = useTranslation();
@@ -33,6 +33,7 @@ const EventReceiving: React.FC = () => {
     const [participantsSearch, setParticipantsSearch] = useState<string>("");
     const [participantsTab, setParticipantsTab] = useState<string>("saved");
     const [selectedParticipant, setSelectedParticipant] = useState<any>(false);
+    const [selectedGalleryParticipant, setSelectedGalleryParticipant] = useState<any>(false);
     const [showParticipantEditor, setShowParticipantEditor] = useState<boolean>(false);
     const [showParticipantPhotoUploader, setShowParticipantPhotoUploader] = useState<boolean>(false);
     const [showConfirmPhotoless, setShowConfirmPhotoless] = useState<boolean>(false);
@@ -40,6 +41,7 @@ const EventReceiving: React.FC = () => {
     const [showPrintModal, setShowPrintModal] = useState<boolean>(false);
     const { id } = useParams<{id:string}>();
     const [present, dismiss] = useIonActionSheet();
+    const [showGalleryImage, setShowGalleryImage] = useState<boolean>(false);
 
     useEffect(() => {
         fetchEvent();
@@ -51,6 +53,16 @@ const EventReceiving: React.FC = () => {
             setEvent(response.event);
         }
     };
+
+    const viewParticipantImage = (participant:any) => {
+        setSelectedGalleryParticipant(participant);
+        setShowGalleryImage(true);
+    }
+
+    const showPhotoUploader = (participant:any) => {
+        setSelectedParticipant(participant);
+        setShowParticipantPhotoUploader(true);
+    }
 
     const participants = participantsSearch ? event.participants?.filter((p:any) =>
         p.cage === +participantsSearch ||
@@ -107,8 +119,8 @@ const EventReceiving: React.FC = () => {
                             <IonRow>
                                 <IonCol size="1">{participant.cage}</IonCol>
                                 <IonCol size="7" style={{display: "flex", alignItems: "center"}}>
-                                    {participant.image && <IonImg src={getImageUrl(participant.image)} className={participant.image_flipped ? "participant-thumb flipped" : "participant-thumb"} />}
-                                    {!participant.image && <IonButton className="participant-placeholder" fill="clear" onClick={() => {setSelectedParticipant(participant); setShowParticipantPhotoUploader(true);}}><IonIcon icon={addPhotoIcon} slot="icon-only" /></IonButton>}
+                                    {participant.image && <IonImg src={getImageUrl(participant.image)} onClick={() => viewParticipantImage(participant)} className={participant.image_flipped ? "participant-thumb flipped" : "participant-thumb"} />}
+                                    {!participant.image && <IonButton className="participant-placeholder" fill="clear" onClick={() => {showPhotoUploader(participant)}}><IonIcon icon={addPhotoIcon} slot="icon-only" /></IonButton>}
                                     <IonText>{participant.team?.name}</IonText>
                                 </IonCol>
                                 <IonCol size="2" className="participant-weight-class">
@@ -149,6 +161,13 @@ const EventReceiving: React.FC = () => {
                     title={t('events.confirm_matchmaking_title')}
                     subtitle={t('events.confirm_matchmaking_subtitle')}
                     onResult={(data, isConfirmed) => {isConfirmed && setShowMatchmaking(true); setShowConfirmPhotoless(false)}}
+                />
+                <ParticipantGallery
+                    participant={selectedGalleryParticipant}
+                    showModal={showGalleryImage}
+                    setShowModal={setShowGalleryImage}
+                    showPhotoUploader={showPhotoUploader}
+                    eventPhase={event.phase}
                 />
             </IonContent>
         </IonPage>
