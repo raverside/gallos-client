@@ -21,7 +21,12 @@ import {getEvent, publishMatch, swapSides, announceEvent, deleteMatch} from "../
 import './Baloteo.css';
 import {useHistory, useParams} from "react-router-dom";
 import {getImageUrl, formatOzToLbsOz} from "../components/utils";
-import {swapHorizontalOutline as switchSidesIcon, closeOutline as closeIcon, ellipsisHorizontal as menuIcon} from "ionicons/icons";
+import {
+    swapHorizontalOutline as switchSidesIcon,
+    closeOutline as closeIcon,
+    ellipsisHorizontal as menuIcon,
+    printOutline as printIcon
+} from "ionicons/icons";
 import ConfirmPrompt from "../components/ConfirmPrompt";
 import PairManual from "../components/Events/PairManual";
 import PrintModal from "../components/Events/PrintModal";
@@ -39,6 +44,7 @@ const Baloteo: React.FC = () => {
     const [showPairModal, setShowPairModal] = useState<string|false>(false);
     const [showShareMatch, setShowShareMatch] = useState<any>(false);
     const [selectPrintMatch, setSelectPrintMatch] = useState<any>(false);
+    const [showPrintModal, setShowPrintModal] = useState<boolean>(false);
     const [switchSidesDisabled, setSwitchSidesDisabled] = useState<boolean>(false);
     const { id } = useParams<{id:string}>();
     const [present, dismiss] = useIonActionSheet();
@@ -119,7 +125,13 @@ const Baloteo: React.FC = () => {
                         <p className="page-subtitle">{event.phase}</p>
                     </IonTitle>
                     <IonButtons slot="end">
-                        <PrintModal event={event}/>
+                        <IonIcon
+                            icon={printIcon}
+                            className="print-icon"
+                            slot="end"
+                            onClick={() => setShowPrintModal(true)}
+                        />
+                        <PrintModal event={event} showModal={showPrintModal} setShowModal={setShowPrintModal} />
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>

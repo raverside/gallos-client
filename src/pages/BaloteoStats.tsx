@@ -13,7 +13,7 @@ import {
     IonRow,
     IonCol,
     IonImg, IonGrid, IonList, IonItem,
-    IonCard
+    IonCard, IonIcon
 } from '@ionic/react';
 import React, {useEffect, useState} from "react";
 import {getEvent} from "../api/Events";
@@ -22,12 +22,15 @@ import './Baloteo.css';
 import {useParams} from "react-router-dom";
 import {getImageUrl, formatOzToLbsOz} from "../components/utils";
 import {useTranslation} from "react-multi-lang";
+import {printOutline as printIcon} from "ionicons/icons";
+import PrintModal from "../components/Events/PrintModal";
 
 const BaloteoStats: React.FC = () => {
     const t = useTranslation();
     const [event, setEvent] = useState<any>([]);
     const [baloteoSearch, setBaloteoSearch] = useState<string>("");
     const [baloteoTab, setBaloteoTab] = useState<string>("matches");
+    const [showPrintModal, setShowPrintModal] = useState<boolean>(false);
     const { id } = useParams<{id:string}>();
 
     useEffect(() => {
@@ -51,10 +54,19 @@ const BaloteoStats: React.FC = () => {
                     <IonButtons slot="start">
                         <IonBackButton defaultHref="/events"/>
                     </IonButtons>
-                    <IonTitle>
+                    <IonTitle className="page-title">
                         <p>{event.title || event.stadium_name}</p>
                         <p className="page-subtitle">{t('baloteo.baloteo')} {event.phase}</p>
                     </IonTitle>
+                    <IonButtons slot="end">
+                        <IonIcon
+                            icon={printIcon}
+                            className="print-icon"
+                            slot="end"
+                            onClick={() => setShowPrintModal(true)}
+                        />
+                        <PrintModal event={event} showModal={showPrintModal} setShowModal={setShowPrintModal} />
+                    </IonButtons>
                 </IonToolbar>
             </IonHeader>
 

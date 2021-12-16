@@ -6,7 +6,7 @@ import {
     IonSegmentButton,
     IonLabel, IonSearchbar,
     IonList, IonItem, IonImg, IonButton, IonText,
-    IonGrid, IonRow, IonCol, IonToolbar, IonButtons, IonBackButton, IonHeader, IonTitle, IonIcon
+    IonGrid, IonRow, IonCol, IonToolbar, IonButtons, IonBackButton, IonHeader, IonTitle, IonIcon, useIonActionSheet
 } from '@ionic/react';
 import React, {useContext, useEffect, useState} from "react";
 import {getEvent} from "../api/Events";
@@ -20,10 +20,11 @@ import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploa
 import Matchmaking from "../components/Events/Matchmaking";
 import editIcon from "../img/edit.png";
 import versusIcon from "../img/versus.png";
-import {cameraReverseOutline as addPhotoIcon} from 'ionicons/icons';
+import {cameraReverseOutline as addPhotoIcon, ellipsisHorizontal as menuIcon} from 'ionicons/icons';
 import {getImageUrl, formatOzToLbsOz} from "../components/utils";
 import ConfirmPrompt from "../components/ConfirmPrompt";
 import {useTranslation} from "react-multi-lang";
+import PrintModal from "../components/Events/PrintModal";
 
 const EventReceiving: React.FC = () => {
     const t = useTranslation();
@@ -36,7 +37,9 @@ const EventReceiving: React.FC = () => {
     const [showParticipantPhotoUploader, setShowParticipantPhotoUploader] = useState<boolean>(false);
     const [showConfirmPhotoless, setShowConfirmPhotoless] = useState<boolean>(false);
     const [showMatchmaking, setShowMatchmaking] = useState<boolean>(false);
+    const [showPrintModal, setShowPrintModal] = useState<boolean>(false);
     const { id } = useParams<{id:string}>();
+    const [present, dismiss] = useIonActionSheet();
 
     useEffect(() => {
         fetchEvent();
@@ -72,7 +75,14 @@ const EventReceiving: React.FC = () => {
                         <p className="page-subtitle">{event.phase}</p>
                     </IonTitle>
                     <IonButtons slot="end">
-                        <IonButton fill="clear" onClick={() => (participants.filter((p:any) => !p.image).length > 0) ? setShowConfirmPhotoless(true) : setShowMatchmaking(true)} disabled={!approvedParticipants?.length}><IonImg className="versus-button" src={versusIcon} /></IonButton>
+                        <IonButton fill="clear" color="dark" slot="end" className="view-note-menu" onClick={() => present({
+                            buttons: [
+                                { text: t('events.print'), handler: () => setShowPrintModal(true)},
+                                (approvedParticipants?.length > 0) ? { text: 'VS', handler: () => (participants.filter((p:any) => !p.image).length > 0) ? setShowConfirmPhotoless(true) : setShowMatchmaking(true)} : {},
+                            ],
+                            header: t('events.settings')
+                        })}><IonIcon size="small" icon={menuIcon} /></IonButton>
+                        <PrintModal event={event} showModal={showPrintModal} setShowModal={setShowPrintModal} />
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>

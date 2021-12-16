@@ -22,12 +22,12 @@ import {useTranslation} from "react-multi-lang";
 
 type PrintModalType = {
     event: any;
+    showModal: boolean;
+    setShowModal: (boolean:boolean) => void;
 }
 
-const PrintModal: React.FC<PrintModalType> = ({event}) => {
+const PrintModal: React.FC<PrintModalType> = ({event, showModal, setShowModal}) => {
     const t = useTranslation();
-    const [showModal, setShowModal] = useState<boolean>(false);
-    const [showPrintModal, setShowPrintModal] = useState<boolean>(false);
     const [printOption, setPrintOption] = useState<number>();
     const printWrapperRef = useRef(null);
     const handlePrint = useReactToPrint({
@@ -37,7 +37,6 @@ const PrintModal: React.FC<PrintModalType> = ({event}) => {
 
     const print = () => {
         setShowModal(false);
-        setShowPrintModal(true);
         if (handlePrint) handlePrint();
     }
 
@@ -74,12 +73,7 @@ const PrintModal: React.FC<PrintModalType> = ({event}) => {
                 <IonButton expand="block" className="final-print-button" disabled={!printOption} onClick={() => print()}>{t('events.print')}</IonButton>
             </IonContent>
         </IonModal>
-        <IonIcon
-            icon={printIcon}
-            className="print-icon"
-            slot="end"
-            onClick={() => setShowModal(true)}
-        />
+
 
         <div style={{ overflow: "hidden", height: 0, width: 0 }}><PrintMatches ref={printWrapperRef} event={event} mode={printOption} /></div>
     </>);
