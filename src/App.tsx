@@ -65,7 +65,8 @@ const JudgeMatchTimer = React.lazy( () => import('./pages/JudgeMatchTimer'));
 setupConfig({mode: 'md'});
 
 setDefaultTranslations({en: staticEN, esp: staticESP});
-const currentLang = Cookies.get('lang') || 'en';
+const defaultLang = process.env.REACT_APP_DEFAULT_LANG || 'en';
+const currentLang = Cookies.get('lang') || defaultLang;
 setDefaultLanguage(currentLang);
 moment.locale(currentLang);
 
