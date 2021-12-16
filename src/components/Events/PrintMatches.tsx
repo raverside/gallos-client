@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import {formatOzToLbsOz} from "../utils";
+import {formatOzToLbsOz, getStadiumInitials} from "../utils";
 import {useTranslation} from "react-multi-lang";
 
 const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
@@ -203,7 +203,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.stadium_id')}</div>
-                                <div style={{textAlign: "center", width: "40mm"}}>{participant.stadium_id}</div>
+                                <div style={{textAlign: "center", width: "40mm"}}>{participant.stadium_id} {getStadiumInitials(participant.stadium_name)}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.color')}</div>
@@ -250,7 +250,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                                 <div style={{textAlign: "center", width: "40mm", textTransform: "capitalize"}}>{participant.betting_pref}</div>
                             </div>
                             <div style={{textTransform:"uppercase", width: "100%", textAlign:"center", fontSize: "20px", fontWeight: "bold", borderTop: "5px solid black", borderBottom: "5px solid black", margin: "10px 0", padding: "5px 0"}}>
-                                {participant.status}
+                                {t('events.'+participant.status)}
                             </div>
                             {(index === printMatches.length || cut) && <p style={{ fontSize: "16px", textAlign: "center", fontWeight: "bold", borderTop: "1px dashed black", padding: "10px"}}>gallosclub.com</p>}
                         </div>

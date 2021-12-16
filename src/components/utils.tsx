@@ -34,3 +34,26 @@ export function formatOzToLbsOzVerbal(oz:string) {
 
     return (pounds ? pounds + " Lbs " : "") + (ounces ? ounces + " Oz" : "");
 }
+
+export function getStadiumInitials(stadium:string) {
+    switch(stadium) {
+        case "Santiago":
+            return "ST";
+        break;
+        case "Santo Domingo":
+            return "SD";
+        break;
+        case "San Francisco":
+            return "SFM";
+        break;
+        case "Jo Kelner":
+            return "JK";
+        break;
+        case "Regional":
+            return "R";
+        break;
+        default:
+            return "";
+        break;
+    }
+}
