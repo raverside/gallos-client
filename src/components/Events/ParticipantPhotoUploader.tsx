@@ -103,8 +103,8 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
                     <IonText className="image-flipper-text">{t('events.animal_image_hint')}</IonText>
                     <IonItem className="animalImagePicker" lines="none">
                         <AnimalImagePicker
-                            eventImage={participant ? participant.image : null}
-                            onPick={(file) => setFormData((currentFormData:any) => ({...currentFormData, image: null, image_upload: file, image_flipped: false}))}
+                            eventImage={formData.image || null}
+                            onPick={(file) => setFormData((currentFormData:any) => ({...currentFormData, image: null, image_upload: file}))}
                             isFlipped={formData.image_flipped || false}
                             setIsFlipped={(isFlipped) => setFormData((currentFormData:any) => ({...currentFormData, image_flipped: isFlipped}))}
                         />

@@ -128,10 +128,14 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
                 <ReactCrop src={imagePreview}
                    crop={crop}
                    ruleOfThirds
+                   keepSelection
                    onComplete={onCropComplete}
                    onChange={onCropChange}
                    onImageLoaded={onImageLoaded}
+                   minWidth={150}
+                   minHeight={150}
                    className={isFlipped ? "participant-preview-image flipped" : "participant-preview-image"}
+                   spin={isFlipped ? (180) : 0}
                 />
             </>}
         </> : <div className="add-photo" onClick={openFileDialog}>
