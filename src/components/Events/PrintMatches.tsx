@@ -101,8 +101,8 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
             {(mode == 1 || mode === 2 || mode === 3 || mode === 4) ? <div style={{width: "100%"}}>
                     {printMatches?.map((match:any, index:number) => (<>
                         {(index === 0 || cut) && <>
-                            <h1 style={{width: "100%", textAlign:"center", fontSize: "16px", fontWeight: "bold"}}>{event.stadium_name}</h1>
-                            <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", margin: "0 0 20px 0"}}>{event.title || t('events.default_event_name')}</h2>
+                            <h1 style={{width: "100%", textAlign:"center", fontSize: "18px", fontWeight: "bold"}}>{event.stadium_name}</h1>
+                            <div style={{width: "100%", textAlign:"center", fontSize: "14px", margin: "0 0 20px 0"}}>{event.title || t('events.default_event_name')}</div>
                             <div style={{display:"flex", justifyContent: "space-between", borderBottom: "1px solid black"}}>
                                 <div>Date: {moment().format('YYYY-MM-DD')}</div>
                                 <div>Time: {moment().format("HH:mm")}</div>
@@ -110,67 +110,65 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                             <h2 style={{width: "100%", textAlign:"center", fontSize: "14px", fontWeight: "bold"}}>{title}</h2>
                         </>}
                         <div style={cut ? {pageBreakAfter: "always"} : {}}>
-                            <div style={{display:"flex", justifyContent: "space-between", background: "black", color:"white"}}>
-                                <div style={{textAlign: "center", width: "25mm"}}>{t('baloteo.fight')} #{index + 1}</div>
-                                <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>VS</div>
-                                <div style={{textAlign: "center", width: "25mm"}}></div>
+                            <div style={{display:"flex", justifyContent: "space-between", background: "black", color:"white", padding: "7px 0", fontWeight: "bold", marginBottom:"5px"}}>
+                                <div style={{textAlign: "center", width: "80mm", fontSize: "18px"}}>{t('baloteo.fight')} #{index + 1}</div>
                             </div>
-                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                            <div style={{display:"flex", justifyContent: "space-between", marginBottom:"5px"}}>
                                 <div style={{textAlign: "center", width: "25mm", fontWeight: "bold"}}>{match.participant?.team?.name}</div>
                                 <div style={{textAlign: "center", width: "30mm"}}></div>
                                 <div style={{textAlign: "center", width: "25mm", fontWeight: "bold"}}>{match.opponent?.team?.name}</div>
                             </div>
-                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                            <div style={{display:"flex", justifyContent: "space-between", marginBottom:"5px"}}>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.cage}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.cage')}</div>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.cage}</div>
                             </div>
-                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                            <div style={{display:"flex", justifyContent: "space-between", marginBottom:"5px"}}>
                                 <div style={{textAlign: "center", width: "25mm"}}>{t('judge.blue')}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('judge.side_color')}</div>
                                 <div style={{textAlign: "center", width: "25mm"}}>{t('judge.white')}</div>
                             </div>
-                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                            <div style={{display:"flex", justifyContent: "space-between", marginBottom:"5px"}}>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.type}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.type')}</div>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.type}</div>
                             </div>
-                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                            <div style={{display:"flex", justifyContent: "space-between", marginBottom:"5px"}}>
                                 <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOz(match.participant?.weight)}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.weight')}</div>
                                 <div style={{textAlign: "center", width: "25mm"}}>{formatOzToLbsOz(match.opponent?.weight)}</div>
                             </div>
-                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                            <div style={{display:"flex", justifyContent: "space-between", marginBottom:"5px"}}>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.participated_before ? t('events.participated_yes') : t('events.participated_no')}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.participated')}?</div>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.participated_before ? t('events.participated_yes') : t('events.participated_no')}</div>
                             </div>
-                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                            <div style={{display:"flex", justifyContent: "space-between", marginBottom:"5px"}}>
                                 <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.participant?.color}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.color')}</div>
                                 <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.opponent?.color}</div>
                             </div>
-                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                            <div style={{display:"flex", justifyContent: "space-between", marginBottom:"5px"}}>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.alas}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.alas')}</div>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.alas}</div>
                             </div>
-                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                            <div style={{display:"flex", justifyContent: "space-between", marginBottom:"5px"}}>
                                 <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.participant?.cresta}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.cresta')}</div>
                                 <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.opponent?.cresta}</div>
                             </div>
-                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                            <div style={{display:"flex", justifyContent: "space-between", marginBottom:"5px"}}>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.pata}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.patas')}</div>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.pata}</div>
                             </div>
-                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                            <div style={{display:"flex", justifyContent: "space-between", marginBottom:"5px"}}>
                                 <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.participant?.physical_advantage?.replace('_', ' ')}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.advantage')}</div>
                                 <div style={{textAlign: "center", width: "25mm", textTransform: "capitalize"}}>{match.opponent?.physical_advantage.replace('_', ' ')}</div>
                             </div>
-                            <div style={{display:"flex", justifyContent: "space-between"}}>
+                            <div style={{display:"flex", justifyContent: "space-between", marginBottom:"5px"}}>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.participant?.breeder_name}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.breeder')}</div>
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.breeder_name}</div>
