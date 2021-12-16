@@ -196,7 +196,10 @@
       "print_participant_summary": "Animal Summary",
       "rejected": "Rejected",
       "rejected_hint": "This animal was excluded since it doesn't meet the requirements",
-      "edit_photo": "Edit"
+      "edit_photo": "Edit",
+      "phase_receiving": "Receiving",
+      "phase_arrangement": "Arrangement",
+      "phase_ongoing": "On Going"
   },
   "judge": {
       "no_baloteo": "No Baloteo",

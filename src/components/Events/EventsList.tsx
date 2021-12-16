@@ -118,7 +118,7 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                     disabled={!(state.user?.role === 'admin_manager' || state.user?.role === 'admin_worker' || state.user?.role === 'worker' || state.user?.role === 'user')}
                 >
                     <div className="ionButtonFix">
-                        <IonText>{event.phase}</IonText>
+                        <IonText>{t('events.phase_'+event?.phase?.replace(' ', ''))}</IonText>
                         <div>
                             <IonText>{t('events.see_baloteo')}</IonText>
                             <IonImg src={arrowIcon} />

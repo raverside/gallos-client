@@ -72,7 +72,7 @@ const BaloteoStats: React.FC = () => {
                     </IonButtons>
                     <IonTitle className="page-title">
                         <p>{event.title || event.stadium_name}</p>
-                        <p className="page-subtitle">{t('baloteo.baloteo')} {event.phase}</p>
+                        <p className="page-subtitle">{t('baloteo.baloteo')} {t('events.phase_'+event?.phase?.replace(' ', ''))}</p>
                     </IonTitle>
                     <IonButtons slot="end">
                         <IonIcon

@@ -84,7 +84,7 @@ const EventReceiving: React.FC = () => {
                     </IonButtons>
                     <IonTitle className="page-title">
                         <p>{event.title || event.stadium_name}</p>
-                        <p className="page-subtitle">{event.phase}</p>
+                        <p className="page-subtitle">{t('events.phase_'+event?.phase?.replace(' ', ''))}</p>
                     </IonTitle>
                     <IonButtons slot="end">
                         <IonButton fill="clear" color="dark" slot="end" className="view-note-menu" onClick={() => present({

@@ -149,7 +149,7 @@ const EventView: React.FC = () => {
                     <IonText>{event?.description}</IonText>
                     <div className="event-phase-baloteo">
                         <IonText className="event-phase-header">{t('events.baloteo_available')}</IonText>
-                        <IonText className="event-phase">{event?.phase} {t('events.phase')}</IonText>
+                        <IonText className="event-phase">{t('events.phase_'+event?.phase?.replace(' ', ''))} {t('events.phase')}</IonText>
                     </div>
                 </div>
                 <Gallery
