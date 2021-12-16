@@ -8,8 +8,9 @@ import './LanguagePicker.css';
 
 
 const LanguagePicker: React.FC = () => {
-    const currentLang = Cookies.get('lang');
-    const [lang, setLang] = useState(currentLang ? currentLang : 'en');
+    const defaultLang = process.env.REACT_APP_DEFAULT_LANG || 'en';
+    const currentLang = Cookies.get('lang') || defaultLang;
+    const [lang, setLang] = useState(currentLang);
 
     const pickLanguage = (lang:string) => {
         setLang(lang);
