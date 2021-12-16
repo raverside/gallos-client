@@ -155,8 +155,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         if (!formData.pata) isFormFilled = false;
         if (!formData.physical_advantage) isFormFilled = false;
         if (!formData.weight) isFormFilled = false;
-        if (!formData.breeder_id) isFormFilled = false;
-        if (!formData.breeder_name) isFormFilled = false;
         if (formData.participated_before === undefined || formData.participated_before === null) isFormFilled = false;
 
         return isFormFilled;
@@ -396,7 +394,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             </IonSelect>
                         </IonItem>
 
-                        <IonItemDivider>{t('events.breeder_id')}<IonText color="primary">*</IonText></IonItemDivider>
+                        <IonItemDivider>{t('events.breeder_id')}</IonItemDivider>
                         <IonItem lines="none">
                             <IonInput
                                 value={formData.breeder_id}
@@ -410,7 +408,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             />
                         </IonItem>
 
-                        <IonItemDivider>{t('events.breeder_name')}<IonText color="primary">*</IonText></IonItemDivider>
+                        <IonItemDivider>{t('events.breeder_name')}</IonItemDivider>
                         <IonItem lines="none">
                             <IonInput
                                 value={formData.breeder_name}
@@ -509,15 +507,21 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         </IonSelect>
                     </IonItem>
 
-                    <IonItem lines="none">
-                    {(participant && participant.id) ?
-                        <div className="participant-complete-buttons">
-                            <IonButton className="participant-approve-button" disabled={!canUpdate() || uploading} onClick={Approve}>{t('events.participant_approve')}</IonButton>
-                            <IonButton className="participant-reject-button" disabled={uploading} onClick={() => setShowRejectReason(true)}>{t('events.participant_reject')}</IonButton>
-                        </div>
-                        : <IonButton expand="block" className="delete-button" disabled={!canCreate() || uploading} onClick={Submit}>{t('events.participant_add')}</IonButton>
-                    }
+
+                    {(participant && participant.id) ? <>
+                            <IonItem lines="none">
+                                <IonButton expand="block" fill="outline" className="save-button" disabled={!canCreate() || uploading} onClick={Submit}>{t('events.save')}</IonButton>
+                            </IonItem>
+                            <IonItem lines="none">
+                                <div className="participant-complete-buttons">
+                                    <IonButton className="participant-approve-button" disabled={!canUpdate() || uploading} onClick={Approve}>{t('events.participant_approve')}</IonButton>
+                                    <IonButton className="participant-reject-button" disabled={uploading} onClick={() => setShowRejectReason(true)}>{t('events.participant_reject')}</IonButton>
+                                </div>
+                            </IonItem>
+                    </> : <IonItem lines="none">
+                        <IonButton expand="block" className="delete-button" disabled={!canCreate() || uploading} onClick={Submit}>{t('events.participant_add')}</IonButton>
                     </IonItem>
+                    }
                     {uploading && <IonProgressBar className="progressBar" type="indeterminate" />}
                 <IonModal isOpen={showRejectReason} onDidDismiss={() => setShowRejectReason(false)} cssClass="reject-participant-modal">
                     <IonToolbar className="modal-header">

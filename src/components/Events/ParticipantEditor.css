@@ -79,3 +79,13 @@
 .add-participant-title {
     margin-left:-38px;
 }
+.save-button {
+    width: 100%;
+    --padding-top: 13px;
+    --padding-bottom: 13px;
+    font-weight: 600;
+    font-size: 14px;
+    display: block;
+    height: auto;
+    margin: 20px 0;
+}

@@ -200,7 +200,8 @@
       "phase_receiving": "Receiving",
       "phase_arrangement": "Arrangement",
       "phase_ongoing": "On Going",
-      "upload_complete": "Complete"
+      "upload_complete": "Complete",
+      "save": "Save"
   },
   "judge": {
       "no_baloteo": "No Baloteo",

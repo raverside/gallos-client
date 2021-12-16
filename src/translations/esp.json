@@ -200,7 +200,8 @@
       "phase_receiving": "Recepción",
       "phase_arrangement": "Disposición",
       "phase_ongoing": "En Curso",
-      "upload_complete": "Complete"
+      "upload_complete": "Complete",
+      "save": "Guardar"
   },
   "judge": {
       "no_baloteo": "Tablero de Baloteo",
