@@ -23,7 +23,7 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
     const [crop, setCrop] = useState<any>({
         unit: '%',
         aspect: 1,
-        width: 30
+        width: 90
     });
     const imgRef = useRef(null);
 
@@ -133,7 +133,6 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
                    onChange={onCropChange}
                    onImageLoaded={onImageLoaded}
                    minWidth={150}
-                   minHeight={150}
                    className={isFlipped ? "participant-preview-image flipped" : "participant-preview-image"}
                    spin={isFlipped ? (180) : 0}
                 />

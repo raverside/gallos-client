@@ -15,6 +15,7 @@
 }
 .gallery-slider {
     height:100%;
+    overflow:auto;
 }
 .gallery-slider-thumbnails {
     position:fixed;
