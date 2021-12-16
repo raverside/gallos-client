@@ -55,11 +55,11 @@ const ParticipantGallery: React.FC<GalleryProps> = ({participant, showModal, set
                         <IonSlide key={index}><IonImg src={image} className={participant.image_flipped ? "gallery-participant-image flipped" : "gallery-participant-image"}/></IonSlide>
                     ))}
                 </IonSlides>
-                <IonSlides className="gallery-slider-thumbnails">
-                    {images.map((image, index) => (
-                        <IonSlide key={"thumb_"+index} className="gallery-slider-thumbnail"><IonImg src={image} className={participant.image_flipped ? "gallery-participant-image flipped" : "gallery-participant-image"} /></IonSlide>
-                    ))}
-                </IonSlides>
+                {/*<IonSlides className="gallery-slider-thumbnails">*/}
+                {/*    {images.map((image, index) => (*/}
+                {/*        <IonSlide key={"thumb_"+index} className="gallery-slider-thumbnail"><IonImg src={image} className={participant.image_flipped ? "gallery-participant-image flipped" : "gallery-participant-image"} /></IonSlide>*/}
+                {/*    ))}*/}
+                {/*</IonSlides>*/}
             </IonContent>
         </IonModal>
     );
