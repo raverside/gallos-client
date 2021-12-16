@@ -199,7 +199,8 @@
       "edit_photo": "Edit",
       "phase_receiving": "Receiving",
       "phase_arrangement": "Arrangement",
-      "phase_ongoing": "On Going"
+      "phase_ongoing": "On Going",
+      "upload_complete": "Complete"
   },
   "judge": {
       "no_baloteo": "No Baloteo",

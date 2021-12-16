@@ -64,6 +64,7 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
         image_flipped: participant ? participant.image_flipped : false,
     });
     const [uploading, setUploading] = useState<boolean>(false);
+    const [complete, setComplete] = useState<boolean>(false);
 
 
     const canUpload = () => {
@@ -80,10 +81,10 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
         if (response.participant) {
             fetchEvent();
             setUploading(false);
+            setComplete(true);
             state.socket?.emit('updateEvents');
             presentToast(t('events.saved'), 1000);
         }
-        close();
     }
 
     return (<>
@@ -106,7 +107,7 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
                     <IonItem className="animalImagePicker" lines="none">
                         <AnimalImagePicker
                             eventImage={formData.image || null}
-                            onPick={(file) => setFormData((currentFormData:any) => ({...currentFormData, image: null, image_upload: file}))}
+                            onPick={(file) => {setFormData((currentFormData:any) => ({...currentFormData, image: null, image_upload: file})); setComplete(false)}}
                             isFlipped={formData.image_flipped || false}
                             setIsFlipped={(isFlipped) => setFormData((currentFormData:any) => ({...currentFormData, image_flipped: isFlipped}))}
                         />
@@ -115,7 +116,10 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
                 </>}
 
                 <IonItem lines="none">
-                    <IonButton expand="block" className="delete-button" disabled={!canUpload() || uploading} onClick={Submit}>{t('events.upload')}</IonButton>
+                    {complete ?
+                        <IonButton expand="block" className="delete-button" color="success" onClick={() => {fetchEvent(); close()}}>{t('events.upload_complete')}</IonButton> :
+                        <IonButton expand="block" className="delete-button" disabled={!canUpload() || uploading} onClick={Submit}>{t('events.upload')}</IonButton>
+                    }
                 </IonItem>
             </IonList>
         </IonContent>
