@@ -285,8 +285,8 @@ const Baloteo: React.FC = () => {
                             {unmatchedParticipants.map((participant:any) => <IonItem className="participant" lines="none" key={participant.id}>
                                 <IonGrid>
                                     <IonRow>
-                                        <IonCol size="1">{participant.cage}</IonCol>
-                                        <IonCol size="6">
+                                        <IonCol size="2">{participant.cage}</IonCol>
+                                        <IonCol size="8">
                                             <IonImg
                                                 onClick={() => viewParticipantImage(participant)}
                                                 src={getImageUrl(participant.image)}
@@ -295,10 +295,11 @@ const Baloteo: React.FC = () => {
                                             <div className="baloteo-participant-creds">
                                                 <div className="baloteo-participant-name">{participant.team?.name}</div>
                                                 <div className="baloteo-participant-type">{participant.type}</div>
-                                                <div className="baloteo-participant-type">{participant.weight && formatOzToLbsOz(participant.weight)}</div>
+                                                {/*<div className="baloteo-participant-type">{participant.weight && formatOzToLbsOz(participant.weight)}</div>*/}
+                                                <div className="baloteo-participant-type">{participant.weight}</div>
                                             </div>
                                         </IonCol>
-                                        <IonCol size="3">
+                                        <IonCol size="2">
                                             <IonButton fill="clear" className="pair-button" onClick={() => setShowPairModal(participant.id)}>{t('baloteo.pair')}</IonButton>
                                         </IonCol>
                                     </IonRow>

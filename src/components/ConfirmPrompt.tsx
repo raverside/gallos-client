@@ -18,8 +18,8 @@ const ConfirmPrompt: React.FC<addLabelProps> = ({data, show, title, subtitle, on
             <IonContent>
                 <IonText className="modal-title">{title}</IonText>
                 {subtitle && <IonText className="modal-subtitle">{subtitle}</IonText>}
-                <IonButton onClick={() => onResult(data, true)}>{t('confirm.yes')}</IonButton>
-                <IonButton fill="outline" onClick={() => onResult(data, false)}>{t('confirm.no')}</IonButton>
+                <IonButton onClick={() => onResult(data, true)}>{t('general.confirm_yes')}</IonButton>
+                <IonButton fill="outline" onClick={() => onResult(data, false)}>{t('general.confirm_no')}</IonButton>
             </IonContent>
         </IonModal>
     );

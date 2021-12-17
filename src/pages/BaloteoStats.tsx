@@ -170,8 +170,8 @@ const BaloteoStats: React.FC = () => {
                         {event.participants.map((participant:any) => <IonItem className="participant" lines="none" key={participant.id}>
                             <IonGrid>
                                 <IonRow>
-                                    <IonCol size="1">{participant.cage}</IonCol>
-                                    <IonCol size="6">
+                                    <IonCol size="2">{participant.cage}</IonCol>
+                                    <IonCol size="7">
                                         {participant.image && <IonImg
                                             src={getImageUrl(participant.image)}
                                             className={participant.image_flipped ? "participant-thumb baloteo flipped" : "participant-thumb baloteo"}
