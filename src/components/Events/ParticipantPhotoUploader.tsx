@@ -82,6 +82,7 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
             fetchEvent();
             setUploading(false);
             setComplete(true);
+            setFormData({image: response.participant.image, image_upload: null, image_flipped: response.participant.image_flipped});
             state.socket?.emit('updateEvents');
             presentToast(t('events.saved'), 1000);
         }
