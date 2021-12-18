@@ -295,8 +295,7 @@ const Baloteo: React.FC = () => {
                                             <div className="baloteo-participant-creds">
                                                 <div className="baloteo-participant-name">{participant.team?.name}</div>
                                                 <div className="baloteo-participant-type">{participant.type}</div>
-                                                {/*<div className="baloteo-participant-type">{participant.weight && formatOzToLbsOz(participant.weight)}</div>*/}
-                                                <div className="baloteo-participant-type">{participant.weight}</div>
+                                                <div className="baloteo-participant-type">{participant.weight && formatOzToLbsOz(participant.weight)}</div>
                                             </div>
                                         </IonCol>
                                         <IonCol size="2">

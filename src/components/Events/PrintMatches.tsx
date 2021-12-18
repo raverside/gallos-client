@@ -85,15 +85,41 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
 
     const getBettingPreference = (participant:any, opponent:any) => {
         if (!participant || !opponent) return "";
-        if (participant.betting_pref !== "open" && opponent.betting_pref !== "open") {
-            if (participant.betting_pref.includes(opponent.betting_pref)) {
-                return getBettingAmount(opponent);
-            } else if (opponent.betting_pref.includes(participant.betting_pref)) {
-                return getBettingAmount(participant);
+        let betting_pref = "";
+
+        if (
+            (participant.betting_pref.includes('gold') && opponent.betting_pref.includes('gold')) ||
+            (participant.betting_pref.includes('gold') && opponent.betting_pref === 'open') ||
+            (opponent.betting_pref.includes('gold') && participant.betting_pref === 'open')
+        ) { // gold
+            if (event.gold_one > 0) betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one);
+            if (event.gold_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.gold_two).find(x => x.type === "integer")?.value;
+        } else if (
+            (participant.betting_pref.includes('silver') && opponent.betting_pref.includes('silver')) ||
+            (participant.betting_pref.includes('silver') && opponent.betting_pref === 'open') ||
+            (opponent.betting_pref.includes('silver') && participant.betting_pref === 'open')
+        ) { // silver
+            if (event.silver_one > 0) betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one);
+            if (event.silver_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.silver_two).find(x => x.type === "integer")?.value;
+        } else if (
+            (participant.betting_pref.includes('bronze') && opponent.betting_pref.includes('bronze')) ||
+            (participant.betting_pref.includes('bronze') && opponent.betting_pref === 'open') ||
+            (opponent.betting_pref.includes('bronze') && participant.betting_pref === 'open')
+        ) { // bronze
+            if (event.bronze > 0) betting_pref = ((event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze));
+        } else if (participant.betting_pref === 'open' && opponent.betting_pref === 'open') {
+            if (event.gold_one > 0) {
+                betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one);
+                if (event.gold_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.gold_two).find(x => x.type === "integer")?.value;
+            } else if (event.silver_one > 0) {
+                betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one);
+                if (event.silver_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.silver_two).find(x => x.type === "integer")?.value;
+            } else if (event.bronze > 0) {
+                betting_pref = ((event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze));
             }
         }
 
-        return getBettingAmount(participant);
+        return betting_pref;
     }
 
     return (!event ? null : <>
