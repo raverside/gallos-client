@@ -474,7 +474,10 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             value={formData.betting_amount}
                             interface="alert"
                             placeholder={t('events.betting_amount')}
-                            onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, betting_amount: e.detail.value!}))}
+                            onIonChange={(e) => {
+                                setFormData((currentFormData) => ({...currentFormData, betting_amount: e.detail.value!}));
+                                if (e.detail.value === 'bronze') setFormData((currentFormData) => ({...currentFormData, betting_pref: 'bronze'}))
+                            }}
                         >
                             <IonLabel>{t('events.betting_amount')}</IonLabel>
                             {event.bronze && <IonSelectOption value="bronze">Bronze: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze)}</IonSelectOption>}
@@ -496,14 +499,17 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             interface="alert"
                             placeholder={t('events.betting_preference')}
                             onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, betting_pref: e.detail.value!}))}
+                            disabled={!formData.betting_amount}
                         >
                             <IonLabel>{t('events.betting_preference')}</IonLabel>
-                            {event.bronze && <IonSelectOption value="bronze">Bronze</IonSelectOption>}
-                            {event.silver_one && <IonSelectOption value="silver">Silver</IonSelectOption>}
-                            {event.gold_one && <IonSelectOption value="gold">Gold</IonSelectOption>}
-                            {(event.bronze && event.silver_one) && <IonSelectOption value="bronze_silver">Bronze & Silver</IonSelectOption>}
-                            {(event.silver_one && event.gold_one) && <IonSelectOption value="silver_gold">Silver & Gold</IonSelectOption>}
-                            <IonSelectOption value="open">{t('events.betting_preference_open')}</IonSelectOption>
+                            {(event.bronze && formData.betting_amount === 'bronze') && <IonSelectOption value="bronze">Bronze</IonSelectOption>}
+
+                            {(event.silver_one && formData.betting_amount === 'silver') && <IonSelectOption value="silver">Silver</IonSelectOption>}
+                            {(event.bronze && event.silver_one && formData.betting_amount === 'silver') && <IonSelectOption value="bronze_silver">Bronze & Silver</IonSelectOption>}
+
+                            {(event.gold_one && formData.betting_amount === 'gold') && <IonSelectOption value="gold">Gold</IonSelectOption>}
+                            {(event.silver_one && event.gold_one && formData.betting_amount === 'gold') && <IonSelectOption value="silver_gold">Silver & Gold</IonSelectOption>}
+                            {(formData.betting_amount === 'gold') && <IonSelectOption value="open">{t('events.betting_preference_open')}</IonSelectOption>}
                         </IonSelect>
                     </IonItem>
 
