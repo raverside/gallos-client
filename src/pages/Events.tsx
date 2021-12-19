@@ -31,7 +31,7 @@ const Events: React.FC = () => {
     const [editorEvent, setEditorEvent] = useState<{}|boolean>(false);
     const [infiniteScrollPage, setInfiniteScrollPage] = useState<number>(1);
     const [disableInfiniteScroll, setDisableInfiniteScroll] = useState<boolean>(false);
-    const [dateFilter, setDateFilter] = useState<string>(state.user.role === "creator" ? "today" : state.user.role === "worker" ? moment().format("YYYY-MM-DD") : "" );
+    const [dateFilter, setDateFilter] = useState<string>(state.user.role === "creator" ? "today" : (state.user.role === "worker" || state.user.role === "admin_manager" || state.user.role === "admin_worker" || state.user.role === "admin") ? moment().format("YYYY-MM-DD") : "" );
     const [eventsFilter, setEventsFilter] = useState<any>({});
     const [eventsFilterQuery, setEventsFilterQuery] = useState<string>("");
     const [eventsSearch, setEventsSearch] = useState<string>("");

@@ -34,7 +34,7 @@ const UserEvents: React.FC = () => {
     const [eventCount, setEventCount] = useState<{today: number, upcoming: number, past: number, dates: []}>({today: 0, upcoming: 0, past: 0, dates: []});
     const [infiniteScrollPage, setInfiniteScrollPage] = useState<number>(1);
     const [disableInfiniteScroll, setDisableInfiniteScroll] = useState<boolean>(false);
-    const [dateFilter, setDateFilter] = useState<string>(state.user.role === "creator" ? "today" : state.user.role === "worker" ? moment().format("YYYY-MM-DD") : "" );
+    const [dateFilter, setDateFilter] = useState<string>(moment().format("YYYY-MM-DD"));
     const [eventsFilterQuery, setEventsFilterQuery] = useState<string>("");
     const [tabSelected, setTabSelected] = useState<string>("events");
     const [stadiumSelected, setStadiumSelected] = useState<any>(false);
