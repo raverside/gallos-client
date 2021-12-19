@@ -1,4 +1,5 @@
 import fetcher from './fetcher';
+import Resizer from "react-image-file-resizer";
 
 export async function getEvent(id:string) {
     return fetcher.get(`/getEvent/${id}`);
@@ -29,8 +30,10 @@ export async function removeEvent(id:string) {
 
 export async function upsertParticipant(payload: {image_upload?: File|null, image?: string|null|undefined, image_flipped: boolean}) {
     if (payload.image_upload) {
+        const resizedImage = await resizeFile(payload.image_upload);
         let formData = new FormData();
-        formData.append('participant', payload.image_upload);
+        // @ts-ignore
+        formData.append('participant', resizedImage);
         const {filename} = await fetcher.upload('/uploadParticipantPicture', formData);
         payload.image = filename;
     }
@@ -81,3 +84,19 @@ export async function createMatch(event_id:string, participant_id:string, oppone
 export async function getStatisticsByStadium(stadium_id:string, type: string, dateFilter: {}) {
     return fetcher.post(`/statistics/${stadium_id}/${type}`, {dateFilter});
 }
+
+const resizeFile = (file:File) =>
+    new Promise((resolve) => {
+        Resizer.imageFileResizer(
+            file,
+            1920,
+            1920,
+            "JPEG",
+            100,
+            0,
+            (uri) => {
+                resolve(uri);
+            },
+            "file"
+        );
+    });

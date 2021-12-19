@@ -19,7 +19,6 @@ type ImagePickerProps = {
 const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped, setIsFlipped}) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [imagePreview, setImagePreview] = useState<string|null|undefined>(eventImage ? getImageUrl(eventImage) : null);
-    const [imageForCropping, setImageForCropping] = useState<any>();
     const [crop, setCrop] = useState<any>({
         unit: '%',
         aspect: 1,
@@ -32,32 +31,34 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
         fileInputRef.current!.click();
     };
 
-    const setImage = (_event: any) => {
-        let file = _event.target.files![0];
+    const setImage = async (_event: any) => {
+        const file = _event.target.files![0];
         onPick(file);
         const reader = new FileReader();
         reader.onload = (e) => {
-            typeof e.target!.result === "string" && setImagePreview(e.target!.result);
+            if (typeof e.target!.result === "string") {
+                setImagePreview(e.target!.result);
+            }
         };
 
+        // @ts-ignore
         reader.readAsDataURL(file);
     }
 
     const unsetImage = () => {
         setImagePreview(null);
-        setImageForCropping(undefined);
         onPick(null);
         fileInputRef.current!.value = '';
     }
 
     const onImageLoaded = (image:any) => {
-        setImageForCropping(image);
         imgRef.current = image;
+        return false;
     };
 
     const onCropComplete = (crop:any) => {
-        if (imageForCropping && crop.width && crop.height) {
-            pickCroppedImg(imageForCropping, crop, +new Date() + ".jpg");
+        if (imgRef.current && crop.width && crop.height) {
+            pickCroppedImg(imgRef.current, crop, +new Date() + ".jpg");
         }
     }
 
@@ -70,6 +71,7 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
         const pixelRatio = window.devicePixelRatio;
         const scaleX = image.naturalWidth / image.width;
         const scaleY = image.naturalHeight / image.height;
+
         const ctx = canvas.getContext('2d');
         if (!ctx) return false;
 
