@@ -19,7 +19,8 @@ import {
     IonSegment,
     IonCard,
     IonGrid,
-    IonRow, IonCol, IonSearchbar, IonList, IonItem} from '@ionic/react';
+    IonRow, IonCol, IonSearchbar, IonList, IonItem, IonRefresherContent, IonRefresher
+} from '@ionic/react';
 import Gallery from '../components/Gallery';
 import React, {useContext, useEffect, useState} from "react";
 import {getEvent} from "../api/Events";
@@ -71,7 +72,7 @@ const UserEventView: React.FC = () => {
         setShowGalleryImage(true);
     }
 
-    const fetchEvent = async () => {
+    const fetchEvent = async (callback = () => {}) => {
         setShowLoading(true);
         const response = (id) ? await getEvent(id) : false;
         if (response.event) {
@@ -84,6 +85,7 @@ const UserEventView: React.FC = () => {
             history.replace("/events");
             setShowLoading(false);
         }
+        callback();
     }
 
     const shareEvent = async () => {
@@ -308,6 +310,8 @@ const UserEventView: React.FC = () => {
                         </IonItem>)}
                     </IonList>}
                 </div>}
+
+                <IonRefresher slot="fixed" onIonRefresh={(e) => fetchEvent(e.detail.complete)}><IonRefresherContent /></IonRefresher>
 
                 <Gallery
                     title={title}
