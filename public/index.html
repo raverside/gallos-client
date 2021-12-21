@@ -14,13 +14,13 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
 
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link id="manifest" rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
     <link rel="shortcut icon" type="image/png" href="%PUBLIC_URL%/assets/icon/favicon.png" />
 
     <!-- add to homescreen for ios -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Gallos Baloteo" />
+    <meta id="add_to_homescreen_title" name="apple-mobile-web-app-title" content="Gallos Baloteo" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   </head>
 
@@ -28,8 +28,11 @@
     <div id="root"></div>
   </body>
   <script type="text/javascript">
-    if (window.location.hostname === 'gallosclub.com') {
+    if (window.location.hostname.includes('gallosclub.com')) {
       document.title = "Gallos Club";
+      document.getElementById('add_to_homescreen_title').setAttribute('content', 'Gallos Club');
+    } else {
+      document.getElementById('manifest').setAttribute('href', "%PUBLIC_URL%/baloteo_manifest.json");
     }
   </script>
 </html>
