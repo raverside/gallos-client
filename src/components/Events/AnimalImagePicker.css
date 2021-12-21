@@ -44,7 +44,11 @@
     right:30px;
     --background: rgba(44, 38, 38, 0.35);
 }
-.participant-preview-image.flipped {
+.participant-crop-image {
+    display:block;
+    margin:auto;
+}
+.participant-preview-image.flipped, .participant-crop-image.flipped {
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
     -webkit-transform: scaleX(-1);

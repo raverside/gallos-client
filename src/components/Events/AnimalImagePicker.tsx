@@ -1,6 +1,6 @@
 import {IonButton, IonIcon, IonImg} from '@ionic/react';
 import imageAddIcon from "../../img/rooster_transparent.png";
-import React, {useRef, useState} from "react";
+import React, {useRef, useState, useEffect} from "react";
 import {getImageUrl} from '../utils';
 
 import flipperIcon from '../../img/flipper.png';
@@ -21,11 +21,15 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
     const [imagePreview, setImagePreview] = useState<string|null|undefined>(eventImage ? getImageUrl(eventImage) : null);
     const [crop, setCrop] = useState<any>({
         unit: '%',
-        aspect: 1,
         width: 90,
-        height: 90
+        height: 90,
+        aspect: 1,
     });
     const imgRef = useRef(null);
+
+    useEffect(() => {
+        setImagePreview(eventImage ? getImageUrl(eventImage) : null);
+    }, [eventImage]);
 
     const openFileDialog = () => {
         fileInputRef.current!.click();
@@ -51,8 +55,12 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
         fileInputRef.current!.value = '';
     }
 
-    const onImageLoaded = (image:any) => {
-        imgRef.current = image;
+    const onImageLoaded = (img:any) => {
+        imgRef.current = img;
+        const aspect = crop.aspect;
+        const width = img.width / aspect < img.height * aspect ? 100 : ((img.height * aspect) / img.width) * 100;
+        const height = img.width / aspect > img.height * aspect ? 100 : (img.width / aspect / img.height) * 100;
+        setCrop((currentCrop:any) => ({...currentCrop, width, height}));
         return false;
     };
 
@@ -137,7 +145,7 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
                    onImageLoaded={onImageLoaded}
                    minWidth={150}
                    minHeight={150}
-                   className={isFlipped ? "participant-preview-image flipped" : "participant-preview-image"}
+                   className={isFlipped ? "participant-crop-image flipped" : "participant-crop-image"}
                    spin={isFlipped ? (180) : 0}
                 />
             </>}
