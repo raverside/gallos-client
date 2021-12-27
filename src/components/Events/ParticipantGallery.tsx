@@ -3,8 +3,8 @@ import {
 } from '@ionic/react';
 import {closeOutline as closeIcon} from "ionicons/icons";
 
-import Zoom from 'react-medium-image-zoom'
-import 'react-medium-image-zoom/dist/styles.css'
+import Zoom from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
 import './ParticipantGallery.css';
 import {useTranslation} from "react-multi-lang";
 import {getImageUrl} from "../utils";
@@ -52,11 +52,8 @@ const ParticipantGallery: React.FC<GalleryProps> = ({participant, showModal, set
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-                <IonSlides className="gallery-slider">
-                    {images.map((image, index) => (
-                        <IonSlide key={index}><Zoom><IonImg src={image} className={participant.image_flipped ? "gallery-participant-image flipped" : "gallery-participant-image"}/></Zoom></IonSlide>
-                    ))}
-                </IonSlides>
+                <Zoom><IonImg src={images[0]} className={participant.image_flipped ? "gallery-slider gallery-participant-image flipped" : "gallery-slider gallery-participant-image"}/></Zoom>
+
                 {/*<IonSlides className="gallery-slider-thumbnails">*/}
                 {/*    {images.map((image, index) => (*/}
                 {/*        <IonSlide key={"thumb_"+index} className="gallery-slider-thumbnail"><IonImg src={image} className={participant.image_flipped ? "gallery-participant-image flipped" : "gallery-participant-image"} /></IonSlide>*/}

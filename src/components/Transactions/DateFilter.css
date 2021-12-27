@@ -54,6 +54,8 @@
 .react-calendar__month-view__days__day {
     border: none;
     background:none;
+    position:relative;
+    color:black;
 }
 .react-calendar__month-view__days__day abbr{
     border: 2px solid #EAE9E9;
@@ -104,6 +106,8 @@
     color:#EB0404;
     position:absolute;
     bottom:-2px;
-    left:0;
+    left:4px;
     right:0;
+    width:10px;
+    margin:auto;
 }
