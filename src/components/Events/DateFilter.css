@@ -55,6 +55,7 @@
     border: none;
     background:none;
     position:relative;
+    color:black;
 }
 .react-calendar__month-view__days__day .datepicker-shortcut-hasEvent {
     bottom: 7px;
