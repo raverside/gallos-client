@@ -3,6 +3,8 @@ import {
 } from '@ionic/react';
 import {closeOutline as closeIcon} from "ionicons/icons";
 
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 import './Gallery.css';
 
 type GalleryProps = {
@@ -33,7 +35,7 @@ const Gallery: React.FC<GalleryProps> = ({title, showModal, setShowModal, images
             <IonContent>
                 <IonSlides className="gallery-slider">
                     {images.map((image, index) => (
-                        <IonSlide key={index}><IonImg src={image} /></IonSlide>
+                        <IonSlide key={index}><Zoom><IonImg src={image} /></Zoom></IonSlide>
                     ))}
                 </IonSlides>
                 {/*<IonSlides className="gallery-slider-thumbnails">*/}
