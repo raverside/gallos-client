@@ -4,9 +4,24 @@ import {
     IonPage,
     IonSegment,
     IonSegmentButton,
-    IonLabel, IonSearchbar,
-    IonList, IonItem, IonImg, IonButton, IonText,
-    IonGrid, IonRow, IonCol, IonToolbar, IonButtons, IonBackButton, IonHeader, IonTitle, IonIcon, useIonActionSheet
+    IonLabel,
+    IonSearchbar,
+    IonList,
+    IonItem,
+    IonImg,
+    IonButton,
+    IonText,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonToolbar,
+    IonButtons,
+    IonBackButton,
+    IonHeader,
+    IonTitle,
+    IonIcon,
+    useIonActionSheet,
+    IonRefresherContent, IonRefresher
 } from '@ionic/react';
 import React, {useContext, useEffect, useState} from "react";
 import {getEvent} from "../api/Events";
@@ -47,11 +62,12 @@ const EventReceiving: React.FC = () => {
         fetchEvent();
     }, []);
 
-    const fetchEvent = async () => {
+    const fetchEvent = async (callback = () => {}) => {
         const response = await getEvent(id);
         if (response.event) {
             setEvent(response.event);
         }
+        callback();
     };
 
     const viewParticipantImage = (participant:any) => {
@@ -169,6 +185,7 @@ const EventReceiving: React.FC = () => {
                     showPhotoUploader={showPhotoUploader}
                     eventPhase={event.phase}
                 />
+                <IonRefresher slot="fixed" onIonRefresh={(e) => fetchEvent(e.detail.complete)}><IonRefresherContent /></IonRefresher>
             </IonContent>
         </IonPage>
     );
