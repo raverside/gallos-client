@@ -83,8 +83,8 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
         const ctx = canvas.getContext('2d');
         if (!ctx) return false;
 
-        canvas.width = crop.width * pixelRatio * scaleX;
-        canvas.height = crop.height * pixelRatio * scaleY;
+        canvas.width = crop.width * pixelRatio;
+        canvas.height = crop.height * pixelRatio;
 
         ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
         ctx.imageSmoothingQuality = 'high';
@@ -97,8 +97,8 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
             crop.height * scaleY,
             0,
             0,
-            crop.width * scaleX,
-            crop.height * scaleY
+            crop.width,
+            crop.height
         );
 
         return new Promise((resolve, reject) => {
