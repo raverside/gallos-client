@@ -118,7 +118,7 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
 
                 <IonItem lines="none">
                     {complete ?
-                        <IonButton expand="block" className="delete-button" color="success" onClick={() => {fetchEvent(); close()}}>{t('events.upload_complete')}</IonButton> :
+                        <IonButton expand="block" className="delete-button" color="success" onClick={() => {fetchEvent(); close(); state.socket?.emit('updateEvents');}}>{t('events.upload_complete')}</IonButton> :
                         <IonButton expand="block" className="delete-button" disabled={!canUpload() || uploading} onClick={Submit}>{t('events.upload')}</IonButton>
                     }
                 </IonItem>

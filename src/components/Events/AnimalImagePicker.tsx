@@ -60,7 +60,7 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
         const aspect = crop.aspect;
         const width = img.width / aspect < img.height * aspect ? 100 : ((img.height * aspect) / img.width) * 100;
         const height = img.width / aspect > img.height * aspect ? 100 : (img.width / aspect / img.height) * 100;
-        setCrop((currentCrop:any) => ({...currentCrop, width, height}));
+        setCrop((currentCrop:any) => ({...currentCrop, width, height, x: 0, y:0}));
         return false;
     };
 
@@ -76,15 +76,15 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
 
     const pickCroppedImg = (image:any, crop:any, fileName:any) => {
         const canvas = document.createElement('canvas');
-        const pixelRatio = window.devicePixelRatio;
+        const pixelRatio = 1;
         const scaleX = image.naturalWidth / image.width;
         const scaleY = image.naturalHeight / image.height;
 
         const ctx = canvas.getContext('2d');
         if (!ctx) return false;
 
-        canvas.width = crop.width * pixelRatio;
-        canvas.height = crop.height * pixelRatio;
+        canvas.width = crop.width * pixelRatio * scaleX;
+        canvas.height = crop.height * pixelRatio * scaleY;
 
         ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
         ctx.imageSmoothingQuality = 'high';
@@ -97,8 +97,8 @@ const ImagePicker: React.FC<ImagePickerProps> = ({eventImage, onPick, isFlipped,
             crop.height * scaleY,
             0,
             0,
-            crop.width,
-            crop.height
+            crop.width * scaleX,
+            crop.height * scaleY
         );
 
         return new Promise((resolve, reject) => {
