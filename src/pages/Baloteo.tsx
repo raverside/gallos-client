@@ -13,7 +13,7 @@ import {
     IonRow,
     IonCol,
     IonImg,
-    IonButton, IonGrid, IonIcon, useIonActionSheet, IonList, IonItem, IonModal,
+    IonButton, IonGrid, IonIcon, useIonActionSheet, IonList, IonItem, IonModal, IonRefresherContent, IonRefresher,
 } from '@ionic/react';
 import React, {useEffect, useRef, useState} from "react";
 import {getEvent, publishMatch, swapSides, announceEvent, deleteMatch} from "../api/Events";
@@ -65,12 +65,13 @@ const Baloteo: React.FC = () => {
         fetchEvent();
     }, []);
 
-    const fetchEvent = async () => {
+    const fetchEvent = async (callback = () => {}) => {
         const response = await getEvent(id);
         if (response.event) {
             if (response.event.phase !== "arrangement") history.replace('/baloteo_stats/'+response.event.id);
             setEvent(response.event);
         }
+        callback();
     };
 
     const viewParticipantImage = (participant:any) => {
@@ -370,6 +371,7 @@ const Baloteo: React.FC = () => {
                         participant={selectedParticipant}
                     />
                 </IonModal>
+                <IonRefresher slot="fixed" onIonRefresh={(e) => fetchEvent(e.detail.complete)}><IonRefresherContent /></IonRefresher>
                 </IonContent>
         </IonPage>
     );
