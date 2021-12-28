@@ -34,7 +34,7 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
     const t = useTranslation();
     const { state } = useContext(AppContext);
     const [fullDescription, setFullDescription] = useState<string|false>(false);
-    const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
+    const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0});
     const [present, dismiss] = useIonActionSheet();
     const shareRef = React.useRef();
     const [showShare, setShowShare] = useState<any>(false);

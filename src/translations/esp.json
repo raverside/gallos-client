@@ -200,6 +200,7 @@
       "phase_receiving": "Recepción",
       "phase_arrangement": "Disposición",
       "phase_ongoing": "En Curso",
+      "phase_undefined": "Loading...",
       "upload_complete": "Complete",
       "save": "Guardar"
   },
