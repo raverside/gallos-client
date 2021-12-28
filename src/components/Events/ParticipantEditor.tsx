@@ -92,7 +92,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
     });
     const [presentToast] = useIonToast();
     const [uploading, setUploading] = useState<boolean>(false);
-    const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
+    const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0});
 
     const fetchTeamOwner = async (id:number) => {
         const response = (id) ? await getTeamOwnerByDigitalId(id) : false;

@@ -16,7 +16,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
         )
     ).sort((a:any, b:any) => (+a.weight - +b.weight));
     const excludedParticipants = allParticipants?.filter((participant:any) => participant.status === "rejected").sort((a:any, b:any) => (+new Date(a.createdAt)) - (+new Date(b.createdAt)));
-    const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
+    const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0});
 
     let printMatches = [];
     let title = "";

@@ -5,7 +5,7 @@ import {useTranslation} from "react-multi-lang";
 
 const PrintMatch = React.forwardRef<any, any>(({event, match}, ref) => {
     const t = useTranslation();
-    const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', maximumFractionDigits: 0});
+    const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0});
 
     const getBettingAmount = (participant:any) => {
         if (!participant) return "";
