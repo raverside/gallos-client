@@ -49,7 +49,6 @@ const Baloteo: React.FC = () => {
     const [showShareMatch, setShowShareMatch] = useState<any>(false);
     const [selectPrintMatch, setSelectPrintMatch] = useState<any>(false);
     const [showPrintModal, setShowPrintModal] = useState<boolean>(false);
-    const [switchSidesDisabled, setSwitchSidesDisabled] = useState<boolean>(false);
     const [selectedParticipant, setSelectedParticipant] = useState<any>(false);
     const [selectedGalleryParticipant, setSelectedGalleryParticipant] = useState<any>(false);
     const [showParticipantPhotoUploader, setShowParticipantPhotoUploader] = useState<boolean>(false);
@@ -106,14 +105,22 @@ const Baloteo: React.FC = () => {
     };
 
     const switchSides = async (matchId:string) => {
-        setSwitchSidesDisabled(true);
+        setEvent((currentEvent:any) => {
+            const updatedMatches = currentEvent.matches.map((m:any) => {
+                if (m.id === matchId) {
+                    const oldOpponent = {...m.opponent};
+                    const oldParticipant = {...m.participant};
+                    return {...m, opponent: oldParticipant, participant: oldOpponent}
+                }
+                return m;
+            });
+
+            return {...currentEvent, matches: updatedMatches};
+        });
+
         const response = await swapSides(matchId);
         if (response.event) {
-            setEvent(response.event);
-            setSwitchSidesDisabled(false);
             state.socket?.emit('updateEvents');
-        } else {
-            setSwitchSidesDisabled(false);
         }
     };
 
@@ -221,7 +228,6 @@ const Baloteo: React.FC = () => {
                                             color="dark"
                                             className="switch-sides"
                                             onClick={()=>switchSides(match.id)}
-                                            disabled={switchSidesDisabled}
                                         >
                                             <IonIcon src={switchSidesIcon} size="large"/>
                                         </IonButton>
