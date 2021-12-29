@@ -83,7 +83,7 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
             setUploading(false);
             setComplete(true);
             setFormData({image: response.participant.image, image_upload: null, image_flipped: response.participant.image_flipped});
-            state.socket?.emit('updateEvents');
+            state.socket?.emit('updateEvents', {eventId: event.id});
             presentToast(t('events.saved'), 1000);
         }
     }
@@ -118,7 +118,7 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
 
                 <IonItem lines="none">
                     {complete ?
-                        <IonButton expand="block" className="delete-button" color="success" onClick={() => {fetchEvent(); close(); state.socket?.emit('updateEvents');}}>{t('events.upload_complete')}</IonButton> :
+                        <IonButton expand="block" className="delete-button" color="success" onClick={() => {fetchEvent(); close(); state.socket?.emit('updateEvents', {eventId: event.id});}}>{t('events.upload_complete')}</IonButton> :
                         <IonButton expand="block" className="delete-button" disabled={!canUpload() || uploading} onClick={Submit}>{t('events.upload')}</IonButton>
                     }
                 </IonItem>

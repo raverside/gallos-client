@@ -166,7 +166,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         if (response.participant) {
             fetchEvent();
             setUploading(false);
-            state.socket?.emit('updateEvents');
+            state.socket?.emit('updateEvents', {eventId: event.id});
             presentToast(t('events.saved'), 1000);
         }
         if (formData.id) {
@@ -191,7 +191,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         if (response.participant) {
             fetchEvent();
             setUploading(false);
-            state.socket?.emit('updateEvents');
+            state.socket?.emit('updateEvents', {eventId: event.id});
             presentToast(t('events.saved'), 1000);
         }
         close();
@@ -205,7 +205,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         if (response.participant) {
             fetchEvent();
             setUploading(false);
-            state.socket?.emit('updateEvents');
+            state.socket?.emit('updateEvents', {eventId: event.id});
             presentToast(t('events.saved'), 1000);
         }
         close();

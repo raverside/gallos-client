@@ -120,7 +120,7 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
         const response = await upsertEvent(formData);
         if (response.event) {
             fetchEvents();
-            state.socket?.emit('updateEvents');
+            state.socket?.emit('updateEvents', {eventId: formData.id});
         }
         close();
     }

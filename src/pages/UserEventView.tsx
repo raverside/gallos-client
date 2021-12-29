@@ -61,9 +61,10 @@ const UserEventView: React.FC = () => {
     const shareParticipantRef = React.useRef();
 
     useEffect(() => {
-        fetchEvent();
-        state.socket.on("syncEvents", () => {
-            fetchEvent();
+        setShowLoading(true);
+        fetchEvent(() => setShowLoading(false));
+        state.socket.on("syncEvents", (payload:any) => {
+            if (!payload?.eventId || payload?.eventId === id) fetchEvent();
         });
     }, []);
 
@@ -73,17 +74,15 @@ const UserEventView: React.FC = () => {
     }
 
     const fetchEvent = async (callback = () => {}) => {
-        setShowLoading(true);
         const response = (id) ? await getEvent(id) : false;
         if (response.event) {
             setEvent(response.event);
-            setShowLoading(false);
             if (baloteoTab === "receiving" && response.event.phase !== "receiving") {
                 setBaloteoTab("matches");
             }
         } else {
             history.replace("/events");
-            setShowLoading(false);
+
         }
         callback();
     }

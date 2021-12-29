@@ -120,7 +120,7 @@ const Baloteo: React.FC = () => {
 
         const response = await swapSides(matchId);
         if (response.event) {
-            state.socket?.emit('updateEvents');
+            state.socket?.emit('updateEvents', {eventId: response.event.id});
         }
     };
 

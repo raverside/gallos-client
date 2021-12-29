@@ -47,12 +47,6 @@ const UserEvents: React.FC = () => {
     });
 
     useEffect(() => {
-        state.socket.on("syncEvents", () => {
-            fetchEvents();
-        });
-    }, []);
-
-    useEffect(() => {
         if (stadiumSelected && statisticTab) {
             fetchStatistics();
         }
@@ -178,7 +172,7 @@ const UserEvents: React.FC = () => {
                                 end: moment(statisticsDateFilter.end).year(+e.detail.value!).format("YYYY-MM-DD")
                             })}>
                                 <IonSelectOption value={moment().startOf("year").format("YYYY")}>{moment().format("YYYY")}</IonSelectOption>
-                                {/*<IonSelectOption value={moment().startOf("year").subtract(1, 'year').format("YYYY")}>{moment().subtract(1, 'year').format("YYYY")}</IonSelectOption>*/}
+                                <IonSelectOption value={moment().startOf("year").subtract(1, 'year').format("YYYY")}>{moment().subtract(1, 'year').format("YYYY")}</IonSelectOption>
                                 {/*<IonSelectOption value={moment().startOf("year").subtract(2, 'year').format("YYYY")}>{moment().subtract(2, 'year').format("YYYY")}</IonSelectOption>*/}
                             </IonSelect>
                         </div>}
