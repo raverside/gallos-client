@@ -45,6 +45,7 @@ type ParticipantFormData = {
     participated_before?: boolean|null;
     status?: string;
     reason?: string;
+    team?: any;
 };
 type ParticipantProps = {
     close: () => void;
@@ -90,7 +91,7 @@ const ParticipantPhotoUploader: React.FC<ParticipantProps> = ({fetchEvent, close
 
     return (<>
         <IonToolbar className="modal-header">
-            <IonTitle className="page-title"><p>{t('events.upload_photo')}</p></IonTitle>
+            <IonTitle className="page-title"><p>{t('events.upload_photo')}</p><p className="page-subtitle">{participant ? "#" + participant.cage + " " + participant.team?.name : ""}</p></IonTitle>
             <IonButtons slot="start">
                 <IonIcon
                     icon={closeIcon}
