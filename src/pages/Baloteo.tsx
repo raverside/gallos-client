@@ -15,7 +15,7 @@ import {
     IonImg,
     IonButton, IonGrid, IonIcon, useIonActionSheet, IonList, IonItem, IonModal, IonRefresherContent, IonRefresher,
 } from '@ionic/react';
-import React, {useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {getEvent, publishMatch, swapSides, announceEvent, deleteMatch} from "../api/Events";
 
 import './Baloteo.css';
@@ -36,9 +36,11 @@ import PrintMatch from '../components/Events/PrintMatch';
 import {useTranslation} from "react-multi-lang";
 import ParticipantGallery from "../components/Events/ParticipantGallery";
 import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploader";
+import {AppContext} from "../State";
 
 const Baloteo: React.FC = () => {
     const t = useTranslation();
+    const { state } = useContext(AppContext);
     const [event, setEvent] = useState<any>([]);
     const [baloteoSearch, setBaloteoSearch] = useState<string>("");
     const [baloteoTab, setBaloteoTab] = useState<string>("live");
@@ -109,6 +111,7 @@ const Baloteo: React.FC = () => {
         if (response.event) {
             setEvent(response.event);
             setSwitchSidesDisabled(false);
+            state.socket?.emit('updateEvents');
         } else {
             setSwitchSidesDisabled(false);
         }
