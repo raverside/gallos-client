@@ -8,7 +8,7 @@ import {IonButtons, IonContent, IonIcon, IonTitle, IonToolbar} from "@ionic/reac
 import {closeOutline as closeIcon} from "ionicons/icons";
 
 
-const ShareParticipantImage = React.forwardRef<any, any>(({participant, event, close}) => {
+const ShareParticipantImage: React.FC<any> = ({participant, event, close}) => {
     const t = useTranslation();
 
     return (<>
@@ -82,6 +82,6 @@ const ShareParticipantImage = React.forwardRef<any, any>(({participant, event, c
             </div>
         </IonContent>
     </>);
-});
+};
 
 export default ShareParticipantImage;

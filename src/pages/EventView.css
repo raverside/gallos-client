@@ -132,9 +132,14 @@
     font-weight:600;
 }
 .share-participant-user {
-    position: absolute;
-    top:5px;
-    right:6px;
+    text-transform: capitalize;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+    height: auto;
+    width: 100%;
+    max-width: 235px;
+    margin: 10px auto 0 auto;
+    display:block;
 }
 .participant-thumb-user {
     width: 100%;

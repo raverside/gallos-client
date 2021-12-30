@@ -1,39 +1,19 @@
-import {IonButton, IonButtons, IonIcon, IonImg, IonTitle, IonToolbar} from '@ionic/react';
 import React, {useState} from "react";
 
 import {getImageUrl, formatOzToLbsOz} from '../utils';
 
 import './ShareEventImage.css';
-import {closeOutline as closeIcon} from "ionicons/icons";
 import logo from "../../img/logo.png";
 import {useTranslation} from "react-multi-lang";
 
-
-type EventImageProps = {
-    match: any;
-    close: () => void;
-};
-
-const ShareMatchImage: React.FC<EventImageProps> = ({match, close}) => {
+const ShareMatchImage = React.forwardRef<any, any>( ({match, close}, ref) => {
     const t = useTranslation();
-    return (<>
-        <IonToolbar className="modal-header">
-            <IonTitle className="page-title">Share</IonTitle>
-            <IonButtons slot="end">
-                <IonIcon
-                    icon={closeIcon}
-                    className="notifications-close-icon"
-                    slot="end"
-                    onClick={() => close()}
-                />
-            </IonButtons>
-        </IonToolbar>
-
+    return (<div ref={ref}>
         <div className="share-logo">
-            <IonImg src={logo} className="logo" />
+            <img src={logo} className="logo" />
         </div>
         <div className="share-versus">
-            <IonImg className={match.participant?.image_flipped ? "share-match-image flipped" : "share-match-image"} src={getImageUrl(match.participant?.image)} />
+            <img className={match.participant?.image_flipped ? "share-match-image flipped" : "share-match-image"} src={getImageUrl(match.participant?.image)} />
             <div className="share-versus-info">
                 <div className="share-versus-info_row">
                     <div className="share-versus-type">{match.participant?.type}</div>
@@ -81,12 +61,12 @@ const ShareMatchImage: React.FC<EventImageProps> = ({match, close}) => {
                     <div className="share-versus-type">{match.opponent?.breeder_name}</div>
                 </div>
             </div>
-            <IonImg className={match.opponent?.image_flipped ? "share-match-image" : "share-match-image flipped"} src={getImageUrl(match.opponent?.image)} />
+            <img className={match.opponent?.image_flipped ? "share-match-image" : "share-match-image flipped"} src={getImageUrl(match.opponent?.image)} />
         </div>
         <div className="shareable-image">
             <div className="shareable-image_footer">GallosCLUB.com</div>
         </div>
-    </>);
-};
+    </div>);
+});
 
 export default ShareMatchImage;

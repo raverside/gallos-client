@@ -42,6 +42,7 @@ import {AppContext} from "../State";
 import domtoimage from "dom-to-image-improved";
 import {useTranslation} from "react-multi-lang";
 import ParticipantGallery from "../components/Events/ParticipantGallery";
+import ShareMatchImage from "../components/Events/ShareMatchImage";
 
 type eventType = any;
 
@@ -54,6 +55,7 @@ const UserEventView: React.FC = () => {
     const [showLoading, setShowLoading] = useState<boolean>(false);
     const [showShare, setShowShare] = useState<eventType|false>(false);
     const [showShareParticipant, setShowShareParticipant] = useState<any>(false);
+    const [showShareMatch, setShowShareMatch] = useState<any>(false);
     const [showParticipantDetails, setShowParticipantDetails] = useState<any>(false);
     const [baloteoTab, setBaloteoTab] = useState<string>("receiving");
     const [baloteoSearch, setBaloteoSearch] = useState<string>("");
@@ -61,6 +63,7 @@ const UserEventView: React.FC = () => {
     const [showGalleryImage, setShowGalleryImage] = useState<boolean>(false);
     const history = useHistory();
     const shareRef = React.useRef();
+    const shareMatchRef = React.useRef();
     const shareParticipantRef = React.useRef();
 
     useEffect(() => {
@@ -112,6 +115,32 @@ const UserEventView: React.FC = () => {
             // @ts-ignore
             if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
                 navigator.share({title: event.title || t('events.default_event_name'), files: filesArray});
+            }
+        });
+    }
+
+    const shareMatch = async (match:any) => {
+        if (!match) return false;
+        const element = shareMatchRef.current;
+        setShowShareMatch(match);
+        domtoimage.toBlob(element!).then((blob:Blob) => {
+            const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
+
+            //download the file
+            const a = document.createElement("a");
+            a.href  = window.URL.createObjectURL(file);
+            a.setAttribute("download", file.name);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            const filesArray:any = [file];
+            setShowShareMatch(false);
+
+            //share the file
+            // @ts-ignore
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
+                navigator.share({title: t('events.share_participant'), files: filesArray});
             }
         });
     }
@@ -206,7 +235,7 @@ const UserEventView: React.FC = () => {
                                             <IonImg
                                                 className={match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image"}
                                                 src={getImageUrl(match.participant?.image)}
-                                                onClick={() => viewParticipantImage(match.participant)}
+                                                onClick={() => match.participant?.image && viewParticipantImage(match.participant)}
                                             />
                                             <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
                                         </div>
@@ -221,7 +250,7 @@ const UserEventView: React.FC = () => {
                                             <IonImg
                                                 className={match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped"}
                                                 src={getImageUrl(match.opponent?.image)}
-                                                onClick={() => viewParticipantImage(match.opponent)}
+                                                onClick={() => match.opponent?.image && viewParticipantImage(match.opponent)}
                                             />
                                             <p className="baloteo-match-team_name">{match.opponent?.team?.name}</p>
                                         </div>
@@ -235,6 +264,11 @@ const UserEventView: React.FC = () => {
                                         {match.result === 3 && <IonText color="primary">{t('baloteo.cancelled')}</IonText>}
                                     </IonCol>
                                 </IonRow>}
+                                <IonRow>
+                                    <IonCol size="12">
+                                        <IonButton className="share-participant-user" color="secondary" onClick={() => shareMatch(match)}>{t('events.share_participant')}</IonButton>
+                                    </IonCol>
+                                </IonRow>
                             </IonGrid>
                         ))}
                     </IonGrid>
@@ -294,8 +328,12 @@ const UserEventView: React.FC = () => {
                                                 className={participant.image_flipped ? "participant-thumb-user baloteo" : "participant-thumb-user baloteo flipped"}
                                                 onClick={() => viewParticipantImage(participant)}
                                             />
-                                            <IonButton className="share-participant-user" color="light" onClick={() => shareParticipant(participant)}><IonIcon className="view-note-menu" icon={shareIcon} /></IonButton>
                                         </>}
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol size="12">
+                                        <IonButton className="share-participant-user" color="secondary" onClick={() => shareParticipant(participant)}>{t('events.share_participant')}</IonButton>
                                     </IonCol>
                                 </IonRow>
                             </IonGrid>
@@ -321,8 +359,11 @@ const UserEventView: React.FC = () => {
                 <div style={showShare ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
                     <ShareEventImage event={event} close={() => setShowShare(false)}  ref={shareRef} />
                 </div>
+                <div style={showShareMatch ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
+                    <ShareMatchImage match={showShareMatch} close={() => setShowShareMatch(false)} ref={shareMatchRef} />
+                </div>
                 <div style={showShareParticipant ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
-                    <ShareParticipantImage participant={showShareParticipant} close={() => setShowShareParticipant(false)}  ref={shareParticipantRef} />
+                    <ShareParticipantImage participant={showShareParticipant} close={() => setShowShareParticipant(false)} ref={shareParticipantRef} />
                 </div>
                 <IonModal isOpen={!!showParticipantDetails} onDidDismiss={() => setShowParticipantDetails(false)}>
                     <ParticipantDetails participant={showParticipantDetails} event={event} close={() => setShowParticipantDetails(false)} />

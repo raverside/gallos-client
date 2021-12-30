@@ -125,14 +125,12 @@
 .share-versus {
     display:flex;
     align-items: center;
+    width:2300px;
+    height:1200px;
 }
 .share-versus-info {
     background-color:white;
     padding:15px;
-    opacity:0.6;
-    position:absolute;
-    margin:auto;
-    left:0;right:0;
     width:350px;
 }
 .share-versus-info_row {

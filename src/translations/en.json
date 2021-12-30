@@ -74,6 +74,7 @@
       "confirm_matchmaking_subtitle": "Some participants don't have images. Do you want to continue with the matching process?",
       "edit": "Edit Event",
       "share": "Share Event",
+      "share_participant": "Share",
       "delete_button": "Delete",
       "delete": "Delete Event",
       "delete_confirm": "Are you sure you want to delete this event?",
