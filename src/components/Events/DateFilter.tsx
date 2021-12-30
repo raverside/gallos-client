@@ -63,6 +63,7 @@ const DateFilter: React.FC<FilterProps> = ({filter, setFilter, updateFilter, eve
                 <Calendar
                     value={dateFilter}
                     onChange={(value:Date) => setDateFilter(value)}
+                    minDetail="month"
                     tileContent={({date, view}) => {
                         if (view === 'month' && eventDates.find((ed:any) => ed.date === moment(date).format('YYYY-MM-DD'))){
                             return <div className="datepicker-shortcut-hasEvent">•</div>;

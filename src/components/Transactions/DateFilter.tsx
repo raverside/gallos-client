@@ -36,7 +36,11 @@ const DateFilter: React.FC<FilterProps> = ({filter, setFilter, updateFilter}) =>
         </div>
         <IonModal id="overlay-modal" isOpen={showFilterModal} onDidDismiss={() => setShowFilterModal(false)}>
             <form className="datepicker-filter-form">
-                <Calendar value={dateFilter} onChange={(value:Date) => setDateFilter(value)}/>
+                <Calendar
+                    value={dateFilter}
+                    onChange={(value:Date) => setDateFilter(value)}
+                    minDetail="month"
+                />
                 <IonButton expand="block" onClick={Submit}>{t('general.calendar_select')}</IonButton>
             </form>
         </IonModal>

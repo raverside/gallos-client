@@ -71,7 +71,7 @@
     width:100%;
     max-width:40px !important;
     height:40px;
-    margin:6px;
+    margin:6px auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,8 +113,16 @@
     color:#EB0404;
     position:absolute;
     bottom:-2px;
-    left:4px;
+    left:0;
     right:0;
     width:10px;
     margin:auto;
+}
+.react-calendar__navigation {
+    display: flex;
+    justify-content: center;
+}
+.react-calendar__navigation__label {
+    flex-grow: initial !important;
+    margin-bottom:-6px;
 }
