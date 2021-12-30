@@ -118,6 +118,7 @@
 .baloteo-participant-status {
     text-transform:capitalize;
     font-size:12px;
+    font-weight:600;
 }
 .baloteo-participant-status.green {
     color:#307A0E;
@@ -129,4 +130,54 @@
     text-align:center;
     margin:20px;
     font-weight:600;
+}
+.share-participant-user {
+    position: absolute;
+    top:5px;
+    right:6px;
+}
+.participant-thumb-user {
+    width: 100%;
+    max-width:200px;
+    border-radius: 5px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+}
+.participant-thumb-user.flipped {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+.participant-thumb-user::part(image) {
+    object-fit:cover;
+}
+.red-cage-number {
+    background-color:#EB0404;
+    color:white;
+    font-weight:600;
+    padding: 5px 7px;
+    border-radius:3px;
+    display:inline-block;
+    margin-right: 10px;
+}
+.participant ion-grid {
+    padding:0;
+}
+.participant ion-col {
+    padding: 2px;
+}
+.user-baloteo-participant-creds {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: calc(100% - 45px);
+}
+.user-baloteo-participant-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #2C2626;
+    line-height: 21px;
+    display: inline-block;
+    vertical-align: middle;
 }

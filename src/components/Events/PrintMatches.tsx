@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import {formatOzToLbsOz, getStadiumInitials} from "../utils";
+import {formatOzToLbsOz, getStadiumInitials, getParticipantBettingAmount} from "../utils";
 import {useTranslation} from "react-multi-lang";
 
 const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
@@ -62,25 +62,6 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
             title = t('events.print_all_animals_nonlive');
             printMatches = allParticipantsNonLive;
         break;
-    }
-
-    const getBettingAmount = (participant:any) => {
-        if (!participant) return "";
-        let betting_pref = 'Open';
-        switch (participant.betting_amount) {
-            case "bronze":
-                if (event.bronze > 0) betting_pref = ((event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze));
-                break;
-            case "silver":
-                if (event.silver_one > 0) betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one);
-                if (event.silver_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.silver_two).find(x => x.type === "integer")?.value;
-                break;
-            case "gold":
-                if (event.gold_one > 0) betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one);
-                if (event.gold_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.gold_two).find(x => x.type === "integer")?.value;
-                break;
-        }
-        return betting_pref;
     }
 
     const getBettingPreference = (participant:any, opponent:any) => {
@@ -269,7 +250,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.betting_amount')}</div>
-                                <div style={{textAlign: "center", width: "40mm"}}>{getBettingAmount(participant)}</div>
+                                <div style={{textAlign: "center", width: "40mm"}}>{getParticipantBettingAmount(participant, event)}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.betting_preference')}</div>
@@ -294,7 +275,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                     </thead>
                     <tbody>
                     {printMatches?.map((participant:any, index:number) => {
-                        const betting_amount = getBettingAmount(participant);
+                        const betting_amount = getParticipantBettingAmount(participant, event);
 
                         return (<tr style={{borderBottom: "1px solid black", lineHeight: "14px"}}>
                             <td style={{textAlign:"center", fontWeight: "bold", verticalAlign: "top"}}><p style={{margin: "5px 0"}}>#{participant.cage}</p></td>

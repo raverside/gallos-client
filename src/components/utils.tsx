@@ -1,6 +1,8 @@
 import roosterPlaceholder from "../img/rooster_transparent.png";
 import roosterBlackPlaceholder from "../img/rooster_transparent_black.png";
 
+const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0});
+
 export function formatPasscode(passcode: string) {
     return passcode?.replace(/[^\dA-Z]/gi, '')
         .toUpperCase()
@@ -56,4 +58,23 @@ export function getStadiumInitials(stadium:string) {
             return "";
         break;
     }
+}
+
+export function getParticipantBettingAmount(participant:any, event:any) {
+    if (!participant || !event) return "";
+    let betting_pref = 'Open';
+    switch (participant.betting_amount) {
+        case "bronze":
+            if (event.bronze > 0) betting_pref = ((event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze));
+            break;
+        case "silver":
+            if (event.silver_one > 0) betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one);
+            if (event.silver_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.silver_two).find(x => x.type === "integer")?.value;
+            break;
+        case "gold":
+            if (event.gold_one > 0) betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one);
+            if (event.gold_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.gold_two).find(x => x.type === "integer")?.value;
+            break;
+    }
+    return betting_pref;
 }

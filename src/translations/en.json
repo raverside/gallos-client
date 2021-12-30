@@ -202,7 +202,9 @@
       "phase_ongoing": "On Going",
       "phase_undefined": "Loading...",
       "upload_complete": "Complete",
-      "save": "Save"
+      "save": "Save",
+      "experienced_participant": "Peliado",
+      "not_experienced_participant": "Sin Pelear"
   },
   "judge": {
       "no_baloteo": "No Baloteo",

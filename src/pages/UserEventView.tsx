@@ -25,7 +25,7 @@ import Gallery from '../components/Gallery';
 import React, {useContext, useEffect, useState} from "react";
 import {getEvent} from "../api/Events";
 import {useParams} from 'react-router-dom';
-import {formatOzToLbsOz, getImageUrl} from '../components/utils';
+import {formatOzToLbsOz, getImageUrl, getParticipantBettingAmount} from '../components/utils';
 
 import './EventView.css';
 import fullscreenIcon from "../img/fullscreen.png";
@@ -231,15 +231,6 @@ const UserEventView: React.FC = () => {
                                         {match.result === 2 && <IonText>{t('baloteo.draw')}{(match.match_time) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
                                         {match.result === 3 && <IonText color="primary">{t('baloteo.cancelled')}</IonText>}
                                     </IonCol>
-                                    {/*<IonCol size="2">*/}
-                                    {/*    <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({*/}
-                                    {/*        buttons: [*/}
-                                    {/*            { text: 'Share this match', handler: () => {} },*/}
-                                    {/*            { text: 'Cancel', handler: () => dismiss(), cssClass: 'action-sheet-cancel'}*/}
-                                    {/*        ],*/}
-                                    {/*        header: 'Settings'*/}
-                                    {/*    })}><IonIcon size="small" icon={menuIcon} /></IonButton>*/}
-                                    {/*</IonCol>*/}
                                 </IonRow>}
                             </IonGrid>
                         ))}
@@ -282,27 +273,26 @@ const UserEventView: React.FC = () => {
                             .map((participant:any) => <IonItem className="participant" lines="none" key={participant.id}>
                             <IonGrid>
                                 <IonRow>
-                                    <IonCol size="2">{participant.cage}</IonCol>
                                     <IonCol size="6">
-                                        {participant.image && <IonImg
-                                            src={getImageUrl(participant.image)}
-                                            className={participant.image_flipped ? "participant-thumb baloteo flipped" : "participant-thumb baloteo"}
-                                            onClick={() => viewParticipantImage(participant)}
-                                        />}
-                                        <div className="baloteo-participant-creds">
-                                            <div className="baloteo-participant-name">{participant.team?.name}</div>
+                                        <span className="red-cage-number">{participant.cage}</span>
+                                        <div className="user-baloteo-participant-creds">
+                                            <div className="user-baloteo-participant-name">{participant.team?.name}</div>
+                                            <div className="baloteo-participant-type">{participant.type} {participant.weight && formatOzToLbsOz(participant.weight)}</div>
+                                            <div className="baloteo-participant-type">{getParticipantBettingAmount(participant, event)}</div>
+                                            <div className="baloteo-participant-type">{(participant.participated_before) ? t('events.experienced_participant') : t('events.not_experienced_participant')}</div>
                                             {(participant.status === "approved") && <div className="baloteo-participant-status green">{participant.status}</div>}
                                             {(participant.status === "rejected") && <div className="baloteo-participant-status red">{participant.status}</div>}
                                         </div>
                                     </IonCol>
-                                    <IonCol size="2">
-                                        <div className="baloteo-participant-creds">
-                                            <div className="baloteo-participant-type">{participant.type}</div>
-                                            <div className="baloteo-participant-type">{participant.weight && formatOzToLbsOz(participant.weight)}</div>
-                                        </div>
-                                    </IonCol>
-                                    <IonCol size="2">
-                                        <IonButton fill="clear" color="dark" onClick={() => shareParticipant(participant)}><IonIcon className="view-note-menu" icon={shareIcon} /></IonButton>
+                                    <IonCol size="6" style={{textAlign: "right"}}>
+                                        {participant.image && <>
+                                            <IonImg
+                                                src={getImageUrl(participant.image)}
+                                                className={participant.image_flipped ? "participant-thumb-user baloteo" : "participant-thumb-user baloteo flipped"}
+                                                onClick={() => viewParticipantImage(participant)}
+                                            />
+                                            <IonButton className="share-participant-user" color="light" onClick={() => shareParticipant(participant)}><IonIcon className="view-note-menu" icon={shareIcon} /></IonButton>
+                                        </>}
                                     </IonCol>
                                 </IonRow>
                             </IonGrid>

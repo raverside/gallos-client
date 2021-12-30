@@ -202,7 +202,9 @@
       "phase_ongoing": "En Curso",
       "phase_undefined": "Loading...",
       "upload_complete": "Complete",
-      "save": "Guardar"
+      "save": "Guardar",
+      "experienced_participant": "Peliado",
+      "not_experienced_participant": "Sin Pelear"
   },
   "judge": {
       "no_baloteo": "Tablero de Baloteo",
