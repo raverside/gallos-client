@@ -3,7 +3,6 @@ import {
 } from '@ionic/react';
 import {closeOutline as closeIcon} from "ionicons/icons";
 
-import 'react-medium-image-zoom/dist/styles.css';
 import './Gallery.css';
 
 type GalleryProps = {
