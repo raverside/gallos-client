@@ -1,0 +1,48 @@
+.participant-details-image {
+    margin:auto;
+    display:block;
+}
+.participant-details-name {
+    background-color:black;
+    color:white;
+    font-weight:600;
+    font-size:24px;
+    padding:10px;
+    text-align:center;
+}
+.participant-details-status {
+    color:white;
+    font-weight:600;
+    font-size:16px;
+    padding:10px;
+    text-align:center;
+    text-transform:uppercase;
+}
+.participant-details-status.green {
+    background-color:#307A0E;
+}
+.participant-details-status.red {
+    background-color:#EB0404;;
+}
+.participant-details-info_row {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:0 10px;
+}
+.participant-details-type_label {
+    margin-top:10px;
+    font-weight:600;
+    font-size:16px;
+    color:grey;
+}
+.participant-details-info {
+    margin-bottom:20px;
+}
+.participant-details-type {
+    font-weight:bold;
+    font-size:16px;
+    text-align: center;
+    width: 50%;
+    text-transform:capitalize;
+}

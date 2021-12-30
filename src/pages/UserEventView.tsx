@@ -19,6 +19,7 @@ import {
     IonSegment,
     IonCard,
     IonGrid,
+    IonModal,
     IonRow, IonCol, IonSearchbar, IonList, IonItem, IonRefresherContent, IonRefresher
 } from '@ionic/react';
 import Gallery from '../components/Gallery';
@@ -33,6 +34,7 @@ import moment from "moment";
 import {shareSocialOutline as shareIcon} from "ionicons/icons";
 import ShareEventImage from "../components/Events/ShareEventImage";
 import ShareParticipantImage from "../components/Events/ShareParticipantImage";
+import ParticipantDetails from "../components/Events/ParticipantDetails";
 import {useHistory} from "react-router-dom";
 import {AppContext} from "../State";
 
@@ -52,6 +54,7 @@ const UserEventView: React.FC = () => {
     const [showLoading, setShowLoading] = useState<boolean>(false);
     const [showShare, setShowShare] = useState<eventType|false>(false);
     const [showShareParticipant, setShowShareParticipant] = useState<any>(false);
+    const [showParticipantDetails, setShowParticipantDetails] = useState<any>(false);
     const [baloteoTab, setBaloteoTab] = useState<string>("receiving");
     const [baloteoSearch, setBaloteoSearch] = useState<string>("");
     const [selectedGalleryParticipant, setSelectedGalleryParticipant] = useState<any>(false);
@@ -273,7 +276,7 @@ const UserEventView: React.FC = () => {
                             .map((participant:any) => <IonItem className="participant" lines="none" key={participant.id}>
                             <IonGrid>
                                 <IonRow>
-                                    <IonCol size="6">
+                                    <IonCol size="6" onClick={() => setShowParticipantDetails(participant)}>
                                         <span className="red-cage-number">{participant.cage}</span>
                                         <div className="user-baloteo-participant-creds">
                                             <div className="user-baloteo-participant-name">{participant.team?.name}</div>
@@ -321,6 +324,9 @@ const UserEventView: React.FC = () => {
                 <div style={showShareParticipant ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
                     <ShareParticipantImage participant={showShareParticipant} close={() => setShowShareParticipant(false)}  ref={shareParticipantRef} />
                 </div>
+                <IonModal isOpen={!!showParticipantDetails} onDidDismiss={() => setShowParticipantDetails(false)}>
+                    <ParticipantDetails participant={showParticipantDetails} event={event} close={() => setShowParticipantDetails(false)} />
+                </IonModal>
                 <IonLoading
                     isOpen={showLoading}
                     onDidDismiss={() => setShowLoading(false)}
