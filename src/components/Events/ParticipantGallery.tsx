@@ -3,7 +3,6 @@ import {
 } from '@ionic/react';
 import {closeOutline as closeIcon} from "ionicons/icons";
 
-import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import './ParticipantGallery.css';
 import {useTranslation} from "react-multi-lang";
@@ -22,7 +21,7 @@ type GalleryProps = {
 const ParticipantGallery: React.FC<GalleryProps> = ({participant, showModal, setShowModal, showPhotoUploader, eventPhase}) => {
     const t = useTranslation();
     const { state } = useContext(AppContext);
-    const title = participant.team?.name || "";
+    const title = participant ? "#" + participant.cage + " " + participant.team?.name : "";
     const images = [getImageUrl(participant.image)];
 
     return (
@@ -52,7 +51,7 @@ const ParticipantGallery: React.FC<GalleryProps> = ({participant, showModal, set
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-                <Zoom><IonImg src={images[0]} className={participant.image_flipped ? "gallery-slider gallery-participant-image flipped" : "gallery-slider gallery-participant-image"}/></Zoom>
+                <IonImg src={images[0]} className={participant.image_flipped ? "gallery-slider gallery-participant-image flipped" : "gallery-slider gallery-participant-image"}/>
 
                 {/*<IonSlides className="gallery-slider-thumbnails">*/}
                 {/*    {images.map((image, index) => (*/}

@@ -88,5 +88,5 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 ion-content::part(scroll) {
-    touch-action: pan-y pinch-zoom;
+    touch-action: manipulation;
 }
