@@ -136,8 +136,11 @@ const Baloteo: React.FC = () => {
     };
 
     const unpairMatch = async (matchId:string) => {
-        await deleteMatch(matchId);
-        fetchEvent();
+        const response = await deleteMatch(matchId);
+        if (response) {
+            fetchEvent();
+            state.socket?.emit('updateEvents');
+        }
     };
 
     return !event ? null : (

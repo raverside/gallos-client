@@ -35,8 +35,10 @@ import {shareSocialOutline as shareIcon} from "ionicons/icons";
 import ShareEventImage from "../components/Events/ShareEventImage";
 import ShareParticipantImage from "../components/Events/ShareParticipantImage";
 import ParticipantDetails from "../components/Events/ParticipantDetails";
+import CompareMatch from "../components/Events/CompareMatch";
 import {useHistory} from "react-router-dom";
 import {AppContext} from "../State";
+import compareIcon from "../img/compare.png";
 
 // @ts-ignore
 import domtoimage from "dom-to-image-improved";
@@ -57,6 +59,7 @@ const UserEventView: React.FC = () => {
     const [showShareParticipant, setShowShareParticipant] = useState<any>(false);
     const [showShareMatch, setShowShareMatch] = useState<any>(false);
     const [showParticipantDetails, setShowParticipantDetails] = useState<any>(false);
+    const [showCompareMatch, setShowCompareMatch] = useState<any>(false);
     const [baloteoTab, setBaloteoTab] = useState<string>("receiving");
     const [baloteoSearch, setBaloteoSearch] = useState<string>("");
     const [selectedGalleryParticipant, setSelectedGalleryParticipant] = useState<any>(false);
@@ -244,6 +247,7 @@ const UserEventView: React.FC = () => {
                                         <p className="baloteo-match-fight">{t('baloteo.fight')} {index + 1}</p>
                                         <p className="baloteo-match-vs">VS</p>
                                         {match.manual && <p className="baloteo-match-manual">Manual</p>}
+                                        <IonButton fill="clear" className="compare-button" onClick={() => setShowCompareMatch(match)}><img src={compareIcon}/></IonButton>
                                     </IonCol>
                                     <IonCol size="5">
                                         <div className="white_side">
@@ -367,6 +371,9 @@ const UserEventView: React.FC = () => {
                 </div>
                 <IonModal isOpen={!!showParticipantDetails} onDidDismiss={() => setShowParticipantDetails(false)}>
                     <ParticipantDetails participant={showParticipantDetails} event={event} close={() => setShowParticipantDetails(false)} />
+                </IonModal>
+                <IonModal isOpen={!!showCompareMatch} onDidDismiss={() => setShowCompareMatch(false)}>
+                    <CompareMatch match={showCompareMatch} event={event} close={() => setShowCompareMatch(false)} />
                 </IonModal>
                 <IonLoading
                     isOpen={showLoading}

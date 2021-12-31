@@ -1,11 +1,12 @@
 import {IonButton, IonGrid, IonCol, IonImg, IonRow, IonSearchbar, IonList} from "@ionic/react";
 import {getImageUrl, formatOzToLbsOz} from "../utils";
 import {IonText} from '@ionic/react';
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {createMatch} from "../../api/Events";
 
 import './PairManual.css';
 import {useTranslation} from "react-multi-lang";
+import {AppContext} from "../../State";
 
 type PairManualProps = {
     participantId: string|false;
@@ -17,6 +18,7 @@ type PairManualProps = {
 
 const PairManual: React.FC<PairManualProps> = ({participantId, opponents, fightNumber, close, fetchEvent}) => {
     const t = useTranslation();
+    const { state } = useContext(AppContext);
     const participant = opponents?.find(o => o.id === participantId);
     const [opponent, setOpponent] = useState<any>(false);
     const [searchOpponent, setSearchOpponent] = useState<string>("");
@@ -26,7 +28,10 @@ const PairManual: React.FC<PairManualProps> = ({participantId, opponents, fightN
     const pairMatch = async () => {
         if (participantId) {
             const response = await createMatch(opponent.event_id, participantId, opponent.id, true);
-            if (response) fetchEvent();
+            if (response) {
+                fetchEvent();
+                state.socket?.emit('updateEvents');
+            }
         }
         close();
     };

@@ -1,0 +1,62 @@
+.compare-info_row {
+    display:flex;
+    justify-content:space-between;
+    margin: 10px;
+}
+.compare-type {
+    font-weight:bold;
+    text-transform:capitalize;
+    width:33%;
+    text-align:center;
+}
+.compare-type.green {
+    color: #77b587;
+}
+.compare-type_label {
+    font-weight:600;
+}
+.compare-images {
+    display: flex;
+}
+.compare-images ion-img {
+    width:50%;
+    object-fit:fill;
+}
+.compare-images ion-img.flipped {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+.compare-names {
+    display: flex;
+    align-items:stretch;
+    justify-content:space-between;
+}
+.compare-name {
+    padding:10px;
+    text-align:center;
+    font-weight:bold;
+    color:white;
+    width:45%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.compare-name.blue-side {
+    background-color:#002D72;
+}
+.compare-name.white-side {
+    background-color:black;
+}
+.compare-versus {
+    font-weight:bold;
+    padding:0 15px;
+    width:10%;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+.compare-match {
+    margin-left: -36px;
+}

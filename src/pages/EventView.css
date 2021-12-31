@@ -186,3 +186,11 @@
     display: inline-block;
     vertical-align: middle;
 }
+.compare-button {
+    width: 60px;
+    max-width: 100%;
+}
+.compare-button img{
+    width: 24px;
+    max-width: 24px;
+}
