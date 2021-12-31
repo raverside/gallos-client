@@ -258,10 +258,10 @@ const UserEventView: React.FC = () => {
                                 </IonRow>
                                 {(match.result !== null) && <IonRow>
                                     <IonCol size="8" offset="2">
-                                        {match.result === 0 && <IonText color="tertiary">{t('baloteo.blue_side_wins')}{(match.match_time) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
-                                        {match.result === 1 && <IonText>{t('baloteo.white_side_wins')}{(match.match_time) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
-                                        {match.result === 2 && <IonText>{t('baloteo.draw')}{(match.match_time) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
-                                        {match.result === 3 && <IonText color="primary">{t('baloteo.cancelled')}</IonText>}
+                                        {match.result === 0 && <IonText color="tertiary">{t('judge.blue_side_wins')}{(match.match_time) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
+                                        {match.result === 1 && <IonText>{t('judge.white_side_wins')}{(match.match_time) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
+                                        {match.result === 2 && <IonText>{t('judge.draw')}{(match.match_time) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
+                                        {match.result === 3 && <IonText color="primary">{t('judge.cancelled')}</IonText>}
                                     </IonCol>
                                 </IonRow>}
                                 <IonRow>
