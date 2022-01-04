@@ -13,7 +13,7 @@ import {
     IonRow,
     IonCol,
     IonImg, IonGrid, IonList, IonItem,
-    IonCard, IonIcon, IonModal, IonRefresherContent, IonRefresher
+    IonCard, IonIcon, IonModal, IonRefresherContent, IonRefresher, IonText
 } from '@ionic/react';
 import React, {useContext, useEffect, useState} from "react";
 import {getEvent} from "../api/Events";
@@ -28,6 +28,7 @@ import ParticipantGallery from "../components/Events/ParticipantGallery";
 import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploader";
 import EventPhaseManagement from "../components/Events/PhaseManagement";
 import {AppContext} from "../State";
+import moment from "moment";
 
 const BaloteoStats: React.FC = () => {
     const t = useTranslation();
@@ -78,6 +79,8 @@ const BaloteoStats: React.FC = () => {
 
     const matches = (event && baloteoSearch) ? event.matches?.filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name === baloteoSearch || m.opponent?.team?.name === baloteoSearch) : event?.matches;
     const liveMatches = matches?.filter((p:any) => p.live) || [];
+    const completeMatches = matches?.filter((m:any) => !m.live && m.result !== null) || [];
+    const activeMatches = (baloteoTab === "results") ? completeMatches : liveMatches;
 
     return !event ? null : (
         <IonPage>
@@ -106,11 +109,11 @@ const BaloteoStats: React.FC = () => {
                 {((state.user.role === "admin" || state.user.role === "admin_manager") && event) && <EventPhaseManagement event={event} setEvent={setEvent}/>}
                 <IonSegment value={baloteoTab} onIonChange={(e) => setBaloteoTab(e.detail.value!)} className="user-profile-tabs-segment">
                     <IonSegmentButton value="matches"><IonLabel>{t('baloteo.tab_matches')}</IonLabel></IonSegmentButton>
-                    <IonSegmentButton disabled value="results"><IonLabel>{t('baloteo.tab_results')}</IonLabel></IonSegmentButton>
+                    <IonSegmentButton disabled={!(completeMatches.length > 0)} value="results"><IonLabel>{t('baloteo.tab_results')}</IonLabel></IonSegmentButton>
                     <IonSegmentButton disabled value="statistics"><IonLabel>{t('baloteo.tab_statistics')}</IonLabel></IonSegmentButton>
                     <IonSegmentButton value="animals"><IonLabel>{t('baloteo.tab_animals')}</IonLabel></IonSegmentButton>
                 </IonSegment>
-                {(baloteoTab === "matches") && <div className="baloteo-matches">
+                {(baloteoTab === "matches" || baloteoTab === "results") && <div className="baloteo-matches">
                     <IonSearchbar className="searchbar" placeholder={t('baloteo.search')} value={baloteoSearch} onIonChange={e => {setBaloteoSearch(e.detail.value!)}} />
                     <IonGrid className="baloteo-match">
                         <IonRow className="baloteo-side-header">
@@ -126,9 +129,9 @@ const BaloteoStats: React.FC = () => {
                                 </div>
                             </IonCol>
                         </IonRow>
-                        {liveMatches.map((match:any, index:number) => (
+                        {activeMatches.map((match:any, index:number) => (<div className="baloteo-match-wrapper">
 
-                                <IonRow className="baloteo-match-wrapper">
+                                <IonRow>
                                     <IonCol size="5">
                                         <div className="blue_side">
                                             <IonImg
@@ -153,7 +156,16 @@ const BaloteoStats: React.FC = () => {
                                         </div>
                                     </IonCol>
                                 </IonRow>
-                        ))}
+                                {(match.result !== null) && <IonRow>
+                                    <IonCol size="8" offset="2">
+                                        {match.result === 0 && <IonText color="tertiary">{t('judge.blue_side_wins')}{(match.match_time) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
+                                        {match.result === 1 && <IonText>{t('judge.white_side_wins')}{(match.match_time) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
+                                        {match.result === 2 && <IonText>{t('judge.draw')}{(match.match_time) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
+                                        {match.result === 3 && <IonText color="primary">{t('judge.cancelled')}</IonText>}
+                                    </IonCol>
+                                </IonRow>}
+
+                        </div>))}
                     </IonGrid></div>}
                 {(baloteoTab === "animals") && <div className="baloteo-participants">
                     <IonCard className="baloteo-stats-card">
