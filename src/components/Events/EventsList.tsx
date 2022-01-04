@@ -9,7 +9,7 @@ import {
     IonButton,
     IonAvatar,
     IonText,
-    IonIcon, useIonActionSheet
+    IonIcon, useIonActionSheet,
 } from '@ionic/react';
 import {getImageUrl} from '../utils';
 import moment from 'moment';
@@ -44,7 +44,14 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
         const element = shareRef.current;
         setShowShare(event);
         domtoimage.toBlob(element!).then(async (blob:Blob) => {
-            const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
+            const file = new File([blob!], +new Date() + ".png", { type: blob.type });
+            const filesArray:any = [file];
+            setShowShare(false);
+
+            //share the file
+            if (navigator.canShare && navigator.canShare({files: filesArray})) {
+                navigator.share({files: filesArray});
+            }
 
             //download the file
             const a = document.createElement("a");
@@ -53,15 +60,6 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-
-            const filesArray:any = [file];
-            setShowShare(false);
-
-            //share the file
-            // @ts-ignore
-            if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
-                navigator.share({files: filesArray});
-            }
         });
     }
 

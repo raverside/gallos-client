@@ -101,7 +101,14 @@ const UserEventView: React.FC = () => {
         const element = shareRef.current;
         setShowShare(event);
         domtoimage.toBlob(element!).then((blob:Blob) => {
-            const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
+            const file = new File([blob!], +new Date() + ".png", { type: "image/png" });
+            const filesArray:any = [file];
+            setShowShare(false);
+
+            //share the file
+            if (navigator.canShare && navigator.canShare({files: filesArray})) {
+                navigator.share({files: filesArray});
+            }
 
             //download the file
             const a = document.createElement("a");
@@ -110,15 +117,6 @@ const UserEventView: React.FC = () => {
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-
-            const filesArray:any = [file];
-            setShowShare(false);
-
-            //share the file
-            // @ts-ignore
-            if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
-                navigator.share({files: filesArray});
-            }
         });
     }
 
@@ -128,6 +126,13 @@ const UserEventView: React.FC = () => {
         setShowShareMatch(match);
         domtoimage.toBlob(element!).then((blob:Blob) => {
             const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
+            const filesArray:any = [file];
+            setShowShareMatch(false);
+
+            //share the file
+            if (navigator.canShare && navigator.canShare({files: filesArray})) {
+                navigator.share({files: filesArray});
+            }
 
             //download the file
             const a = document.createElement("a");
@@ -136,15 +141,6 @@ const UserEventView: React.FC = () => {
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-
-            const filesArray:any = [file];
-            setShowShareMatch(false);
-
-            //share the file
-            // @ts-ignore
-            if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
-                navigator.share({files: filesArray});
-            }
         });
     }
 
@@ -154,6 +150,13 @@ const UserEventView: React.FC = () => {
         setShowShareParticipant(participant);
         domtoimage.toBlob(element!).then((blob:Blob) => {
             const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
+            const filesArray:any = [file];
+            setShowShareParticipant(false);
+
+            //share the file
+            if (navigator.canShare && navigator.canShare({files: filesArray})) {
+                navigator.share({files: filesArray});
+            }
 
             //download the file
             const a = document.createElement("a");
@@ -162,15 +165,6 @@ const UserEventView: React.FC = () => {
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-
-            const filesArray:any = [file];
-            setShowShareParticipant(false);
-
-            //share the file
-            // @ts-ignore
-            if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
-                navigator.share({files: filesArray});
-            }
         });
     }
 

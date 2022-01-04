@@ -149,6 +149,13 @@ const TeamOwner: React.FC = () => {
         setShowShare(true);
         domtoimage.toBlob(element!).then((blob:Blob) => {
             const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
+            const filesArray:any = [file];
+            setShowShare(false);
+
+            //share the file
+            if (navigator.canShare && navigator.canShare({files: filesArray})) {
+                navigator.share({files: filesArray});
+            }
 
             //download the file
             const a = document.createElement("a");
@@ -157,15 +164,6 @@ const TeamOwner: React.FC = () => {
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-
-            const filesArray:any = [file];
-            setShowShare(false);
-
-            //share the file
-            // @ts-ignore
-            if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
-                navigator.share({files: filesArray});
-            }
         });
 
 
