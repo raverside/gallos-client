@@ -32,7 +32,7 @@ const DateFilter: React.FC<FilterProps> = ({filter, setFilter, updateFilter}) =>
     return (<>
         <div className="datepicker-block">
             <IonText className="datepicker-current-date">{filter ? moment(filter).format("D MMMM YYYY") : moment().format("D MMMM YYYY")}</IonText>
-            <IonButton fill="clear" color="dark" onClick={() => setShowFilterModal(true)}><IonIcon slot="icon-only" icon={calendarIcon} size="medium" /></IonButton>
+            <IonButton fill="clear" color="dark" className="calendar-button" onClick={() => setShowFilterModal(true)}>{t('events.calendar')} <IonIcon slot="end" icon={calendarIcon} size="medium" /></IonButton>
         </div>
         <IonModal id="overlay-modal" isOpen={showFilterModal} onDidDismiss={() => setShowFilterModal(false)}>
             <form className="datepicker-filter-form">

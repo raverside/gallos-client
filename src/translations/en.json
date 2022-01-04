@@ -207,7 +207,8 @@
       "experienced_participant": "Peliado",
       "not_experienced_participant": "Sin Pelear",
       "confirm_phase_change_title": "Change Phase",
-      "confirm_phase_change_subtitle": "Are you sure you want to change this event's phase?"
+      "confirm_phase_change_subtitle": "Are you sure you want to change this event's phase?",
+      "calendar": "Calendar"
   },
   "judge": {
       "no_baloteo": "No Baloteo",

@@ -11,8 +11,8 @@
 .datepicker-block ion-button {
     --padding-top: 0;
     --padding-bottom: 0;
-    --padding-start: 0;
-    --padding-end: 0;
+    --padding-start: 5px;
+    --padding-end: 5px;
 }
 .datepicker-block ion-icon {
     width: 16px;
@@ -125,4 +125,9 @@
 .react-calendar__navigation__label {
     flex-grow: initial !important;
     margin-bottom:-6px;
+}
+.calendar-button {
+    text-transform:capitalize;
+    font-weight:600;
+    font-size:12px;
 }

@@ -45,7 +45,7 @@ const DateFilter: React.FC<FilterProps> = ({filter, setFilter, updateFilter, eve
     return (<>
         <div className="datepicker-block">
             <IonText className="datepicker-current-date">{(filter && moment(filter).isValid()) ? moment(filter).format("D MMMM YYYY") : moment().format("D MMMM YYYY")}</IonText>
-            <IonButton fill="clear" color="dark" onClick={() => setShowFilterModal(true)}><IonIcon slot="icon-only" icon={calendarIcon} size="medium" /></IonButton>
+            <IonButton fill="clear" color="dark" className="calendar-button" onClick={() => setShowFilterModal(true)}>{t('events.calendar')} <IonIcon slot="end" icon={calendarIcon} size="medium" /></IonButton>
         </div>
         <IonSegment scrollable value={filter} className="datepicker-shortcuts">
             {upcomingDays.map((day:any) => <IonSegmentButton key={day.date} value={day.date} onClick={() => {
