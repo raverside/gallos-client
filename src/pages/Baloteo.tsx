@@ -34,6 +34,7 @@ import ShareMatchImage from "../components/Events/ShareMatchImage";
 import {useReactToPrint} from "react-to-print";
 import PrintMatch from '../components/Events/PrintMatch';
 import {useTranslation} from "react-multi-lang";
+import EventPhaseManagement from "../components/Events/PhaseManagement";
 import ParticipantGallery from "../components/Events/ParticipantGallery";
 import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploader";
 import {AppContext} from "../State";
@@ -66,10 +67,20 @@ const Baloteo: React.FC = () => {
         fetchEvent();
     }, []);
 
+    useEffect(() => {
+        switch (event.phase) {
+            case "receiving":
+                history.replace('/event_receiving/'+event?.id);
+                break;
+            case "on going":
+                history.replace('/baloteo_stats/'+event?.id);
+            break;
+        }
+    }, [event?.phase]);
+
     const fetchEvent = async (callback = () => {}) => {
         const response = await getEvent(id);
         if (response.event) {
-            if (response.event.phase !== "arrangement") history.replace('/baloteo_stats/'+response.event.id);
             setEvent(response.event);
         }
         callback();
@@ -167,6 +178,7 @@ const Baloteo: React.FC = () => {
             </IonHeader>
 
             <IonContent fullscreen>
+                {((state.user.role === "admin" || state.user.role === "admin_manager") && event) && <EventPhaseManagement event={event} setEvent={setEvent}/>}
                 <IonSegment className="events-tabs baloteo-tabs" scrollable value={baloteoTab} onIonChange={(e) => {setBaloteoTab(e.detail.value!);}}>
                     <IonSegmentButton value="live">
                         <IonLabel>{t('baloteo.tab_live')}<span className="barely-visible"> • {liveMatches?.length || 0}</span></IonLabel>
@@ -197,7 +209,7 @@ const Baloteo: React.FC = () => {
                                 </div>
                             </IonCol>
                         </IonRow>
-                        {liveMatches.map((match:any, index:number) => (<IonGrid className="baloteo-match-wrapper">
+                        {liveMatches.map((match:any, index:number) => (<IonGrid className="baloteo-match-wrapper" key={index}>
                                 <IonRow>
                                     <IonCol size="2" offset="10">
                                         <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({

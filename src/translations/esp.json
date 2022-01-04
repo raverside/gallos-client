@@ -205,7 +205,9 @@
       "upload_complete": "Complete",
       "save": "Guardar",
       "experienced_participant": "Peliado",
-      "not_experienced_participant": "Sin Pelear"
+      "not_experienced_participant": "Sin Pelear",
+      "confirm_phase_change_title": "Change Phase",
+      "confirm_phase_change_subtitle": "Are you sure you want to change this event's phase?"
   },
   "judge": {
       "no_baloteo": "Tablero de Baloteo",

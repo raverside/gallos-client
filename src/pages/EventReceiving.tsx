@@ -28,7 +28,7 @@ import {getEvent} from "../api/Events";
 
 import './EventReceiving.css';
 import {AppContext} from "../State";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import CreateParticipantButton from "../components/Events/CreateParticipantButton";
 import ParticipantEditor from "../components/Events/ParticipantEditor";
 import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploader";
@@ -40,6 +40,7 @@ import ConfirmPrompt from "../components/ConfirmPrompt";
 import {useTranslation} from "react-multi-lang";
 import PrintModal from "../components/Events/PrintModal";
 import ParticipantGallery from "../components/Events/ParticipantGallery";
+import EventPhaseManagement from "../components/Events/PhaseManagement";
 
 const EventReceiving: React.FC = () => {
     const t = useTranslation();
@@ -56,11 +57,23 @@ const EventReceiving: React.FC = () => {
     const [showPrintModal, setShowPrintModal] = useState<boolean>(false);
     const { id } = useParams<{id:string}>();
     const [present, dismiss] = useIonActionSheet();
+    const history = useHistory();
     const [showGalleryImage, setShowGalleryImage] = useState<boolean>(false);
 
     useEffect(() => {
         fetchEvent();
     }, []);
+
+    useEffect(() => {
+        switch (event.phase) {
+            case "on going":
+                history.replace('/baloteo_stats/'+event?.id);
+                break;
+            case "arrangement":
+                history.replace('/baloteo/'+event?.id);
+                break;
+        }
+    }, [event?.phase]);
 
     const fetchEvent = async (callback = () => {}) => {
         const response = await getEvent(id);
@@ -116,6 +129,7 @@ const EventReceiving: React.FC = () => {
             </IonHeader>
 
             <IonContent fullscreen>
+                {((state.user.role === "admin" || state.user.role === "admin_manager") && event) && <EventPhaseManagement event={event} setEvent={setEvent}/>}
                 <IonSegment className="events-tabs" value={(participantsTab === "rejected" || participantsTab === "approved") ? participantsTab : "saved"} onIonChange={(e) => {setParticipantsTab(e.detail.value!);}}>
                     <IonSegmentButton value="saved">
                         <IonLabel>{t('events.saved')}<span className="barely-visible"> • {savedParticipants?.length || 0}</span></IonLabel>

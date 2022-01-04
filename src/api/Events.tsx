@@ -28,6 +28,10 @@ export async function removeEvent(id:string) {
     return fetcher.get(`/removeEvent/${id}`)
 }
 
+export async function changeEventPhase(eventId:string, phase:string) {
+    return fetcher.post('/changeEventPhase', {eventId, phase});
+}
+
 export async function upsertParticipant(payload: {image_upload?: File|null, image?: string|null|undefined, image_flipped: boolean}) {
     if (payload.image_upload) {
         const resizedImage = await resizeFile(payload.image_upload);

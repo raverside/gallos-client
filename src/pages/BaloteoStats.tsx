@@ -15,20 +15,23 @@ import {
     IonImg, IonGrid, IonList, IonItem,
     IonCard, IonIcon, IonModal, IonRefresherContent, IonRefresher
 } from '@ionic/react';
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {getEvent} from "../api/Events";
 
 import './Baloteo.css';
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import {getImageUrl, formatOzToLbsOz} from "../components/utils";
 import {useTranslation} from "react-multi-lang";
 import {printOutline as printIcon} from "ionicons/icons";
 import PrintModal from "../components/Events/PrintModal";
 import ParticipantGallery from "../components/Events/ParticipantGallery";
 import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploader";
+import EventPhaseManagement from "../components/Events/PhaseManagement";
+import {AppContext} from "../State";
 
 const BaloteoStats: React.FC = () => {
     const t = useTranslation();
+    const { state } = useContext(AppContext);
     const [event, setEvent] = useState<any>([]);
     const [baloteoSearch, setBaloteoSearch] = useState<string>("");
     const [baloteoTab, setBaloteoTab] = useState<string>("matches");
@@ -37,11 +40,23 @@ const BaloteoStats: React.FC = () => {
     const [selectedGalleryParticipant, setSelectedGalleryParticipant] = useState<any>(false);
     const [showParticipantPhotoUploader, setShowParticipantPhotoUploader] = useState<boolean>(false);
     const [showGalleryImage, setShowGalleryImage] = useState<boolean>(false);
+    const history = useHistory();
     const { id } = useParams<{id:string}>();
 
     useEffect(() => {
         fetchEvent();
     }, []);
+
+    useEffect(() => {
+        switch (event.phase) {
+            case "receiving":
+                history.replace('/event_receiving/'+event?.id);
+                break;
+            case "arrangement":
+                history.replace('/baloteo/'+event?.id);
+                break;
+        }
+    }, [event?.phase]);
 
     const fetchEvent = async (callback = () => {}) => {
         const response = await getEvent(id);
@@ -88,6 +103,7 @@ const BaloteoStats: React.FC = () => {
             </IonHeader>
 
             <IonContent fullscreen>
+                {((state.user.role === "admin" || state.user.role === "admin_manager") && event) && <EventPhaseManagement event={event} setEvent={setEvent}/>}
                 <IonSegment value={baloteoTab} onIonChange={(e) => setBaloteoTab(e.detail.value!)} className="user-profile-tabs-segment">
                     <IonSegmentButton value="matches"><IonLabel>{t('baloteo.tab_matches')}</IonLabel></IonSegmentButton>
                     <IonSegmentButton disabled value="results"><IonLabel>{t('baloteo.tab_results')}</IonLabel></IonSegmentButton>
