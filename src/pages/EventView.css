@@ -187,8 +187,7 @@
     vertical-align: middle;
 }
 .compare-button {
-    width: 60px;
-    max-width: 100%;
+    margin-top:10px;
 }
 .compare-button img{
     width: 24px;

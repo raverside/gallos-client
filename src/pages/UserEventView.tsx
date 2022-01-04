@@ -231,7 +231,7 @@ const UserEventView: React.FC = () => {
                             </IonCol>
                         </IonRow>
                         {activeMatches.map((match:any, index:number) => (
-                            <IonGrid className="baloteo-match-wrapper">
+                            <IonGrid className="baloteo-match-wrapper" key={index}>
                                 <IonRow>
                                     <IonCol size="5">
                                         <div className="blue_side">
@@ -247,7 +247,7 @@ const UserEventView: React.FC = () => {
                                         <p className="baloteo-match-fight">{t('baloteo.fight')} {index + 1}</p>
                                         <p className="baloteo-match-vs">VS</p>
                                         {match.manual && <p className="baloteo-match-manual">Manual</p>}
-                                        <IonButton fill="clear" className="compare-button" onClick={() => setShowCompareMatch(match)}><img src={compareIcon}/></IonButton>
+                                        <IonButton fill="clear" expand="block" className="compare-button" onClick={() => setShowCompareMatch(match)}><img src={compareIcon}/></IonButton>
                                     </IonCol>
                                     <IonCol size="5">
                                         <div className="white_side">
