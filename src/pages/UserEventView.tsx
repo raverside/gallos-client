@@ -117,7 +117,7 @@ const UserEventView: React.FC = () => {
             //share the file
             // @ts-ignore
             if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
-                navigator.share({title: event.title || t('events.default_event_name'), files: filesArray});
+                navigator.share({files: filesArray});
             }
         });
     }
@@ -143,7 +143,7 @@ const UserEventView: React.FC = () => {
             //share the file
             // @ts-ignore
             if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
-                navigator.share({title: t('events.share_participant'), files: filesArray});
+                navigator.share({files: filesArray});
             }
         });
     }
@@ -169,7 +169,7 @@ const UserEventView: React.FC = () => {
             //share the file
             // @ts-ignore
             if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
-                navigator.share({title: participant.team?.name, files: filesArray});
+                navigator.share({files: filesArray});
             }
         });
     }

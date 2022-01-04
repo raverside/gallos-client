@@ -39,11 +39,11 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
     const shareRef = React.useRef();
     const [showShare, setShowShare] = useState<any>(false);
 
-    const shareEvent = async (event:any) => {
+    const shareEvent = (event:any) => {
         if (!event) return false;
         const element = shareRef.current;
         setShowShare(event);
-        domtoimage.toBlob(element!).then((blob:Blob) => {
+        domtoimage.toBlob(element!).then(async (blob:Blob) => {
             const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
 
             //download the file
@@ -60,7 +60,7 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
             //share the file
             // @ts-ignore
             if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
-                navigator.share({title: event.title || t('events.default_event_name'), files: filesArray});
+                navigator.share({files: filesArray});
             }
         });
     }

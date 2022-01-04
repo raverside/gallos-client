@@ -164,7 +164,7 @@ const TeamOwner: React.FC = () => {
             //share the file
             // @ts-ignore
             if (navigator.share && navigator.canShare && navigator.canShare({ files: filesArray })) {
-                navigator.share({title: teamOwner.name, files: filesArray});
+                navigator.share({files: filesArray});
             }
         });
 
