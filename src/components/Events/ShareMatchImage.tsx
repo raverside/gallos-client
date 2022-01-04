@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-import {getImageUrl, formatOzToLbsOz} from '../utils';
+import {getImageUrl, formatOzToLbsOz, getStadiumInitials} from '../utils';
 
 import './ShareEventImage.css';
 import logo from "../../img/logo.png";
@@ -8,8 +8,8 @@ import {useTranslation} from "react-multi-lang";
 
 const ShareMatchImage = React.forwardRef<any, any>( ({match, close}, ref) => {
     const t = useTranslation();
-    return (<div ref={ref}>
-        <div className="share-logo">
+    return (<div className="share-versus-wrapper" ref={ref}>
+        <div className="share-versus-logo">
             <img src={logo} className="logo" />
         </div>
         <div className="share-versus">
@@ -31,9 +31,9 @@ const ShareMatchImage = React.forwardRef<any, any>( ({match, close}, ref) => {
                     <div className="share-versus-type">{match.opponent?.color}</div>
                 </div>
                 <div className="share-versus-info_row">
-                    <div className="share-versus-type">{match.participant?.alas}</div>
+                    <div className="share-versus-type">{match.participant?.alas || "-"}</div>
                     <div className="share-versus-type_label">{t('events.alas')}</div>
-                    <div className="share-versus-type">{match.opponent?.alas}</div>
+                    <div className="share-versus-type">{match.opponent?.alas || "-"}</div>
                 </div>
                 <div className="share-versus-info_row">
                     <div className="share-versus-type">{match.participant?.cresta}</div>
@@ -56,16 +56,19 @@ const ShareMatchImage = React.forwardRef<any, any>( ({match, close}, ref) => {
                     <div className="share-versus-type">{match.opponent?.participated_before ? "Yes" : "No"}</div>
                 </div>
                 <div className="share-versus-info_row">
-                    <div className="share-versus-type">{match.participant?.breeder_name}</div>
+                    <div className="share-versus-type">{match.participant?.breeder_id} {match.participant?.breeder_name}</div>
                     <div className="share-versus-type_label">{t('events.breeder')}</div>
-                    <div className="share-versus-type">{match.opponent?.breeder_name}</div>
+                    <div className="share-versus-type">{match.opponent?.breeder_id} {match.opponent?.breeder_name}</div>
+                </div>
+                <div className="share-versus-info_row">
+                    <div className="share-versus-type">{match.participant?.stadium_id} {getStadiumInitials(match.participant?.stadium_name)}</div>
+                    <div className="share-versus-type_label">{t('events.stadium_id')}</div>
+                    <div className="share-versus-type">{match.opponent?.stadium_id} {getStadiumInitials(match.opponent?.stadium_name)}</div>
                 </div>
             </div>
             <img className={match.opponent?.image_flipped ? "share-match-image" : "share-match-image flipped"} src={getImageUrl(match.opponent?.image)} />
         </div>
-        <div className="shareable-image">
-            <div className="shareable-image_footer">GallosCLUB.com</div>
-        </div>
+        <div className="shareable-image-versus_footer">GallosCLUB.com</div>
     </div>);
 });
 

@@ -1,4 +1,3 @@
-import {IonImg} from '@ionic/react';
 import React, {useState} from "react";
 
 import {getImageUrl} from '../utils';
@@ -17,11 +16,11 @@ const ShareEventImage = React.forwardRef<any, any>(({event, close}, ref) => {
     const allBets = [event?.bronze, event?.silver_one, event?.silver_two, event?.gold_one, event?.gold_two].filter(x => x !== null);
     const minBet = allBets.length > 0 ? Math.min(...allBets) : false;
 
-    return (<div ref={ref}>
-        <div className="share-logo">
-            <IonImg src={logo} className="logo" />
-        </div>
-        <div className="shareable-image">
+    return (
+        <div className="shareable-image" ref={ref}>
+            <div className="share-event-logo">
+                <img src={logo} className="logo" />
+            </div>
             <div className="shareable-image_title">{title}</div>
             <img className="shareable-image_image" src={image} />
             <div className="shareable-image_content">
@@ -53,7 +52,7 @@ const ShareEventImage = React.forwardRef<any, any>(({event, close}, ref) => {
             </div>
             <div className="shareable-image_footer">GallosCLUB.com</div>
         </div>
-    </div>);
+    );
 });
 
 export default ShareEventImage;

@@ -39,6 +39,9 @@ import ParticipantGallery from "../components/Events/ParticipantGallery";
 import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploader";
 import {AppContext} from "../State";
 
+// @ts-ignore
+import domtoimage from "dom-to-image-improved";
+
 const Baloteo: React.FC = () => {
     const t = useTranslation();
     const { state } = useContext(AppContext);
@@ -58,6 +61,7 @@ const Baloteo: React.FC = () => {
     const [present, dismiss] = useIonActionSheet();
     const history = useHistory();
     const printWrapperRef = useRef(null);
+    const shareMatchRef = React.useRef();
     const handlePrint = useReactToPrint({
         content: () => printWrapperRef.current,
         copyStyles: false
@@ -107,8 +111,28 @@ const Baloteo: React.FC = () => {
     const excludedParticipants = event.participants?.filter((participant:any) => participant.status === "rejected");
 
     const shareMatch = async (match:any) => {
+        if (!match) return false;
+        const element = shareMatchRef.current;
         setShowShareMatch(match);
-    };
+        domtoimage.toBlob(element!).then((blob:Blob) => {
+            const file = new File([blob!], +new Date() + ".png", { type: "image/png" });
+            const filesArray:any = [file];
+            setShowShareMatch(false);
+
+            //share the file
+            if (navigator.canShare && navigator.canShare({files: filesArray})) {
+                navigator.share({files: filesArray});
+            }
+
+            //download the file
+            const a = document.createElement("a");
+            a.href  = window.URL.createObjectURL(file);
+            a.setAttribute("download", file.name);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+    }
 
     const printMatch = async (match:any) => {
         setSelectPrintMatch(match);
@@ -211,7 +235,7 @@ const Baloteo: React.FC = () => {
                         </IonRow>
                         {liveMatches.map((match:any, index:number) => (<IonGrid className="baloteo-match-wrapper" key={index}>
                                 <IonRow>
-                                    <IonCol size="2" offset="10">
+                                    <IonCol size="2" offset="10" style={{textAlign:"right"}}>
                                         <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
                                             buttons: [
                                                 { text: t('baloteo.share_match'), handler: () => shareMatch(match) },
@@ -376,9 +400,9 @@ const Baloteo: React.FC = () => {
                         close={() => {setShowPairModal(false); setBaloteoTab("live")}}
                     />
                 </IonModal>
-                <IonModal isOpen={!!showShareMatch} onDidDismiss={() => setShowShareMatch(false)}>
-                    <ShareMatchImage match={showShareMatch} close={() => setShowShareMatch(false)} />
-                </IonModal>
+                <div style={showShareMatch ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
+                    <ShareMatchImage match={showShareMatch} close={() => setShowShareMatch(false)} ref={shareMatchRef} />
+                </div>
                 <div style={{ overflow: "hidden", height: 0, width: 0 }}><PrintMatch ref={printWrapperRef} event={event} match={selectPrintMatch} /></div>
                 <ParticipantGallery
                     participant={selectedGalleryParticipant}
