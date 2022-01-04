@@ -31,12 +31,19 @@
     --padding-bottom:13px;
     height:auto;
 }
+.react-calendar {
+    width:100%;
+    max-width:420px;
+    margin:auto;
+}
 .react-calendar__navigation {
+    width:100%;
     margin-bottom:20px;
 }
 .react-calendar__navigation__label {
     font-weight: 600;
     font-size: 16px;
+    color:black;
     background:none;
 }
 .react-calendar__navigation__arrow {

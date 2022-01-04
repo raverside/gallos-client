@@ -125,7 +125,7 @@ const UserEventView: React.FC = () => {
         const element = shareMatchRef.current;
         setShowShareMatch(match);
         domtoimage.toBlob(element!).then((blob:Blob) => {
-            const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
+            const file = new File([blob!], +new Date() + ".png", { type: "image/png" });
             const filesArray:any = [file];
             setShowShareMatch(false);
 
@@ -149,7 +149,7 @@ const UserEventView: React.FC = () => {
         const element = shareParticipantRef.current;
         setShowShareParticipant(participant);
         domtoimage.toBlob(element!).then((blob:Blob) => {
-            const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
+            const file = new File([blob!], +new Date() + ".png", { type: "image/png" });
             const filesArray:any = [file];
             setShowShareParticipant(false);
 

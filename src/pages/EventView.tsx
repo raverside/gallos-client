@@ -71,7 +71,7 @@ const EventView: React.FC = () => {
         const element = shareRef.current;
         setShowShare(event);
         domtoimage.toBlob(element!).then((blob:Blob) => {
-            const file = new File([blob!], +new Date() + ".jpg", { type: "image/jpeg" });
+            const file = new File([blob!], +new Date() + ".png", { type: "image/png" });
             const filesArray:any = [file];
             setShowShare(false);
 
