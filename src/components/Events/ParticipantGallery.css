@@ -45,5 +45,5 @@
     transform: scaleX(-1);
 }
 .gallery-participant-image {
-
+    object-fit: contain;
 }

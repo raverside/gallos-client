@@ -8,6 +8,8 @@ import {useTranslation} from "react-multi-lang";
 import {getImageUrl} from "../utils";
 import {useContext} from "react";
 import {AppContext} from "../../State";
+import ReactImageProcess from 'react-image-process';
+import watermark from '../../img/logo_club.png';
 
 type GalleryProps = {
     showModal: boolean;
@@ -50,7 +52,17 @@ const ParticipantGallery: React.FC<GalleryProps> = ({participant, showModal, set
                 </IonToolbar>
             </IonHeader>
             <IonContent className="zoomable">
-                <IonImg src={images[0]} className={participant.image_flipped ? "gallery-slider gallery-participant-image flipped" : "gallery-slider gallery-participant-image"}/>
+                <ReactImageProcess
+                    mode="waterMark"
+                    waterMarkType="image"
+                    waterMark={watermark}
+                    width={208}
+                    height={30}
+                    opacity={1}
+                    coordinate={[1500, 1500]}
+                >
+                    <img src={images[0]} className="gallery-slider gallery-participant-image" />
+                </ReactImageProcess>
 
                 {/*<IonSlides className="gallery-slider-thumbnails">*/}
                 {/*    {images.map((image, index) => (*/}

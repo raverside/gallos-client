@@ -27,6 +27,7 @@
     "react-dom": "^17.0.1",
     "react-image-crop": "^9.0.5",
     "react-image-file-resizer": "^0.4.7",
+    "react-image-process": "^0.2.4",
     "react-multi-lang": "^2.1.1",
     "react-phone-input-2": "^2.14.0",
     "react-router": "^5.2.1",
