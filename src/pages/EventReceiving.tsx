@@ -149,7 +149,15 @@ const EventReceiving: React.FC = () => {
                             <IonRow>
                                 <IonCol size="2">{participant.cage}</IonCol>
                                 <IonCol size="6" style={{display: "flex", alignItems: "center"}}>
-                                    {participant.image && <IonImg src={getImageUrl(participant.image)} onClick={() => viewParticipantImage(participant)} className={participant.image_flipped ? "participant-thumb flipped" : "participant-thumb"} />}
+                                    {participant.image && <img
+                                        src={getImageUrl("thumb_"+participant.image)}
+                                        onError={({ currentTarget }) => {
+                                            currentTarget.onerror = null;
+                                            currentTarget.src=getImageUrl(participant.image);
+                                        }}
+                                        onClick={() => viewParticipantImage(participant)}
+                                        className={participant.image_flipped ? "participant-thumb flipped" : "participant-thumb"}
+                                    />}
                                     {!participant.image && <IonButton className="participant-placeholder" fill="clear" onClick={() => {showPhotoUploader(participant)}}><IonIcon icon={addPhotoIcon} slot="icon-only" /></IonButton>}
                                     <IonText>{participant.team?.name}</IonText>
                                 </IonCol>

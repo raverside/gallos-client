@@ -250,10 +250,14 @@ const Baloteo: React.FC = () => {
                                 <IonRow>
                                     <IonCol size="5">
                                         <div className="blue_side">
-                                            <IonImg
+                                            <img
                                                 onClick={() => viewParticipantImage(match.participant)}
                                                 className={(match.participant?.image_flipped ? "baloteo-match-image flipped " : "baloteo-match-image") + (!match.participant?.image ? " placeholder_rooster" : "")}
-                                                src={getImageUrl(match.participant?.image, true)}
+                                                src={getImageUrl("thumb_"+match.participant?.image, true)}
+                                                onError={({ currentTarget }) => {
+                                                    currentTarget.onerror = null;
+                                                    currentTarget.src=getImageUrl(match.participant?.image, true);
+                                                }}
                                             />
                                             <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
                                         </div>
@@ -273,10 +277,14 @@ const Baloteo: React.FC = () => {
                                     </IonCol>
                                     <IonCol size="5">
                                         <div className="white_side">
-                                            <IonImg
+                                            <img
                                                 onClick={() => viewParticipantImage(match.opponent)}
                                                 className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image ? " placeholder_rooster" : "")}
-                                                src={getImageUrl(match.opponent?.image, true)}
+                                                src={getImageUrl("thumb_"+match.opponent?.image, true)}
+                                                onError={({ currentTarget }) => {
+                                                    currentTarget.onerror = null;
+                                                    currentTarget.src=getImageUrl(match.opponent?.image, true);
+                                                }}
                                             />
                                             <p className="baloteo-match-team_name">{match.opponent?.team?.name}</p>
                                         </div>
@@ -301,9 +309,13 @@ const Baloteo: React.FC = () => {
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="5">
-                                        <IonImg
+                                        <img
                                             className={(match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image")  + (!match.participant?.image ? " placeholder_rooster" : "")}
-                                            src={getImageUrl(match.participant?.image, true)}
+                                            src={getImageUrl("thumb_"+match.participant?.image, true)}
+                                            onError={({ currentTarget }) => {
+                                                currentTarget.onerror = null;
+                                                currentTarget.src=getImageUrl(match.participant?.image, true);
+                                            }}
                                             onClick={() => viewParticipantImage(match.participant)}
                                         />
                                         <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
@@ -313,10 +325,14 @@ const Baloteo: React.FC = () => {
                                         <p className="baloteo-match-vs">VS</p>
                                     </IonCol>
                                     <IonCol size="5">
-                                        <IonImg
+                                        <img
                                             onClick={() => viewParticipantImage(match.opponent)}
                                             className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image ? " placeholder_rooster" : "")}
-                                            src={getImageUrl(match.opponent?.image, true)}
+                                            src={getImageUrl("thumb_"+match.opponent?.image, true)}
+                                            onError={({ currentTarget }) => {
+                                                currentTarget.onerror = null;
+                                                currentTarget.src=getImageUrl(match.opponent?.image, true);
+                                            }}
                                         />
                                         <p className="baloteo-match-team_name">{match.opponent?.team?.name}</p>
                                     </IonCol>
@@ -336,9 +352,13 @@ const Baloteo: React.FC = () => {
                                     <IonRow>
                                         <IonCol size="2">{participant.cage}</IonCol>
                                         <IonCol size="8">
-                                            <IonImg
+                                            <img
                                                 onClick={() => viewParticipantImage(participant)}
-                                                src={getImageUrl(participant.image)}
+                                                src={getImageUrl("thumb_"+participant.image, true)}
+                                                onError={({ currentTarget }) => {
+                                                    currentTarget.onerror = null;
+                                                    currentTarget.src=getImageUrl(participant.image, true);
+                                                }}
                                                 className={participant.image_flipped ? "participant-thumb baloteo flipped" : "participant-thumb baloteo"}
                                             />
                                             <div className="baloteo-participant-creds">
@@ -362,9 +382,13 @@ const Baloteo: React.FC = () => {
                                     <IonRow>
                                         <IonCol size="1">{participant.cage}</IonCol>
                                         <IonCol size="6">
-                                            <IonImg
+                                            <img
                                                 onClick={() => viewParticipantImage(participant)}
-                                                src={getImageUrl(participant.image)}
+                                                src={getImageUrl("thumb_"+participant.image, true)}
+                                                onError={({ currentTarget }) => {
+                                                    currentTarget.onerror = null;
+                                                    currentTarget.src=getImageUrl(participant.image, true);
+                                                }}
                                                 className={participant.image_flipped ? "participant-thumb baloteo flipped" : "participant-thumb baloteo"}
                                             />
                                             <div className="baloteo-participant-creds">

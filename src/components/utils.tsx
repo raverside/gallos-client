@@ -12,6 +12,7 @@ export function formatPasscode(passcode: string) {
 
 export function getImageUrl(filename: string, black_placeholder = false) {
     if (!filename) return black_placeholder ? roosterBlackPlaceholder : roosterPlaceholder;
+
     return process.env.REACT_APP_NODE_API_URL + "/uploads/" + filename;
 }
 
