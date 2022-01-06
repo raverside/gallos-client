@@ -87,6 +87,6 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
-ion-content::part(scroll) {
+.zoomable::part(scroll) {
     touch-action: manipulation;
 }

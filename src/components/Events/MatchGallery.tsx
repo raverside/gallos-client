@@ -46,7 +46,7 @@ const MatchGallery: React.FC<GalleryProps> = ({match, active, showModal, setShow
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
-            <IonContent>
+            <IonContent className="zoomable">
                 <IonSlides className="gallery-slider" pager onIonSlidesDidLoad={(e) => {
                     // @ts-ignore
                     e.target.slideTo(activeImage === 'participant' ? 0 : 1);

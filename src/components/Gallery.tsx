@@ -30,7 +30,7 @@ const Gallery: React.FC<GalleryProps> = ({title, showModal, setShowModal, images
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
-            <IonContent>
+            <IonContent className="zoomable">
                <IonImg className="gallery-slider" src={images[0]} />
                 {/*<IonSlides className="gallery-slider-thumbnails">*/}
                 {/*    {images.map((image, index) => (*/}

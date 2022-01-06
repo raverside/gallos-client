@@ -49,7 +49,7 @@ const ParticipantGallery: React.FC<GalleryProps> = ({participant, showModal, set
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
-            <IonContent>
+            <IonContent className="zoomable">
                 <IonImg src={images[0]} className={participant.image_flipped ? "gallery-slider gallery-participant-image flipped" : "gallery-slider gallery-participant-image"}/>
 
                 {/*<IonSlides className="gallery-slider-thumbnails">*/}
