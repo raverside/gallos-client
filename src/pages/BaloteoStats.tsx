@@ -77,7 +77,7 @@ const BaloteoStats: React.FC = () => {
         setShowParticipantPhotoUploader(true);
     }
 
-    const matches = (event && baloteoSearch) ? event.matches?.filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name === baloteoSearch || m.opponent?.team?.name === baloteoSearch) : event?.matches;
+    const matches = (event && baloteoSearch) ? event.matches?.sort((a:any, b:any) => a.number - b.number).filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name === baloteoSearch || m.opponent?.team?.name === baloteoSearch) : event?.matches?.sort((a:any, b:any) => a.number - b.number);
     const liveMatches = matches?.filter((p:any) => p.live) || [];
     const completeMatches = matches?.filter((m:any) => !m.live && m.result !== null) || [];
     const activeMatches = (baloteoTab === "results") ? completeMatches : liveMatches;
@@ -147,7 +147,7 @@ const BaloteoStats: React.FC = () => {
                                         </div>
                                     </IonCol>
                                     <IonCol size="2">
-                                        <p className="baloteo-match-fight">{t('baloteo.fight')} {index + 1}</p>
+                                        <p className="baloteo-match-fight">{t('baloteo.fight')} {match.number || 1}</p>
                                         <p className="baloteo-match-vs">VS</p>
                                         {match.manual && <p className="baloteo-match-manual">{t('baloteo.manual')}</p>}
                                     </IonCol>

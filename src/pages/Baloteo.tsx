@@ -100,7 +100,7 @@ const Baloteo: React.FC = () => {
         setShowParticipantPhotoUploader(true);
     }
 
-    const matches = (event && baloteoSearch) ? event.matches?.filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name === baloteoSearch || m.opponent?.team?.name === baloteoSearch) : event.matches;
+    const matches = (event && baloteoSearch) ? event.matches?.filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name === baloteoSearch || m.opponent?.team?.name === baloteoSearch).sort((a:any, b:any) => a.number - b.number) : event.matches?.sort((a:any, b:any) => a.number - b.number);
     const liveMatches = matches?.filter((p:any) => p.live).sort((a:any, b:any) => a.manual - b.manual) || [];
     const availableMatches = matches?.filter((p:any) => !p.live) || [];
     const unmatchedParticipants = event.participants?.filter((participant:any) =>
@@ -263,7 +263,7 @@ const Baloteo: React.FC = () => {
                                         </div>
                                     </IonCol>
                                     <IonCol size="2">
-                                        <p className="baloteo-match-fight">{t('baloteo.fight')} {index + 1}</p>
+                                        <p className="baloteo-match-fight">{t('baloteo.fight')} {match.number}</p>
                                         <p className="baloteo-match-vs">VS</p>
                                         {match.manual && <p className="baloteo-match-manual">{t('baloteo.manual')}</p>}
                                         <IonButton
@@ -321,7 +321,7 @@ const Baloteo: React.FC = () => {
                                         <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
                                     </IonCol>
                                     <IonCol size="2">
-                                        <p className="baloteo-match-fight">{t('baloteo.fight')} {index + 1}</p>
+                                        <p className="baloteo-match-fight">{t('baloteo.fight')} {match.number}</p>
                                         <p className="baloteo-match-vs">VS</p>
                                     </IonCol>
                                     <IonCol size="5">
@@ -419,7 +419,7 @@ const Baloteo: React.FC = () => {
                     <PairManual
                         participantId={showPairModal}
                         opponents={unmatchedParticipants}
-                        fightNumber={liveMatches.length + availableMatches.length + 1}
+                        fightNumber={(matches && matches.length > 0) ? ((matches[matches?.length - 1]?.number) + 1) : 1}
                         fetchEvent={fetchEvent}
                         close={() => {setShowPairModal(false); setBaloteoTab("live")}}
                     />

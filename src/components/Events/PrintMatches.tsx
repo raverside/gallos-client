@@ -106,7 +106,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
     return (!event ? null : <>
         <div ref={ref} style={{textAlign:"center", width: "80mm", fontSize: "14px", fontFamily: "Arial"}}>
             {(mode == 1 || mode === 2 || mode === 3 || mode === 4) ? <div style={{width: "100%"}}>
-                    {printMatches?.map((match:any, index:number) => (<>
+                    {printMatches?.sort((a:any, b:any) => a.number - b.number).map((match:any, index:number) => (<>
                         {(index === 0 || cut) && <>
                             <h1 style={{width: "100%", textAlign:"center", fontSize: "18px", fontWeight: "bold"}}>{event.stadium_name}</h1>
                             <div style={{width: "100%", textAlign:"center", fontSize: "14px", margin: "0 0 20px 0"}}>{event.title || t('events.default_event_name')}</div>
@@ -118,7 +118,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                         </>}
                         <div style={cut ? {pageBreakAfter: "always"} : {}}>
                             <div style={{display:"flex", justifyContent: "space-between", background: "black", color:"white", padding: "7px 0", fontWeight: "bold", marginBottom:"5px"}}>
-                                <div style={{textAlign: "center", width: "80mm", fontSize: "18px"}}>{t('baloteo.fight')} #{index + 1}</div>
+                                <div style={{textAlign: "center", width: "80mm", fontSize: "18px"}}>{t('baloteo.fight')} #{match.number || 1}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between", marginBottom:"5px"}}>
                                 <div style={{textAlign: "center", width: "25mm", fontWeight: "bold"}}>{match.participant?.team?.name}</div>

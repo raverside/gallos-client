@@ -83,7 +83,7 @@ const Judge: React.FC = () => {
                                         </div>
                                     </div>
                                     <IonList className="judge-matches">
-                                        {event.matches.filter((m:any) => m.live === false && m.result >= 0).map((match:any, index:number) => <IonItem key={match.id} className="judge-match">
+                                        {event?.matches?.sort((a:any, b:any) => a.number - b.number).filter((m:any) => m.live === false && m.result >= 0).map((match:any, index:number) => <IonItem key={match.id} className="judge-match">
                                             <IonGrid>
                                                 <IonRow>
                                                     <IonCol size="5" className="judge-blue_side">
@@ -92,7 +92,7 @@ const Judge: React.FC = () => {
                                                         {match.participant.team.name}
                                                     </IonCol>
                                                     <IonCol size="2" className="judge-versus">
-                                                        <p>{t('baloteo.fight')} {index+1}</p>
+                                                        <p>{t('baloteo.fight')} {match.number || 1}</p>
                                                         {match.result === 2 && <IonText>{t('judge.draw')}</IonText>}
                                                         {match.result === 3 && <IonText color="danger">{t('judge.cancelled')}</IonText>}
                                                     </IonCol>
@@ -106,14 +106,14 @@ const Judge: React.FC = () => {
                                         </IonItem>)}
                                     </IonList>
                                 </> : <IonList className="judge-matches">
-                                    {event.matches.filter((m:any) => m.live === true).map((match:any, index:number) => <IonItem key={match.id} className="judge-match" routerLink={"/judge/"+event.id+"/"+match.id}>
+                                    {event?.matches?.sort((a:any, b:any) => a.number - b.number).filter((m:any) => m.live === true).map((match:any, index:number) => <IonItem key={match.id} className="judge-match" routerLink={"/judge/"+event.id+"/"+match.id}>
                                         <IonGrid>
                                             <IonRow>
                                                 <IonCol size="5" className="judge-blue_side">
                                                     {match.participant?.image && <IonImg className={match.participant?.image_flipped ? "judge-match-image flipped" : "judge-match-image"} src={getImageUrl(match.participant?.image)} />}
                                                     {match.participant.team.name}
                                                 </IonCol>
-                                                <IonCol size="2" className="judge-versus">{t('baloteo.fight')} {index+1}</IonCol>
+                                                <IonCol size="2" className="judge-versus">{t('baloteo.fight')} {match.number || 1}</IonCol>
                                                 <IonCol size="5" className="judge-white_side">
                                                     {match.opponent.team.name}
                                                     {match.opponent?.image && <IonImg className={match.opponent?.image_flipped ? "judge-match-image" : "judge-match-image flipped"} src={getImageUrl(match.opponent?.image)} />}

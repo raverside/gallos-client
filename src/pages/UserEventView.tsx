@@ -170,7 +170,7 @@ const UserEventView: React.FC = () => {
 
     const title = (event?.is_special && event?.title) ? event?.title! : t('events.default_event_name');
     const image = (event?.is_special && event?.image) ? getImageUrl(event?.image!) : getImageUrl(event?.stadium_image!);
-    const matches = (event && baloteoSearch) ? event.matches?.filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name.toLowerCase().includes(baloteoSearch.toLowerCase()) || m.opponent?.team?.name.toLowerCase().includes(baloteoSearch.toLowerCase())) : event?.matches;
+    const matches = (event && baloteoSearch) ? event.matches?.sort((a:any, b:any) => a.number - b.number).filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name.toLowerCase().includes(baloteoSearch.toLowerCase()) || m.opponent?.team?.name.toLowerCase().includes(baloteoSearch.toLowerCase())) : event?.matches?.sort((a:any, b:any) => a.number - b.number);
     const liveMatches = matches?.filter((m:any) => m.live).sort((a:any, b:any) => a.manual - b.manual) || [];
     const completeMatches = matches?.filter((m:any) => !m.live && m.result !== null) || [];
     const activeMatches = (baloteoTab === "results") ? completeMatches : liveMatches;
@@ -238,7 +238,7 @@ const UserEventView: React.FC = () => {
                                         </div>
                                     </IonCol>
                                     <IonCol size="2">
-                                        <p className="baloteo-match-fight">{t('baloteo.fight')} {index + 1}</p>
+                                        <p className="baloteo-match-fight">{t('baloteo.fight')} {match.number || 1}</p>
                                         <p className="baloteo-match-vs">VS</p>
                                         {match.manual && <p className="baloteo-match-manual">Manual</p>}
                                         <IonButton fill="clear" expand="block" className="compare-button" onClick={() => setShowCompareMatch(match)}><img src={compareIcon}/></IonButton>

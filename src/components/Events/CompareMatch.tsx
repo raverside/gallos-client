@@ -23,7 +23,7 @@ const ShareParticipantImage: React.FC<any> = ({match, event, close}) => {
                     onClick={() => close()}
                 />
             </IonButtons>
-            <IonTitle className="page-title compare-match">{t('baloteo.fight')} {event.matches.findIndex((em:any) => em.id === match.id) + 1}</IonTitle>
+            <IonTitle className="page-title compare-match">{t('baloteo.fight')} {match.number || 1}</IonTitle>
         </IonToolbar>
         <IonContent>
             <div className="compare-images">
