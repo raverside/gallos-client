@@ -20,6 +20,7 @@ import {
     IonHeader,
     IonTitle,
     IonIcon,
+    IonLoading,
     useIonActionSheet,
     IonRefresherContent, IonRefresher
 } from '@ionic/react';
@@ -104,7 +105,7 @@ const EventReceiving: React.FC = () => {
     const excludedParticipants = participants?.filter((p:any) => p.status === 'rejected');
     const currentTabParticipants = participants?.sort((a:any, b:any) => +(b.image===null) - +(a.image===null) || b.cage - a.cage).filter((p:any) => p.status === participantsTab);
 
-    return !event ? null : (
+    return !event ? <IonLoading isOpen={true} spinner="crescent" /> : (
         <IonPage>
             <IonHeader>
                 <IonToolbar>

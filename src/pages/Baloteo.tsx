@@ -13,7 +13,16 @@ import {
     IonRow,
     IonCol,
     IonImg,
-    IonButton, IonGrid, IonIcon, useIonActionSheet, IonList, IonItem, IonModal, IonRefresherContent, IonRefresher,
+    IonButton,
+    IonGrid,
+    IonIcon,
+    useIonActionSheet,
+    IonList,
+    IonItem,
+    IonModal,
+    IonRefresherContent,
+    IonRefresher,
+    IonLoading,
 } from '@ionic/react';
 import React, {useContext, useEffect, useRef, useState} from "react";
 import {getEvent, publishMatch, swapSides, announceEvent, deleteMatch} from "../api/Events";
@@ -178,7 +187,7 @@ const Baloteo: React.FC = () => {
         }
     };
 
-    return !event ? null : (
+    return !event?.id ? <IonLoading isOpen={true} spinner="crescent" /> : (
         <IonPage>
             <IonHeader>
                 <IonToolbar>

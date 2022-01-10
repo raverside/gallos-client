@@ -219,3 +219,8 @@
     width:40px;
     margin:auto;
 }
+@media (min-width: 420px) {
+    .baloteo-match-image {
+        height:150px;
+    }
+}

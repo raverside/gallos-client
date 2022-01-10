@@ -12,7 +12,7 @@ import {
     IonTitle,
     IonRow,
     IonCol,
-    IonImg, IonGrid, IonList, IonItem,
+    IonLoading, IonGrid, IonList, IonItem,
     IonCard, IonIcon, IonModal, IonRefresherContent, IonRefresher, IonText
 } from '@ionic/react';
 import React, {useContext, useEffect, useState} from "react";
@@ -82,7 +82,7 @@ const BaloteoStats: React.FC = () => {
     const completeMatches = matches?.filter((m:any) => !m.live && m.result !== null) || [];
     const activeMatches = (baloteoTab === "results") ? completeMatches : liveMatches;
 
-    return !event ? null : (
+    return !event ? <IonLoading isOpen={true} spinner="crescent" /> : (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
