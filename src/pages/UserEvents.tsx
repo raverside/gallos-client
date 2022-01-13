@@ -8,7 +8,7 @@ import {
     IonSegmentButton,
     IonLabel,
     IonRefresher, IonRefresherContent, IonIcon, IonImg, IonText, IonItem,
-    IonGrid, IonRow, IonCol, IonSelectOption, IonSelect,
+    IonGrid, IonRow, IonCol, IonSelectOption, IonSelect, IonSpinner,
 } from '@ionic/react';
 import Header from '../components/Header/Header';
 import React, {useContext, useEffect, useState} from "react";
@@ -45,6 +45,7 @@ const UserEvents: React.FC = () => {
         start: moment().startOf("month").format("YYYY-MM-DD"),
         end: moment().endOf("month").format("YYYY-MM-DD")
     });
+    const [loadingEvents, setLoadingEvents] = useState<boolean>(false);
 
     useEffect(() => {
         if (stadiumSelected && statisticTab) {
@@ -58,6 +59,7 @@ const UserEvents: React.FC = () => {
     }, []);
 
     const fetchEvents = async (filter = eventsFilterQuery, callback = () => {}) => {
+        setLoadingEvents(true);
         const response = await getEvents(filter, 0);
         if (response.events) {
             response.events.sort((a:any, b:any) => {
@@ -66,6 +68,7 @@ const UserEvents: React.FC = () => {
             setEvents(response.events);
             setEventCount(response.eventCount);
             setInfiniteScrollPage(1);
+            setLoadingEvents(false);
         }
         setDisableInfiniteScroll(response.events?.length < 5);
         callback();
@@ -123,7 +126,7 @@ const UserEvents: React.FC = () => {
                     />
 
                     <IonRefresher slot="fixed" onIonRefresh={(e) => fetchEvents(eventsFilterQuery, e.detail.complete)}><IonRefresherContent /></IonRefresher>
-                    <EventsList events={events} />
+                    {loadingEvents ? <IonSpinner color="primary" style={{width: "100%"}} /> : <EventsList events={events} />}
                     <IonInfiniteScroll disabled={disableInfiniteScroll} onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
                         <IonInfiniteScrollContent />
                     </IonInfiniteScroll>

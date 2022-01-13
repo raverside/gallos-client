@@ -15,7 +15,7 @@ import Gallery from '../components/Gallery';
 import React, {useEffect, useState} from "react";
 import {getEvent, removeEvent} from "../api/Events";
 import {useParams} from 'react-router-dom';
-import {getImageUrl} from '../components/utils';
+import {getImageUrl, isDesktop} from '../components/utils';
 
 import './EventView.css';
 import fullscreenIcon from "../img/fullscreen.png";
@@ -72,21 +72,23 @@ const EventView: React.FC = () => {
         setShowShare(event);
         domtoimage.toBlob(element!).then((blob:Blob) => {
             const file = new File([blob!], +new Date() + ".png", { type: "image/png" });
-            const filesArray:any = [file];
             setShowShare(false);
 
-            //share the file
-            if (navigator.canShare && navigator.canShare({files: filesArray})) {
-                navigator.share({files: filesArray});
+            if (isDesktop()) {
+                //download the file
+                const a = document.createElement("a");
+                a.href  = window.URL.createObjectURL(file);
+                a.setAttribute("download", file.name);
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                //share the file
+                const filesArray:any = [file];
+                if (navigator.canShare && navigator.canShare({files: filesArray})) {
+                    navigator.share({files: filesArray});
+                }
             }
-
-            //download the file
-            const a = document.createElement("a");
-            a.href  = window.URL.createObjectURL(file);
-            a.setAttribute("download", file.name);
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
         });
     }
 

@@ -4,7 +4,16 @@ import {
     IonText,
     IonSegment,
     IonSegmentButton,
-    IonLabel, IonToolbar, IonButtons, IonBackButton, IonIcon, IonHeader, IonTitle, useIonActionSheet, IonModal,
+    IonLabel,
+    IonToolbar,
+    IonButtons,
+    IonBackButton,
+    IonIcon,
+    IonHeader,
+    IonTitle,
+    useIonActionSheet,
+    IonModal,
+    IonLoading,
 } from '@ionic/react';
 import TeamOwnerNotesTab from '../components/TeamOwners/TeamOwnerNotesTab';
 import TeamOwnerLibertyTab from '../components/TeamOwners/TeamOwnerLibertyTab';
@@ -31,6 +40,7 @@ import domtoimage from "dom-to-image-improved";
 import TeamOwnerEditor from "../components/TeamOwners/TeamOwnerEditor";
 import {AppContext} from "../State";
 import {useTranslation} from "react-multi-lang";
+import {isDesktop} from "../components/utils";
 
 type teamOwnerType = {
     id: string;
@@ -55,6 +65,7 @@ const TeamOwner: React.FC = () => {
     const [showShare, setShowShare] = useState<boolean>(false);
     const [showTeamOwnerEditorModal, setShowTeamOwnerEditorModal] = useState<boolean>(false);
     const [present, dismiss] = useIonActionSheet();
+    const [showLoading, setShowLoading] = useState<any>(false);
     const shareRef = React.useRef();
 
     useEffect(() => {
@@ -149,21 +160,24 @@ const TeamOwner: React.FC = () => {
         setShowShare(true);
         domtoimage.toBlob(element!).then((blob:Blob) => {
             const file = new File([blob!], +new Date() + ".png", { type: "image/png" });
-            const filesArray:any = [file];
             setShowShare(false);
 
-            //share the file
-            if (navigator.canShare && navigator.canShare({files: filesArray})) {
-                navigator.share({files: filesArray});
+            if (isDesktop()) {
+                //download the file
+                const a = document.createElement("a");
+                a.href  = window.URL.createObjectURL(file);
+                a.setAttribute("download", file.name);
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                //share the file
+                const filesArray:any = [file];
+                if (navigator.canShare && navigator.canShare({files: filesArray})) {
+                    navigator.share({files: filesArray});
+                }
             }
-
-            //download the file
-            const a = document.createElement("a");
-            a.href  = window.URL.createObjectURL(file);
-            a.setAttribute("download", file.name);
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            setShowLoading(false);
         });
 
 
@@ -213,6 +227,12 @@ const TeamOwner: React.FC = () => {
                 <IonModal isOpen={showTeamOwnerEditorModal} onDidDismiss={() => setShowTeamOwnerEditorModal(false)}>
                     <TeamOwnerEditor addTeamOwner={() => {fetchTeamOwners(); fetchTeamOwner();}} close={() => setShowTeamOwnerEditorModal(false)} teamOwner={teamOwner || false} />
                 </IonModal>
+                <IonLoading
+                    isOpen={showLoading}
+                    onDidDismiss={() => setShowLoading(false)}
+                    duration={10000}
+                    spinner="crescent"
+                />
             </IonContent>
         </IonPage>
     );

@@ -29,7 +29,7 @@ import {getEvent, publishMatch, swapSides, announceEvent, deleteMatch} from "../
 
 import './Baloteo.css';
 import {useHistory, useParams} from "react-router-dom";
-import {getImageUrl, formatOzToLbsOz} from "../components/utils";
+import {getImageUrl, formatOzToLbsOz, isDesktop} from "../components/utils";
 import {
     swapHorizontalOutline as switchSidesIcon,
     closeOutline as closeIcon,
@@ -71,6 +71,7 @@ const Baloteo: React.FC = () => {
     const history = useHistory();
     const printWrapperRef = useRef(null);
     const shareMatchRef = React.useRef();
+    const [showLoading, setShowLoading] = useState<any>(false);
     const handlePrint = useReactToPrint({
         content: () => printWrapperRef.current,
         copyStyles: false
@@ -125,21 +126,24 @@ const Baloteo: React.FC = () => {
         setShowShareMatch(match);
         domtoimage.toBlob(element!).then((blob:Blob) => {
             const file = new File([blob!], +new Date() + ".png", { type: "image/png" });
-            const filesArray:any = [file];
             setShowShareMatch(false);
 
-            //share the file
-            if (navigator.canShare && navigator.canShare({files: filesArray})) {
-                navigator.share({files: filesArray});
+            if (isDesktop()) {
+                //download the file
+                const a = document.createElement("a");
+                a.href  = window.URL.createObjectURL(file);
+                a.setAttribute("download", file.name);
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                //share the file
+                const filesArray:any = [file];
+                if (navigator.canShare && navigator.canShare({files: filesArray})) {
+                    navigator.share({files: filesArray});
+                }
             }
-
-            //download the file
-            const a = document.createElement("a");
-            a.href  = window.URL.createObjectURL(file);
-            a.setAttribute("download", file.name);
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            setShowLoading(false);
         });
     }
 
@@ -452,6 +456,12 @@ const Baloteo: React.FC = () => {
                         participant={selectedParticipant}
                     />
                 </IonModal>
+                <IonLoading
+                    isOpen={showLoading}
+                    onDidDismiss={() => setShowLoading(false)}
+                    duration={10000}
+                    spinner="crescent"
+                />
                 <IonRefresher slot="fixed" onIonRefresh={(e) => fetchEvent(e.detail.complete)}><IonRefresherContent /></IonRefresher>
                 </IonContent>
         </IonPage>

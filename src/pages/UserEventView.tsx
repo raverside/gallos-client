@@ -26,7 +26,7 @@ import Gallery from '../components/Gallery';
 import React, {useContext, useEffect, useState} from "react";
 import {getEvent} from "../api/Events";
 import {useParams} from 'react-router-dom';
-import {formatOzToLbsOz, getImageUrl, getParticipantBettingAmount} from '../components/utils';
+import {formatOzToLbsOz, getImageUrl, getParticipantBettingAmount, isDesktop} from '../components/utils';
 
 import './EventView.css';
 import fullscreenIcon from "../img/fullscreen.png";
@@ -102,21 +102,23 @@ const UserEventView: React.FC = () => {
         setShowShare(event);
         domtoimage.toBlob(element!).then((blob:Blob) => {
             const file = new File([blob!], +new Date() + ".png", { type: "image/png" });
-            const filesArray:any = [file];
             setShowShare(false);
 
-            //share the file
-            if (navigator.canShare && navigator.canShare({files: filesArray})) {
-                navigator.share({files: filesArray});
+            if (isDesktop()) {
+                //download the file
+                const a = document.createElement("a");
+                a.href  = window.URL.createObjectURL(file);
+                a.setAttribute("download", file.name);
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                //share the file
+                const filesArray:any = [file];
+                if (navigator.canShare && navigator.canShare({files: filesArray})) {
+                    navigator.share({files: filesArray});
+                }
             }
-
-            //download the file
-            const a = document.createElement("a");
-            a.href  = window.URL.createObjectURL(file);
-            a.setAttribute("download", file.name);
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
         });
     }
 
@@ -126,21 +128,23 @@ const UserEventView: React.FC = () => {
         setShowShareMatch(match);
         domtoimage.toBlob(element!).then((blob:Blob) => {
             const file = new File([blob!], +new Date() + ".png", { type: "image/png" });
-            const filesArray:any = [file];
             setShowShareMatch(false);
 
-            //share the file
-            if (navigator.canShare && navigator.canShare({files: filesArray})) {
-                navigator.share({files: filesArray});
+            if (isDesktop()) {
+                //download the file
+                const a = document.createElement("a");
+                a.href  = window.URL.createObjectURL(file);
+                a.setAttribute("download", file.name);
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                //share the file
+                const filesArray:any = [file];
+                if (navigator.canShare && navigator.canShare({files: filesArray})) {
+                    navigator.share({files: filesArray});
+                }
             }
-
-            //download the file
-            const a = document.createElement("a");
-            a.href  = window.URL.createObjectURL(file);
-            a.setAttribute("download", file.name);
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
         });
     }
 
@@ -150,21 +154,23 @@ const UserEventView: React.FC = () => {
         setShowShareParticipant(participant);
         domtoimage.toBlob(element!).then((blob:Blob) => {
             const file = new File([blob!], +new Date() + ".png", { type: "image/png" });
-            const filesArray:any = [file];
             setShowShareParticipant(false);
 
-            //share the file
-            if (navigator.canShare && navigator.canShare({files: filesArray})) {
-                navigator.share({files: filesArray});
+            if (isDesktop()) {
+                //download the file
+                const a = document.createElement("a");
+                a.href  = window.URL.createObjectURL(file);
+                a.setAttribute("download", file.name);
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                //share the file
+                const filesArray:any = [file];
+                if (navigator.canShare && navigator.canShare({files: filesArray})) {
+                    navigator.share({files: filesArray});
+                }
             }
-
-            //download the file
-            const a = document.createElement("a");
-            a.href  = window.URL.createObjectURL(file);
-            a.setAttribute("download", file.name);
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
         });
     }
 

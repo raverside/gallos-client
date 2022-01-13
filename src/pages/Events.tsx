@@ -6,7 +6,8 @@ import {
     IonSegment,
     IonSegmentButton,
     IonLabel,
-    IonRefresher, IonRefresherContent
+    IonRefresher, IonRefresherContent,
+    IonSpinner
 } from '@ionic/react';
 import Header from '../components/Header/Header';
 import React, {useContext, useEffect, useState} from "react";
@@ -35,12 +36,14 @@ const Events: React.FC = () => {
     const [eventsFilter, setEventsFilter] = useState<any>({});
     const [eventsFilterQuery, setEventsFilterQuery] = useState<string>("");
     const [eventsSearch, setEventsSearch] = useState<string>("");
+    const [loadingEvents, setLoadingEvents] = useState<boolean>(false);
 
     useEffect(() => {
         updateFilter();
     }, []);
 
     const fetchEvents = async (filter = eventsFilterQuery, callback = () => {}) => {
+        setLoadingEvents(true);
         const response = await getEvents(filter, 0);
         if (response.events) {
             response.events.sort((a:any, b:any) => {
@@ -49,8 +52,9 @@ const Events: React.FC = () => {
             setEvents(response.events);
             setEventCount(response.eventCount);
             setInfiniteScrollPage(1);
-        };
-        setDisableInfiniteScroll(response.events?.length < 5);
+            setLoadingEvents(false);
+        }
+        setDisableInfiniteScroll(response?.events?.length < 5);
         callback();
     }
 
@@ -127,7 +131,7 @@ const Events: React.FC = () => {
                     />
                 }
                 <IonRefresher slot="fixed" onIonRefresh={(e) => fetchEvents(eventsFilterQuery, e.detail.complete)}><IonRefresherContent /></IonRefresher>
-                <EventsList openEditor={(event:{}) => {setEditorEvent(event); setShowEventEditorModal(3)}} events={events} />
+                {loadingEvents ? <IonSpinner color="primary" style={{width: "100%"}} /> : <EventsList openEditor={(event:{}) => {setEditorEvent(event); setShowEventEditorModal(3)}} events={events} />}
                 <IonInfiniteScroll disabled={disableInfiniteScroll} onIonInfinite={(e: CustomEvent<void>) => searchNext(e)}>
                     <IonInfiniteScrollContent />
                 </IonInfiniteScroll>
