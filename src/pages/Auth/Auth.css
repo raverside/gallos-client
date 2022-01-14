@@ -115,3 +115,11 @@
     font-weight:bold;
     text-decoration: none;
 }
+.register-col-wrapper {
+    text-align:center;
+}
+.register-col-wrapper .generate-passcode {
+    border:1px solid;
+    border-radius:6px;
+    display:inline-block;
+}

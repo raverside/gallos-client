@@ -17,7 +17,7 @@
       "register_next": "Siguiente",
       "register_set_passcode": "Configura tu contraseña",
       "register_set_passcode_hint": "Crea una contraseña de 9 caracteres. Debería ser algo que otros no puedan adivinar",
-      "auto_passcode": "O generar automáticamente un código de 9 caracteres",
+      "auto_passcode": "Generate Passcode",
       "admin": "Admin",
       "forgot_passcode_text": "Escríbanos en Telegram para recuperar su contraseña",
       "forgot_passcode_button": "Restaurar contraseña"

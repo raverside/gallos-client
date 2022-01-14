@@ -86,10 +86,10 @@ const Register: React.FC = () => {
                         </IonRow>
                     </> : <>
                         <IonRow>
-                            <IonCol>
+                            <IonCol className="register-col-wrapper">
                                 <IonText className="register-phone-label">{t('auth.register_set_passcode')}</IonText>
                                 <IonText className="register-phone-subtext">{t('auth.register_set_passcode_hint')}</IonText>
-                                <div style={{position: "relative"}}>
+                                <div style={{position: "relative", textAlign:"left"}}>
                                     <IonInput
                                         placeholder={t('auth.placeholder_passcode')}
                                         type={showPassword ? "text" : "password"}
