@@ -151,15 +151,15 @@ const CurrentUserProfile: React.FC = () => {
                             />
                         </IonItem>
 
-                        <IonItemDivider>{t('profile.dob')}</IonItemDivider>
-                        <IonItem lines="none">
-                            <IonDatetime
-                                displayFormat="DD MMM YYYY"
-                                placeholder={t('profile.dob_placeholder')}
-                                value={formData.birthday}
-                                onIonChange={e => setFormData({...formData, birthday: e.detail.value!})}
-                            />
-                        </IonItem>
+                        {/*<IonItemDivider>{t('profile.dob')}</IonItemDivider>*/}
+                        {/*<IonItem lines="none">*/}
+                        {/*    <IonDatetime*/}
+                        {/*        displayFormat="DD MMM YYYY"*/}
+                        {/*        placeholder={t('profile.dob_placeholder')}*/}
+                        {/*        value={formData.birthday}*/}
+                        {/*        onIonChange={e => setFormData({...formData, birthday: e.detail.value!})}*/}
+                        {/*    />*/}
+                        {/*</IonItem>*/}
 
                         <IonItemDivider>{t('general.country')}</IonItemDivider>
                         <IonItem lines="none">
