@@ -10,6 +10,7 @@ import {
     IonList,
     IonItem,
     IonGrid, IonRow, IonCol, IonImg,
+    IonSelectOption, IonSelect
 } from '@ionic/react';
 import ProfileModal from '../components/Judge/ProfileModal';
 
@@ -46,10 +47,9 @@ const Judge: React.FC = () => {
         <IonPage>
             <IonContent fullscreen>
                 <div className="judge-header">
-                    {/*{(events?.length > 0) ? <IonSelect value={event?.id} placeholder="No Baloteo" interface="alert" onIonChange={(e) => selectEvent(e.detail.value!)}>*/}
-                    {/*    {events.map((e:any) => <IonSelectOption key={e.id} value={e.id}>{title}</IonSelectOption>)}*/}
-                    {/*</IonSelect> : <IonText>No Baloteo</IonText>}*/}
-                    <IonText>{event ? title : t('judge.no_baloteo')}</IonText>
+                    {(events?.length > 0) ? <IonSelect value={event?.id} placeholder="No Baloteo" interface="alert" onIonChange={(e) => selectEvent(e.detail.value!)}>
+                        {events.map((e:any) => <IonSelectOption key={e.id} value={e.id}>{title}</IonSelectOption>)}
+                    </IonSelect> : <IonText>{t('judge.no_baloteo')}</IonText>}
                     <ProfileModal />
                 </div>
                 <div className="judge-content">
