@@ -17,6 +17,7 @@ import ProfileModal from '../components/Judge/ProfileModal';
 import './Judge.css';
 import {getImageUrl} from "../components/utils";
 import {useTranslation} from "react-multi-lang";
+import moment from "moment";
 
 const Judge: React.FC = () => {
     const t = useTranslation();
@@ -41,14 +42,14 @@ const Judge: React.FC = () => {
         if (targetEvent) setEvent(targetEvent);
     };
 
-    const title = (event?.is_special && event?.title) ? event?.title! : t('events.default_event_name');
-
     return (
         <IonPage>
             <IonContent fullscreen>
                 <div className="judge-header">
                     {(events?.length > 0) ? <IonSelect value={event?.id} placeholder="No Baloteo" interface="alert" onIonChange={(e) => selectEvent(e.detail.value!)}>
-                        {events.map((e:any) => <IonSelectOption key={e.id} value={e.id}>{title}</IonSelectOption>)}
+                        {events.map((e:any) => <IonSelectOption key={e.id} value={e.id}>
+                            {(event?.is_special && event?.title) ? event?.title! : t('events.default_event_name')} - {moment(e.event_date).format("MMM D, YYYY")}
+                        </IonSelectOption>)}
                     </IonSelect> : <IonText>{t('judge.no_baloteo')}</IonText>}
                     <ProfileModal />
                 </div>
