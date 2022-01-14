@@ -300,6 +300,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 <IonSelectOption value="M12">M12</IonSelectOption>
                                 <IonSelectOption value="Pollo SM">Pollo SM</IonSelectOption>
                                 <IonSelectOption value="Gallo">Gallo</IonSelectOption>
+                                <IonSelectOption value="Pollo Pelado">Pollo Pelado</IonSelectOption>
                                 <IonSelectOption value="Gallo Pelado">Gallo Pelado</IonSelectOption>
                             </IonSelect>
                         </IonItem>
