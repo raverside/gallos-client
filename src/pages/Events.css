@@ -2,6 +2,7 @@
     margin:10px;
     width:auto;
     contain:initial;
+    padding-bottom:10px;
 }
 .events-tabs ion-segment-button {
     --border-color: #EAE9E9;

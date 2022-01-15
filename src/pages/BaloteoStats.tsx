@@ -62,6 +62,9 @@ const BaloteoStats: React.FC = () => {
     const fetchEvent = async (callback = () => {}) => {
         const response = await getEvent(id);
         if (response.event) {
+            if (response.event.phase === "complete" && baloteoTab === "matches") {
+                setBaloteoTab("results");
+            }
             setEvent(response.event);
         }
         callback();

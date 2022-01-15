@@ -87,6 +87,7 @@ const Baloteo: React.FC = () => {
                 history.replace('/event_receiving/'+event?.id);
                 break;
             case "on going":
+            case "complete":
                 history.replace('/baloteo_stats/'+event?.id);
             break;
         }

@@ -201,6 +201,7 @@
       "phase_receiving": "Receiving",
       "phase_arrangement": "Arrangement",
       "phase_ongoing": "On Going",
+      "phase_complete": "Concluded",
       "phase_undefined": "Loading...",
       "upload_complete": "Complete",
       "save": "Save",

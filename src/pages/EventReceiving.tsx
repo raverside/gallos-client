@@ -68,6 +68,7 @@ const EventReceiving: React.FC = () => {
     useEffect(() => {
         switch (event.phase) {
             case "on going":
+            case "complete":
                 history.replace('/baloteo_stats/'+event?.id);
                 break;
             case "arrangement":
