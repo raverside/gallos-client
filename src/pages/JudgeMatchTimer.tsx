@@ -20,7 +20,7 @@ import timerRestartIcon from "../img/icon_judge_restart.svg";
 // @ts-ignore
 import alarmSound from "../sfx/alarm.mp3";
 // @ts-ignore
-import longAlarmSound from "../sfx/alarm_long.wav";
+import longAlarmSound from "../sfx/alarm_long.mp3";
 
 import {useHistory, useParams} from "react-router-dom";
 import moment from "moment";
