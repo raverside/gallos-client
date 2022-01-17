@@ -38,6 +38,13 @@ ion-content {
 .judge-content {
     height: calc(100% - 50px);
 }
+.judge-match-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items:center;
+}
 .judge-no-matches {
     font-size: 16px;
     color: white;
@@ -343,32 +350,32 @@ ion-content {
 
 .judge-match-timer-blue_side {
     background: linear-gradient(0deg, #285CC6, #285CC6);
-    padding:10px;
+    padding:10px !important;
     font-weight: 600;
-    font-size: 48px;
+    font-size: 62px;
     display:flex;
     align-items:center;
     color:white;
     height:80px;
-    justify-content:center;
-    max-width: calc(50% - 150px) !important;
+    justify-content:space-between;
+    margin-top:10px;
 }
 .judge-match-timer-white_side {
     background:white;
     color:black;
-    padding:10px;
-    justify-content:center;
+    padding:10px !important;
+    justify-content:space-between;
     font-weight: 600;
-    font-size: 48px;
+    font-size: 62px;
     display:flex;
     align-items:center;
     height:80px;
-    max-width: calc(50% - 150px) !important;
+    margin-top:10px;
 }
 .judge-match-timer-versus {
     text-align: center;
     font-weight: 600;
-    font-size: 36px;
+    font-size: 46px;
     color: white;
     height: 80px;
     margin: 0;
@@ -377,16 +384,17 @@ ion-content {
     justify-content: center;
     align-items: center;
     background: #D40404;
-    width: 300px !important;
-    max-width: 300px !important;
     flex: initial !important;
+}
+.judge-match-timer-participant_info {
+    font-size:42px;
 }
 .judge-match-timer {
     padding: 0 20px 20px 20px;
-    border: 1px solid #565151;
     color: white;
     --background: #2C2626;
     height:365px;
+    width:100%;
 }
 .alarm-overhead {
     height:365px;
@@ -410,7 +418,8 @@ ion-content {
     padding:0;
 }
 .judge-match-timer ion-row {
-    align-items: center;
+    align-items: stretch;
+    justify-content: center;
 }
 .judge-match-timer-clock_blue_side {
     font-weight: bold;
@@ -421,38 +430,40 @@ ion-content {
     height:240px;
     line-height: 240px;
     max-width: calc(50% - 150px) !important;
+    position: relative;
 }
 .judge-match-timer-clock_white_side {
     font-weight: bold;
     font-size: 176px;
-    color: #FF0B0B;
+    color: #FEAB24;
     letter-spacing: 0.015em;
     text-align:center;
     height:240px;
     line-height: 240px;
     max-width: calc(50% - 150px) !important;
+    position: relative;
 }
 .judge-match-timer-clock_versus {
     font-weight: bold;
-    color: #FEAB24;
-    font-size: 176px;
+    color: #FF0B0B;
+    font-size: 220px;
     letter-spacing: 0.015em;
     text-align:center;
-    height:240px;
     line-height: 240px;
     border: 1px solid #565151;
     width: 300px !important;
     max-width: 300px !important;
     flex: initial !important;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .judge-match-timer-clock_versus.small {
     font-size:140px;
 }
 .judge-match-timer-buttons {
-    position:fixed;
-    bottom:0;
     width:100%;
-    height:197px;
     display:flex;
     justify-content:space-around;
     align-items:center;
@@ -461,7 +472,7 @@ ion-content {
     position:fixed;
     bottom:0;
     width:100%;
-    height:500px;
+    flex-direction: column;
     display:flex;
     justify-content:space-around;
     align-items:center;
@@ -590,7 +601,9 @@ ion-content {
 .green_chevron {
     width:52px;
     height:40px;
-    position:absolute;
+    position:relative;
+    display: inline-block;
+    margin-left: 10px;
 }
 .green_chevron:before {
     content: '';
@@ -610,13 +623,6 @@ ion-content {
     transform: rotate(45deg);
     top: 3px;
     right: 29px;
-}
-.judge-match-timer-blue_side .green_chevron {
-    left:20px;
-}
-
-.judge-match-timer-white_side .green_chevron {
-    right:0;
 }
 .judge-results-totals {
     display:flex;
@@ -660,4 +666,31 @@ ion-content {
     color: white;
     text-align: center;
     line-height: 180px;
+    background-color:#2C2626;
+    position: relative;
+    z-index:1;
+    padding:15px;
+    border-radius:6px;
+}
+.judge-match-timer-clock_blue_side_title, .judge-match-timer-clock_versus_title, .judge-match-timer-clock_white_side_title {
+    position: absolute;
+    font-size: 32px;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 38px;
+    line-height: 38px;
+}
+@media (min-width:1600px) {
+    .judge-match-timer-clock_white_side, .judge-match-timer-clock_blue_side {
+        font-size: 220px;
+    }
+}
+
+@media (min-width:1900px) {
+    .judge-match-timer-clock_white_side, .judge-match-timer-clock_blue_side {
+        font-size: 280px;
+        height:280px;
+        padding-top:20px !important;
+    }
 }

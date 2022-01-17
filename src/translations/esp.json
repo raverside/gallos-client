@@ -250,7 +250,10 @@
       "alarm": "Alarma",
       "five_seconds": "5 Segundos",
       "sixty_stop": "60|Parar",
-      "sixty_loop": "60|Círculo"
+      "sixty_loop": "60|Círculo",
+      "timer_elapsed": "Transcurrido",
+      "timer_countdown": "Conteo",
+      "timer_remaining": "Restante"
   },
   "stadiums": {
       "header": "Galleras",

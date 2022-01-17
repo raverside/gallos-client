@@ -28,6 +28,7 @@ import {useHistory, useParams} from "react-router-dom";
 import moment from "moment";
 import {AppContext} from "../State";
 import {useTranslation} from "react-multi-lang";
+import {formatOzToLbsOz} from "../components/utils";
 
 const JudgeMatch: React.FC = () => {
     const t = useTranslation();
@@ -301,28 +302,49 @@ const JudgeMatch: React.FC = () => {
     return (
         <IonPage>
             <IonContent fullscreen>
-                <div className="judge-content">
+                <div className="judge-match-content">
                     <audio ref={alarmRef} src={alarmSound} preload="auto" />
                     <audio ref={longAlarmRef} src={longAlarmSound} preload="auto" />
                     <audio ref={fiveSecAlarmRef} src={fiveSecSound} preload="auto" />
                     <IonGrid className="judge-match-timer">
                         {showAlarm && <div className="alarm-overhead">{moment.utc(alarmTimer*1000).format('mm:ss')}</div>}
                         <IonRow>
-                            <IonCol size="5" className="judge-match-timer-clock_blue_side">{moment.utc(matchTime*1000).format('mm:ss')}</IonCol>
-                            <IonCol size="2" className={timer > 99 ? "judge-match-timer-clock_versus small" : "judge-match-timer-clock_versus"}>{moment.duration(timer, 'seconds').asSeconds()}</IonCol>
-                            <IonCol size="5" className="judge-match-timer-clock_white_side">{moment.utc(matchTimeReverse*1000).format('mm:ss')}</IonCol>
+                            <IonCol size="5" className="judge-match-timer-clock_blue_side">
+                                <span className="judge-match-timer-clock_blue_side_title">{t('judge.timer_elapsed')}</span>
+                                {moment.utc(matchTime*1000).format('mm:ss')}
+                            </IonCol>
+                            <IonCol size="2" className={timer > 99 ? "judge-match-timer-clock_versus small" : "judge-match-timer-clock_versus"}>
+                                <span className="judge-match-timer-clock_versus_title">{t('judge.timer_countdown')}</span>
+                                {moment.duration(timer, 'seconds').asSeconds()}
+                            </IonCol>
+                            <IonCol size="5" className="judge-match-timer-clock_white_side">
+                                <span className="judge-match-timer-clock_white_side_title">{t('judge.timer_remaining')}</span>
+                                {moment.utc(matchTimeReverse*1000).format('mm:ss')}
+                            </IonCol>
                         </IonRow>
                         <IonRow>
-                            <IonCol size="5" className="judge-match-timer-blue_side">
-                                {result === 0 && <div className="green_chevron"/>}
-                                {match?.participant.team.name}
-                            </IonCol>
-                            <IonCol size="2" className="judge-match-timer-versus">
+                            <IonCol size="12" className="judge-match-timer-versus">
                                 Pelea {event?.matches?.findIndex((m:any) => m.id === match_id)+1 || 1}
                             </IonCol>
-                            <IonCol size="5" className="judge-match-timer-white_side">
-                                {match?.opponent.team.name}
-                                {result === 1 && <div className="green_chevron"/>}
+                        </IonRow>
+                        <IonRow>
+                            <IonCol size="12" className="judge-match-timer-blue_side">
+
+                                <div>
+                                    {match?.participant.team.name}
+                                    {result === 0 && <span className="green_chevron"/>}
+                                </div>
+                                <div className="judge-match-timer-participant_info">{match?.participant.type} | {t('events.weight')}: {formatOzToLbsOz(match?.participant.weight)}</div>
+                            </IonCol>
+                        </IonRow>
+                        <IonRow>
+                            <IonCol size="12" className="judge-match-timer-white_side">
+                                <div>
+                                    {match?.opponent.team.name}
+                                    {result === 1 && <span className="green_chevron"/>}
+                                </div>
+                                <div className="judge-match-timer-participant_info">{match?.opponent.type} | {t('events.weight')}: {formatOzToLbsOz(match?.opponent.weight)}</div>
+
                             </IonCol>
                         </IonRow>
                     </IonGrid>

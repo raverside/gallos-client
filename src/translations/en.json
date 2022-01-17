@@ -250,7 +250,10 @@
       "alarm": "Alarm",
       "five_seconds": "5 Seconds",
       "sixty_stop": "60|Stop",
-      "sixty_loop": "60|Loop"
+      "sixty_loop": "60|Loop",
+      "timer_elapsed": "Elapsed",
+      "timer_countdown": "Countdown",
+      "timer_remaining": "Remaining"
   },
   "stadiums": {
       "header": "Stadiums",
