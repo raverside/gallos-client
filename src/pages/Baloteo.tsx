@@ -439,7 +439,7 @@ const Baloteo: React.FC = () => {
                     />
                 </IonModal>
                 <div style={showShareMatch ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
-                    <ShareMatchImage match={showShareMatch} close={() => setShowShareMatch(false)} ref={shareMatchRef} />
+                    <ShareMatchImage event={event} match={showShareMatch} close={() => setShowShareMatch(false)} ref={shareMatchRef} />
                 </div>
                 <div style={{ overflow: "hidden", height: 0, width: 0 }}><PrintMatch ref={printWrapperRef} event={event} match={selectPrintMatch} /></div>
                 <ParticipantGallery

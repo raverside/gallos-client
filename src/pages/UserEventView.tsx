@@ -373,7 +373,7 @@ const UserEventView: React.FC = () => {
                     <ShareEventImage event={event} close={() => setShowShare(false)}  ref={shareRef} />
                 </div>
                 <div style={showShareMatch ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
-                    <ShareMatchImage match={showShareMatch} close={() => setShowShareMatch(false)} ref={shareMatchRef} />
+                    <ShareMatchImage event={event} match={showShareMatch} close={() => setShowShareMatch(false)} ref={shareMatchRef} />
                 </div>
                 <div style={showShareParticipant ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
                     <ShareParticipantImage participant={showShareParticipant} close={() => setShowShareParticipant(false)} ref={shareParticipantRef} />

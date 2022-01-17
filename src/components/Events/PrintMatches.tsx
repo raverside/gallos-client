@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import {formatOzToLbsOz, getStadiumInitials, getParticipantBettingAmount} from "../utils";
+import {formatOzToLbsOz, getStadiumInitials, getParticipantBettingAmount, getBettingPreference} from "../utils";
 import {useTranslation} from "react-multi-lang";
 
 const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
@@ -62,45 +62,6 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
             title = t('events.print_all_animals_nonlive');
             printMatches = allParticipantsNonLive;
         break;
-    }
-
-    const getBettingPreference = (participant:any, opponent:any) => {
-        if (!participant || !opponent) return "";
-        let betting_pref = "";
-
-        if (
-            (participant.betting_pref.includes('gold') && opponent.betting_pref.includes('gold')) ||
-            (participant.betting_pref.includes('gold') && opponent.betting_pref === 'open') ||
-            (opponent.betting_pref.includes('gold') && participant.betting_pref === 'open')
-        ) { // gold
-            if (event.gold_one > 0) betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one);
-            if (event.gold_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.gold_two).find(x => x.type === "integer")?.value;
-        } else if (
-            (participant.betting_pref.includes('silver') && opponent.betting_pref.includes('silver')) ||
-            (participant.betting_pref.includes('silver') && opponent.betting_pref === 'open') ||
-            (opponent.betting_pref.includes('silver') && participant.betting_pref === 'open')
-        ) { // silver
-            if (event.silver_one > 0) betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one);
-            if (event.silver_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.silver_two).find(x => x.type === "integer")?.value;
-        } else if (
-            (participant.betting_pref.includes('bronze') && opponent.betting_pref.includes('bronze')) ||
-            (participant.betting_pref.includes('bronze') && opponent.betting_pref === 'open') ||
-            (opponent.betting_pref.includes('bronze') && participant.betting_pref === 'open')
-        ) { // bronze
-            if (event.bronze > 0) betting_pref = ((event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze));
-        } else if (participant.betting_pref === 'open' && opponent.betting_pref === 'open') {
-            if (event.gold_one > 0) {
-                betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one);
-                if (event.gold_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.gold_two).find(x => x.type === "integer")?.value;
-            } else if (event.silver_one > 0) {
-                betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one);
-                if (event.silver_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.silver_two).find(x => x.type === "integer")?.value;
-            } else if (event.bronze > 0) {
-                betting_pref = ((event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze));
-            }
-        }
-
-        return betting_pref;
     }
 
     return (!event ? null : <>
@@ -181,9 +142,9 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                                 <div style={{textAlign: "center", width: "25mm"}}>{match.opponent?.breeder_name}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
-                                <div style={{textAlign: "center", width: "25mm"}}>{getBettingPreference(match.participant, match.opponent)}</div>
+                                <div style={{textAlign: "center", width: "25mm"}}>{getBettingPreference(event, match.participant, match.opponent)}</div>
                                 <div style={{textAlign: "center", width: "30mm", fontWeight: "bold"}}>{t('events.bet')}</div>
-                                <div style={{textAlign: "center", width: "25mm"}}>{getBettingPreference(match.participant, match.opponent)}</div>
+                                <div style={{textAlign: "center", width: "25mm"}}>{getBettingPreference(event, match.participant, match.opponent)}</div>
                             </div>
                             {(((index + 1) === printMatches.length) || cut) && <p style={{ fontSize: "16px", textAlign: "center", fontWeight: "bold", borderTop: "1px dashed black", padding: "10px"}}>gallosclub.com</p>}
                         </div>

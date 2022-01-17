@@ -80,6 +80,45 @@ export function getParticipantBettingAmount(participant:any, event:any) {
     return betting_pref;
 }
 
+export function getBettingPreference (event:any, participant:any, opponent:any) {
+    if (!event || !participant || !opponent) return "";
+    let betting_pref = "";
+
+    if (
+        (participant.betting_pref.includes('gold') && opponent.betting_pref.includes('gold')) ||
+        (participant.betting_pref.includes('gold') && opponent.betting_pref === 'open') ||
+        (opponent.betting_pref.includes('gold') && participant.betting_pref === 'open')
+    ) { // gold
+        if (event.gold_one > 0) betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one);
+        if (event.gold_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.gold_two).find(x => x.type === "integer")?.value;
+    } else if (
+        (participant.betting_pref.includes('silver') && opponent.betting_pref.includes('silver')) ||
+        (participant.betting_pref.includes('silver') && opponent.betting_pref === 'open') ||
+        (opponent.betting_pref.includes('silver') && participant.betting_pref === 'open')
+    ) { // silver
+        if (event.silver_one > 0) betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one);
+        if (event.silver_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.silver_two).find(x => x.type === "integer")?.value;
+    } else if (
+        (participant.betting_pref.includes('bronze') && opponent.betting_pref.includes('bronze')) ||
+        (participant.betting_pref.includes('bronze') && opponent.betting_pref === 'open') ||
+        (opponent.betting_pref.includes('bronze') && participant.betting_pref === 'open')
+    ) { // bronze
+        if (event.bronze > 0) betting_pref = ((event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze));
+    } else if (participant.betting_pref === 'open' && opponent.betting_pref === 'open') {
+        if (event.gold_one > 0) {
+            betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one);
+            if (event.gold_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.gold_two).find(x => x.type === "integer")?.value;
+        } else if (event.silver_one > 0) {
+            betting_pref = (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one);
+            if (event.silver_two > 0) betting_pref += " & " + numberFormatter.formatToParts(event.silver_two).find(x => x.type === "integer")?.value;
+        } else if (event.bronze > 0) {
+            betting_pref = ((event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze));
+        }
+    }
+
+    return betting_pref;
+}
+
 export function isDesktop() {
     // @ts-ignore
     const navigatorAgent = navigator.userAgent || navigator.vendor || window.opera;

@@ -6,6 +6,31 @@
     width:500px;
     font-family: 'Open Sans', sans-serif;
 }
+.share-versus-wrapper {
+    width:1250px;
+    position:relative;
+    overflow: hidden;
+    font-family: 'Open Sans', sans-serif;
+}
+.share-versus-header {
+    background-color:black;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+}
+.share-versus-header_text {
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    width:33%;
+}
+.share-versus-header_text:last-of-type {
+    text-align:right;
+}
+.share-versus-header_text span {
+    color:#EB0404;
+}
 .shareable-image_image {
     width:100%;
 }
@@ -117,10 +142,20 @@
     font-size:18px;
     width:100%;
 }
-.share-event-logo, .share-versus-logo {
-    width:100%;
+.share-event-logo {
     background:white;
+    width:100%;
     text-align:center;
+    border-radius:3px;
+}
+.share-versus-logo {
+    background: white;
+    text-align: center;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 .share-event-logo .logo, .share-versus-logo .logo  {
     background-color:white;
@@ -129,8 +164,10 @@
 }
 .share-match-image {
     height:450px;
+    width:450px;
     overflow:hidden;
     margin:0 auto;
+    object-fit: contain;
 }
 .share-match-image.flipped {
     -moz-transform: scaleX(-1);
@@ -138,12 +175,13 @@
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
 }
-.share-versus-wrapper {
-    width:1250px;
+.share-match-image.loser {
+    opacity:0.3;
 }
 .share-versus {
     display:flex;
     align-items: center;
+    position: relative;
 }
 .share-versus-info {
     background-color:white;
@@ -169,4 +207,139 @@
     width:100px;
     text-align:center;
     margin:5px 10px;
+}
+.share-versus-names {
+    display:flex;
+}
+.share-versus-names_blue {
+    width:50%;
+    padding:15px 15px 15px 55px;
+    background-color:#3d6cb4;
+    color:white;
+    font-size:22px;
+    font-weight: 600;
+}
+.share-versus-names_white {
+    width:50%;
+    padding:15px 55px 15px 15px;
+    background-color:black;
+    color:white;
+    text-align:right;
+    font-size:22px;
+    font-weight: 600;
+}
+.share-versus-names_vs {
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-color:white;
+    width:260px;
+    height:40px;
+    margin:auto;
+    font-size:35px;
+    font-weight:bold;
+}
+.share-versus-event_data {
+    font-size:22px;
+    font-weight: 600;
+    text-align:center;
+    margin: 20px;
+    display:flex;
+    justify-content:space-between;
+}
+.share-versus-event_data span {
+    color: #e01e25;
+}
+.share-versus_blue-side-won {
+    position:absolute;
+    bottom:10px;
+    left:5px;
+    right:5px;
+    text-align:left;
+    color:white;
+    padding:15px;
+    border-radius:5px;
+    font-weight:600;
+    font-size:22px;
+    background-color:#002D72;
+}
+.share-versus_blue-side-won span {
+    font-size:28px;
+    font-weight:bold;
+    float:right;
+    position:relative;
+}
+.share-versus_blue-side-won span img {
+    position:absolute;
+    left:-50px;
+    top:-20px;
+    width:50px;
+    height:50px;
+}
+.share-versus_white-side-won {
+    position:absolute;
+    bottom:10px;
+    left:5px;
+    right:5px;
+    text-align:right;
+    color:white;
+    padding:15px;
+    border-radius:5px;
+    font-weight:600;
+    font-size:22px;
+    background-color:black;
+}
+.share-versus_white-side-won span {
+    font-size:28px;
+    font-weight:bold;
+    float:left;
+    position:relative;
+}
+.share-versus_white-side-won span img {
+    position:absolute;
+    right:-50px;
+    top:-20px;
+    width:50px;
+    height:50px;
+}
+.share-versus_draw {
+    position:absolute;
+    top:-55px;
+    left:0;
+    right:0;
+    width:330px;
+    margin:auto;
+    text-align:center;
+    color:white;
+    padding:15px;
+    border-radius:5px;
+    font-weight:600;
+    font-size:22px;
+    background-color:#2dd36f;
+}
+.share-versus_draw span {
+    font-size:28px;
+    font-weight:bold;
+    float:left;
+    position:relative;
+}
+.share-versus_null {
+    position:absolute;
+    top:-55px;
+    left:0;
+    right:0;
+    width:330px;
+    margin:auto;
+    text-align:center;
+    color:white;
+    padding:15px;
+    border-radius:5px;
+    font-weight:bold;
+    font-size:28px;
+    background-color:#e01e25;
 }

@@ -13,14 +13,14 @@ import {
     IonRow,
     IonCol,
     IonLoading, IonGrid, IonList, IonItem,
-    IonCard, IonIcon, IonModal, IonRefresherContent, IonRefresher, IonText
+    IonCard, IonIcon, IonModal, IonRefresherContent, IonRefresher, IonText, IonButton
 } from '@ionic/react';
 import React, {useContext, useEffect, useState} from "react";
 import {getEvent} from "../api/Events";
 
 import './Baloteo.css';
 import {useHistory, useParams} from "react-router-dom";
-import {getImageUrl, formatOzToLbsOz} from "../components/utils";
+import {getImageUrl, formatOzToLbsOz, isDesktop} from "../components/utils";
 import {useTranslation} from "react-multi-lang";
 import {printOutline as printIcon} from "ionicons/icons";
 import PrintModal from "../components/Events/PrintModal";
@@ -29,6 +29,10 @@ import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploa
 import EventPhaseManagement from "../components/Events/PhaseManagement";
 import {AppContext} from "../State";
 import moment from "moment";
+import ShareMatchImage from "../components/Events/ShareMatchImage";
+
+// @ts-ignore
+import domtoimage from "dom-to-image-improved";
 
 const BaloteoStats: React.FC = () => {
     const t = useTranslation();
@@ -37,10 +41,13 @@ const BaloteoStats: React.FC = () => {
     const [baloteoSearch, setBaloteoSearch] = useState<string>("");
     const [baloteoTab, setBaloteoTab] = useState<string>("matches");
     const [showPrintModal, setShowPrintModal] = useState<boolean>(false);
+    const [showShareMatch, setShowShareMatch] = useState<any>(false);
     const [selectedParticipant, setSelectedParticipant] = useState<any>(false);
     const [selectedGalleryParticipant, setSelectedGalleryParticipant] = useState<any>(false);
     const [showParticipantPhotoUploader, setShowParticipantPhotoUploader] = useState<boolean>(false);
     const [showGalleryImage, setShowGalleryImage] = useState<boolean>(false);
+    const shareMatchRef = React.useRef();
+    const [showLoading, setShowLoading] = useState<boolean>(false);
     const history = useHistory();
     const { id } = useParams<{id:string}>();
 
@@ -69,6 +76,34 @@ const BaloteoStats: React.FC = () => {
         }
         callback();
     };
+
+    const shareMatch = async (match:any) => {
+        if (!match) return false;
+        setShowLoading(true);
+        const element = shareMatchRef.current;
+        setShowShareMatch(match);
+        domtoimage.toBlob(element!).then((blob:Blob) => {
+            const file = new File([blob!], +new Date() + ".png", { type: "image/png" });
+            setShowShareMatch(false);
+
+            if (isDesktop()) {
+                //download the file
+                const a = document.createElement("a");
+                a.href  = window.URL.createObjectURL(file);
+                a.setAttribute("download", file.name);
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                //share the file
+                const filesArray:any = [file];
+                if (navigator.canShare && navigator.canShare({files: filesArray})) {
+                    navigator.share({files: filesArray});
+                }
+            }
+            setShowLoading(false);
+        });
+    }
 
     const viewParticipantImage = (participant:any) => {
         setSelectedGalleryParticipant(participant);
@@ -177,7 +212,11 @@ const BaloteoStats: React.FC = () => {
                                         {match.result === 3 && <IonText className="result_null">{t('judge.cancelled')}</IonText>}
                                     </IonCol>
                                 </IonRow>}
-
+                                <IonRow>
+                                    <IonCol size="12">
+                                        <IonButton className="share-participant-user" color="secondary" onClick={() => shareMatch(match)}>{t('events.share_participant')}</IonButton>
+                                    </IonCol>
+                                </IonRow>
                         </div>))}
                     </IonGrid></div>}
                 {(baloteoTab === "animals") && <div className="baloteo-participants">
@@ -253,8 +292,17 @@ const BaloteoStats: React.FC = () => {
                         participant={selectedParticipant}
                     />
                 </IonModal>
+                <div style={showShareMatch ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
+                    <ShareMatchImage event={event} match={showShareMatch} close={() => setShowShareMatch(false)} ref={shareMatchRef} />
+                </div>
                 <IonRefresher slot="fixed" onIonRefresh={(e) => fetchEvent(e.detail.complete)}><IonRefresherContent /></IonRefresher>
-                </IonContent>
+                <IonLoading
+                    isOpen={showLoading}
+                    onDidDismiss={() => setShowLoading(false)}
+                    duration={10000}
+                    spinner="crescent"
+                />
+            </IonContent>
         </IonPage>
     );
 };
