@@ -286,6 +286,7 @@
       "team_owner": "Dueño de Traba",
       "team_owners": "Dueños de Trabas",
       "edit": "Editar",
+      "delete": "Eliminar",
       "share": "Compartir",
       "cancel": "Cancelar",
       "settings": "Ajustes",
@@ -302,6 +303,7 @@
       "name": "Nombre",
       "create_team_owner": "Crear Dueño de Traba",
       "update_team_owner": "Actualizar Dueño de Traba",
+      "update_team": "Actualizar Traba",
       "submit": "Guardar",
       "citizen_id": "Número de Identificación",
       "phone": "Número de Teléfono",
@@ -322,7 +324,9 @@
       "note_for": "Nota para",
       "note_title": "Título",
       "note_delete_confirm_title": "Eliminar Nota",
-      "note_delete_confirm_subtitle": "¿Estás seguro que quieres eliminar esta nota?"
+      "note_delete_confirm_subtitle": "¿Estás seguro que quieres eliminar esta nota?",
+      "team_delete_confirm_title": "Eliminar Nombre",
+      "team_delete_confirm_subtitle": "¿Estás seguro que quieres eliminar esta nombre?"
   },
   "transactions": {
       "transactions": "Transacciones",

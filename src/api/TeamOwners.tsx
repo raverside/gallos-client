@@ -43,11 +43,11 @@ export async function updateTeamOwnerLiberty(id:string, reason:string, opponent_
 export async function removeTeamOwnerLiberty(id:string) {
     return fetcher.post(`/removeTeamOwnerLiberty`, {id});
 }
-//
-// export async function updateTeamOwnerTeam(team_id:string, title:string) {
-//     return fetcher.post(`/updateTeamOwnerTeam`, {team_id, title});
-// }
-//
-// export async function removeTeamOwnerTeam(id:string) {
-//     return fetcher.post(`/removeTeamOwnerTeam`, {id});
-// }
+
+export async function updateTeamOwnerTeam(id:string, name:string) {
+    return fetcher.post(`/updateTeamOwnerTeam`, {id, name});
+}
+
+export async function removeTeamOwnerTeam(id:string) {
+    return fetcher.post(`/removeTeamOwnerTeam`, {id});
+}

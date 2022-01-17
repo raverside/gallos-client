@@ -1,0 +1,85 @@
+import React, {useState} from 'react';
+import {
+    IonButtons,
+    IonContent,
+    IonIcon,
+    IonTitle,
+    IonToolbar,
+    IonList,
+    IonItem,
+    IonItemDivider,
+    IonInput,
+    IonButton,
+} from '@ionic/react';
+import {closeOutline as closeIcon} from "ionicons/icons";
+
+import './TeamOwnerEditor.css';
+import {updateTeamOwnerTeam} from '../../api/TeamOwners';
+import {useTranslation} from "react-multi-lang";
+
+type TeamFormData = {
+    id?: string;
+    name: string;
+};
+type EventProps = {
+    close: () => void;
+    fetchTeamOwner: () => void;
+    team?: TeamFormData|false;
+};
+
+const TeamEditor: React.FC<EventProps> = ({fetchTeamOwner, close, team = false}) => {
+    const t = useTranslation();
+    const [formData, setFormData] = useState<TeamFormData>({
+        id: team ? team.id : undefined,
+        name: team ? team.name : "",
+    });
+
+    const canSubmit = () => {
+        let isFormFilled = true;
+
+        if (!formData.name) isFormFilled = false;
+
+        return isFormFilled;
+    }
+
+    const Submit = async () => {
+        if (!formData.id) return false;
+        const response = await updateTeamOwnerTeam(formData.id, formData.name);
+        if (response.success) {
+            fetchTeamOwner();
+        }
+        close();
+    }
+
+    return (<>
+        <IonToolbar className="modal-header">
+            <IonTitle className="page-title">{formData.id ? t('teams.update_team') : t('teams.add_team')}</IonTitle>
+            <IonButtons slot="start">
+                <IonIcon
+                    icon={closeIcon}
+                    className="create-event-close-icon"
+                    slot="start"
+                    onClick={() => close()}
+                />
+            </IonButtons>
+            <IonButtons slot="end">
+                <IonButton type="button" slot="end" disabled={!canSubmit()} color={canSubmit() ? "primary" : "dark"} fill="clear" className="create-event-post" onClick={Submit}>{t('teams.submit')}</IonButton>
+            </IonButtons>
+        </IonToolbar>
+        <IonContent id="event-editor">
+            <IonList>
+                <IonItemDivider>{t('teams.name')}</IonItemDivider>
+                <IonItem lines="none">
+                    <IonInput
+                        value={formData.name}
+                        className="fullsize-input"
+                        placeholder={t('teams.name')}
+                        onIonChange={(e) => setFormData({...formData, name: e.detail.value!})}
+                    />
+                </IonItem>
+            </IonList>
+        </IonContent>
+    </>);
+};
+
+export default TeamEditor;

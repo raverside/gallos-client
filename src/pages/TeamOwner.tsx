@@ -13,7 +13,7 @@ import {
     IonTitle,
     useIonActionSheet,
     IonModal,
-    IonLoading,
+    IonLoading, IonRefresherContent, IonRefresher,
 } from '@ionic/react';
 import TeamOwnerNotesTab from '../components/TeamOwners/TeamOwnerNotesTab';
 import TeamOwnerLibertyTab from '../components/TeamOwners/TeamOwnerLibertyTab';
@@ -80,10 +80,11 @@ const TeamOwner: React.FC = () => {
         }
     }
 
-    const fetchTeamOwner = async () => {
+    const fetchTeamOwner = async (callback = () => {}) => {
         const response = (id) ? await getTeamOwner(id) : false;
         if (response.team_owner) {
             setTeamOwner(response.team_owner);
+            callback();
         }
     }
 
@@ -93,20 +94,6 @@ const TeamOwner: React.FC = () => {
             fetchTeamOwner();
         }
     }
-
-    // const updateTeam = async (team_id: string, title:string) => {
-    //     const response = await updateTeamOwnerTeam(team_id, title);
-    //     if (response.success) {
-    //         fetchTeamOwner();
-    //     }
-    // }
-    //
-    // const removeTeam = async (id:string) => {
-    //     const response = await removeTeamOwnerTeam(id);
-    //     if (response.success) {
-    //         fetchTeamOwner();
-    //     }
-    // }
 
     const addNote = async (noteTitle:string, note:string) => {
         const response = await addTeamOwnerNote(id, noteTitle, note);
@@ -219,7 +206,7 @@ const TeamOwner: React.FC = () => {
                     <IonSegmentButton value="notes"><IonLabel>{t('teams.notes')}</IonLabel></IonSegmentButton>
                 </IonSegment>
 
-                {tabSelected === "list" && <TeamOwnersList teamOwners={teamOwner?.teams} isTeam addTeams={addTeams} />}
+                {tabSelected === "list" && <TeamOwnersList teamOwners={teamOwner?.teams} isTeam showTeamActions addTeams={addTeams} fetchTeamOwner={fetchTeamOwner} />}
                 {tabSelected === "liberty" && <TeamOwnerLibertyTab team_owner={teamOwner!} teamOwners={teamOwners} addLiberty={addLiberty} updateLiberty={updateLiberty} removeLiberty={removeLiberty}/>}
                 {tabSelected === "notes" && <TeamOwnerNotesTab team_owner={teamOwner!} addNote={addNote} updateNote={updateNote} removeNote={removeNote}/>}
 
@@ -233,6 +220,7 @@ const TeamOwner: React.FC = () => {
                     duration={10000}
                     spinner="crescent"
                 />
+                <IonRefresher slot="fixed" onIonRefresh={(e) => fetchTeamOwner(e.detail.complete)}><IonRefresherContent /></IonRefresher>
             </IonContent>
         </IonPage>
     );
