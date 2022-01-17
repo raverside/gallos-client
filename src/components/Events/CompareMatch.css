@@ -1,3 +1,14 @@
+.compare-match-wrapper {
+    height:100%;
+    display:flex;
+    flex-direction: column;
+}
+.compare-info {
+    overflow-y:auto;
+}
+.compare-fixed {
+    max-height:60%;
+}
 .compare-info_row {
     display:flex;
     justify-content:space-between;
@@ -17,10 +28,12 @@
 }
 .compare-images {
     display: flex;
+    max-height:calc(100% - 83px);
 }
 .compare-images ion-img {
     width:50%;
-    object-fit:fill;
+    object-fit: cover;
+    object-position: top;
 }
 .compare-images ion-img.flipped {
     -moz-transform: scaleX(-1);

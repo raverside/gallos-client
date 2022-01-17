@@ -43,7 +43,6 @@
     font-weight: 600;
     font-size: 16px;
     margin:0;
-    margin-top: -6px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     padding:5px;
@@ -219,6 +218,42 @@
     width:40px;
     margin:auto;
 }
+.result_blue-side-won {
+    background-color:#002D72;
+    color:white;
+    font-weight:bold;
+    display: block;
+    padding:15px 5px;
+    border-radius:3px;
+}
+
+.result_white-side-won {
+    background-color:black;
+    color:white;
+    font-weight:bold;
+    display: block;
+    padding:15px 5px;
+    border-radius:3px;
+}
+
+.result_draw {
+    background-color:#2dd36f;
+    color:white;
+    font-weight:bold;
+    display: block;
+    padding:15px 5px;
+    border-radius:3px;
+}
+
+.result_null {
+    background-color:#EB0404;
+    color:white;
+    font-weight:bold;
+    display: block;
+    padding:15px 5px;
+    border-radius:3px;
+}
+
 @media (min-width: 420px) {
     .baloteo-match-image {
         height:150px;

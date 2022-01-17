@@ -89,6 +89,9 @@ const UserEventView: React.FC = () => {
             if (baloteoTab === "receiving" && response.event.phase !== "receiving") {
                 setBaloteoTab("matches");
             }
+            if (response.event.phase === "complete" && (baloteoTab === "matches" || baloteoTab === "receiving")) {
+                setBaloteoTab("results");
+            }
         } else {
             history.replace("/events");
 
@@ -261,11 +264,11 @@ const UserEventView: React.FC = () => {
                                     </IonCol>
                                 </IonRow>
                                 {(match.result !== null) && <IonRow>
-                                    <IonCol size="8" offset="2">
-                                        {match.result === 0 && <IonText color="tertiary">{t('judge.blue_side_wins')}{(match.match_time) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
-                                        {match.result === 1 && <IonText>{t('judge.white_side_wins')}{(match.match_time) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
-                                        {match.result === 2 && <IonText>{t('judge.draw')}{(match.match_time) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
-                                        {match.result === 3 && <IonText color="primary">{t('judge.cancelled')}</IonText>}
+                                    <IonCol size="12">
+                                        {match.result === 0 && <IonText className="result_blue-side-won">{t('judge.blue_side_wins')}{(match.match_time > 0) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
+                                        {match.result === 1 && <IonText className="result_white-side-won">{t('judge.white_side_wins')}{(match.match_time > 0) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
+                                        {match.result === 2 && <IonText className="result_draw">{t('judge.draw')}{(match.match_time > 0) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
+                                        {match.result === 3 && <IonText className="result_null">{t('judge.cancelled')}</IonText>}
                                     </IonCol>
                                 </IonRow>}
                                 <IonRow>
