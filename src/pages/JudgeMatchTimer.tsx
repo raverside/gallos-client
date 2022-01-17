@@ -396,7 +396,7 @@ const JudgeMatch: React.FC = () => {
                         </IonButton>
                         <IonButton fill="clear" disabled={!!matchTimeInterval} onClick={() => setSelectResult(true)} color="success" className="judge-time-button yellow-time-button">
                             <IonImg src={resultTimeIcon} />
-                            <IonText>{t('judge.restart')}</IonText>
+                            <IonText>{t('judge.results')}</IonText>
                         </IonButton>
                     </div>}
                 </div>
