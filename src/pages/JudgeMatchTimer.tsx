@@ -21,6 +21,8 @@ import timerRestartIcon from "../img/icon_judge_restart.svg";
 import alarmSound from "../sfx/alarm.mp3";
 // @ts-ignore
 import longAlarmSound from "../sfx/alarm_long.mp3";
+// @ts-ignore
+import fiveSecSound from "../sfx/five_sec.mp3";
 
 import {useHistory, useParams} from "react-router-dom";
 import moment from "moment";
@@ -58,6 +60,7 @@ const JudgeMatch: React.FC = () => {
     const [result, setResult] = useState<number>(); // 0 - blue wins, 1 - white wins, 2 - draw, 3 - cancelled
     const alarmRef = useRef(null);
     const longAlarmRef = useRef(null);
+    const fiveSecAlarmRef = useRef(null);
     const history = useHistory();
 
     useEffect(() => {
@@ -102,6 +105,7 @@ const JudgeMatch: React.FC = () => {
                             } else {
                                 stopTime();
                             }
+                            soundFiveSecAlarm();
                         }
                         return Math.max(currentFiveTimer - 1, 0);
                     });
@@ -271,6 +275,13 @@ const JudgeMatch: React.FC = () => {
         }
     }
 
+    const soundFiveSecAlarm = () => {
+        if (fiveSecAlarmRef.current){
+            // @ts-ignore
+            fiveSecAlarmRef.current.play();
+        }
+    }
+
     let resultText = t('judge.select_result');
     switch (result) {
         case 0:
@@ -293,6 +304,7 @@ const JudgeMatch: React.FC = () => {
                 <div className="judge-content">
                     <audio ref={alarmRef} src={alarmSound} preload="auto" />
                     <audio ref={longAlarmRef} src={longAlarmSound} preload="auto" />
+                    <audio ref={fiveSecAlarmRef} src={fiveSecSound} preload="auto" />
                     <IonGrid className="judge-match-timer">
                         {showAlarm && <div className="alarm-overhead">{moment.utc(alarmTimer*1000).format('mm:ss')}</div>}
                         <IonRow>
