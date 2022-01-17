@@ -98,7 +98,7 @@ const JudgeMatch: React.FC = () => {
                     setFiveTimer((currentFiveTimer) => {
                         if (currentFiveTimer === 1) {
                             if (matchTimeReverse > 0) {
-                                setTimer(60);
+                                // setTimer(60);
                                 clearInterval(interval);
                                 setFiveTimerInterval(undefined);
                                 setFiveTimer(5);
