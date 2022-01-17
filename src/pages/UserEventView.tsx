@@ -101,6 +101,7 @@ const UserEventView: React.FC = () => {
 
     const shareEvent = async () => {
         if (!event) return false;
+        setShowLoading(true);
         const element = shareRef.current;
         setShowShare(event);
         domtoimage.toBlob(element!).then((blob:Blob) => {
@@ -122,11 +123,13 @@ const UserEventView: React.FC = () => {
                     navigator.share({files: filesArray});
                 }
             }
+            setShowLoading(false);
         });
     }
 
     const shareMatch = async (match:any) => {
         if (!match) return false;
+        setShowLoading(true);
         const element = shareMatchRef.current;
         setShowShareMatch(match);
         domtoimage.toBlob(element!).then((blob:Blob) => {
@@ -148,11 +151,13 @@ const UserEventView: React.FC = () => {
                     navigator.share({files: filesArray});
                 }
             }
+            setShowLoading(false);
         });
     }
 
     const shareParticipant = async (participant:any) => {
         if (!participant) return false;
+        setShowLoading(true);
         const element = shareParticipantRef.current;
         setShowShareParticipant(participant);
         domtoimage.toBlob(element!).then((blob:Blob) => {
@@ -174,6 +179,7 @@ const UserEventView: React.FC = () => {
                     navigator.share({files: filesArray});
                 }
             }
+            setShowLoading(false);
         });
     }
 

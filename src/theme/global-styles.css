@@ -82,6 +82,40 @@ ion-content::part(scroll) {
 .alert-radio-group.sc-ion-alert-md, .alert-checkbox-group.sc-ion-alert-md {
     max-height:initial;
 }
+.alert-button-group {
+    display: flex;
+    justify-content: center;
+}
+.alert-button-group .alert-button {
+    flex-grow:1;
+    font-size:18px;
+    font-weight:600;
+    color:white;
+    background-color:#2dd36f;
+    text-transform:capitalize;
+    margin:0;
+}
+.alert-button-group .alert-button span {
+    justify-content: center;
+}
+.alert-button-group .alert-button.alert-button-role-cancel {
+    background-color:#EB0404;
+}
+.alert-radio-group .select-interface-option {
+    border-bottom: 1px solid #939393;
+}
+.alert-radio-group .select-interface-option[aria-checked="true"] {
+    background-color:#EB0404;
+}
+.alert-radio-group .select-interface-option[aria-checked=true].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md {
+    color:white;
+}
+.alert-radio-group .select-interface-option[aria-checked=true].sc-ion-alert-md .alert-radio-icon.sc-ion-alert-md {
+    border-color:white;
+}
+.alert-radio-group .select-interface-option[aria-checked=true].sc-ion-alert-md .alert-radio-inner.sc-ion-alert-md {
+    background-color:white;
+}
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
