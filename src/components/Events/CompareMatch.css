@@ -32,8 +32,7 @@
 }
 .compare-images ion-img {
     width:50%;
-    object-fit: cover;
-    object-position: top;
+    object-fit:fill;
 }
 .compare-images ion-img.flipped {
     -moz-transform: scaleX(-1);

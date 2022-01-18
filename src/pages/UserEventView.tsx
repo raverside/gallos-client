@@ -279,7 +279,7 @@ const UserEventView: React.FC = () => {
                                 </IonRow>}
                                 <IonRow>
                                     <IonCol size="12">
-                                        <IonButton className="share-participant-user" color="secondary" onClick={() => shareMatch(match)}>{t('events.share_participant')}</IonButton>
+                                        <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => shareMatch(match)}><IonIcon icon={shareIcon} style={{marginRight: "5px"}}/> {t('events.share_participant')}</IonButton>
                                     </IonCol>
                                 </IonRow>
                             </IonGrid>
@@ -346,7 +346,7 @@ const UserEventView: React.FC = () => {
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="12">
-                                        <IonButton className="share-participant-user" color="secondary" onClick={() => shareParticipant(participant)}>{t('events.share_participant')}</IonButton>
+                                        <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => shareParticipant(participant)}><IonIcon icon={shareIcon} style={{marginRight: "5px"}}/> {t('events.share_participant')}</IonButton>
                                     </IonCol>
                                 </IonRow>
                             </IonGrid>

@@ -11,6 +11,7 @@
     position:relative;
     overflow: hidden;
     font-family: 'Open Sans', sans-serif;
+    background:white;
 }
 .share-versus-header {
     background-color:black;

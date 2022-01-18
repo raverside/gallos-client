@@ -22,7 +22,7 @@ import './Baloteo.css';
 import {useHistory, useParams} from "react-router-dom";
 import {getImageUrl, formatOzToLbsOz, isDesktop} from "../components/utils";
 import {useTranslation} from "react-multi-lang";
-import {printOutline as printIcon} from "ionicons/icons";
+import {printOutline as printIcon, shareSocialOutline as shareIcon} from "ionicons/icons";
 import PrintModal from "../components/Events/PrintModal";
 import ParticipantGallery from "../components/Events/ParticipantGallery";
 import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploader";
@@ -214,7 +214,7 @@ const BaloteoStats: React.FC = () => {
                                 </IonRow>}
                                 <IonRow>
                                     <IonCol size="12">
-                                        <IonButton className="share-participant-user" color="secondary" onClick={() => shareMatch(match)}>{t('events.share_participant')}</IonButton>
+                                        <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => shareMatch(match)}><IonIcon icon={shareIcon} style={{marginRight: "5px"}}/> {t('events.share_participant')}</IonButton>
                                     </IonCol>
                                 </IonRow>
                         </div>))}
