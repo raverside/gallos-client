@@ -97,7 +97,7 @@ const EventView: React.FC = () => {
     const allBets = [event?.bronze, event?.silver_one, event?.silver_two, event?.gold_one, event?.gold_two].filter(x => x !== null);
     const minBet = allBets.length > 0 ? Math.min(...allBets) : false;
 
-    return !event ? <IonLoading isOpen={true} spinner="crescent" /> : (
+    return !event?.id ? <IonLoading isOpen={true} spinner="crescent" /> : (
         <IonPage>
             <IonHeader className="event-view-header">
                 <IonToolbar className="arrow-header">

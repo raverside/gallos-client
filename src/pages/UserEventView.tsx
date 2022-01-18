@@ -181,7 +181,7 @@ const UserEventView: React.FC = () => {
     const completeMatches = matches?.filter((m:any) => !m.live && m.result !== null) || [];
     const activeMatches = (baloteoTab === "results") ? completeMatches : liveMatches;
 
-    return !event ? null : (
+    return !event?.id ? null : (
         <IonPage>
             <IonContent fullscreen>
                 <IonHeader className="event-view-header">

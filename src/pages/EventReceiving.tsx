@@ -106,7 +106,7 @@ const EventReceiving: React.FC = () => {
     const excludedParticipants = participants?.filter((p:any) => p.status === 'rejected');
     const currentTabParticipants = participants?.sort((a:any, b:any) => +(b.image===null) - +(a.image===null) || b.cage - a.cage).filter((p:any) => p.status === participantsTab);
 
-    return !event ? <IonLoading isOpen={true} spinner="crescent" /> : (
+    return !event?.id ? <IonLoading isOpen={true} spinner="crescent" /> : (
         <IonPage>
             <IonHeader>
                 <IonToolbar>

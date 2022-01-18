@@ -117,7 +117,7 @@ const BaloteoStats: React.FC = () => {
     const completeMatches = matches?.filter((m:any) => !m.live && m.result !== null) || [];
     const activeMatches = (baloteoTab === "results") ? completeMatches : liveMatches;
 
-    return !event ? <IonLoading isOpen={true} spinner="crescent" /> : (
+    return !event?.id ? <IonLoading isOpen={true} spinner="crescent" /> : (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
