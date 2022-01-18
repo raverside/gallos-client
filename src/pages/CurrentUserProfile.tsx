@@ -109,7 +109,7 @@ const CurrentUserProfile: React.FC = () => {
     }
 
     const canSubmit = () => {
-        return (formData.username && formData.birthday && formData.country && formData.state && formData.city);
+        return (formData.username && formData.country && formData.state && formData.city);
     }
 
     const Submit = async () => {
