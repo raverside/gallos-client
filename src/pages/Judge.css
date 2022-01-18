@@ -397,7 +397,7 @@ ion-content {
     width:100%;
 }
 .alarm-overhead {
-    height:365px;
+    height:335px;
     position:fixed;
     top:0;
     left:0;right:0;
@@ -509,6 +509,9 @@ ion-content {
 .green-time-button {
     background: #307A0E;
 }
+.grey-time-button {
+    background: grey;
+}
 .yellow-time-button {
     background: #F39700;
 }
@@ -597,6 +600,19 @@ ion-content {
     color:white;
     text-align:center;
     line-height: 54px;
+}
+.judge-match-timer-result.color_0 {
+    background-color: #285CC6;
+}
+.judge-match-timer-result.color_1 {
+    background-color: white;
+    color:black;
+}
+.judge-match-timer-result.color_2 {
+    background-color: #F39700;
+}
+.judge-match-timer-result.color_3 {
+    background-color: #7200CC;
 }
 .green_chevron {
     width:52px;

@@ -66,7 +66,37 @@ const JudgeMatch: React.FC = () => {
 
     useEffect(() => {
         fetchMatch();
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {document.removeEventListener('keydown', handleKeyDown)};
     }, []);
+
+    const handleKeyDown = (e:any) => {
+        if (e.which === 96) {
+            const target = document.querySelector('.button_zero');
+            // @ts-ignore
+            target && target && !target.disabled && target.click();
+        }
+        if (e.which === 97) {
+            const target = document.querySelector('.button_one');
+            // @ts-ignore
+            target && target && !target.disabled && target.click();
+        }
+        if (e.which === 98) {
+            const target = document.querySelector('.button_two');
+            // @ts-ignore
+            target && target && !target.disabled && target.click();
+        }
+        if (e.which === 99) {
+            const target = document.querySelector('.button_three');
+            // @ts-ignore
+            target && target && !target.disabled && target.click();
+        }
+        if (e.which === 100) {
+            const target = document.querySelector('.button_four');
+            // @ts-ignore
+            target && target && !target.disabled && target.click();
+        }
+    }
 
     const fetchMatch = async () => {
         setShowLoading(true);
@@ -350,85 +380,85 @@ const JudgeMatch: React.FC = () => {
                     </IonGrid>
                     {fiveTimerInterval && <div className="five_sec_timer">{fiveTimer}s</div>}
                     {showAlarm ? <div className="judge-match-timer-buttons">
-                        <IonButton fill="clear" className="judge-time-button green-time-button" onClick={() => {clearAlarm(); setShowAlarm(false);}}>
+                        <IonButton fill="clear" className="judge-time-button red-time-button button_zero" onClick={() => {clearAlarm(); setShowAlarm(false);}}>
                             <IonImg src={backIcon} />
                             <IonText>Back</IonText>
                         </IonButton>
-                        <IonButton fill="clear" className="judge-time-button white-time-button" onClick={() => setAlarmTimer((currentAlarmTimer) => Math.max(currentAlarmTimer - 30, 0))}><IonText>{t('judge.timer_minus_thirty')}</IonText></IonButton>
-                        <IonButton fill="clear" className="judge-time-button white-time-button" onClick={() => setAlarmTimer((currentAlarmTimer) => currentAlarmTimer + 30)}><IonText>{t('judge.timer_plus_thirty')}</IonText></IonButton>
-                        <IonButton fill="clear" className="judge-time-button red-time-button" onClick={() => clearAlarm()}><IonText>{t('judge.timer_clear')}</IonText></IonButton>
-                        <IonButton fill="clear" className="judge-time-button blue-time-button" onClick={() => startAlarm()}><IonText>{t('judge.timer_start')}</IonText></IonButton>
+                        <IonButton fill="clear" className="judge-time-button white-time-button button_one" onClick={() => setAlarmTimer((currentAlarmTimer) => Math.max(currentAlarmTimer - 30, 0))}><IonText>{t('judge.timer_minus_thirty')}</IonText></IonButton>
+                        <IonButton fill="clear" className="judge-time-button white-time-button button_two" onClick={() => setAlarmTimer((currentAlarmTimer) => currentAlarmTimer + 30)}><IonText>{t('judge.timer_plus_thirty')}</IonText></IonButton>
+                        <IonButton fill="clear" className="judge-time-button blue-time-button button_three" onClick={() => clearAlarm()}><IonText>{t('judge.timer_clear')}</IonText></IonButton>
+                        <IonButton fill="clear" className="judge-time-button green-time-button button_four" onClick={() => startAlarm()}><IonText>{t('judge.timer_start')}</IonText></IonButton>
                     </div> : selectResult ? <div className="judge-match-timer-buttons">
                         {(typeof result !== "undefined" && result >= 0) ? <div>
-                            <div className="judge-match-timer-result">{resultText}</div>
+                            <div className={"judge-match-timer-result color_"+result}>{resultText}</div>
                             <div className="judge-match-timer-confirm">
-                                <IonButton fill="clear" className="judge-time-button green-time-button" onClick={() => onAnnounceMatch()}>
+                                <IonButton fill="clear" className="judge-time-button green-time-button button_one" onClick={() => onAnnounceMatch()}>
                                     <IonImg src={yesIcon} />
                                     <IonText>{t('judge.confirm_yes')}</IonText>
                                 </IonButton>
-                                <IonButton fill="clear" className="judge-time-button red-time-button" onClick={() => setResult(undefined)}>
+                                <IonButton fill="clear" className="judge-time-button red-time-button button_zero" onClick={() => setResult(undefined)}>
                                     <IonImg src={noIcon} />
                                     <IonText>{t('judge.confirm_no')}</IonText>
                                 </IonButton>
                             </div>
                         </div> : <div>
-                            <IonButton fill="clear" className="judge-time-button red-time-button" onClick={() => setSelectResult(false)}>
+                            <IonButton fill="clear" className="judge-time-button red-time-button button_zero" onClick={() => setSelectResult(false)}>
                                 <IonImg src={backIcon} />
                                 <IonText>Back</IonText>
                             </IonButton>
-                            <IonButton fill="clear" className="judge-time-button blue-time-button" onClick={() => setResult(0)}><IonText>{t('judge.blue')}</IonText></IonButton>
-                            <IonButton fill="clear" className="judge-time-button white-time-button" onClick={() => setResult(1)}><IonText>{t('judge.white')}</IonText></IonButton>
-                            <IonButton fill="clear" className="judge-time-button yellow-time-button" onClick={() => setResult(2)}><IonText>{t('judge.draw')}</IonText></IonButton>
-                            <IonButton fill="clear" className="judge-time-button purple-time-button" onClick={() => setResult(3)}><IonText>{t('judge.null')}</IonText></IonButton>
+                            <IonButton fill="clear" className="judge-time-button blue-time-button button_one" onClick={() => setResult(0)}><IonText>{t('judge.blue')}</IonText></IonButton>
+                            <IonButton fill="clear" className="judge-time-button white-time-button button_two" onClick={() => setResult(1)}><IonText>{t('judge.white')}</IonText></IonButton>
+                            <IonButton fill="clear" className="judge-time-button yellow-time-button button_three" onClick={() => setResult(2)}><IonText>{t('judge.draw')}</IonText></IonButton>
+                            <IonButton fill="clear" className="judge-time-button purple-time-button button_four" onClick={() => setResult(3)}><IonText>{t('judge.null')}</IonText></IonButton>
                         </div>}
                     </div> : (configuration === 2 || ((matchTimeReverse === 0 || timer === 0) && !matchTimeInterval)) ? <div className="judge-match-timer-config"><div className="judge-match-timer-result">{confirmRestart ? t('judge.restart')+"?" : t('judge.configuration')}</div><div className="judge-match-timer-buttons">
                         {!confirmRestart ? <>
-                            <IonButton fill="clear" onClick={() => restartMatch()} color="success" className="judge-time-button green-time-button">
+                            <IonButton fill="clear" onClick={() => restartMatch()} color="success" className="judge-time-button green-time-button button_one">
                                 <IonImg src={timerRestartIcon} />
                                 <IonText>{t('judge.restart')}</IonText>
                             </IonButton>
-                            <IonButton fill="clear" onClick={() => setSelectResult(true)} color="success" className="judge-time-button yellow-time-button">
+                            <IonButton fill="clear" onClick={() => setSelectResult(true)} color="success" className="judge-time-button yellow-time-button button_three">
                                 <IonImg src={resultTimeIcon} />
                                 <IonText>{t('judge.results')}</IonText>
                             </IonButton>
                         </> : <div className="judge-match-restart-confirm">
-                            <IonButton fill="clear" className="judge-time-button green-time-button" onClick={() => restartMatch()}>
+                            <IonButton fill="clear" className="judge-time-button green-time-button button_one" onClick={() => restartMatch()}>
                                 <IonImg src={yesIcon} />
                                 <IonText>{t('judge.confirm_yes')}</IonText>
                             </IonButton>
-                            <IonButton fill="clear" className="judge-time-button red-time-button" onClick={() => setConfirmRestart(false)}>
+                            <IonButton fill="clear" className="judge-time-button red-time-button button_zero" onClick={() => setConfirmRestart(false)}>
                                 <IonImg src={noIcon} />
                                 <IonText>{t('judge.confirm_no')}</IonText>
                             </IonButton>
                         </div>}
                     </div></div> : (matchTimeInterval) ? <div className="judge-match-timer-buttons">
-                        <IonButton fill="clear" color="success" className="judge-time-button green-time-button" onClick={showConfiguration}>
+                        <IonButton fill="clear" color="success" className={configuration === 1 ? "judge-time-button green-time-button button_four" : "judge-time-button grey-time-button button_zero"} onClick={showConfiguration}>
                             <IonImg src={timerConfigurationIcon} />
                             <IonText>{configuration === 1 ? t('judge.confirm')+"?" : t('judge.config')}</IonText>
                         </IonButton>
-                        {event.stadium_five_sec && <IonButton fill="clear" color="tertiary" disabled={!timerInterval || timer <= 5} className="judge-time-button blue-time-button" onClick={() => startFiveSeconds()}>
+                        {event.stadium_five_sec && <IonButton fill="clear" color="tertiary" disabled={!timerInterval || timer <= 5} className="judge-time-button blue-time-button button_one" onClick={() => startFiveSeconds()}>
                             <IonText>{t('judge.five_seconds')}</IonText>
                         </IonButton>}
-                        <IonButton fill="clear" color="success" className="judge-time-button red-time-button" onClick={() => sixtyStop()}>
+                        <IonButton fill="clear" color="success" className="judge-time-button red-time-button button_two" onClick={() => sixtyStop()}>
                             <IonText>{t('judge.sixty_stop')}</IonText>
                         </IonButton>
-                        <IonButton fill="clear" color="success" className="judge-time-button orange-time-button" onClick={() => sixtyLoop()}>
+                        <IonButton fill="clear" color="success" className="judge-time-button orange-time-button button_three" onClick={() => sixtyLoop()}>
                             <IonText>{t('judge.sixty_loop')}</IonText>
                         </IonButton>
                     </div> : <div className="judge-match-timer-buttons">
-                        <IonButton fill="clear" color="danger" className="judge-time-button red-time-button" onClick={() => history.replace("/judge")}>
+                        <IonButton fill="clear" color="danger" className="judge-time-button red-time-button button_zero" onClick={() => history.replace("/judge/"+event.id+"/"+match.id)}>
                             <IonImg src={backIcon} />
                             <IonText>{t('judge.back')}</IonText>
                         </IonButton>
-                        <IonButton fill="clear" color="success" disabled={!!matchTimeInterval} className="judge-time-button green-time-button" onClick={() => startTime()}>
+                        <IonButton fill="clear" color="success" disabled={!!matchTimeInterval} className="judge-time-button green-time-button button_one" onClick={() => startTime()}>
                             <IonImg src={startTimeIcon} />
                             <IonText>{t('judge.start')}</IonText>
                         </IonButton>
-                        <IonButton fill="clear" onClick={() => setShowAlarm(true)} className="judge-time-button purple-time-button">
+                        <IonButton fill="clear" onClick={() => setShowAlarm(true)} className="judge-time-button purple-time-button button_two">
                             <IonImg src={timerTimeIcon} />
                             <IonText>{t('judge.alarm')}</IonText>
                         </IonButton>
-                        <IonButton fill="clear" disabled={!!matchTimeInterval} onClick={() => setSelectResult(true)} color="success" className="judge-time-button yellow-time-button">
+                        <IonButton fill="clear" disabled={!!matchTimeInterval} onClick={() => setSelectResult(true)} color="success" className="judge-time-button yellow-time-button button_three">
                             <IonImg src={resultTimeIcon} />
                             <IonText>{t('judge.results')}</IonText>
                         </IonButton>
