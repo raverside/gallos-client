@@ -126,10 +126,11 @@ const Baloteo: React.FC = () => {
         const element = shareMatchRef.current;
         setShowShareMatch(match);
         domtoimage.toBlob(element!).then((blob:Blob) => {
-            const file = new File([blob!], +new Date() + ".png", { type: "image/png" });
+            const file = new File([blob!], +new Date() + ".png", { type: blob.type });
+            const filesArray:any = [file];
             setShowShareMatch(false);
 
-            if (isDesktop()) {
+            if (isDesktop() || !(navigator.canShare && navigator.canShare({files: filesArray}))) {
                 //download the file
                 const a = document.createElement("a");
                 a.href  = window.URL.createObjectURL(file);
@@ -138,11 +139,7 @@ const Baloteo: React.FC = () => {
                 a.click();
                 document.body.removeChild(a);
             } else {
-                //share the file
-                const filesArray:any = [file];
-                if (navigator.canShare && navigator.canShare({files: filesArray})) {
-                    navigator.share({files: filesArray});
-                }
+                navigator.share({files: filesArray});
             }
             setShowLoading(false);
         });

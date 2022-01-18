@@ -25,6 +25,7 @@ import ShareEventImage from "./ShareEventImage";
 import domtoimage from "dom-to-image-improved";
 import {useTranslation} from "react-multi-lang";
 import {isDesktop} from "../utils";
+import {useHistory} from "react-router-dom";
 
 type EventsListProps = {
     events: Array<{}>;
@@ -40,6 +41,7 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
     const shareRef = React.useRef();
     const [showShare, setShowShare] = useState<any>(false);
     const [showLoading, setShowLoading] = useState<any>(false);
+    const history = useHistory();
 
     const shareEvent = (event:any) => {
         if (!event) return false;
@@ -50,9 +52,10 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
 
         domtoimage.toBlob(element!).then(async (blob:Blob) => {
             const file = new File([blob!], +new Date() + ".png", { type: blob.type });
+            const filesArray:any = [file];
             setShowShare(false);
 
-            if (isDesktop()) {
+            if (isDesktop() || !(navigator.canShare && navigator.canShare({files: filesArray}))) {
                 //download the file
                 const a = document.createElement("a");
                 a.href  = window.URL.createObjectURL(file);
@@ -61,11 +64,7 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                 a.click();
                 document.body.removeChild(a);
             } else {
-                //share the file
-                const filesArray:any = [file];
-                if (navigator.canShare && navigator.canShare({files: filesArray})) {
-                    navigator.share({files: filesArray});
-                }
+                navigator.share({files: filesArray});
             }
             setShowLoading(false);
         });
@@ -97,7 +96,12 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                         ],
                         header: t('events.settings')
                     })}><IonIcon size="small" icon={menuIcon} /></IonButton>
-                    <IonButton fill="clear" className="event-image" routerLink={"/event/"+event.id} ><IonImg src={event.is_special && event.image ? getImageUrl(event.image) : getImageUrl(event.stadium_image)} /></IonButton>
+                    <IonButton
+                        fill="clear"
+                        className="event-image"
+                        onClick={() => history.push("/event/"+event.id)} >
+                        <IonImg src={event.is_special && event.image ? getImageUrl(event.image) : getImageUrl(event.stadium_image)} />
+                    </IonButton>
                     <IonCardHeader>
                         <IonCardTitle>{(event.is_special && event.title) ? event.title : t('events.default_event_name')}</IonCardTitle>
                         <IonCardSubtitle>{moment(event.event_date).format("dddd, D MMMM YYYY")}</IonCardSubtitle>
@@ -130,7 +134,7 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                     <IonButton
                         fill="clear"
                         className="baloteoButton"
-                        routerLink={state.user?.role === 'user' ? "/event/"+event.id : event.phase === "on going" ? "/baloteo_stats/"+event.id : event.phase === "arrangement" ? "/baloteo/"+event.id : "/event_receiving/"+event.id}
+                        onClick={() => history.push(state.user?.role === 'user' ? "/event/"+event.id : event.phase === "on going" ? "/baloteo_stats/"+event.id : event.phase === "arrangement" ? "/baloteo/"+event.id : "/event_receiving/"+event.id)}
                         disabled={!(state.user?.role === 'admin_manager' || state.user?.role === 'admin_worker' || state.user?.role === 'worker' || state.user?.role === 'user')}
                     >
                         <div className="ionButtonFix">
