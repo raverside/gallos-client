@@ -354,7 +354,7 @@ const JudgeMatch: React.FC = () => {
                         </IonRow>
                         <IonRow>
                             <IonCol size="12" className="judge-match-timer-versus">
-                                Pelea {event?.matches?.findIndex((m:any) => m.id === match_id)+1 || 1}
+                                {t('baloteo.fight')} {match?.number || 1}
                             </IonCol>
                         </IonRow>
                         <IonRow>
