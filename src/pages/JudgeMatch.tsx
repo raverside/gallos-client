@@ -100,7 +100,7 @@ const JudgeMatch: React.FC = () => {
                             <IonCol size="2">
                                 <div className="judge-match-view-versus">
                                     {!showSwitchSide ? <>
-                                        <p>Pelea {event?.matches?.findIndex((m:any) => m.id === match_id)+1 || 1}</p>
+                                        <p>{t('baloteo.fight')} {match?.number || 1}</p>
                                         <div>
                                             <IonButton expand="block" className="judge-match-view-open" onClick={() => openMatch()}>{t('judge.open')}</IonButton>
                                             <IonButton expand="block" className="judge-match-view-switch_side" onClick={() => startSwitchSide()}>{t('judge.switch_side')}</IonButton>
