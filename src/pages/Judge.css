@@ -678,15 +678,22 @@ ion-content {
 
 }
 .five_sec_timer {
-    font-size: 180px;
+    font-size: 200px;
     color: white;
-    text-align: center;
     line-height: 180px;
     background-color:#2C2626;
-    position: relative;
+    position: fixed;
     z-index:1;
     padding:15px;
     border-radius:6px;
+    left:0;right:0;
+    top:0;bottom:0;
+    margin:auto;
+    width:350px;
+    height:350px;
+    display: flex;
+    align-items:center;
+    justify-content: center;
 }
 .judge-match-timer-clock_blue_side_title, .judge-match-timer-clock_versus_title, .judge-match-timer-clock_white_side_title {
     position: absolute;
@@ -708,5 +715,26 @@ ion-content {
         font-size: 280px;
         height:280px;
         padding-top:20px !important;
+    }
+}
+@media (min-width:2340px) {
+    .judge-match-timer-clock_white_side, .judge-match-timer-clock_blue_side {
+        font-size: 360px;
+        height: 380px;
+        padding-top: 60px !important;
+    }
+    .judge-match-timer-clock_versus {
+        font-size:240px;
+    }
+    .judge-match-timer-versus {
+        font-size:120px;
+        height:160px;
+    }
+    .judge-match-timer-blue_side, .judge-match-timer-white_side {
+        font-size:140px;
+        height:180px;
+    }
+    .judge-match-timer-participant_info {
+        font-size:120px;
     }
 }

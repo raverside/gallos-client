@@ -71,27 +71,27 @@ const JudgeMatch: React.FC = () => {
     }, []);
 
     const handleKeyDown = (e:any) => {
-        if (e.key === 0) {
+        if (e.key === "0") {
             const target = document.querySelector('.button_zero');
             // @ts-ignore
             target && target && !target.disabled && target.click();
         }
-        if (e.key === 1) {
+        if (e.key === "1") {
             const target = document.querySelector('.button_one');
             // @ts-ignore
             target && target && !target.disabled && target.click();
         }
-        if (e.key === 2) {
+        if (e.key === "2") {
             const target = document.querySelector('.button_two');
             // @ts-ignore
             target && target && !target.disabled && target.click();
         }
-        if (e.key === 3) {
+        if (e.key === "3") {
             const target = document.querySelector('.button_three');
             // @ts-ignore
             target && target && !target.disabled && target.click();
         }
-        if (e.key === 4) {
+        if (e.key === "4") {
             const target = document.querySelector('.button_four');
             // @ts-ignore
             target && target && !target.disabled && target.click();
