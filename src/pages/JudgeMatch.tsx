@@ -11,7 +11,7 @@ import ProfileModal from '../components/Judge/ProfileModal';
 import './Judge.css';
 import swapIcon from "../img/swap.png";
 import {getImageUrl, formatOzToLbsOz} from "../components/utils";
-import {useHistory, useParams} from "react-router-dom";
+import {useHistory, useLocation, useParams} from "react-router-dom";
 import ConfirmPrompt from "../components/ConfirmPrompt";
 import {useTranslation} from "react-multi-lang";
 
@@ -24,6 +24,7 @@ const JudgeMatch: React.FC = () => {
     const [showCancelModal, setShowCancelModal] = useState<string|false>(false);
     const [showSwitchSide, setShowSwitchSide] = useState<any>(false);
     const history = useHistory();
+    const location = useLocation();
 
     useEffect(() => {
         fetchMatch();
@@ -31,7 +32,7 @@ const JudgeMatch: React.FC = () => {
 
     const fetchMatch = async () => {
         setShowLoading(true);
-        const response = (event_id) ? await getEvent(event_id) : false;
+        const response = {event: (location.state as any)?.event} || await getEvent(event_id);
         if (response.event) {
             setEvent(response.event);
             const currentMatch = response.event.matches.find((m:any) => m.id === match_id);
@@ -77,7 +78,7 @@ const JudgeMatch: React.FC = () => {
     }
 
     const openMatch = async () => {
-        history.push("/match/" + event.id + "/" + match.id);
+        history.push({pathname: "/match/" + event.id + "/" + match.id, state: {event}});
     }
 
     const title = (event?.is_special && event?.title) ? event?.title! : t('events.default_event_name');

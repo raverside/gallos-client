@@ -24,7 +24,7 @@ import longAlarmSound from "../sfx/alarm_long.mp3";
 // @ts-ignore
 import fiveSecSound from "../sfx/five_sec.mp3";
 
-import {useHistory, useParams} from "react-router-dom";
+import {useHistory, useLocation, useParams} from "react-router-dom";
 import moment from "moment";
 import {AppContext} from "../State";
 import {useTranslation} from "react-multi-lang";
@@ -63,6 +63,7 @@ const JudgeMatch: React.FC = () => {
     const longAlarmRef = useRef(null);
     const fiveSecAlarmRef = useRef(null);
     const history = useHistory();
+    const location = useLocation();
 
     useEffect(() => {
         fetchMatch();
@@ -100,7 +101,7 @@ const JudgeMatch: React.FC = () => {
 
     const fetchMatch = async () => {
         setShowLoading(true);
-        const response = (event_id) ? await getEvent(event_id) : false;
+        const response = {event: (location.state as any)?.event} || await getEvent(event_id);
         if (response.event) {
             setEvent(response.event);
             const currentMatch = response.event.matches.find((m:any) => m.id === match_id);

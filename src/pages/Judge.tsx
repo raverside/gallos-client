@@ -18,12 +18,14 @@ import './Judge.css';
 import {getImageUrl} from "../components/utils";
 import {useTranslation} from "react-multi-lang";
 import moment from "moment";
+import {useHistory} from "react-router-dom";
 
 const Judge: React.FC = () => {
     const t = useTranslation();
     const [event, setEvent] = useState<any>();
     const [events, setEvents] = useState<any>();
     const [baloteoTab, setBaloteoTab] = useState<string>("matches");
+    const history = useHistory();
 
     useEffect(() => {
         fetchEvents();
@@ -107,7 +109,7 @@ const Judge: React.FC = () => {
                                         </IonItem>)}
                                     </IonList>
                                 </> : <IonList className="judge-matches">
-                                    {event?.matches?.sort((a:any, b:any) => a.number - b.number).filter((m:any) => m.live === true).map((match:any, index:number) => <IonItem key={match.id} className="judge-match" routerLink={"/judge/"+event.id+"/"+match.id}>
+                                    {event?.matches?.sort((a:any, b:any) => a.number - b.number).filter((m:any) => m.live === true).map((match:any, index:number) => <IonItem key={match.id} className="judge-match" onClick={() => history.push({pathname: "/judge/" + event.id + "/" + match.id, state: {event}})}>
                                         <IonGrid>
                                             <IonRow>
                                                 <IonCol size="5" className="judge-blue_side">
