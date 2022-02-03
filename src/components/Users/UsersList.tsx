@@ -2,12 +2,14 @@ import {IonText, IonImg, IonList, IonItem, IonAvatar, IonLabel} from '@ionic/rea
 import {getImageUrl} from '../utils';
 
 import './UsersList.css';
+import {useTranslation} from "react-multi-lang";
 
 type UsersListProps = {
     users: Array<{}>;
 };
 
 const UsersList: React.FC<UsersListProps> = ({users}) => {
+    const t = useTranslation();
 
     return (<IonList className="eventsList">
         {users.map((user:any, index:number) => {
@@ -17,8 +19,8 @@ const UsersList: React.FC<UsersListProps> = ({users}) => {
                         <IonImg src={getImageUrl(user.photo)} />
                     </IonAvatar>
                     <IonLabel className="user-short-info">
-                        <p className="user-short-info_username">{user.username}</p>
-                        <IonText className="user-short-info_membership" color="gold">Gold</IonText>
+                        <p className="user-short-info_username">{user.username} {user.blocked && "("+t('users.blocked')+")"}</p>
+                        {(user.role && user.role !== "user") ? <IonText>{t('users.role_'+user.role)}</IonText> : <IonText className="user-short-info_membership" color="gold">Gold</IonText>}
                     </IonLabel>
                 </IonItem>
         })}

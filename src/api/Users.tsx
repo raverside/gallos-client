@@ -8,8 +8,23 @@ export async function getUsers(filter:string = "", page:number = 0) {
     return fetcher.get(`/getUsers?page=${page}${filter}`);
 }
 
+export async function getDashUsers(filter:string = "") {
+    return fetcher.get(`/getDashUsers?page=all${filter}`);
+}
+
 export async function updateUserProfile(id:string, phone:string, passcode:string|false) {
     return fetcher.post(`/updateUserProfile`, {id, phone, passcode});
+}
+
+export async function upsertUser(payload:any) {
+    if (payload.photo_upload) {
+        let formData = new FormData();
+        formData.append('user', payload.photo_upload);
+        const {filename} = await fetcher.upload('/uploadUserPicture', formData);
+        payload.photo = filename;
+    }
+
+    return fetcher.post('/upsertUser', payload);
 }
 
 export async function updateUserLabels(id:string, labels:string) {
@@ -49,4 +64,8 @@ export async function updateCurrentUser(payload:any) {
     }
 
     return fetcher.post('/updateCurrentUser', payload);
+}
+
+export async function toggleUserBlock(id:string) {
+    return fetcher.post(`/toggleUserBlock`, {id});
 }

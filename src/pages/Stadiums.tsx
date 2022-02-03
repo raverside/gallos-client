@@ -2,10 +2,9 @@ import {
     IonButton,
     IonContent, IonIcon, IonModal,
     IonPage, IonRefresher, IonRefresherContent, IonSearchbar,
-
 } from '@ionic/react';
 import Header from '../components/Header/Header';
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {getStadiums} from "../api/Stadiums";
 
 import './Stadiums.css';
@@ -13,14 +12,18 @@ import StadiumsFilter from "../components/Stadiums/StadiumsFilter";
 import {filter as filterIcon} from "ionicons/icons";
 import StadiumsList from "../components/Stadiums/StadiumsList";
 import {useTranslation} from "react-multi-lang";
+import {AppContext} from "../State";
+import StadiumEditor from "../components/Stadiums/StadiumEditor";
 
 const Stadiums: React.FC = () => {
     const t = useTranslation();
+    const { state } = useContext(AppContext);
     const [stadiums, setStadiums] = useState<Array<{id:string}>>([]);
     const [stadiumsSearch, setStadiumsSearch] = useState<string>("");
     const [stadiumsFilter, setStadiumsFilter] = useState<any>({});
     const [filterQuery, setFilterQuery] = useState<string>("");
     const [showFilterModal, setShowFilterModal] = useState<boolean>(false);
+    const [showStadiumEditor, setShowStadiumEditor] = useState<any>(false);
 
     useEffect(() => {
         fetchStadiums();
@@ -60,7 +63,7 @@ const Stadiums: React.FC = () => {
 
     return (
         <IonPage>
-            <Header title={t('stadiums.header')} isRed={false} notifications={false}/>
+            <Header title={t('stadiums.header')} isRed={false} notifications={false} addButton={state.user?.role === "admin" ? () => setShowStadiumEditor(true) : undefined}/>
 
             <IonContent fullscreen>
                 <IonModal id="overlay-modal" isOpen={showFilterModal} onDidDismiss={() => setShowFilterModal(false)}>
@@ -74,6 +77,13 @@ const Stadiums: React.FC = () => {
                     </IonButton>
                 </div>
                 <StadiumsList stadiums={stadiums} />
+                <IonModal isOpen={!!showStadiumEditor} onDidDismiss={() => setShowStadiumEditor(false)}>
+                    <StadiumEditor
+                        fetchStadiums={fetchStadiums}
+                        stadium={(showStadiumEditor && showStadiumEditor !== true) ? showStadiumEditor : false}
+                        close={() => setShowStadiumEditor(false)}
+                    />
+                </IonModal>
             </IonContent>
         </IonPage>
     );

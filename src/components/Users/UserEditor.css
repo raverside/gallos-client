@@ -1,0 +1,10 @@
+.image-upload-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.image-upload-wrapper ion-avatar {
+    width: 150px;
+    height: 150px;
+}

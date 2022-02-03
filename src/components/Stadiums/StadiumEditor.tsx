@@ -123,6 +123,7 @@ const StadiumEditor: React.FC<EventProps> = ({fetchStadiums, close, stadium = fa
         if (!formData.country) isFormFilled = false;
         if (!formData.state) isFormFilled = false;
         if (!formData.city) isFormFilled = false;
+        if (!formData.image && !formData.image_upload) isFormFilled = false;
 
         return isFormFilled;
     }

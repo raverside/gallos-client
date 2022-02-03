@@ -4,8 +4,10 @@ import {AppContext} from "../../State";
 import {getImageUrl} from "../utils";
 
 import './ProfileWidget.css';
+import {useTranslation} from "react-multi-lang";
 
 const ProfileWidget: React.FC = () => {
+    const t = useTranslation();
     const { state } = useContext(AppContext);
     if (!state.user) return null;
 
@@ -19,9 +21,9 @@ const ProfileWidget: React.FC = () => {
                     <IonText className="profile-widget_info--username">{state.user.username}</IonText>
                 </IonItem>}
                 <IonItem lines="none">
-                    <IonText className="profile-widget_info--bold">{state.user.role}</IonText>
+                    <IonText className="profile-widget_info--bold">{t('users.role_'+state.user.role)}</IonText>
                 </IonItem>
-                {(state.user.role !== "admin_manager" && state.user.role !== "admin_worker") && <><IonItem lines="none">
+                {(state.user.role !== "admin_manager" && state.user.role !== "admin_worker" && state.user.role !== "admin") && <><IonItem lines="none">
                     <IonText className="profile-widget_info--bold">{state.user.stadium?.name}</IonText>
                 </IonItem>
                 <IonItem lines="none">

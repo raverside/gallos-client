@@ -86,7 +86,7 @@ const EventEditor: React.FC<EventProps> = ({fetchEvents, isSpecial = false, clos
     }, [formData.type]);
 
     useEffect(() => {
-        if (state.user?.role === "admin_worker" || state.user?.role === "admin_manager" || state.user?.role === "admin_grand") {
+        if (state.user?.role === "admin_worker" || state.user?.role === "admin_manager" || state.user?.role === "admin") {
             fetchStadiums();
         }
     }, []);

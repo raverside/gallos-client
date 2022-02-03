@@ -6,22 +6,33 @@ import {
     IonText,
     IonSegment,
     IonSegmentButton,
-    IonLabel, IonIcon, IonLoading
+    IonLabel,
+    IonIcon,
+    IonLoading,
+    IonToolbar,
+    IonButtons,
+    IonBackButton,
+    IonTitle,
+    IonHeader,
+    useIonActionSheet,
+    IonModal
 } from '@ionic/react';
 import ArrowHeader from '../components/Header/ArrowHeader';
 import AddLabel from '../components/Users/AddLabel';
 import ProfileInfoTab from '../components/Users/ProfileInfoTab';
 import ProfileNotesTab from '../components/Users/ProfileNotesTab';
 import ConfirmPrompt from '../components/ConfirmPrompt';
-import React, {useEffect, useState} from "react";
-import {getUser, updateUserLabels, addUserNote, updateUserNote, removeUserNote, getAllLabels} from "../api/Users";
+import React, {useContext, useEffect, useState} from "react";
+import {getUser, updateUserLabels, addUserNote, updateUserNote, removeUserNote, getAllLabels, toggleUserBlock} from "../api/Users";
 import {useParams} from 'react-router-dom';
 import {getImageUrl} from '../components/utils';
 import moment from 'moment';
-import {closeOutline as closeIcon} from "ionicons/icons";
+import {closeOutline as closeIcon, ellipsisHorizontal as menuIcon} from "ionicons/icons";
 
 import './UserProfile.css';
 import {useTranslation} from "react-multi-lang";
+import {AppContext} from "../State";
+import UserEditor from "../components/Users/UserEditor";
 
 type userType = {
     id: string;
@@ -34,11 +45,13 @@ type userType = {
     created_at: string;
     last_login: string;
     labels: string;
+    blocked: boolean;
     notes: [{id: string, title:string, note:string, created_at:string}];
 };
 
 const UserProfile: React.FC = () => {
     const t = useTranslation();
+    const { state } = useContext(AppContext);
     const { id } = useParams<{id:string}>();
     const [user, setUser] = useState<userType>();
     const [showLabelConfirmPrompt, setShowLabelConfirmPrompt] = useState<boolean>(false);
@@ -46,6 +59,8 @@ const UserProfile: React.FC = () => {
     const [tabSelected, setTabSelected] = useState<string>("info");
     const [showLoading, setShowLoading] = useState<boolean>(false);
     const [allLabels, setAllLabels] = useState<any>([]);
+    const [showEditUserModal, setShowEditUserModal] = useState<any>(false);
+    const [present, dismiss] = useIonActionSheet();
 
     useEffect(() => {
         fetchUser();
@@ -114,15 +129,37 @@ const UserProfile: React.FC = () => {
         }
     }
 
+    const blockUser = async (id:string) => {
+        const response = await toggleUserBlock(id);
+        if (response.success) {
+            fetchUser();
+        }
+    }
+
     return (
         <IonPage>
-            <ArrowHeader title={t('profile.profile')} backHref="/users" />
+            <IonHeader>
+                <IonToolbar className="arrow-header">
+                    <IonButtons slot="start">
+                        <IonBackButton defaultHref="/users"/>
+                    </IonButtons>
+                    <IonTitle className="page-title offset-title">{t('profile.header')}</IonTitle>
+                    {state.user?.role === "admin" && <IonButtons slot="end"><IonIcon size="large" className="view-note-menu" icon={menuIcon} onClick={() => present({
+                        buttons: [
+                            { text: t('users.edit'), handler: () => setShowEditUserModal(user) },
+                            { text: user?.blocked ? t('users.unblock') : t('users.block'), handler: () => user && blockUser(user.id) },
+                            { text: t('users.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
+                        ],
+                        header: t('users.settings')
+                    })} /></IonButtons>}
+                </IonToolbar>
+            </IonHeader>
 
             <IonContent fullscreen>
                 <div className="user-profile">
                     {user?.photo && <IonAvatar><IonImg src={getImageUrl(user.photo)} /></IonAvatar>}
                     <div className="user-profile-info">
-                        {user?.username && <IonText className="user-profile-info_username">{user.username}</IonText>}
+                        {user?.username && <IonText className="user-profile-info_username">{user.username} {user.blocked && "("+t('users.blocked')+")"}</IonText>}
                         {user?.phone && <IonText>+{user.phone}</IonText>}
                         {(user?.country && user?.city) && <IonText>{user.city}, {user.country}</IonText>}
                         {user?.created_at && <IonText className="user-profile-info-smalltext">{t('profile.joined')} {moment(user.created_at).format('DD/MM/YYYY')}</IonText>}
@@ -154,6 +191,9 @@ const UserProfile: React.FC = () => {
 
                 {tabSelected === "info" && <ProfileInfoTab user={user!} updateUser={fetchUser} />}
                 {tabSelected === "notes" && <ProfileNotesTab user={user!} addNote={addNote} updateNote={updateNote} removeNote={removeNote}/>}
+                <IonModal isOpen={!!showEditUserModal} onDidDismiss={() => setShowEditUserModal(false)} cssClass="update-profile-modal">
+                    <UserEditor user={showEditUserModal} close={() => {setShowEditUserModal(false); fetchUser()}} />
+                </IonModal>
                 <IonLoading
                     isOpen={showLoading}
                     onDidDismiss={() => setShowLoading(false)}

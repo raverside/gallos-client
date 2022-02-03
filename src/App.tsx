@@ -18,6 +18,8 @@ import Memberships from './pages/Memberships';
 import Transactions from './pages/Transactions';
 import Contact from './pages/Contact';
 import Users from './pages/Users';
+import DashUsers from './pages/DashUsers';
+import Overview from './pages/Overview';
 import UserProfile from './pages/UserProfile';
 import CurrentUserProfile from './pages/CurrentUserProfile';
 import CurrentUserMembership from './pages/CurrentUserMembership';
@@ -139,6 +141,12 @@ const App: React.FC = () => {
                             </PrivateRoute>
                             <PrivateRoute path="/user/:id" admin>
                                 <UserProfile />
+                            </PrivateRoute>
+                            <PrivateRoute path="/dashteam" exact admin>
+                                <DashUsers/>
+                            </PrivateRoute>
+                            <PrivateRoute path="/overview" exact admin>
+                                <Overview/>
                             </PrivateRoute>
                             <PrivateRoute path="/contact" exact>
                                 <Contact/>

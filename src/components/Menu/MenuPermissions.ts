@@ -3,6 +3,7 @@ import {AppContext} from "../../State";
 import homeIcon from '../../img/menu_home.png';
 import eventsIcon from '../../img/menu_events.png';
 import membershipsIcon from '../../img/menu_memberships.png';
+import dashTeamIcon from '../../img/dashteam.png';
 import stadiumsIcon from '../../img/menu_stadiums.png';
 import teamOwnersIcon from '../../img/menu_team_owners.png';
 import transactionsIcon from '../../img/menu_transactions.png';
@@ -105,6 +106,28 @@ const MenuPermissions = () => {
         {title: t('teams.team_owners'), url: '/team_owners', icon: teamOwnersIcon},
         {title: t('transactions.transactions'), url: '/transactions', icon: transactionsIcon},
         {title: t('membership.memberships_header'), url: '/memberships', icon: membershipsIcon},
+        {
+            title: t('general.logout'), url: '/auth_admin', icon: logoutIcon,
+            props: {
+                className: "logout-button",
+                onClick: () => {
+                    dispatch({
+                        type: 'resetUser',
+                    });
+                }
+            }
+        },
+    ];
+
+    appPages["admin"] = [
+        {title: t('overview.overview'), url: '/overview', icon: homeIcon},
+        {title: t('users.users'), url: '/users', icon: usersIcon},
+        {title: t('events.events'), url: '/events', icon: eventsIcon},
+        {title: t('stadiums.header'), url: '/stadiums', icon: stadiumsIcon},
+        {title: t('teams.team_owners'), url: '/team_owners', icon: teamOwnersIcon},
+        {title: t('transactions.transactions'), url: '/transactions', icon: transactionsIcon},
+        {title: t('membership.memberships_header'), url: '/memberships', icon: membershipsIcon},
+        {title: t('users.dash_team'), url: '/dashteam', icon: dashTeamIcon},
         {
             title: t('general.logout'), url: '/auth_admin', icon: logoutIcon,
             props: {
