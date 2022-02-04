@@ -73,6 +73,10 @@
 .guests-selected-generate {
     margin:10px;
     text-transform: capitalize;
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    right: 0;
 }
 .guests-selected-generate>span:first-of-type {
     margin-right: 50%;
