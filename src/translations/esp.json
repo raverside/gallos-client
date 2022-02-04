@@ -83,6 +83,7 @@
       "receiving": "Recepción",
       "first_race": "Primer Combate",
       "type": "Marcaje",
+      "type_all": "Abierto",
       "type_placeholder": "Elegir Marcaje",
       "weight": "Peso",
       "color": "Color",

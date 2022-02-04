@@ -83,6 +83,7 @@
       "receiving": "Receiving",
       "first_race": "First Race",
       "type": "Marcaje",
+      "type_all": "All",
       "type_placeholder": "Select Marcaje",
       "weight": "Weight",
       "color": "Color",

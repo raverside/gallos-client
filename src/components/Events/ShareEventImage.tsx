@@ -35,7 +35,7 @@ const ShareEventImage = React.forwardRef<any, any>(({event, close}, ref) => {
                 </div>
                 <div>
                     {event.type && <><div className="shareable-image_label">{t('events.type')}</div>
-                    <div className="shareable-image_redblock">{event.type}</div></>}
+                    <div className="shareable-image_redblock">{event.type.join(', ').replace('All', t('events.type_all'))}</div></>}
                     {minBet > 0 && <><div className="shareable-image_label">{t('events.amount')}</div>
                     <div className="shareable-image_redblock">{event?.bronze > 0 && ((event?.currency === "DOP" ? "RD" : "") + numberFormatter.format(event?.bronze))}
                         {(event?.silver_one > 0 && (" | " + (event?.currency === "DOP" ? "RD" : "") + numberFormatter.format(event?.silver_one)))}
@@ -44,9 +44,9 @@ const ShareEventImage = React.forwardRef<any, any>(({event, close}, ref) => {
                         {(event?.gold_two > 0 && (" & " + numberFormatter.formatToParts(event?.gold_two).find(x => x.type === "integer")?.value))}</div></>}
                     <div className="shareable-image_whiteblock">
                         <div>{t('events.receiving_time')}:</div>
-                        <div className="shareable-image_blackblock">{moment(event?.receiving_time_start, "HH:mm").format("LT")} - {moment(event?.receiving_time_end, "HH:mm").format("LT")}</div>
+                        <div className="shareable-image_blackblock">{moment(event?.receiving_time_start, "HH:mm").format("hh:mm A")} - {moment(event?.receiving_time_end, "HH:mm").format("hh:mm A")}</div>
                         <div>{t('events.first_race')}:</div>
-                        <div className="shareable-image_blackblock">{moment(event?.first_race_time, "HH:mm").format("LT")}</div>
+                        <div className="shareable-image_blackblock">{moment(event?.first_race_time, "HH:mm").format("hh:mm A")}</div>
                     </div>
                 </div>
             </div>
