@@ -82,6 +82,14 @@ const ShareParticipantImage: React.FC<any> = ({participant, event, close}) => {
                         <div className="participant-details-type_label">{t('events.betting_preference')}</div>
                         <div className="participant-details-type">{participant?.betting_pref}</div>
                     </div>
+                    {(participant.status === "rejected" && participant.reason) && <div className="participant-details-disclaimer">
+                        <b>{t('events.rejection_note')}: </b>
+                        <span>{participant.reason}</span>
+                    </div>}
+                    {((participant.status !== "rejected" || !participant.reason) && participant.observation) && <div className="participant-details-disclaimer">
+                        <b>{t('events.observation')}: </b>
+                        <span>{participant.observation}</span>
+                    </div>}
                 </div>
             </div>
         </IonContent>

@@ -213,7 +213,7 @@ const Baloteo: React.FC = () => {
             </IonHeader>
 
             <IonContent fullscreen>
-                {((state.user.role === "admin" || state.user.role === "admin_manager") && event) && <EventPhaseManagement event={event} setEvent={setEvent}/>}
+                {((state.user.role === "admin" || state.user.role === "admin_manager" || state.user.role === "stadium_admin_worker") && event) && <EventPhaseManagement event={event} setEvent={setEvent}/>}
                 <IonSegment className="events-tabs baloteo-tabs" scrollable value={baloteoTab} onIonChange={(e) => {setBaloteoTab(e.detail.value!);}}>
                     <IonSegmentButton value="live">
                         <IonLabel>{t('baloteo.tab_live')}<span className="barely-visible"> • {liveMatches?.length || 0}</span></IonLabel>
@@ -229,7 +229,7 @@ const Baloteo: React.FC = () => {
                     </IonSegmentButton>
                 </IonSegment>
                 <IonSearchbar className="searchbar" placeholder={t('baloteo.search')} value={baloteoSearch} onIonChange={e => {setBaloteoSearch(e.detail.value!)}} />
-                {(baloteoTab === "live") && <div className="baloteo-matches">
+                {(baloteoTab === "live") && <><div className="baloteo-matches">
                     <IonGrid className="baloteo-match">
                         <IonRow className="baloteo-side-header">
                             <IonCol size="5">
@@ -270,7 +270,7 @@ const Baloteo: React.FC = () => {
                                                     currentTarget.src=getImageUrl(match.participant?.image, true);
                                                 }}
                                             />
-                                            <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
+                                            <p className="baloteo-match-team_name">#{match.participant?.cage} {match.participant?.team?.name}</p>
                                         </div>
                                     </IonCol>
                                     <IonCol size="2">
@@ -297,12 +297,16 @@ const Baloteo: React.FC = () => {
                                                     currentTarget.src=getImageUrl(match.opponent?.image, true);
                                                 }}
                                             />
-                                            <p className="baloteo-match-team_name">{match.opponent?.team?.name}</p>
+                                            <p className="baloteo-match-team_name">#{match.opponent?.cage} {match.opponent?.team?.name}</p>
                                         </div>
                                     </IonCol>
                                 </IonRow>
 
-                        </IonGrid>))}</IonGrid></div>}
+                        </IonGrid>))}</IonGrid></div>
+                    <div className="baloteo-announce">
+                        <IonButton expand="block" disabled={!liveMatches.length} onClick={() => setShowAnnouncePrompt(true)}>{t('baloteo.announce')}</IonButton>
+                    </div>
+                </>}
                 {(baloteoTab === "available") && <div className="baloteo-matches">
                     {availableMatches.map((match:any, index:number) => (
                         <IonGrid key={index} className="baloteo-match">
@@ -329,7 +333,7 @@ const Baloteo: React.FC = () => {
                                             }}
                                             onClick={() => viewParticipantImage(match.participant)}
                                         />
-                                        <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
+                                        <p className="baloteo-match-team_name">#{match.participant?.cage} {match.participant?.team?.name}</p>
                                     </IonCol>
                                     <IonCol size="2">
                                         <p className="baloteo-match-fight">{t('baloteo.fight')} {match.number}</p>
@@ -345,7 +349,7 @@ const Baloteo: React.FC = () => {
                                                 currentTarget.src=getImageUrl(match.opponent?.image, true);
                                             }}
                                         />
-                                        <p className="baloteo-match-team_name">{match.opponent?.team?.name}</p>
+                                        <p className="baloteo-match-team_name">#{match.opponent?.cage} {match.opponent?.team?.name}</p>
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
@@ -413,9 +417,6 @@ const Baloteo: React.FC = () => {
                             </IonItem>)}
                         </IonList>}
                     </div>}
-                    <div className="baloteo-announce">
-                        <IonButton expand="block" disabled={!liveMatches.length} onClick={() => setShowAnnouncePrompt(true)}>{t('baloteo.announce')}</IonButton>
-                    </div>
                     <ConfirmPrompt
                         show={showAnnouncePrompt}
                         title={t('baloteo.prompt_announce_title')}

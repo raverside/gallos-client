@@ -188,6 +188,7 @@
       "print_option": "Opción de Impresión",
       "print_live_matches": "Combates En Vivo",
       "print_live_matches_cut": "Combates En Vivo (Soltero)",
+      "print_live_matches_wide": "Combates En Vivo (Extenso)",
       "print_available_matches": "Combates Disponible Baloteado",
       "print_available_matches_cut": "Combates Disponible Baloteado (Soltero)",
       "print_unmatched": "Gallos Sin Par",
@@ -210,7 +211,9 @@
       "not_experienced_participant": "Sin Pelear",
       "confirm_phase_change_title": "Change Phase",
       "confirm_phase_change_subtitle": "Are you sure you want to change this event's phase?",
-      "calendar": "Calendario"
+      "calendar": "Calendario",
+      "observation": "Observación",
+      "rejection_note": "Nota"
   },
   "judge": {
       "no_baloteo": "Tablero de Baloteo",

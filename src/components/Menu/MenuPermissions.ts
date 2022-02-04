@@ -99,6 +99,22 @@ const MenuPermissions = () => {
         },
     ];
 
+    appPages["stadium_admin_worker"] = [
+        {title: t('events.events'), url: '/events', icon: eventsIcon},
+        {title: t('teams.team_owners'), url: '/team_owners', icon: teamOwnersIcon},
+        {
+            title: t('general.logout'), url: '/auth_admin', icon: logoutIcon,
+            props: {
+                className: "logout-button",
+                onClick: () => {
+                    dispatch({
+                        type: 'resetUser',
+                    });
+                }
+            }
+        },
+    ];
+
     appPages["admin_manager"] = [
         {title: t('users.users'), url: '/users', icon: usersIcon},
         {title: t('events.events'), url: '/events', icon: eventsIcon},

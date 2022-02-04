@@ -131,7 +131,7 @@ const EventReceiving: React.FC = () => {
             </IonHeader>
 
             <IonContent fullscreen>
-                {((state.user.role === "admin" || state.user.role === "admin_manager") && event) && <EventPhaseManagement event={event} setEvent={setEvent}/>}
+                {((state.user.role === "admin" || state.user.role === "admin_manager" || state.user.role === "stadium_admin_worker") && event) && <EventPhaseManagement event={event} setEvent={setEvent}/>}
                 <IonSegment className="events-tabs" value={(participantsTab === "rejected" || participantsTab === "approved") ? participantsTab : "saved"} onIonChange={(e) => {setParticipantsTab(e.detail.value!);}}>
                     <IonSegmentButton value="saved">
                         <IonLabel>{t('events.saved')}<span className="barely-visible"> • {savedParticipants?.length || 0}</span></IonLabel>

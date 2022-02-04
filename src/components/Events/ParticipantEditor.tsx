@@ -51,6 +51,7 @@ type ParticipantFormData = {
     participated_before?: boolean|null;
     status?: string;
     reason?: string;
+    observation?: string;
 };
 type ParticipantProps = {
     close: () => void;
@@ -87,6 +88,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         participated_before: participant ? participant.participated_before : undefined,
         status: participant ? participant.status : undefined,
         reason: participant ? participant.reason : undefined,
+        observation: participant ? participant.observation : undefined,
         stadium_id: participant ? participant.stadium_id : undefined,
         stadium_name: participant ? participant.stadium_name : undefined,
     });
@@ -466,6 +468,17 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             </IonSelect>
                         </IonItem>
 
+                        <IonItemDivider>{t('events.observation')}</IonItemDivider>
+                        <IonItem lines="none">
+                            <IonInput
+                                value={formData.observation}
+                                className="fullsize-input"
+                                placeholder={t('events.observation')}
+                                onIonChange={(e) => {
+                                    setFormData((currentFormData) => ({...currentFormData, observation: e.detail.value!}));
+                                }}
+                            />
+                        </IonItem>
                     </>}
 
 

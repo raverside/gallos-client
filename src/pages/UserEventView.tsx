@@ -177,7 +177,7 @@ const UserEventView: React.FC = () => {
     const title = (event?.is_special && event?.title) ? event?.title! : t('events.default_event_name');
     const image = (event?.is_special && event?.image) ? getImageUrl(event?.image!) : getImageUrl(event?.stadium_image!);
     const matches = (event && baloteoSearch) ? event.matches?.sort((a:any, b:any) => a.number - b.number).filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name.toLowerCase().includes(baloteoSearch.toLowerCase()) || m.opponent?.team?.name.toLowerCase().includes(baloteoSearch.toLowerCase())) : event?.matches?.sort((a:any, b:any) => a.number - b.number);
-    const liveMatches = matches?.filter((m:any) => m.live).sort((a:any, b:any) => a.manual - b.manual) || [];
+    const liveMatches = (event?.phase === "on going") ? matches?.filter((m:any) => m.live).sort((a:any, b:any) => a.manual - b.manual) || [] : [];
     const completeMatches = matches?.filter((m:any) => !m.live && m.result !== null) || [];
     const activeMatches = (baloteoTab === "results") ? completeMatches : liveMatches;
 
@@ -203,7 +203,7 @@ const UserEventView: React.FC = () => {
                     <IonText>{event?.description}</IonText>
                 </div>
 
-                {(event.phase === "receiving") ? <IonSegment value={baloteoTab} onIonChange={(e) => setBaloteoTab(e.detail.value!)} className="user-profile-tabs-segment">
+                {(event.phase === "receiving" || event.phase === "arrangement") ? <IonSegment value={baloteoTab} onIonChange={(e) => setBaloteoTab(e.detail.value!)} className="user-profile-tabs-segment">
                     <IonSegmentButton value="receiving"><IonLabel>{t('events.tab_receiving')}</IonLabel></IonSegmentButton>
                     <IonSegmentButton disabled value="results"><IonLabel>{t('events.tab_results')}</IonLabel></IonSegmentButton>
                     <IonSegmentButton disabled value="statistics"><IonLabel>{t('events.tab_statistics')}</IonLabel></IonSegmentButton>

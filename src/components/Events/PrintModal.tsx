@@ -60,6 +60,7 @@ const PrintModal: React.FC<PrintModalType> = ({event, showModal, setShowModal}) 
                         <IonSelect value={printOption} placeholder="Select print option" interface="alert" onIonChange={(e) => setPrintOption(e.detail.value!)}>
                             <IonSelectOption value={1}>{t('events.print_live_matches')}</IonSelectOption>
                             <IonSelectOption value={2}>{t('events.print_live_matches_cut')}</IonSelectOption>
+                            <IonSelectOption value={0}>{t('events.print_live_matches_wide')}</IonSelectOption>
                             <IonSelectOption value={3}>{t('events.print_available_matches')}</IonSelectOption>
                             <IonSelectOption value={4}>{t('events.print_available_matches_cut')}</IonSelectOption>
                             <IonSelectOption value={5}>{t('events.print_unmatched')}</IonSelectOption>
@@ -70,7 +71,7 @@ const PrintModal: React.FC<PrintModalType> = ({event, showModal, setShowModal}) 
                         </IonSelect>
                     </IonItem>
                 </IonList>
-                <IonButton expand="block" className="final-print-button" disabled={!printOption} onClick={() => print()}>{t('events.print')}</IonButton>
+                <IonButton expand="block" className="final-print-button" disabled={!(typeof printOption !== "undefined" && printOption >= 0)} onClick={() => print()}>{t('events.print')}</IonButton>
             </IonContent>
         </IonModal>
 

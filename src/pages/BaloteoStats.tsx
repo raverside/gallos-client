@@ -141,7 +141,7 @@ const BaloteoStats: React.FC = () => {
             </IonHeader>
 
             <IonContent fullscreen>
-                {((state.user.role === "admin" || state.user.role === "admin_manager") && event) && <EventPhaseManagement event={event} setEvent={setEvent}/>}
+                {((state.user.role === "admin" || state.user.role === "admin_manager" || state.user.role === "stadium_admin_worker") && event) && <EventPhaseManagement event={event} setEvent={setEvent}/>}
                 <IonSegment value={baloteoTab} onIonChange={(e) => setBaloteoTab(e.detail.value!)} className="user-profile-tabs-segment">
                     <IonSegmentButton value="matches"><IonLabel>{t('baloteo.tab_matches')}</IonLabel></IonSegmentButton>
                     <IonSegmentButton disabled={!(completeMatches.length > 0)} value="results"><IonLabel>{t('baloteo.tab_results')}</IonLabel></IonSegmentButton>

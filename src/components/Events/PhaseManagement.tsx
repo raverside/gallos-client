@@ -34,7 +34,7 @@ const PhaseManagement: React.FC<FilterProps> = ({event, setEvent}) => {
     }
 
     return (<>
-        <IonSegment className="events-tabs" scrollable value={event.phase} onIonChange={(e) => (event.phase && event.phase !== e.detail.value) && setShowConfirmPhase(e.detail.value!)}>
+        <IonSegment className="events-tabs" scrollable value={event.phase === "complete" ? "on going" : event.phase} onIonChange={(e) => (event.phase && event.phase !== e.detail.value) && setShowConfirmPhase(e.detail.value!)}>
             <IonSegmentButton value="receiving">
                 <IonLabel>{t('events.phase_receiving')}</IonLabel>
             </IonSegmentButton>
@@ -43,9 +43,6 @@ const PhaseManagement: React.FC<FilterProps> = ({event, setEvent}) => {
             </IonSegmentButton>
             <IonSegmentButton value="on going">
                 <IonLabel>{t('events.phase_ongoing')}</IonLabel>
-            </IonSegmentButton>
-            <IonSegmentButton value="complete">
-                <IonLabel>{t('events.phase_complete')}</IonLabel>
             </IonSegmentButton>
         </IonSegment>
         <ConfirmPrompt

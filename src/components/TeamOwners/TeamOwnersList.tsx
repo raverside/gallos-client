@@ -94,7 +94,7 @@ const TeamOwnersList: React.FC<TeamOwnersListProps> = ({teamOwners, isTeam = fal
                             <IonText className="teamOwner-short-info_winrate">{teamOwner.teams?.length || 0} {t('teams.teams')}</IonText>
                         }
                     </IonLabel>
-                    {(isTeam && showTeamActions && (state.user?.role === "admin" || state.user?.role === "admin_manager")) && <IonIcon size="large" className="view-note-menu" icon={menuIcon} onClick={() => present({
+                    {(isTeam && showTeamActions && (state.user?.role === "admin" || state.user?.role === "admin_manager" || state.user.role === "stadium_admin_worker")) && <IonIcon size="large" className="view-note-menu" icon={menuIcon} onClick={() => present({
                         buttons: [
                             { text: t('teams.edit'), handler: () => setShowEditModal(teamOwner) },
                             { text: t('teams.delete'), handler: () => setShowDeleteModal(teamOwner.id) },
