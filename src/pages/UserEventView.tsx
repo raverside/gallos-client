@@ -86,7 +86,7 @@ const UserEventView: React.FC = () => {
         const response = (id) ? await getEvent(id) : false;
         if (response.event) {
             setEvent(response.event);
-            if (baloteoTab === "receiving" && response.event.phase !== "receiving") {
+            if (baloteoTab === "receiving" && response.event.phase !== "receiving" && response.event.phase !== "arrangement") {
                 setBaloteoTab("matches");
             }
             if (response.event.phase === "complete" && (baloteoTab === "matches" || baloteoTab === "receiving")) {

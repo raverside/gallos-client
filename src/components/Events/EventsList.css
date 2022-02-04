@@ -77,6 +77,15 @@
     clear:both;
     margin:0;
 }
+.baloteoButton.receiving {
+    background: #2dd36f;
+}
+.baloteoButton.arrangement {
+    background: #ffca22;
+}
+.baloteoButton.on_going {
+    background: #ff7410;
+}
 .baloteoButton ion-text {
     color:white;
     text-transform:capitalize;

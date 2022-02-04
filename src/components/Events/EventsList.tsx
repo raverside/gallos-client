@@ -133,7 +133,7 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                         }</IonCardContent>}
                     <IonButton
                         fill="clear"
-                        className="baloteoButton"
+                        className={"baloteoButton "+event.phase.replace(' ', '_')}
                         onClick={() => history.push(state.user?.role === 'user' ? "/event/"+event.id : event.phase === "on going" ? "/baloteo_stats/"+event.id : event.phase === "arrangement" ? "/baloteo/"+event.id : "/event_receiving/"+event.id)}
                         disabled={!(state.user?.role === 'admin' || state.user?.role === 'admin_manager' || state.user?.role === 'admin_worker' || state.user?.role === 'worker' || state.user?.role === 'user')}
                     >
