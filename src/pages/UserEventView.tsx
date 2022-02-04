@@ -237,7 +237,11 @@ const UserEventView: React.FC = () => {
                                         <div className="blue_side">
                                             <IonImg
                                                 className={match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image"}
-                                                src={getImageUrl(match.participant?.image)}
+                                                src={getImageUrl('thumb_'+match.participant?.image)}
+                                                onError={({ currentTarget }) => {
+                                                    currentTarget.onerror = null;
+                                                    currentTarget.src=getImageUrl(match.participant?.image);
+                                                }}
                                                 onClick={() => match.participant?.image && viewParticipantImage(match.participant)}
                                             />
                                             <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
@@ -253,7 +257,11 @@ const UserEventView: React.FC = () => {
                                         <div className="white_side">
                                             <IonImg
                                                 className={match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped"}
-                                                src={getImageUrl(match.opponent?.image)}
+                                                src={getImageUrl('thumb_'+match.opponent?.image)}
+                                                onError={({ currentTarget }) => {
+                                                    currentTarget.onerror = null;
+                                                    currentTarget.src=getImageUrl(match.opponent?.image);
+                                                }}
                                                 onClick={() => match.opponent?.image && viewParticipantImage(match.opponent)}
                                             />
                                             <p className="baloteo-match-team_name">{match.opponent?.team?.name}</p>
@@ -328,7 +336,11 @@ const UserEventView: React.FC = () => {
                                     <IonCol size="6" style={{textAlign: "right"}}>
                                         {participant.image && <>
                                             <IonImg
-                                                src={getImageUrl(participant.image)}
+                                                src={getImageUrl('thumb_'+participant.image)}
+                                                onError={({ currentTarget }) => {
+                                                    currentTarget.onerror = null;
+                                                    currentTarget.src=getImageUrl(participant.image);
+                                                }}
                                                 className={participant.image_flipped ? "participant-thumb-user baloteo" : "participant-thumb-user baloteo flipped"}
                                                 onClick={() => viewParticipantImage(participant)}
                                             />
