@@ -31,7 +31,7 @@ import {formatOzToLbsOz, getImageUrl, getParticipantBettingAmount, isDesktop} fr
 import './EventView.css';
 import fullscreenIcon from "../img/fullscreen.png";
 import moment from "moment";
-import {shareSocialOutline as shareIcon} from "ionicons/icons";
+import {shareSocialOutline as shareIcon, downloadOutline as downloadIcon} from "ionicons/icons";
 import ShareEventImage from "../components/Events/ShareEventImage";
 import ShareParticipantImage from "../components/Events/ShareParticipantImage";
 import ParticipantDetails from "../components/Events/ParticipantDetails";
@@ -64,6 +64,7 @@ const UserEventView: React.FC = () => {
     const [baloteoSearch, setBaloteoSearch] = useState<string>("");
     const [selectedGalleryParticipant, setSelectedGalleryParticipant] = useState<any>(false);
     const [showGalleryImage, setShowGalleryImage] = useState<boolean>(false);
+    const [shareFile, setShareFile] = useState<any>();
     const history = useHistory();
     const shareRef = React.useRef();
     const shareMatchRef = React.useRef();
@@ -104,24 +105,29 @@ const UserEventView: React.FC = () => {
         setShowLoading(true);
         const element = shareRef.current;
         setShowShare(event);
-        domtoimage.toBlob(element!).then((blob:Blob) => {
-            const file = new File([blob!], +new Date() + ".png", { type: blob.type });
-            const filesArray:any = [file];
-            setShowShare(false);
 
-            if (isDesktop() || !(navigator.canShare && navigator.canShare({files: filesArray}))) {
-                //download the file
-                const a = document.createElement("a");
-                a.href  = window.URL.createObjectURL(file);
-                a.setAttribute("download", file.name);
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            } else {
-                navigator.share({files: filesArray});
-            }
-            setShowLoading(false);
-        });
+        const blob = await domtoimage.toBlob(element!);
+        const file = new File([blob!], +new Date() + ".png", { type: blob.type });
+        const filesArray:any = [file];
+        setShowShare(false);
+
+        if (isDesktop() || !(navigator.canShare && navigator.canShare({files: filesArray}))) {
+            //download the file
+            const a = document.createElement("a");
+            a.href  = window.URL.createObjectURL(file);
+            a.setAttribute("download", file.name);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        } else {
+            navigator.share({files: filesArray});
+        }
+        setShowLoading(false);
+    }
+
+    const sendFileToShare = async () => {
+        if (!shareFile || !shareFile.file) return false;
+        if (navigator.canShare && navigator.canShare({files: shareFile.file})) navigator.share({files: shareFile.file});
     }
 
     const shareMatch = async (match:any) => {
@@ -129,24 +135,22 @@ const UserEventView: React.FC = () => {
         setShowLoading(true);
         const element = shareMatchRef.current;
         setShowShareMatch(match);
-        domtoimage.toBlob(element!).then((blob:Blob) => {
-            const file = new File([blob!], +new Date() + ".png", { type: blob.type });
-            const filesArray:any = [file];
-            setShowShareMatch(false);
 
-            if (isDesktop() || !(navigator.canShare && navigator.canShare({files: filesArray}))) {
-                //download the file
-                const a = document.createElement("a");
-                a.href  = window.URL.createObjectURL(file);
-                a.setAttribute("download", file.name);
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            } else {
-                navigator.share({files: filesArray});
-            }
-            setShowLoading(false);
-        });
+        const blob = await domtoimage.toBlob(element!);
+        const file = new File([blob!], +new Date() + ".png", { type: blob.type });
+        const filesArray:any = [file];
+        setShowShareMatch(false);
+        setShareFile({id: match.id, file: filesArray});
+
+        //download the file
+        const a = document.createElement("a");
+        a.href  = window.URL.createObjectURL(file);
+        a.setAttribute("download", file.name);
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        setShowLoading(false);
     }
 
     const shareParticipant = async (participant:any) => {
@@ -154,24 +158,22 @@ const UserEventView: React.FC = () => {
         setShowLoading(true);
         const element = shareParticipantRef.current;
         setShowShareParticipant(participant);
-        domtoimage.toBlob(element!).then((blob:Blob) => {
-            const file = new File([blob!], +new Date() + ".png", { type: blob.type });
-            const filesArray:any = [file];
-            setShowShareParticipant(false);
 
-            if (isDesktop() || !(navigator.canShare && navigator.canShare({files: filesArray}))) {
-                //download the file
-                const a = document.createElement("a");
-                a.href  = window.URL.createObjectURL(file);
-                a.setAttribute("download", file.name);
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            } else {
-                navigator.share({files: filesArray});
-            }
-            setShowLoading(false);
-        });
+        const blob = await domtoimage.toBlob(element!);
+        const file = new File([blob!], +new Date() + ".png", { type: blob.type });
+        const filesArray:any = [file];
+        setShowShareParticipant(false);
+        setShareFile({id: participant.id, file: filesArray});
+
+        //download the file
+        const a = document.createElement("a");
+        a.href  = window.URL.createObjectURL(file);
+        a.setAttribute("download", file.name);
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        setShowLoading(false);
     }
 
     const title = (event?.is_special && event?.title) ? event?.title! : t('events.default_event_name');
@@ -278,7 +280,11 @@ const UserEventView: React.FC = () => {
                                 </IonRow>}
                                 <IonRow>
                                     <IonCol size="12">
-                                        <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => shareMatch(match)}><IonIcon icon={shareIcon} style={{marginRight: "5px"}}/> {t('events.share_participant')}</IonButton>
+                                        {(shareFile?.id === match.id) ?
+                                            <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => sendFileToShare()}><IonIcon icon={shareIcon} style={{marginRight: "5px"}}/> {t('events.share_participant')}</IonButton>
+                                            :
+                                            <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => shareMatch(match)}><IonIcon icon={downloadIcon} style={{marginRight: "5px"}}/> {t('events.download')}</IonButton>
+                                        }
                                     </IonCol>
                                 </IonRow>
                             </IonGrid>
@@ -349,7 +355,11 @@ const UserEventView: React.FC = () => {
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="12">
-                                        <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => shareParticipant(participant)}><IonIcon icon={shareIcon} style={{marginRight: "5px"}}/> {t('events.share_participant')}</IonButton>
+                                        {(shareFile?.id === participant.id) ?
+                                            <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => sendFileToShare()}><IonIcon icon={shareIcon} style={{marginRight: "5px"}}/> {t('events.share_participant')}</IonButton>
+                                            :
+                                            <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => shareParticipant(participant)}><IonIcon icon={downloadIcon} style={{marginRight: "5px"}}/> {t('events.download')}</IonButton>
+                                        }
                                     </IonCol>
                                 </IonRow>
                             </IonGrid>
