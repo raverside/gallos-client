@@ -235,7 +235,7 @@ const UserEventView: React.FC = () => {
                                 <IonRow>
                                     <IonCol size="5">
                                         <div className="blue_side">
-                                            <IonImg
+                                            <img
                                                 className={match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image"}
                                                 src={getImageUrl('thumb_'+match.participant?.image)}
                                                 onError={({ currentTarget }) => {
@@ -255,7 +255,7 @@ const UserEventView: React.FC = () => {
                                     </IonCol>
                                     <IonCol size="5">
                                         <div className="white_side">
-                                            <IonImg
+                                            <img
                                                 className={match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped"}
                                                 src={getImageUrl('thumb_'+match.opponent?.image)}
                                                 onError={({ currentTarget }) => {
@@ -335,7 +335,7 @@ const UserEventView: React.FC = () => {
                                     </IonCol>
                                     <IonCol size="6" style={{textAlign: "right"}}>
                                         {participant.image && <>
-                                            <IonImg
+                                            <img
                                                 src={getImageUrl('thumb_'+participant.image)}
                                                 onError={({ currentTarget }) => {
                                                     currentTarget.onerror = null;

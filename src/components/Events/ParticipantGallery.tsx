@@ -51,7 +51,7 @@ const ParticipantGallery: React.FC<GalleryProps> = ({participant, showModal, set
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
-            <IonContent className="zoomable">
+            <IonContent className="zoomable" style={{textAlign: 'center'}}>
                 <ReactImageProcess
                     mode="waterMark"
                     waterMarkType="image"
