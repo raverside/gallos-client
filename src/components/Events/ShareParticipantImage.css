@@ -2,9 +2,11 @@
 .share-participant-info {
     width:300px;
     display:inline-block;
+    padding:15px;
 }
 .share-participant-wrapper {
     width: 900px;
+    overflow:hidden;
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -43,6 +45,7 @@
 }
 .share-logo {
     width:900px;
+    background-color:white;
 }
 .share-logo .logo {
     background-color:white;

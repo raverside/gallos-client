@@ -366,7 +366,7 @@ const UserEventView: React.FC = () => {
                 <div style={showShareMatch ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
                     <ShareMatchImage event={event} match={showShareMatch} close={() => setShowShareMatch(false)} ref={shareMatchRef} />
                 </div>
-                <div style={showShareParticipant ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
+                <div style={showShareParticipant ? {opacity: 1, transform: "translateX(100%)", width: "900px", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
                     <ShareParticipantImage participant={showShareParticipant} close={() => setShowShareParticipant(false)} ref={shareParticipantRef} />
                 </div>
                 <IonModal isOpen={!!showParticipantDetails} onDidDismiss={() => setShowParticipantDetails(false)}>
