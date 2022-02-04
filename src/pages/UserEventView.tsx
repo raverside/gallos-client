@@ -400,7 +400,6 @@ const UserEventView: React.FC = () => {
                 <IonLoading
                     isOpen={showLoading}
                     onDidDismiss={() => setShowLoading(false)}
-                    duration={10000}
                     spinner="crescent"
                 />
             </IonContent>
