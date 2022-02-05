@@ -127,7 +127,17 @@ const UserEventView: React.FC = () => {
 
     const sendFileToShare = async () => {
         if (!shareFile || !shareFile.file) return false;
-        if (navigator.canShare && navigator.canShare({files: shareFile.file})) navigator.share({files: shareFile.file});
+        if (!isDesktop() && navigator.canShare && navigator.canShare({files: shareFile.file})) {
+            navigator.share({files: shareFile.file});
+        } else {
+            //download the file
+            const a = document.createElement("a");
+            a.href  = window.URL.createObjectURL(shareFile.file[0]);
+            a.setAttribute("download", shareFile.file[0].name);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
     }
 
     const shareMatch = async (match:any) => {
@@ -141,14 +151,6 @@ const UserEventView: React.FC = () => {
         const filesArray:any = [file];
         setShowShareMatch(false);
         setShareFile({id: match.id, file: filesArray});
-
-        //download the file
-        const a = document.createElement("a");
-        a.href  = window.URL.createObjectURL(file);
-        a.setAttribute("download", file.name);
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
 
         setShowLoading(false);
     }
@@ -164,14 +166,6 @@ const UserEventView: React.FC = () => {
         const filesArray:any = [file];
         setShowShareParticipant(false);
         setShareFile({id: participant.id, file: filesArray});
-
-        //download the file
-        const a = document.createElement("a");
-        a.href  = window.URL.createObjectURL(file);
-        a.setAttribute("download", file.name);
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
 
         setShowLoading(false);
     }
