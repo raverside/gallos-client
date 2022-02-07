@@ -223,6 +223,7 @@
       "live_matches": "Live Matches",
       "results": "Results",
       "select_result": "Select Result",
+      "match_time": "Match Time (Seconds)",
       "total_matches": "Total Matches",
       "side_color": "Side Color",
       "blue": "Blue",

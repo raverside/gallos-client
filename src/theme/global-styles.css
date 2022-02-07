@@ -116,6 +116,9 @@ ion-content::part(scroll) {
 .alert-radio-group .select-interface-option[aria-checked=true].sc-ion-alert-md .alert-radio-inner.sc-ion-alert-md {
     background-color:white;
 }
+.clickable {
+    cursor: pointer;
+}
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;

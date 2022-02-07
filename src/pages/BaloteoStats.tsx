@@ -27,6 +27,7 @@ import PrintModal from "../components/Events/PrintModal";
 import ParticipantGallery from "../components/Events/ParticipantGallery";
 import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploader";
 import EventPhaseManagement from "../components/Events/PhaseManagement";
+import MatchResultsEditor from "../components/Events/MatchResultsEditor";
 import {AppContext} from "../State";
 import moment from "moment";
 import ShareMatchImage from "../components/Events/ShareMatchImage";
@@ -42,6 +43,7 @@ const BaloteoStats: React.FC = () => {
     const [baloteoTab, setBaloteoTab] = useState<string>("matches");
     const [showPrintModal, setShowPrintModal] = useState<boolean>(false);
     const [showShareMatch, setShowShareMatch] = useState<any>(false);
+    const [showMatchResultsEditor, setShowMatchResultsEditor] = useState<any>(false);
     const [selectedParticipant, setSelectedParticipant] = useState<any>(false);
     const [selectedGalleryParticipant, setSelectedGalleryParticipant] = useState<any>(false);
     const [showParticipantPhotoUploader, setShowParticipantPhotoUploader] = useState<boolean>(false);
@@ -201,7 +203,7 @@ const BaloteoStats: React.FC = () => {
                                         </div>
                                     </IonCol>
                                 </IonRow>
-                                {(match.result !== null) && <IonRow>
+                                {(match.result !== null) && <IonRow className={state.user.role === 'admin' ? 'clickable' : ''} onClick={state.user.role === 'admin' ? () => setShowMatchResultsEditor(match) : undefined}>
                                     <IonCol size="12">
                                         {match.result === 0 && <IonText className="result_blue-side-won">{t('judge.blue_side_wins')}{(match.match_time > 0) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
                                         {match.result === 1 && <IonText className="result_white-side-won">{t('judge.white_side_wins')}{(match.match_time > 0) && (" • "+moment.utc(match.match_time*1000).format('mm:ss'))}</IonText>}
@@ -289,6 +291,9 @@ const BaloteoStats: React.FC = () => {
                         participant={selectedParticipant}
                     />
                 </IonModal>
+                {state.user.role === 'admin' && <IonModal isOpen={!!showMatchResultsEditor} onDidDismiss={() => setShowMatchResultsEditor(false)}>
+                    <MatchResultsEditor match={showMatchResultsEditor} close={() => setShowMatchResultsEditor(false)} fetchEvent={fetchEvent}/>
+                </IonModal>}
                 <div style={showShareMatch ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>
                     <ShareMatchImage event={event} match={showShareMatch} close={() => setShowShareMatch(false)} ref={shareMatchRef} />
                 </div>
