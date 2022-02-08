@@ -291,6 +291,7 @@
   "teams": {
       "teams": "Teams",
       "add": "Add",
+      "create_new_team": "Create New Team",
       "add_team": "Add Team",
       "add_another_team": "Add Another Team",
       "team_name": "Team Name",

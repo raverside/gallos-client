@@ -89,3 +89,8 @@
     height: auto;
     margin: 20px 0;
 }
+.add_team_button {
+    position:absolute;
+    right:0px;
+    text-transform:capitalize;
+}

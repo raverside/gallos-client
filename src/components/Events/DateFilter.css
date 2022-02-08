@@ -48,6 +48,7 @@
 }
 .react-calendar__navigation__arrow {
     background:none;
+    color:black;
     font-size:30px;
 }
 .react-calendar__month-view__weekdays, .react-calendar__month-view__days {

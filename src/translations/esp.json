@@ -291,6 +291,7 @@
   "teams": {
       "teams": "Equipos",
       "add": "Agregar",
+      "create_new_team": "Agregar Nuevo Nombre",
       "add_team": "Agregar Traba",
       "add_another_team": "Agregar Otro Nombre",
       "team_name": "Nombre de Traba",

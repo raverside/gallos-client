@@ -25,6 +25,7 @@ import {getTeamOwnerByDigitalId} from '../../api/TeamOwners';
 import './ParticipantEditor.css';
 import {AppContext} from "../../State";
 import {useTranslation} from "react-multi-lang";
+import TeamEditor from "../TeamOwners/TeamEditor";
 
 type ParticipantFormData = {
     id?: string|undefined;
@@ -64,6 +65,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
     const t = useTranslation();
     const { state } = useContext(AppContext);
     const [teams, setTeams] = useState<any[]>([]);
+    const [teamOwner, setTeamOwner] = useState<any>(false);
     const [showRejectReason, setShowRejectReason] = useState<boolean>(false);
     const [formData, setFormData] = useState<ParticipantFormData>({
         id: participant ? participant.id : undefined,
@@ -94,14 +96,17 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
     });
     const [presentToast] = useIonToast();
     const [uploading, setUploading] = useState<boolean>(false);
+    const [showAddTeamModal, setShowAddTeamModal] = useState<any>(false);
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0});
 
     const fetchTeamOwner = async (id:number) => {
         const response = (id) ? await getTeamOwnerByDigitalId(id) : false;
         if (response.team_owner?.teams) {
+            setTeamOwner(response.team_owner);
             setTeams(response.team_owner.teams);
         } else {
             setTeams([]);
+            setTeamOwner(false);
         }
     }
 
@@ -266,7 +271,10 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         />
                     </IonItem>
 
-                    <IonItemDivider>{t('events.team')}<IonText color="primary">*</IonText></IonItemDivider>
+                    <IonItemDivider>
+                        {t('events.team')}<IonText color="primary">*</IonText>
+                        <IonButton className="add_team_button" fill="clear" disabled={!teamOwner?.id} onClick={() => setShowAddTeamModal(teamOwner?.id)}>{t('teams.create_new_team')}</IonButton>
+                    </IonItemDivider>
                     <IonItem lines="none">
                         <IonSelect
                             className="select_team"
@@ -563,6 +571,9 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             <IonButton disabled={!formData.reason} expand="block" onClick={Reject}>Save</IonButton>
                         </div>
                     </IonContent>
+                </IonModal>
+                <IonModal isOpen={!!showAddTeamModal} onDidDismiss={() => setShowAddTeamModal(false)}>
+                    <TeamEditor teamOwnerId={showAddTeamModal} fetchTeamOwner={() => fetchTeamOwner(formData.owner_account_number!)} close={() => setShowAddTeamModal(false)}/>
                 </IonModal>
             </IonList>
         </IonContent>

@@ -11,6 +11,7 @@ import Calendar from 'react-calendar';
 import './DateFilter.css';
 import {calendarOutline as calendarIcon} from "ionicons/icons";
 import {useTranslation} from "react-multi-lang";
+import Cookies from "js-cookie";
 
 type FilterProps = {
     eventDates: any;
@@ -63,6 +64,7 @@ const DateFilter: React.FC<FilterProps> = ({filter, setFilter, updateFilter, eve
                 <Calendar
                     value={dateFilter}
                     onChange={(value:Date) => setDateFilter(value)}
+                    locale={Cookies.get('lang') === 'esp' ? 'es' : 'en'}
                     minDetail="month"
                     tileContent={({date, view}) => {
                         if (view === 'month' && eventDates.find((ed:any) => ed.date === moment(date).format('YYYY-MM-DD'))){

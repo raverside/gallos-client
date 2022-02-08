@@ -14,7 +14,7 @@ import {
 import {closeOutline as closeIcon} from "ionicons/icons";
 
 import './TeamOwnerEditor.css';
-import {updateTeamOwnerTeam} from '../../api/TeamOwners';
+import {addTeamOwnerTeam, updateTeamOwnerTeam} from '../../api/TeamOwners';
 import {useTranslation} from "react-multi-lang";
 
 type TeamFormData = {
@@ -24,10 +24,11 @@ type TeamFormData = {
 type EventProps = {
     close: () => void;
     fetchTeamOwner: () => void;
+    teamOwnerId?: string;
     team?: TeamFormData|false;
 };
 
-const TeamEditor: React.FC<EventProps> = ({fetchTeamOwner, close, team = false}) => {
+const TeamEditor: React.FC<EventProps> = ({teamOwnerId, fetchTeamOwner, close, team = false}) => {
     const t = useTranslation();
     const [formData, setFormData] = useState<TeamFormData>({
         id: team ? team.id : undefined,
@@ -43,10 +44,17 @@ const TeamEditor: React.FC<EventProps> = ({fetchTeamOwner, close, team = false})
     }
 
     const Submit = async () => {
-        if (!formData.id) return false;
-        const response = await updateTeamOwnerTeam(formData.id, formData.name);
-        if (response.success) {
-            fetchTeamOwner();
+        if (!formData.id && !teamOwnerId) return false;
+        if (teamOwnerId) {
+            const response = await addTeamOwnerTeam(teamOwnerId, [formData.name]);
+            if (response.success) {
+                fetchTeamOwner();
+            }
+        } else if (formData.id) {
+            const response = await updateTeamOwnerTeam(formData.id, formData.name);
+            if (response.success) {
+                fetchTeamOwner();
+            }
         }
         close();
     }
