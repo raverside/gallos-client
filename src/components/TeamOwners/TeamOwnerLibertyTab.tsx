@@ -17,6 +17,7 @@ import {useTranslation} from "react-multi-lang";
 
 type libertyType = {
     id: string;
+    owner_liberty?: {name:string, digital_id:number};
     opponent_liberty?: {name:string, digital_id:number};
     reason?: string;
     owner_id: string;
@@ -60,8 +61,8 @@ const TeamOwnerNotesTab: React.FC<TeamOwnerTabProps> = ({team_owner, teamOwners,
 
     const showEditLibertyModal = async (liberty:libertyType) => {
         setShowAddModal(liberty);
-        setSearch("" + liberty.opponent_liberty?.digital_id || "");
-        setSelectedTeamOwners([liberty.opponent_id]);
+        setSearch(liberty.opponent_liberty ? "" + liberty.opponent_liberty?.digital_id : liberty.owner_liberty ? ""+ liberty.owner_liberty?.digital_id : "");
+        team_owner.id === liberty.opponent_id ? setSelectedTeamOwners([liberty.owner_id]) : setSelectedTeamOwners([liberty.opponent_id]);
         setLibertyReason(liberty.reason || "");
     }
     return (
@@ -75,6 +76,7 @@ const TeamOwnerNotesTab: React.FC<TeamOwnerTabProps> = ({team_owner, teamOwners,
                         <p className="note-index">{index + 1}</p>
                         <IonLabel className="note-info">
                             {liberty?.opponent_liberty?.name && <IonText className="note-info_title">{liberty.opponent_liberty.name}</IonText>}
+                            {liberty?.owner_liberty?.name && <IonText className="note-info_title">{liberty.owner_liberty.name}</IonText>}
                             {liberty?.reason && <IonText className="note-info_creator">{liberty.reason}</IonText>}
                         </IonLabel>
                     </IonItem>
