@@ -10,7 +10,7 @@ import {
     IonList,
     IonItem,
     IonGrid, IonRow, IonCol, IonImg,
-    IonSelectOption, IonSelect
+    IonSelectOption, IonSelect, IonLoading
 } from '@ionic/react';
 import ProfileModal from '../components/Judge/ProfileModal';
 
@@ -27,17 +27,20 @@ const Judge: React.FC = () => {
     const [events, setEvents] = useState<any>();
     const [baloteoTab, setBaloteoTab] = useState<string>("matches");
     const history = useHistory();
+    const [showLoading, setShowLoading] = useState<any>(false);
 
     useEffect(() => {
         fetchEvents();
     }, []);
 
     const fetchEvents = async () => {
+        setShowLoading(true);
         const response = await getOngoingEvents();
         if (response.events) {
             setEvents(response.events);
             const activeEvent = response.events.find((re:any) => re.id === event_id);
             setEvent( activeEvent ? activeEvent : response.events[0]);
+            setShowLoading(false);
         }
     };
 
@@ -49,6 +52,12 @@ const Judge: React.FC = () => {
     return (
         <IonPage>
             <IonContent fullscreen>
+                <IonLoading
+                    isOpen={showLoading}
+                    onDidDismiss={() => setShowLoading(false)}
+                    duration={10000}
+                    spinner="crescent"
+                />
                 <div className="judge-header">
                     {(events?.length > 0) ? <IonSelect value={event?.id} placeholder="No Baloteo" interface="alert" onIonChange={(e) => selectEvent(e.detail.value!)}>
                         {events.map((e:any) => <IonSelectOption key={e.id} value={e.id}>

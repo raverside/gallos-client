@@ -471,6 +471,7 @@ ion-content {
     display:flex;
     justify-content:space-around;
     align-items:center;
+    z-index:1;
 }
 .judge-match-timer-config {
     position:fixed;
@@ -600,6 +601,7 @@ ion-content {
     font-size: 36px;
     width:480px;
     border: 2px solid #565151;
+    background: #565151;
     border-radius: 5px;
     color:white;
     text-align:center;

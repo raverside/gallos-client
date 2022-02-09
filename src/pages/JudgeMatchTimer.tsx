@@ -116,7 +116,7 @@ const JudgeMatch: React.FC = () => {
     const onAnnounceMatch = async () => {
         if (typeof result !== "undefined" && result >= 0 && match) await announceMatchResult(match.id, result, matchTime);
         state.socket?.emit('updateEvents', {eventId: event_id});
-        window.location.replace("/judge");
+        window.location.replace("/judge/"+event_id);
     }
 
     const startFiveSeconds = () => {
