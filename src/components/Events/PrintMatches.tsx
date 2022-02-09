@@ -237,8 +237,12 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                     </>)
                 ) }
             </div> : (mode === 0) ? <>
-                <table style={{width: "1200px"}}>
-                    <thead>
+                <h1 style={{fontSize: "20px", width: "1000px", textAlign: "center"}}>{event.stadium_name}</h1>
+                <div style={{fontSize: "16px", fontWeight: "bold", color: "#EB0404", width: "1000px", textAlign: "center"}}>{title}</div>
+                <div style={{fontSize: "16px", fontWeight: "bold", width: "1000px", textAlign: "center"}}>{moment(event.event_date).format("dddd, D MMMM YYYY")}</div>
+                <div style={{fontSize: "20px", fontWeight: "bold", width: "1000px", textAlign: "center"}}>{(event.is_special && event.title) ? event.title : t('events.default_event_name')}</div>
+                <table style={{width: "1000px"}}>
+                    <thead  style={{border: 0}}>
                         <tr style={{background: "black", color: "white", fontWeight:"bold"}}>
                             <th>#</th>
                             <th>{t('events.cage')}</th>
@@ -258,21 +262,21 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                     {printMatches?.map((match:any) => <tr>
                             <td style={{textAlign: "center"}}>{match.number}</td>
                             <td style={{textAlign: "center"}}>{match.participant.cage}</td>
-                            <td style={{textAlign: "center", textTransform: "uppercase", fontWeight: "bold"}}>{match.participant.team.name}</td>
+                            <td style={{textAlign: "center", textTransform: "uppercase", fontWeight: "bold", color: "#002D72"}}>{match.participant.team.name}</td>
                             <td style={{textAlign: "center"}}>{match.participant.type}</td>
-                            <td style={{textAlign: "center"}}>{formatOzToLbsOz(match.participant.weight)}</td>
+                            <td style={{textAlign: "center", fontWeight: "bold"}}>{formatOzToLbsOz(match.participant.weight)}</td>
                             <td style={{textAlign: "center", textTransform: "capitalize"}}>{match.participant.color}</td>
-                            <td style={{textAlign: "center", fontWeight: "bold"}}>-VS-</td>
+                            <td style={{textAlign: "center", fontWeight: "bold", color: "#EB0404"}}>-VS-</td>
                             <td style={{textAlign: "center"}}>{match.opponent.cage}</td>
                             <td style={{textAlign: "center", textTransform: "uppercase", fontWeight: "bold"}}>{match.opponent.team.name}</td>
                             <td style={{textAlign: "center"}}>{match.opponent.type}</td>
-                            <td style={{textAlign: "center"}}>{formatOzToLbsOz(match.opponent.weight)}</td>
+                            <td style={{textAlign: "center", fontWeight: "bold"}}>{formatOzToLbsOz(match.opponent.weight)}</td>
                             <td style={{textAlign: "center", textTransform: "capitalize"}}>{match.opponent.color}</td>
                         </tr>
                     )}
                     </tbody>
                 </table>
-                <p style={{ width: "1200px", fontSize: "16px", textAlign: "center", fontWeight: "bold", borderTop: "1px dashed black", padding: "10px"}}>gallosclub.com</p>
+                <p style={{ width: "1000px", fontSize: "16px", textAlign: "center", fontWeight: "bold", borderTop: "1px dashed black", padding: "10px"}}>gallosclub.com</p>
             </> : <>
                 <table style={{width: "80mm", fontSize: "14px"}}>
                     <thead>
