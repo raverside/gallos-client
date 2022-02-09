@@ -352,13 +352,14 @@ ion-content {
     background: linear-gradient(0deg, #285CC6, #285CC6);
     padding:10px !important;
     font-weight: 600;
-    font-size: 62px;
+    font-size: 80px;
     display:flex;
     align-items:center;
     color:white;
-    height:80px;
+    height:120px;
     justify-content:space-between;
     margin-top:10px;
+    white-space: nowrap;
 }
 .judge-match-timer-white_side {
     background:white;
@@ -369,15 +370,15 @@ ion-content {
     font-size: 62px;
     display:flex;
     align-items:center;
-    height:80px;
+    height:120px;
     margin-top:10px;
 }
 .judge-match-timer-versus {
     text-align: center;
     font-weight: 600;
-    font-size: 46px;
+    font-size: 80px;
     color: white;
-    height: 80px;
+    height: 100px;
     margin: 0;
     padding: 0;
     display: flex;
@@ -387,7 +388,7 @@ ion-content {
     flex: initial !important;
 }
 .judge-match-timer-participant_info {
-    font-size:42px;
+    font-size:80px;
 }
 .judge-match-timer {
     padding: 0 20px 20px 20px;
@@ -419,7 +420,7 @@ ion-content {
 }
 .judge-match-timer ion-row {
     align-items: stretch;
-    justify-content: center;
+    justify-content: space-between;
 }
 .judge-match-timer-clock_blue_side {
     font-weight: bold;
@@ -431,6 +432,7 @@ ion-content {
     line-height: 240px;
     max-width: calc(50% - 150px) !important;
     position: relative;
+    white-space:nowrap;
 }
 .judge-match-timer-clock_white_side {
     font-weight: bold;
@@ -442,6 +444,7 @@ ion-content {
     line-height: 240px;
     max-width: calc(50% - 150px) !important;
     position: relative;
+    white-space:nowrap;
 }
 .judge-match-timer-clock_versus {
     font-weight: bold;
@@ -450,7 +453,6 @@ ion-content {
     letter-spacing: 0.015em;
     text-align:center;
     line-height: 240px;
-    border: 1px solid #565151;
     width: 300px !important;
     max-width: 300px !important;
     flex: initial !important;
@@ -458,6 +460,8 @@ ion-content {
     display: flex;
     justify-content: center;
     align-items: center;
+    white-space:nowrap;
+    margin-bottom:50px;
 }
 .judge-match-timer-clock_versus.small {
     font-size:140px;
@@ -710,11 +714,26 @@ ion-content {
     }
 }
 
-@media (min-width:1900px) {
+@media (min-width:2050px) {
     .judge-match-timer-clock_white_side, .judge-match-timer-clock_blue_side {
-        font-size: 280px;
+        font-size: 320px;
         height:280px;
-        padding-top:20px !important;
+        padding-top:60px !important;
+    }
+    .judge-match-timer-clock_versus {
+        padding-top:60px !important;
+        font-size:300px;
+    }
+    .judge-match-timer-versus {
+        font-size:100px;
+        height:160px;
+    }
+    .judge-match-timer-blue_side, .judge-match-timer-white_side {
+        font-size:100px;
+        height:180px;
+    }
+    .judge-match-timer-participant_info {
+        font-size:100px;
     }
 }
 @media (min-width:2340px) {
@@ -724,14 +743,15 @@ ion-content {
         padding-top: 60px !important;
     }
     .judge-match-timer-clock_versus {
-        font-size:240px;
+        font-size:360px;
+        padding-top: 20px !important;
     }
     .judge-match-timer-versus {
         font-size:120px;
         height:160px;
     }
     .judge-match-timer-blue_side, .judge-match-timer-white_side {
-        font-size:140px;
+        font-size:120px;
         height:180px;
     }
     .judge-match-timer-participant_info {
