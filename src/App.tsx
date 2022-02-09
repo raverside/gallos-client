@@ -151,7 +151,7 @@ const App: React.FC = () => {
                             <PrivateRoute path="/contact" exact>
                                 <Contact/>
                             </PrivateRoute>
-                            <PrivateRoute path="/judge" exact admin>
+                            <PrivateRoute path="/judge/:event_id?" exact admin>
                                 <Suspense fallback={<div>Loading...</div>}>
                                     <Judge />
                                 </Suspense>

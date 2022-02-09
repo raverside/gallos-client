@@ -96,12 +96,12 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                         ],
                         header: t('events.settings')
                     })}><IonIcon size="small" icon={menuIcon} /></IonButton>
-                    <IonButton
+                    {state.user?.role !== "judge" && <IonButton
                         fill="clear"
                         className="event-image"
                         onClick={() => history.push("/event/"+event.id)} >
                         <IonImg src={event.is_special && event.image ? getImageUrl(event.image) : getImageUrl(event.stadium_image)} />
-                    </IonButton>
+                    </IonButton>}
                     <IonCardHeader>
                         <IonCardTitle>{(event.is_special && event.title) ? event.title : t('events.default_event_name')}</IonCardTitle>
                         <IonCardSubtitle>{moment(event.event_date).format("dddd, D MMMM YYYY")}</IonCardSubtitle>
@@ -134,8 +134,8 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                     <IonButton
                         fill="clear"
                         className={"baloteoButton "+event.phase.replace(' ', '_')}
-                        onClick={() => history.push(state.user?.role === 'user' ? "/event/"+event.id : event.phase === "on going" ? "/baloteo_stats/"+event.id : event.phase === "arrangement" ? "/baloteo/"+event.id : "/event_receiving/"+event.id)}
-                        disabled={!(state.user?.role === 'admin' || state.user?.role === 'admin_manager' || state.user?.role === 'admin_worker' || state.user?.role === 'worker' || state.user?.role === 'user')}
+                        onClick={() => history.push(state.user?.role === 'user' ? "/event/"+event.id : state.user?.role === 'judge' ? "/judge/"+event.id : event.phase === "on going" ? "/baloteo_stats/"+event.id : event.phase === "arrangement" ? "/baloteo/"+event.id : "/event_receiving/"+event.id)}
+                        disabled={!(state.user?.role === 'admin' || state.user?.role === 'admin_manager'  || state.user?.role === 'stadium_admin_worker' || state.user?.role === 'judge' || state.user?.role === 'admin_worker' || state.user?.role === 'worker' || state.user?.role === 'user')}
                     >
                         <div className="ionButtonFix">
                             <IonText>{t('events.phase_'+event?.phase?.replace(' ', ''))}</IonText>

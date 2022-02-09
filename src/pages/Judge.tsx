@@ -18,11 +18,12 @@ import './Judge.css';
 import {getImageUrl} from "../components/utils";
 import {useTranslation} from "react-multi-lang";
 import moment from "moment";
-import {useHistory} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 
 const Judge: React.FC = () => {
     const t = useTranslation();
-    const [event, setEvent] = useState<any>();
+    const { event_id } = useParams<{event_id:string}>();
+    const [event, setEvent] = useState<any>(event_id || undefined);
     const [events, setEvents] = useState<any>();
     const [baloteoTab, setBaloteoTab] = useState<string>("matches");
     const history = useHistory();
@@ -35,7 +36,8 @@ const Judge: React.FC = () => {
         const response = await getOngoingEvents();
         if (response.events) {
             setEvents(response.events);
-            setEvent(response.events[0]);
+            const activeEvent = response.events.find((re:any) => re.id === event_id);
+            setEvent( activeEvent ? activeEvent : response.events[0]);
         }
     };
 
