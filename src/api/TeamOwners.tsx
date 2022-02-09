@@ -51,3 +51,7 @@ export async function updateTeamOwnerTeam(id:string, name:string) {
 export async function removeTeamOwnerTeam(id:string) {
     return fetcher.post(`/removeTeamOwnerTeam`, {id});
 }
+
+export async function removeTeamOwner(id:string) {
+    return fetcher.post(`/removeTeamOwner`, {id});
+}

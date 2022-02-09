@@ -27,9 +27,10 @@ import {
     addTeamOwnerLiberty,
     updateTeamOwnerLiberty,
     removeTeamOwnerLiberty,
-    getTeamOwners
+    getTeamOwners,
+    removeTeamOwner
 } from "../api/TeamOwners";
-import {useParams} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 
 import './TeamOwner.css';
 import TeamOwnersList from "../components/TeamOwners/TeamOwnersList";
@@ -41,6 +42,7 @@ import TeamOwnerEditor from "../components/TeamOwners/TeamOwnerEditor";
 import {AppContext} from "../State";
 import {useTranslation} from "react-multi-lang";
 import {isDesktop} from "../components/utils";
+import ConfirmPrompt from "../components/ConfirmPrompt";
 
 type teamOwnerType = {
     id: string;
@@ -65,8 +67,10 @@ const TeamOwner: React.FC = () => {
     const [showShare, setShowShare] = useState<boolean>(false);
     const [showTeamOwnerEditorModal, setShowTeamOwnerEditorModal] = useState<boolean>(false);
     const [present, dismiss] = useIonActionSheet();
+    const [showDeleteOwnerConfirmPrompt, setShowDeleteOwnerConfirmPrompt] = useState<boolean>(false);
     const [showLoading, setShowLoading] = useState<any>(false);
     const shareRef = React.useRef();
+    const history = useHistory();
 
     useEffect(() => {
         fetchTeamOwners();
@@ -168,6 +172,11 @@ const TeamOwner: React.FC = () => {
 
     }
 
+    const deleteOwner = async () => {
+       await removeTeamOwner(id);
+       window.location.replace('/team_owners');
+    }
+
     return (
         <IonPage>
             <IonHeader>
@@ -180,6 +189,7 @@ const TeamOwner: React.FC = () => {
                         buttons: [
                             { text: t('teams.edit'), handler: () => setShowTeamOwnerEditorModal(true) },
                             { text: t('teams.share'), handler: () => shareOwner() },
+                            (state.user.role === 'admin' || state.user.role === 'admin_manager') ? { text: t('teams.delete'), handler: () => setShowDeleteOwnerConfirmPrompt(true) } : {},
                             { text: t('teams.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                         ],
                         header: t('teams.settings')
@@ -219,6 +229,12 @@ const TeamOwner: React.FC = () => {
                     spinner="crescent"
                 />
                 <IonRefresher slot="fixed" onIonRefresh={(e) => fetchTeamOwner(e.detail.complete)}><IonRefresherContent /></IonRefresher>
+                <ConfirmPrompt
+                    show={showDeleteOwnerConfirmPrompt}
+                    title={t('teams.team_owner_delete_confirm_title')}
+                    subtitle={t('teams.team_owner_delete_confirm_subtitle')}
+                    onResult={(data, isConfirmed) => {isConfirmed && deleteOwner(); setShowDeleteOwnerConfirmPrompt(false)}}
+                />
             </IonContent>
         </IonPage>
     );

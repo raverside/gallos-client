@@ -338,7 +338,9 @@
       "note_delete_confirm_title": "Eliminar Nota",
       "note_delete_confirm_subtitle": "¿Estás seguro que quieres eliminar esta nota?",
       "team_delete_confirm_title": "Eliminar Nombre",
-      "team_delete_confirm_subtitle": "¿Estás seguro que quieres eliminar esta nombre?"
+      "team_delete_confirm_subtitle": "¿Estás seguro que quieres eliminar esta nombre?",
+      "team_owner_delete_confirm_title": "Eliminar Dueño de Traba",
+      "team_owner_delete_confirm_subtitle": "¿Estás seguro que quieres eliminar esta Dueño de Traba?"
   },
   "transactions": {
       "transactions": "Transacciones",

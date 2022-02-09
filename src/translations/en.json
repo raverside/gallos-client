@@ -338,7 +338,9 @@
       "note_delete_confirm_title": "Delete Note",
       "note_delete_confirm_subtitle": "Are you sure you want to delete this note?",
       "team_delete_confirm_title": "Delete Team",
-      "team_delete_confirm_subtitle": "Are you sure you want to delete this team?"
+      "team_delete_confirm_subtitle": "Are you sure you want to delete this team?",
+      "team_owner_delete_confirm_title": "Delete Team Owner",
+      "team_owner_delete_confirm_subtitle": "Are you sure you want to delete this team owner?"
   },
   "transactions": {
       "transactions": "Transactions",
