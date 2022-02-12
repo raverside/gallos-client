@@ -48,7 +48,7 @@ const UserEditor: React.FC<any> = ({user, close}) => {
 
 
     useEffect(() => {
-        if (formData.role === "creator" || formData.role === "worker" || formData.role === "judge") {
+        if (formData.role === "creator" || formData.role === "worker" || formData.role === "judge" || formData.role === "stadium_admin_worker") {
             fetchStadiums();
         } else {
             setStadiums([]);
