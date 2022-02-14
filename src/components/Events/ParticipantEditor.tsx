@@ -127,6 +127,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
     function keypressHandler(e:any) {
         const formContainer = document.getElementById("event-editor");
+        const existingAlert = document.querySelector('.select-alert');
         const allInputs = formContainer?.querySelectorAll('input:not([readonly]):not([type="hidden"]):not([type="file"]), ion-select');
 
         if (e.key === 'ArrowUp' && allInputs) { // focus the previous input
@@ -157,14 +158,12 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                     }
                 }
             }
-        } else if (e.key === 'Enter') { // submit alert window if there is one
+        } else if (e.key === 'Enter' && existingAlert) { // submit alert window if there is one
             e.preventDefault();
-            const existingAlert = document.querySelector('.select-alert');
-            if (existingAlert) {
-                const closeAlertButton = existingAlert.querySelector('.alert-button:not(.alert-button-role-cancel)');
-                // @ts-ignore
-                closeAlertButton && closeAlertButton.click();
-            }
+
+            const closeAlertButton = existingAlert.querySelector('.alert-button:not(.alert-button-role-cancel)');
+            // @ts-ignore
+            closeAlertButton && closeAlertButton.click();
         }
     }
 
