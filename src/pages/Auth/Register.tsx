@@ -28,7 +28,8 @@ const Register: React.FC = () => {
 
     useEffect(() => {
         if (state.user?.id) {
-            history.replace("/user_profile");
+            history.replace('/');
+            history.push("/user_profile");
         }
     }, [state.user?.id]);
 
