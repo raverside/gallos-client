@@ -85,7 +85,7 @@ const TeamOwnerNotesTab: React.FC<TeamOwnerTabProps> = ({team_owner, teamOwners,
             <IonModal isOpen={!!showAddModal} onDidDismiss={() => hideEditModal()} cssClass="add-note-modal">
                 <IonToolbar className="modal-header">
                     <IonButtons slot="start"><IonIcon size="large" icon={closeIcon} slot="start" onClick={() => hideEditModal()} /></IonButtons>
-                    <IonTitle className="page-title"><p>{(typeof showAddModal !== "boolean" && showAddModal.id) ? t('teams.mutual_liberty_edit') : t('teams.mutual_liberty_add')} {t('teams.mutual_liberty')}</p><p className="page-subtitle">{team_owner.name}</p></IonTitle>
+                    <IonTitle className="page-title"><p>{(typeof showAddModal !== "boolean" && showAddModal.id) ? t('teams.mutual_liberty_edit') : t('teams.mutual_liberty_add')} {t('teams.mutual_liberty')}</p><p className="page-subtitle">{team_owner?.name}</p></IonTitle>
                     {(typeof showAddModal !== "boolean" && showAddModal?.id) && <IonButtons slot="end"><IonIcon className="trash-icon" icon={trashIcon} slot="end" onClick={() => setShowDeleteLiberty(showAddModal)} /></IonButtons>}
                 </IonToolbar>
                 <IonContent>

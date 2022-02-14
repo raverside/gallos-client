@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     IonButtons,
     IonContent,
@@ -21,6 +21,7 @@ import {getCountries, getStatesByCountry, getCitiesByState} from '../../api/Geo'
 import './TeamOwnerEditor.css';
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-multi-lang";
+import {AppContext} from "../../State";
 
 type TeamOwnerFormData = {
     id?: string;
@@ -56,6 +57,7 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
     const [states, setStates] = useState<[{id: number, name: string}]>();
     const [cities, setCities] = useState<[{id: number, name: string}]>();
     const history = useHistory();
+    const { state } = useContext(AppContext);
 
     const fetchCountries = async () => {
         const countries = await getCountries(true);
@@ -133,6 +135,7 @@ const TeamOwnerEditor: React.FC<EventProps> = ({addTeamOwner, close, teamOwner =
         const response = await upsertTeamOwner(formData);
         if (response.success) {
             addTeamOwner();
+            state.socket?.emit('updateEvents');
         }
         close();
         if (response.team_owner) {

@@ -26,12 +26,12 @@ const Auth: React.FC = () => {
                     <IonRow>
                         <IonCol>
                             <IonImg src={logo} className="rooster-logo" />
-                            <IonText className="auth-welcome">{t('auth.welcome_text')}</IonText>
-                            <IonText className="auth-welcome-subtext">{t('auth.welcome_subtext')}
-                                <IonButton expand="block" color="tertiary" href="https://telegram.me/gallosclub" target="_blank">
-                                    <IonIcon icon={paperPlaneIcon} style={{marginRight: "10px", fontSize: "14px"}} /> {t('auth.welcome_button')}
-                                </IonButton>
-                            </IonText>
+                            {/*<IonText className="auth-welcome">{t('auth.welcome_text')}</IonText>*/}
+                            {/*<IonText className="auth-welcome-subtext">{t('auth.welcome_subtext')}*/}
+                            {/*    <IonButton expand="block" color="tertiary" href="https://telegram.me/gallosclub" target="_blank">*/}
+                            {/*        <IonIcon icon={paperPlaneIcon} style={{marginRight: "10px", fontSize: "14px"}} /> {t('auth.welcome_button')}*/}
+                            {/*    </IonButton>*/}
+                            {/*</IonText>*/}
                         </IonCol>
                     </IonRow>
                     <IonRow>

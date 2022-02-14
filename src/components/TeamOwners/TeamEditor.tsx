@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
     IonButtons,
     IonContent,
@@ -16,6 +16,7 @@ import {closeOutline as closeIcon} from "ionicons/icons";
 import './TeamOwnerEditor.css';
 import {addTeamOwnerTeam, updateTeamOwnerTeam} from '../../api/TeamOwners';
 import {useTranslation} from "react-multi-lang";
+import {AppContext} from "../../State";
 
 type TeamFormData = {
     id?: string;
@@ -30,6 +31,7 @@ type EventProps = {
 
 const TeamEditor: React.FC<EventProps> = ({teamOwnerId, fetchTeamOwner, close, team = false}) => {
     const t = useTranslation();
+    const { state } = useContext(AppContext);
     const [formData, setFormData] = useState<TeamFormData>({
         id: team ? team.id : undefined,
         name: team ? team.name : "",
@@ -56,6 +58,7 @@ const TeamEditor: React.FC<EventProps> = ({teamOwnerId, fetchTeamOwner, close, t
                 fetchTeamOwner();
             }
         }
+        state.socket?.emit('updateEvents');
         close();
     }
 

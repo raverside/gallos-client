@@ -68,7 +68,7 @@ const TeamOwnerNotesTab: React.FC<TeamOwnerTabProps> = ({team_owner, addNote, up
             <div className="user-profile-section">
                 <IonButton fill="clear" onClick={() => setShowAddModal(true)}>{t('teams.note_add')}</IonButton>
             </div>
-            {(team_owner.notes?.length > 0) && <IonList>
+            {(team_owner?.notes?.length > 0) && <IonList>
                 {team_owner.notes.map((note, index) => (
                     <IonItem key={note.id} lines="none" className="note" button onClick={() => setShowNoteModal(note)}>
                         <p className="note-index">{index + 1}</p>
@@ -85,7 +85,7 @@ const TeamOwnerNotesTab: React.FC<TeamOwnerTabProps> = ({team_owner, addNote, up
             <IonModal isOpen={!!showAddModal} onDidDismiss={() => hideEditModal()} cssClass="add-note-modal">
                 <IonToolbar className="modal-header">
                     <IonButtons slot="start"><IonIcon size="large" icon={closeIcon} slot="start" onClick={() => hideEditModal()} /></IonButtons>
-                    <IonTitle className="page-title"><p>{(typeof showAddModal !== "boolean" && showAddModal.id) ? t('teams.note_edit') : t('teams.note_add')} {t('teams.note')}</p><p className="page-subtitle">{team_owner.name}</p></IonTitle>
+                    <IonTitle className="page-title"><p>{(typeof showAddModal !== "boolean" && showAddModal.id) ? t('teams.note_edit') : t('teams.note_add')} {t('teams.note')}</p><p className="page-subtitle">{team_owner?.name}</p></IonTitle>
                 </IonToolbar>
                 <IonContent>
                     <div className="add-note-wrapper">
@@ -93,7 +93,7 @@ const TeamOwnerNotesTab: React.FC<TeamOwnerTabProps> = ({team_owner, addNote, up
                             <IonText className="add-note-title">{t('teams.note_title')}</IonText>
                             <IonInput className="add-note-input" placeholder={t('teams.note_title')} value={noteTitle} onIonChange={(e) => setNoteTitle(e.detail.value!)} />
                             <IonText className="add-note-title">{t('teams.note')}</IonText>
-                            <IonTextarea className="add-note-input" placeholder={t('teams.note_for')+" "+team_owner.name} rows={5} value={note} onIonChange={(e) => setNote(e.detail.value!)} />
+                            <IonTextarea className="add-note-input" placeholder={t('teams.note_for')+" "+team_owner?.name} rows={5} value={note} onIonChange={(e) => setNote(e.detail.value!)} />
                         </div>
                         <IonButton disabled={!noteTitle || !note} expand="block" onClick={Submit}>{t('teams.note_save')}</IonButton>
                     </div>

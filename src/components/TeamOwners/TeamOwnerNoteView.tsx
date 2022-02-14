@@ -41,7 +41,7 @@ const TeamOwnerNotesTab: React.FC<TeamOwnerNotesTabProps> = ({note, team_owner, 
         <IonModal isOpen={!!note} onDidDismiss={() => onClose()} cssClass="view-note-modal">
             <IonToolbar className="modal-header">
                 <IonButtons slot="start"><IonIcon size="large" icon={closeIcon} slot="start" onClick={() => onClose()} /></IonButtons>
-                <IonTitle className="page-title"><p>{t('teams.note')}</p><p className="page-subtitle">{team_owner.name}</p></IonTitle>
+                <IonTitle className="page-title"><p>{t('teams.note')}</p><p className="page-subtitle">{team_owner?.name}</p></IonTitle>
                 <IonButtons slot="end"><IonIcon size="large" className="view-note-menu" icon={menuIcon} slot="end" onClick={() => present({
                     buttons: [
                         { text: t('teams.note_edit'), handler: () => { if (note) onEdit(note); onClose(); } },
