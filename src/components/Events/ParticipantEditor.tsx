@@ -167,13 +167,12 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         }
     }
 
-    const tryAutoFill = async (stadiumId?:string, stadiumName?:string) => {
+    const tryAutoFill = async (stadiumId?:string, stadiumName?:string, type?:string) => {
         if (stadiumId && stadiumName) {
-            const {participant} = await findParticipantByStadiumData(stadiumId, stadiumName);
+            const {participant} = await findParticipantByStadiumData(stadiumId, stadiumName, type);
             if (participant) {
                 setFormData((currentFormData) => ({
                     ...currentFormData,
-                    type: participant.type,
                     color: participant.color,
                     cresta: participant.cresta,
                     pata: participant.pata,
@@ -375,7 +374,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 placeholder={t('events.stadium_id')}
                                 onIonChange={(e) => {
                                     setFormData((currentFormData) => {
-                                        tryAutoFill(e.detail.value!, currentFormData.stadium_name);
+                                        tryAutoFill(e.detail.value!, currentFormData.stadium_name, currentFormData.type);
                                         return {...currentFormData, stadium_id: e.detail.value!}
                                     });
                                 }}
@@ -386,7 +385,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         <IonItem lines="none">
                             <IonSelect value={formData.stadium_name} placeholder={t('events.stadium_name')} onIonChange={(e) => {
                                 setFormData((currentFormData) => {
-                                    tryAutoFill(currentFormData.stadium_id, e.detail.value!);
+                                    tryAutoFill(currentFormData.stadium_id, e.detail.value!, currentFormData.type);
                                     return {...currentFormData, stadium_name: e.detail.value!}
                                 });
                             }}>
