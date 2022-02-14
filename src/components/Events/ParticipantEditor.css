@@ -94,3 +94,9 @@
     right:0px;
     text-transform:capitalize;
 }
+#event-editor ion-item.ion-focused {
+    --background: #eb04041f;
+    margin:0 15px;
+    transition:0.2s;
+    border-radius:3px;
+}

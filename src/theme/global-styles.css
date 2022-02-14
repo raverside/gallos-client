@@ -58,7 +58,7 @@ ion-content::part(scroll) {
     --padding-start: 10px;
     --padding-end: 10px;
 }
-#root ion-input input:focus {
+#root ion-input input:not([readonly]):focus {
     background-color:#eb04041f;
 }
 #root .action-sheet-group {

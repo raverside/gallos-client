@@ -117,7 +117,56 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                 fetchTeamOwner(participant.owner_account_number);
             }
         }
+
+        window.addEventListener("keydown", keypressHandler);
+
+        return () => {
+            window.removeEventListener("keydown", keypressHandler);
+        };
     }, []);
+
+    function keypressHandler(e:any) {
+        const formContainer = document.getElementById("event-editor");
+        const allInputs = formContainer?.querySelectorAll('input:not([readonly]):not([type="hidden"]):not([type="file"]), ion-select');
+
+        if (e.key === 'ArrowUp' && allInputs) { // focus the previous input
+            e.preventDefault();
+            for(var i = 0; i < (allInputs?.length || 0); i++) {
+                if (allInputs[i] === document.activeElement && i - 1 >= 0) {
+                    const nextElement = allInputs[i-1];
+                    if (nextElement) {
+                        // @ts-ignore
+                        nextElement.focus();
+                        // @ts-ignore
+                        if (nextElement.nodeName === 'ION-SELECT') nextElement.parentElement.focus();
+                        i = allInputs.length;
+                    }
+                }
+            }
+        } else if (e.key === 'ArrowDown' && allInputs) { // focus the next input
+            e.preventDefault();
+            for(var i = 0; i < (allInputs?.length || 0); i++) {
+                if (allInputs[i] === document.activeElement && i + 1 <= allInputs?.length) {
+                    const nextElement = allInputs[i+1];
+                    if (nextElement) {
+                        // @ts-ignore
+                        nextElement.focus();
+                        // @ts-ignore
+                        if (nextElement.nodeName === 'ION-SELECT') nextElement.parentElement.focus();
+                        i = allInputs.length;
+                    }
+                }
+            }
+        } else if (e.key === 'Enter') { // submit alert window if there is one
+            e.preventDefault();
+            const existingAlert = document.querySelector('.select-alert');
+            if (existingAlert) {
+                const closeAlertButton = existingAlert.querySelector('.alert-button:not(.alert-button-role-cancel)');
+                // @ts-ignore
+                closeAlertButton && closeAlertButton.click();
+            }
+        }
+    }
 
     const tryAutoFill = async (stadiumId?:string, stadiumName?:string) => {
         if (stadiumId && stadiumName) {

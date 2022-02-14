@@ -8,6 +8,7 @@
 .participant ion-row {
     align-items: center;
     padding:10px 0;
+    text-transform:uppercase;
 }
 .participant-edit {
     float:right;
