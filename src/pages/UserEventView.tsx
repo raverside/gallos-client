@@ -210,8 +210,9 @@ const UserEventView: React.FC = () => {
                     <IonSegmentButton value="animals"><IonLabel>{t('events.tab_animals')}</IonLabel></IonSegmentButton>
                 </IonSegment>}
 
-                {(baloteoTab === "matches" || baloteoTab === "results") && ((!activeMatches?.length) ? <p className="baloteo-emptylist">{t('events.no_live_matches')}</p> : <div className="baloteo-matches">
+                {(baloteoTab === "matches" || baloteoTab === "results") && <>
                     <IonSearchbar className="searchbar" placeholder={t('events.search')} value={baloteoSearch} onIonChange={e => {setBaloteoSearch(e.detail.value!)}} />
+                    {((!activeMatches?.length) ? <p className="baloteo-emptylist">{t('events.no_live_matches')}</p> : <div className="baloteo-matches">
                     <IonGrid className="baloteo-match">
                         <IonRow className="baloteo-side-header">
                             <IonCol size="5">
@@ -284,7 +285,7 @@ const UserEventView: React.FC = () => {
                             </IonGrid>
                         ))}
                     </IonGrid>
-                </div>)}
+                </div>)}</>}
                 {(baloteoTab === "receiving" || baloteoTab === "animals") && <div className="baloteo-participants">
                     {(baloteoTab) === "animals" && <>
                         <IonCard className="baloteo-stats-card">

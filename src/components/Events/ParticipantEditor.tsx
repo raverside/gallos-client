@@ -93,7 +93,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         reason: participant ? participant.reason : undefined,
         observation: participant ? participant.observation : undefined,
         stadium_id: participant ? participant.stadium_id : undefined,
-        stadium_name: participant ? participant.stadium_name : undefined,
+        stadium_name: participant ? participant.stadium_name : (event.stadium_name === "Coliseo Gallistico Santiago") ? "Santiago" : undefined,
     });
     const [presentToast] = useIonToast();
     const [uploading, setUploading] = useState<boolean>(false);
