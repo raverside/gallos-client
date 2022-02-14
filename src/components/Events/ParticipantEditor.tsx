@@ -168,7 +168,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
     }
 
     const tryAutoFill = async (stadiumId?:string, stadiumName?:string, type?:string) => {
-        if (stadiumId && stadiumName) {
+        if (stadiumId && stadiumName && type) {
             const {participant} = await findParticipantByStadiumData(stadiumId, stadiumName, type);
             if (participant) {
                 setFormData((currentFormData) => ({
