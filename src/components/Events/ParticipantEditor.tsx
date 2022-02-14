@@ -53,6 +53,7 @@ type ParticipantFormData = {
     status?: string;
     reason?: string;
     observation?: string;
+    team?:any;
 };
 type ParticipantProps = {
     close: () => void;
@@ -220,7 +221,10 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
     return (<>
         <IonToolbar className="modal-header">
-            <IonTitle className="page-title add-participant-title"><p>{!formData.id ? t('events.add_participant') : t('events.update_participant')}</p></IonTitle>
+            <IonTitle className="page-title add-participant-title">
+                <p>{!formData.id ? t('events.add_participant') : t('events.update_participant')}</p>
+                {formData.id && participant && <p className="page-subtitle">#{participant.cage} {participant.team?.name}</p>}
+            </IonTitle>
             <IonButtons slot="start">
                 <IonIcon
                     icon={closeIcon}
