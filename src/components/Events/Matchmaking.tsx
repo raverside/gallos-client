@@ -32,7 +32,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
     const [method, setMethod] = useState(0); // 0 - Regular, 1 - Special Guest, 2 - Versus
     const [step, setStep] = useState(0); // 0 - Select MM Method, 1 - Regular Generated, 2 - Select Special, 3 - Select Versus
     const [matches, setMatches] = useState([]);
-    const [matchesLimit, setMatchesLimit] = useState<number>(0);
+    const [matchesLimit, setMatchesLimit] = useState<number|undefined>(undefined);
     const [teamOwners, setTeamOwners] = useState<any>([]);
     const [selectedTeamOwners, setSelectedTeamOwners] = useState<any>([]);
     const [versusCategory, setVersusCategory] = useState<number>();
@@ -140,7 +140,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
                         }}
                     />
 
-                    <IonButton expand="block" className="generate-button" disabled={!matchesLimit} onClick={GoLive}>{t('events.mm_confirm')}</IonButton>
+                    <IonButton expand="block" className="generate-button" disabled={matchesLimit === undefined} onClick={GoLive}>{t('events.mm_confirm')}</IonButton>
                 </IonContent>
             </IonModal>);
         case 2:
