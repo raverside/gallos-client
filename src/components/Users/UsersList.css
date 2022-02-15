@@ -9,6 +9,11 @@
     font-weight: 600;
     font-size: 16px;
 }
+.user-short-info .user-short-info_stadium_name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #EB0404;
+}
 .user .user-short-info_membership {
     font-weight: 600;
     font-size: 12px;

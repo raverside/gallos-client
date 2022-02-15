@@ -20,6 +20,7 @@ const UsersList: React.FC<UsersListProps> = ({users}) => {
                     </IonAvatar>
                     <IonLabel className="user-short-info">
                         <p className="user-short-info_username">{user.username} {user.blocked && "("+t('users.blocked')+")"}</p>
+                        {user.stadium_name && <p className="user-short-info_stadium_name">{user.stadium_name}</p>}
                         {(user.role && user.role !== "user") ? <IonText>{t('users.role_'+user.role)}</IonText> : <IonText className="user-short-info_membership" color="gold">Gold</IonText>}
                     </IonLabel>
                 </IonItem>
