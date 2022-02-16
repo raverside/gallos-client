@@ -68,6 +68,7 @@ const PrintModal: React.FC<PrintModalType> = ({event, showModal, setShowModal}) 
                             <IonSelectOption value={7}>{t('events.print_all_animals')}</IonSelectOption>
                             <IonSelectOption value={8}>{t('events.print_all_animals_cut')}</IonSelectOption>
                             <IonSelectOption value={9}>{t('events.print_all_animals_nonlive')}</IonSelectOption>
+                            <IonSelectOption value={10}>{t('events.print_all_animals_fight_order')}</IonSelectOption>
                         </IonSelect>
                     </IonItem>
                 </IonList>

@@ -81,7 +81,10 @@ const TeamOwnersList: React.FC<TeamOwnersListProps> = ({teamOwners, isTeam = fal
                     </IonContent>
                 </IonModal>
             </div>}
-            {teamOwners?.filter(t => t.name?.toLowerCase().includes(search.toLowerCase()) || (""+t.digital_id).includes(search.replace('-',''))).map((teamOwner:any, index:number) => {
+            {teamOwners?.filter(t => t.name?.toLowerCase().includes(search.toLowerCase()) || (""+t.digital_id)
+                .includes(search.replace('-','')))
+                .sort((a:any, b:any) => a.name > b.name ? 1 : -1)
+                .map((teamOwner:any, index:number) => {
                 return <IonItem key={teamOwner.id} lines="none" className="teamOwner" button={!isTeam} routerLink={!isTeam ? "/team_owner/"+teamOwner.id : "/team_owner/"+teamOwner.team_owner_id}>
                     <p className="teamOwner-index">{index + 1}</p>
                     <IonLabel className="teamOwner-short-info">

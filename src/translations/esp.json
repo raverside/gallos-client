@@ -197,6 +197,7 @@
       "print_excluded": "Gallos Rechazado",
       "print_all_animals": "Todos los Gallos Recibidos",
       "print_all_animals_cut": "Todos los Gallos Recibidos (Soltero)",
+      "print_all_animals_fight_order": "Opponents Fight Order",
       "print_all_animals_nonlive": "Gallos Sin Combates En Vivo",
       "print_participant_summary": "Resumen de Gallo",
       "rejected": "Rechazado",

@@ -197,6 +197,7 @@
       "print_excluded": "Excluded Animals",
       "print_all_animals": "All Animals",
       "print_all_animals_cut": "All Animals (Cut)",
+      "print_all_animals_fight_order": "Opponents Fight Order",
       "print_all_animals_nonlive": "All Animals (non-live matches)",
       "print_participant_summary": "Animal Summary",
       "rejected": "Rejected",

@@ -66,11 +66,15 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
             title = t('events.print_live_matches');
             printMatches = liveMatches;
         break;
+        case 10:
+            title = t('events.print_all_animals_fight_order');
+            printMatches = liveMatches;
+        break;
     }
 
     return (!event ? null : <>
         <div ref={ref} style={{textAlign:"center", width: "80mm", fontSize: "14px", fontFamily: "Arial"}}>
-            {(mode == 1 || mode === 2 || mode === 3 || mode === 4) ? <div style={{width: "100%"}}>
+            {(mode == 1 || mode === 2 || mode === 3 || mode === 4 || mode === 10) ? <div style={{width: "100%"}}>
                     {printMatches?.sort((a:any, b:any) => a.number - b.number).map((match:any, index:number) => (<>
                         {(index === 0 || cut) && <>
                             <h1 style={{width: "100%", textAlign:"center", fontSize: "18px", fontWeight: "bold"}}>{event.stadium_name}</h1>

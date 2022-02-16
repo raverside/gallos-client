@@ -251,7 +251,7 @@ const Baloteo: React.FC = () => {
                                             buttons: [
                                                 { text: t('baloteo.share_match'), handler: () => shareMatch(match) },
                                                 { text: t('baloteo.print_match'), handler: () => printMatch(match) },
-                                                match.manual && { text: t('baloteo.unmatch'), handler: () => unpairMatch(match.id) },
+                                                { text: t('baloteo.unmatch'), handler: () => unpairMatch(match.id) },
                                                 { text: t('baloteo.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                                             ],
                                             header: t('baloteo.popup_header')
@@ -316,6 +316,7 @@ const Baloteo: React.FC = () => {
                                         <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
                                             buttons: [
                                                 { text: t('baloteo.share_match'), handler: () => printMatch(match) },
+                                                { text: t('baloteo.unmatch'), handler: () => unpairMatch(match.id) },
                                                 { text: t('baloteo.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                                             ],
                                             header: t('baloteo.popup_header')
