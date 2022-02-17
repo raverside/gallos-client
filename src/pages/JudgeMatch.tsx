@@ -96,30 +96,41 @@ const JudgeMatch: React.FC = () => {
                         <IonRow>
                             <IonCol size="5" className="judge-match-view-blue_side">
                                 {match?.participant?.image && <IonImg className={match?.participant?.image_flipped ? "judge-match-view-image flipped" : "judge-match-view-image"} src={getImageUrl(match?.participant?.image)} />}
+                                {match?.result === 0 && <span className="green_chevron"/>}
                                 {match?.participant.team.name}
                             </IonCol>
                             <IonCol size="2">
-                                <div className="judge-match-view-versus">
-                                    {!showSwitchSide ? <>
+                                {(match?.result !== null && match?.result >= 0) ?
+                                    <div className="judge-match-view-versus">
                                         <p>{t('baloteo.fight')} {match?.number || 1}</p>
-                                        <div>
-                                            <IonButton expand="block" className="judge-match-view-open" onClick={() => openMatch()}>{t('judge.open')}</IonButton>
-                                            <IonButton expand="block" className="judge-match-view-switch_side" onClick={() => startSwitchSide()}>{t('judge.switch_side')}</IonButton>
-                                            <IonButton expand="block" className="judge-match-view-null" onClick={() => setShowCancelModal(match.id)}>{t('judge.null')}</IonButton>
-                                        </div>
-                                    </> : <>
-                                        <div>
-                                            <p>{t('judge.switch_side')}</p>
-                                            <IonButton fill="clear" className="judge-match-view-swap-button" onClick={() => switchSides()}><IonImg src={swapIcon} /></IonButton>
-                                            <IonButton expand="block" className="judge-match-view-open" onClick={() => saveSwitchSide()}>{t('judge.save')}</IonButton>
-                                            <IonButton expand="block" className="judge-match-view-null" onClick={() => cancelSwitchSide()}>{t('judge.cancel')}</IonButton>
-                                        </div>
-                                    </>}
-                                </div>
+                                        {match?.result === 2 && t('judge.draw')}
+                                        {match?.result === 3 && t('judge.cancelled')}
+                                        <div><IonButton expand="block" className="judge-match-view-null" onClick={() => openMatch()}>{t('judge.restart')}</IonButton></div>
+                                    </div>
+                                    :
+                                    <div className="judge-match-view-versus">
+                                        {!showSwitchSide ? <>
+                                            <p>{t('baloteo.fight')} {match?.number || 1}</p>
+                                            <div>
+                                                <IonButton expand="block" className="judge-match-view-open" onClick={() => openMatch()}>{t('judge.open')}</IonButton>
+                                                <IonButton expand="block" className="judge-match-view-switch_side" onClick={() => startSwitchSide()}>{t('judge.switch_side')}</IonButton>
+                                                <IonButton expand="block" className="judge-match-view-null" onClick={() => setShowCancelModal(match.id)}>{t('judge.null')}</IonButton>
+                                            </div>
+                                        </> : <>
+                                            <div>
+                                                <p>{t('judge.switch_side')}</p>
+                                                <IonButton fill="clear" className="judge-match-view-swap-button" onClick={() => switchSides()}><IonImg src={swapIcon} /></IonButton>
+                                                <IonButton expand="block" className="judge-match-view-open" onClick={() => saveSwitchSide()}>{t('judge.save')}</IonButton>
+                                                <IonButton expand="block" className="judge-match-view-null" onClick={() => cancelSwitchSide()}>{t('judge.cancel')}</IonButton>
+                                            </div>
+                                        </>}
+                                    </div>
+                                }
                             </IonCol>
                             <IonCol size="5" className="judge-match-view-white_side">
                                 {match?.opponent.team.name}
                                 {match?.opponent?.image && <IonImg className={match?.opponent?.image_flipped ? "judge-match-view-image" : "judge-match-view-image flipped"} src={getImageUrl(match?.opponent?.image)} />}
+                                {match?.result === 1 && <span className="green_chevron"/>}
                             </IonCol>
                         </IonRow>
                         <IonRow className="judge-match-view-info">

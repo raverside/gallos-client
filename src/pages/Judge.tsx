@@ -97,7 +97,7 @@ const Judge: React.FC = () => {
                                         </div>
                                     </div>
                                     <IonList className="judge-matches">
-                                        {event?.matches?.sort((a:any, b:any) => a.number - b.number).filter((m:any) => m.live === false && m.result >= 0).map((match:any, index:number) => <IonItem key={match.id} className="judge-match">
+                                        {event?.matches?.sort((a:any, b:any) => a.number - b.number).filter((m:any) => m.live === false && m.result >= 0).map((match:any, index:number) => <IonItem key={match.id} className="judge-match"  onClick={() => history.push({pathname: "/judge/" + event.id + "/" + match.id, state: {event}})}>
                                             <IonGrid>
                                                 <IonRow>
                                                     <IonCol size="5" className="judge-blue_side">

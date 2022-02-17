@@ -130,7 +130,7 @@ ion-content {
     padding:0;
 }
 .judge-match ion-row {
-    align-items:center;
+    align-items:stretch;
 }
 .judge-match ion-img {
     margin:0 30px;
@@ -171,7 +171,7 @@ ion-content {
     right:0;
 }
 .judge-blue_side .green_chevron {
-    left:20px;
+    left:10px;
 }
 .judge-versus {
     text-align:center;
