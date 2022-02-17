@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 body {
     background: #353131 !important;
     color:white;
@@ -352,11 +353,11 @@ ion-content {
     background: linear-gradient(0deg, #285CC6, #285CC6);
     padding:10px !important;
     font-weight: 600;
-    font-size: 80px;
+    font-size: 5vw;
     display:flex;
     align-items:center;
     color:white;
-    height:120px;
+    height:6vw;
     justify-content:space-between;
     margin-top:10px;
     white-space: nowrap;
@@ -367,18 +368,18 @@ ion-content {
     padding:10px !important;
     justify-content:space-between;
     font-weight: 600;
-    font-size: 62px;
+    font-size: 5vw;
     display:flex;
     align-items:center;
-    height:120px;
+    height:6vw;
     margin-top:10px;
 }
 .judge-match-timer-versus {
     text-align: center;
     font-weight: 600;
-    font-size: 80px;
+    font-size: 5vw;
     color: white;
-    height: 100px;
+    height: 6vw;
     margin: 0;
     padding: 0;
     display: flex;
@@ -388,10 +389,10 @@ ion-content {
     flex: initial !important;
 }
 .judge-match-timer-participant_info {
-    font-size:80px;
+    font-size:4vw;
 }
 .judge-match-timer {
-    padding: 0 20px 20px 20px;
+    margin-top:30px;
     color: white;
     --background: #2C2626;
     height:365px;
@@ -424,37 +425,38 @@ ion-content {
 }
 .judge-match-timer-clock_blue_side {
     font-weight: bold;
-    font-size: 176px;
+    font-size: 17vw;
     color: #89FF53;
-    letter-spacing: 0.015em;
     text-align:center;
-    height:240px;
-    line-height: 240px;
+    height:18vw;
+    line-height: 17vw;
     max-width: calc(50% - 150px) !important;
     position: relative;
     white-space:nowrap;
+    font-family: 'Anton', sans-serif;
+    letter-spacing: 0.5vw;
 }
 .judge-match-timer-clock_white_side {
     font-weight: bold;
-    font-size: 176px;
+    font-size: 17vw;
     color: #FEAB24;
-    letter-spacing: 0.015em;
     text-align:center;
-    height:240px;
-    line-height: 240px;
+    height:18vw;
+    line-height: 17vw;
     max-width: calc(50% - 150px) !important;
     position: relative;
     white-space:nowrap;
+    font-family: 'Anton', sans-serif;
+    letter-spacing: 0.5vw;
 }
 .judge-match-timer-clock_versus {
     font-weight: bold;
     color: #FF0B0B;
-    font-size: 220px;
-    letter-spacing: 0.015em;
+    font-size: 16vw;
     text-align:center;
-    line-height: 240px;
-    width: 300px !important;
-    max-width: 300px !important;
+    line-height: 16vw;
+    width: 16vw !important;
+    max-width: 18vw !important;
     flex: initial !important;
     position: relative;
     display: flex;
@@ -462,6 +464,8 @@ ion-content {
     align-items: center;
     white-space:nowrap;
     margin-bottom:50px;
+    font-family: 'Anton', sans-serif;
+    letter-spacing: 0.5vw;
 }
 .judge-match-timer-clock_versus.small {
     font-size:140px;
@@ -703,60 +707,11 @@ ion-content {
 }
 .judge-match-timer-clock_blue_side_title, .judge-match-timer-clock_versus_title, .judge-match-timer-clock_white_side_title {
     position: absolute;
-    font-size: 32px;
+    font-size: 1vw;
     left: 0;
     right: 0;
-    top: 0;
+    top: -25px;
     height: 38px;
-    line-height: 38px;
-}
-@media (min-width:1600px) {
-    .judge-match-timer-clock_white_side, .judge-match-timer-clock_blue_side {
-        font-size: 220px;
-    }
-}
-
-@media (min-width:2050px) {
-    .judge-match-timer-clock_white_side, .judge-match-timer-clock_blue_side {
-        font-size: 320px;
-        height:280px;
-        padding-top:60px !important;
-    }
-    .judge-match-timer-clock_versus {
-        padding-top:60px !important;
-        font-size:300px;
-    }
-    .judge-match-timer-versus {
-        font-size:100px;
-        height:160px;
-    }
-    .judge-match-timer-blue_side, .judge-match-timer-white_side {
-        font-size:100px;
-        height:180px;
-    }
-    .judge-match-timer-participant_info {
-        font-size:100px;
-    }
-}
-@media (min-width:2340px) {
-    .judge-match-timer-clock_white_side, .judge-match-timer-clock_blue_side {
-        font-size: 360px;
-        height: 380px;
-        padding-top: 60px !important;
-    }
-    .judge-match-timer-clock_versus {
-        font-size:360px;
-        padding-top: 20px !important;
-    }
-    .judge-match-timer-versus {
-        font-size:120px;
-        height:160px;
-    }
-    .judge-match-timer-blue_side, .judge-match-timer-white_side {
-        font-size:120px;
-        height:180px;
-    }
-    .judge-match-timer-participant_info {
-        font-size:120px;
-    }
+    line-height: 1vw;
+    font-family: var(--ion-font-family);
 }
