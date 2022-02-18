@@ -115,6 +115,11 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         if (event.id) {
             if (participant && participant.owner_account_number) {
                 fetchTeamOwner(participant.owner_account_number);
+                setTimeout(() => {
+                    const typeField = document.getElementById('typeField');
+                    typeField?.focus();
+                    typeField?.classList.add('ion-focused');
+                }, 500);
             }
         }
 
@@ -126,44 +131,58 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
     }, []);
 
     function keypressHandler(e:any) {
-        const formContainer = document.getElementById("event-editor");
         const existingAlert = document.querySelector('.select-alert');
-        const allInputs = formContainer?.querySelectorAll('input:not([readonly]):not([type="hidden"]):not([type="file"]), ion-select');
 
-        if (e.key === 'ArrowUp' && allInputs) { // focus the previous input
+        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { // focus the previous input
             e.preventDefault();
-            for(var i = 0; i < (allInputs?.length || 0); i++) {
-                if (allInputs[i] === document.activeElement && i - 1 >= 0) {
-                    const nextElement = allInputs[i-1];
-                    if (nextElement) {
-                        // @ts-ignore
-                        nextElement.focus();
-                        // @ts-ignore
-                        if (nextElement.nodeName === 'ION-SELECT') nextElement.parentElement.focus();
-                        i = allInputs.length;
-                    }
-                }
-            }
-        } else if (e.key === 'ArrowDown' && allInputs) { // focus the next input
+            focusPrevInput();
+        } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { // focus the next input
             e.preventDefault();
-            for(var i = 0; i < (allInputs?.length || 0); i++) {
-                if (allInputs[i] === document.activeElement && i + 1 <= allInputs?.length) {
-                    const nextElement = allInputs[i+1];
-                    if (nextElement) {
-                        // @ts-ignore
-                        nextElement.focus();
-                        // @ts-ignore
-                        if (nextElement.nodeName === 'ION-SELECT') nextElement.parentElement.focus();
-                        i = allInputs.length;
-                    }
-                }
-            }
+            focusNextInput();
         } else if (e.key === 'Enter' && existingAlert) { // submit alert window if there is one
             e.preventDefault();
 
             const closeAlertButton = existingAlert.querySelector('.alert-button:not(.alert-button-role-cancel)');
             // @ts-ignore
             closeAlertButton && closeAlertButton.click();
+        }
+    }
+
+    function focusNextInput() {
+        const formContainer = document.getElementById("event-editor");
+        const allInputs = formContainer?.querySelectorAll('input:not([readonly]):not([type="hidden"]):not([type="file"]), ion-select');
+        if (allInputs) {
+            for (var i = 0; i < (allInputs?.length || 0); i++) {
+                if (allInputs[i] === document.activeElement && i + 1 <= allInputs?.length) {
+                    const nextElement = allInputs[i + 1];
+                    if (nextElement) {
+                        // @ts-ignore
+                        nextElement.focus();
+                        // @ts-ignore
+                        if (nextElement.nodeName === 'ION-SELECT') nextElement.parentElement.focus();
+                        i = allInputs.length;
+                    }
+                }
+            }
+        }
+    }
+
+    function focusPrevInput() {
+        const formContainer = document.getElementById("event-editor");
+        const allInputs = formContainer?.querySelectorAll('input:not([readonly]):not([type="hidden"]):not([type="file"]), ion-select');
+        if (allInputs) {
+            for(var i = 0; i < (allInputs?.length || 0); i++) {
+                if (allInputs[i] === document.activeElement && i - 1 >= 0) {
+                    const nextElement = allInputs[i - 1];
+                    if (nextElement) {
+                        // @ts-ignore
+                        nextElement.focus();
+                        // @ts-ignore
+                        if (nextElement.nodeName === 'ION-SELECT') nextElement.parentElement.focus();
+                        i = allInputs.length;
+                    }
+                }
+            }
         }
     }
 
@@ -307,196 +326,313 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         />
                     </IonItem>
 
-                    <IonItemDivider>{t('events.owner_account_number')}<IonText color="primary">*</IonText></IonItemDivider>
-                    <IonItem lines="none">
-                        <IonInput
-                            value={formData.owner_account_number}
-                            className="fullsize-input"
-                            type="number"
-                            placeholder={t('events.owner_account_number')}
-                            onWheel={(e:any) => e.target.blur()}
-                            onIonChange={(e) => {
-                                setFormData((currentFormData) => ({...currentFormData, owner_account_number: e.detail.value ? +e.detail.value : undefined}));
-                                fetchTeamOwner(+e.detail.value!);
-                            }}
-                        />
-                    </IonItem>
+                    <div className="telescope_input">
+                        <IonItemDivider>{t('events.owner_account_number')}<IonText color="primary">*</IonText></IonItemDivider>
+                        <IonItem lines="none">
+                            {teamOwner && <div className="team_owner_name_hint">{teamOwner.name}</div>}
+                            <IonInput
+                                value={formData.owner_account_number}
+                                className="fullsize-input"
+                                id="accountNumberField"
+                                type="number"
+                                placeholder={t('events.owner_account_number')}
+                                onWheel={(e:any) => e.target.blur()}
+                                onIonChange={(e) => {
+                                    setFormData((currentFormData) => ({...currentFormData, owner_account_number: e.detail.value ? +e.detail.value : undefined}));
+                                    fetchTeamOwner(+e.detail.value!);
+                                }}
+                            />
+                        </IonItem>
+                    </div>
 
-                    <IonItemDivider>
-                        {t('events.team')}<IonText color="primary">*</IonText>
-                        <IonButton className="add_team_button" fill="clear" disabled={!teamOwner?.id} onClick={() => setShowAddTeamModal(teamOwner?.id)}>{t('teams.create_new_team')}</IonButton>
-                    </IonItemDivider>
-                    <IonItem lines="none">
-                        <IonSelect
-                            className="select_team"
-                            value={formData.team_id}
-                            placeholder={t('events.team')}
-                            disabled={!(teams.length > 0)}
-                            interface="alert"
-                            onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, team_id: e.detail.value!}))}
-                        >
-                            <IonLabel>{t('events.team')}</IonLabel>
-                            {teams.map((team) => (<IonSelectOption key={team.id} value={team.id}>{team.name}</IonSelectOption>))}
-                        </IonSelect>
-                    </IonItem>
+                    <div className="telescope_input">
+                        <IonItemDivider>
+                            {t('events.team')}<IonText color="primary">*</IonText>
+                            <IonButton className="add_team_button" fill="clear" disabled={!teamOwner?.id} onClick={() => setShowAddTeamModal(teamOwner?.id)}>{t('teams.create_new_team')}</IonButton>
+                        </IonItemDivider>
+                        <IonItem lines="none">
+                            <IonSelect
+                                className="select_team"
+                                value={formData.team_id}
+                                placeholder={t('events.team')}
+                                disabled={!(teams.length > 0)}
+                                interface="alert"
+                                onIonChange={(e) => {
+                                    setFormData((currentFormData) => ({...currentFormData, team_id: e.detail.value!}));
+                                    setTimeout(() => focusNextInput(), 200);
+                                }}
+                            >
+                                <IonLabel>{t('events.team')}</IonLabel>
+                                {teams.map((team) => (<IonSelectOption key={team.id} value={team.id}>{team.name}</IonSelectOption>))}
+                            </IonSelect>
+                        </IonItem>
+                    </div>
 
                     {participant && participant.id && <>
-                        <IonItemDivider>{t('events.type')}<IonText color="primary">*</IonText></IonItemDivider>
-                        <IonItem lines="none">
-                            <IonSelect value={formData.type} placeholder={t('events.type_placeholder')} onIonChange={(e) => {
-                                setFormData((currentFormData) => ({...currentFormData, type: e.detail.value}));
-                            }}>
-                                <IonLabel>{t('events.type')}</IonLabel>
-                                <IonSelectOption value="M1">M1</IonSelectOption>
-                                <IonSelectOption value="M2">M2</IonSelectOption>
-                                <IonSelectOption value="M3">M3</IonSelectOption>
-                                <IonSelectOption value="M4">M4</IonSelectOption>
-                                <IonSelectOption value="M5">M5</IonSelectOption>
-                                <IonSelectOption value="M6">M6</IonSelectOption>
-                                <IonSelectOption value="M7">M7</IonSelectOption>
-                                <IonSelectOption value="M8">M8</IonSelectOption>
-                                <IonSelectOption value="M9">M9</IonSelectOption>
-                                <IonSelectOption value="M10">M10</IonSelectOption>
-                                <IonSelectOption value="M11">M11</IonSelectOption>
-                                <IonSelectOption value="M12">M12</IonSelectOption>
-                                <IonSelectOption value="Pollo SM">Pollo SM</IonSelectOption>
-                                <IonSelectOption value="Gallo">Gallo</IonSelectOption>
-                                <IonSelectOption value="Pollo Pelado">Pollo Pelado</IonSelectOption>
-                                <IonSelectOption value="Gallo Pelado">Gallo Pelado</IonSelectOption>
-                            </IonSelect>
-                        </IonItem>
+                        <div className="telescope_input">
+                            <IonItemDivider>{t('events.type')}<IonText color="primary">*</IonText></IonItemDivider>
+                            <IonItem id="typeField" lines="none">
+                                <IonSelect value={formData.type} placeholder={t('events.type_placeholder')} onIonChange={(e) => {
+                                    setFormData((currentFormData) => ({...currentFormData, type: e.detail.value}));
+                                    setTimeout(() => focusNextInput(), 200);
+                                }}>
+                                    <IonLabel>{t('events.type')}</IonLabel>
+                                    <IonSelectOption value="M1">M1</IonSelectOption>
+                                    <IonSelectOption value="M2">M2</IonSelectOption>
+                                    <IonSelectOption value="M3">M3</IonSelectOption>
+                                    <IonSelectOption value="M4">M4</IonSelectOption>
+                                    <IonSelectOption value="M5">M5</IonSelectOption>
+                                    <IonSelectOption value="M6">M6</IonSelectOption>
+                                    <IonSelectOption value="M7">M7</IonSelectOption>
+                                    <IonSelectOption value="M8">M8</IonSelectOption>
+                                    <IonSelectOption value="M9">M9</IonSelectOption>
+                                    <IonSelectOption value="M10">M10</IonSelectOption>
+                                    <IonSelectOption value="M11">M11</IonSelectOption>
+                                    <IonSelectOption value="M12">M12</IonSelectOption>
+                                    <IonSelectOption value="Pollo SM">Pollo SM</IonSelectOption>
+                                    <IonSelectOption value="Gallo">Gallo</IonSelectOption>
+                                    <IonSelectOption value="Pollo Pelado">Pollo Pelado</IonSelectOption>
+                                    <IonSelectOption value="Gallo Pelado">Gallo Pelado</IonSelectOption>
+                                </IonSelect>
+                            </IonItem>
+                        </div>
 
-                        <IonItemDivider>{t('events.stadium_id')}<IonText color="primary">*</IonText></IonItemDivider>
-                        <IonItem lines="none">
-                            <IonInput
-                                value={formData.stadium_id}
-                                className="fullsize-input"
-                                placeholder={t('events.stadium_id')}
-                                onIonChange={(e) => {
+                        <div className="telescope_input">
+                            <IonItemDivider>{t('events.stadium_id')}<IonText color="primary">*</IonText></IonItemDivider>
+                            <IonItem lines="none">
+                                <IonInput
+                                    value={formData.stadium_id}
+                                    className="fullsize-input"
+                                    placeholder={t('events.stadium_id')}
+                                    onIonChange={(e) => {
+                                        setFormData((currentFormData) => {
+                                            tryAutoFill(e.detail.value!, currentFormData.stadium_name, currentFormData.type);
+                                            return {...currentFormData, stadium_id: e.detail.value!}
+                                        });
+                                    }}
+                                />
+                            </IonItem>
+                        </div>
+
+                        <div className="telescope_input">
+                            <IonItemDivider>{t('events.stadium_name')}<IonText color="primary">*</IonText></IonItemDivider>
+                            <IonItem lines="none">
+                                <IonSelect value={formData.stadium_name} placeholder={t('events.stadium_name')} onIonChange={(e) => {
                                     setFormData((currentFormData) => {
-                                        tryAutoFill(e.detail.value!, currentFormData.stadium_name, currentFormData.type);
-                                        return {...currentFormData, stadium_id: e.detail.value!}
+                                        tryAutoFill(currentFormData.stadium_id, e.detail.value!, currentFormData.type);
+                                        return {...currentFormData, stadium_name: e.detail.value!}
                                     });
-                                }}
-                            />
-                        </IonItem>
+                                    setTimeout(() => focusNextInput(), 200);
+                                }}>
+                                    <IonLabel>{t('events.stadium_name')}</IonLabel>
+                                    <IonSelectOption value="Santiago">Santiago</IonSelectOption>
+                                    <IonSelectOption value="Santo Domingo">Santo Domingo</IonSelectOption>
+                                    <IonSelectOption value="Jo Kelner">Jo Kelner</IonSelectOption>
+                                    <IonSelectOption value="San Francisco">San Francisco</IonSelectOption>
+                                    <IonSelectOption value="Regional">Regional</IonSelectOption>
+                                </IonSelect>
+                            </IonItem>
+                        </div>
 
-                        <IonItemDivider>{t('events.stadium_name')}<IonText color="primary">*</IonText></IonItemDivider>
+                        <div className="telescope_input">
+                            <IonItemDivider>{t('events.color')}<IonText color="primary">*</IonText></IonItemDivider>
+                            <IonItem lines="none">
+                                <IonSelect value={formData.color} placeholder={t('events.color')} onIonChange={(e) => {
+                                    setFormData((currentFormData) => ({...currentFormData, color: e.detail.value}));
+                                    setTimeout(() => focusNextInput(), 200);
+                                }}>
+                                    <IonLabel>{t('events.color')}</IonLabel>
+                                    <IonSelectOption value="canelo">Canelo</IonSelectOption>
+                                    <IonSelectOption value="cenizo">Cenizo</IonSelectOption>
+                                    <IonSelectOption value="indio">Indio</IonSelectOption>
+                                    <IonSelectOption value="pinto">Pinto</IonSelectOption>
+                                    <IonSelectOption value="giro">Giro</IonSelectOption>
+                                    <IonSelectOption value="jabado">Jabado</IonSelectOption>
+                                    <IonSelectOption value="gallino">Gallino</IonSelectOption>
+                                    <IonSelectOption value="blanco">Blanco</IonSelectOption>
+                                    <IonSelectOption value="negro">Negro</IonSelectOption>
+                                    <IonSelectOption value="amarillo">Amarillo</IonSelectOption>
+                                    <IonSelectOption value="joco">Joco</IonSelectOption>
+                                </IonSelect>
+                            </IonItem>
+                        </div>
+
+                        <div className="telescope_input">
+                            <IonItemDivider>{t('events.cresta')}<IonText color="primary">*</IonText></IonItemDivider>
+                            <IonItem lines="none">
+                                <IonSelect value={formData.cresta} placeholder={t('events.cresta')} onIonChange={(e) => {
+                                    setFormData((currentFormData) => ({...currentFormData, cresta: e.detail.value}));
+                                    setTimeout(() => focusNextInput(), 200);
+                                }}>
+                                    <IonLabel>{t('events.cresta')}</IonLabel>
+                                    <IonSelectOption value="peine">Peine</IonSelectOption>
+                                    <IonSelectOption value="rosa">Rosa</IonSelectOption>
+                                    <IonSelectOption value="pava">Pava</IonSelectOption>
+                                    <IonSelectOption value="moton">Moton</IonSelectOption>
+                                </IonSelect>
+                            </IonItem>
+                        </div>
+
+                        <div className="telescope_input">
+                            <IonItemDivider>{t('events.alas')}</IonItemDivider>
+                            <IonItem lines="none">
+                                <IonInput
+                                    value={formData.alas}
+                                    className="fullsize-input"
+                                    placeholder={t('events.alas')}
+                                    onIonChange={(e) => {
+                                        setFormData((currentFormData) => ({...currentFormData, alas: e.detail.value!}));
+                                    }}
+                                />
+                            </IonItem>
+                        </div>
+
+                        <div className="telescope_input">
+                            <IonItemDivider>{t('events.patas')}<IonText color="primary">*</IonText></IonItemDivider>
+                            <IonItem lines="none">
+                                <IonSelect value={formData.pata} placeholder={t('events.patas')} onIonChange={(e) => {
+                                    setFormData((currentFormData) => ({...currentFormData, pata: e.detail.value}));
+                                    setTimeout(() => focusNextInput(), 200);
+                                }}>
+                                    <IonLabel>{t('events.patas')}</IonLabel>
+                                    <IonSelectOption value="A">A</IonSelectOption>
+                                    <IonSelectOption value="AB">AB</IonSelectOption>
+                                    <IonSelectOption value="BCA">BCA</IonSelectOption>
+                                    <IonSelectOption value="BB">BB</IonSelectOption>
+                                </IonSelect>
+                            </IonItem>
+                        </div>
+
+                        <div className="telescope_input">
+                            <IonItemDivider>{t('events.breeder_id')}</IonItemDivider>
+                            <IonItem lines="none">
+                                <IonInput
+                                    value={formData.breeder_id}
+                                    className="fullsize-input"
+                                    type="number"
+                                    onWheel={(e:any) => e.target.blur()}
+                                    placeholder={t('events.breeder_id')}
+                                    onIonChange={(e) => {
+                                        setFormData((currentFormData) => ({...currentFormData, breeder_id: e.detail.value ? +e.detail.value : undefined}));
+                                    }}
+                                />
+                            </IonItem>
+                        </div>
+
+                        <div className="telescope_input">
+                            <IonItemDivider>{t('events.breeder_name')}</IonItemDivider>
+                            <IonItem lines="none">
+                                <IonInput
+                                    value={formData.breeder_name}
+                                    className="fullsize-input"
+                                    placeholder={t('events.breeder_name')}
+                                    onIonChange={(e) => {
+                                        setFormData((currentFormData) => ({...currentFormData, breeder_name: e.detail.value!}));
+                                    }}
+                                />
+                            </IonItem>
+                        </div>
+
+                        <div className="telescope_input">
+                            <IonItemDivider>{t('events.weight')} (Oz)<IonText color="primary">*</IonText></IonItemDivider>
+                            <IonItem lines="none">
+                                <IonInput
+                                    value={formData.weight}
+                                    className="fullsize-input"
+                                    placeholder={t('events.weight')}
+                                    type="number"
+                                    step=".01"
+                                    onWheel={(e:any) => e.target.blur()}
+                                    onIonChange={(e) => {
+                                        setFormData((currentFormData) => ({...currentFormData, weight: e.detail.value!}));
+                                    }}
+                                />
+                            </IonItem>
+                        </div>
+
+                        <div className="telescope_input">
+                            <IonItemDivider>{t('events.physical_advantage')}<IonText color="primary">*</IonText></IonItemDivider>
+                            <IonItem lines="none">
+                                <IonSelect value={formData.physical_advantage} placeholder={t('events.physical_advantage')} onIonChange={(e) => {
+                                    setFormData((currentFormData) => ({...currentFormData, physical_advantage: e.detail.value}));
+                                    setTimeout(() => focusNextInput(), 200);
+                                }}>
+                                    <IonLabel>{t('events.physical_advantage')}</IonLabel>
+                                    <IonSelectOption value="none">None</IonSelectOption>
+                                    <IonSelectOption value="tusa">Tusa</IonSelectOption>
+                                    <IonSelectOption value="barba">Barba</IonSelectOption>
+                                    <IonSelectOption value="tusa_barba">Tusa & Barba</IonSelectOption>
+                                    <IonSelectOption value="pluma">Pluma</IonSelectOption>
+                                </IonSelect>
+                            </IonItem>
+                        </div>
+
+                        <div className="telescope_input">
+                            <IonItemDivider>{t('events.observation')}</IonItemDivider>
+                            <IonItem lines="none">
+                                <IonInput
+                                    value={formData.observation}
+                                    className="fullsize-input"
+                                    placeholder={t('events.observation')}
+                                    onIonChange={(e) => {
+                                        setFormData((currentFormData) => ({...currentFormData, observation: e.detail.value!}));
+                                    }}
+                                />
+                            </IonItem>
+                        </div>
+                    </>}
+
+                    <div className="telescope_input">
+                        <IonItemDivider>{t('events.betting_amount')}<IonText color="primary">*</IonText></IonItemDivider>
                         <IonItem lines="none">
-                            <IonSelect value={formData.stadium_name} placeholder={t('events.stadium_name')} onIonChange={(e) => {
-                                setFormData((currentFormData) => {
-                                    tryAutoFill(currentFormData.stadium_id, e.detail.value!, currentFormData.type);
-                                    return {...currentFormData, stadium_name: e.detail.value!}
-                                });
-                            }}>
-                                <IonLabel>{t('events.stadium_name')}</IonLabel>
-                                <IonSelectOption value="Santiago">Santiago</IonSelectOption>
-                                <IonSelectOption value="Santo Domingo">Santo Domingo</IonSelectOption>
-                                <IonSelectOption value="Jo Kelner">Jo Kelner</IonSelectOption>
-                                <IonSelectOption value="San Francisco">San Francisco</IonSelectOption>
-                                <IonSelectOption value="Regional">Regional</IonSelectOption>
+                            <IonSelect
+                                value={formData.betting_amount}
+                                interface="alert"
+                                placeholder={t('events.betting_amount')}
+                                onIonChange={(e) => {
+                                    setFormData((currentFormData) => ({...currentFormData, betting_amount: e.detail.value!}));
+                                    if (e.detail.value === 'bronze') setFormData((currentFormData) => ({...currentFormData, betting_pref: 'bronze'}));
+                                    setTimeout(() => focusNextInput(), 200);
+                                }}
+                            >
+                                <IonLabel>{t('events.betting_amount')}</IonLabel>
+                                {event.bronze && <IonSelectOption value="bronze">Bronze: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze)}</IonSelectOption>}
+                                {event.silver_one && <IonSelectOption value="silver">
+                                    Silver: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one)}
+                                    {event.silver_two && " & " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_two)}
+                                </IonSelectOption>}
+                                {event.gold_one && <IonSelectOption value="gold">
+                                    Gold: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one)}
+                                    {event.gold_two && " & " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_two)}
+                                </IonSelectOption>}
                             </IonSelect>
                         </IonItem>
+                    </div>
 
-                        <IonItemDivider>{t('events.color')}<IonText color="primary">*</IonText></IonItemDivider>
+                    <div className="telescope_input">
+                        <IonItemDivider>{t('events.betting_preference')}<IonText color="primary">*</IonText></IonItemDivider>
                         <IonItem lines="none">
-                            <IonSelect value={formData.color} placeholder={t('events.color')} onIonChange={(e) => {
-                                setFormData((currentFormData) => ({...currentFormData, color: e.detail.value}));
-                            }}>
-                                <IonLabel>{t('events.color')}</IonLabel>
-                                <IonSelectOption value="canelo">Canelo</IonSelectOption>
-                                <IonSelectOption value="cenizo">Cenizo</IonSelectOption>
-                                <IonSelectOption value="indio">Indio</IonSelectOption>
-                                <IonSelectOption value="pinto">Pinto</IonSelectOption>
-                                <IonSelectOption value="giro">Giro</IonSelectOption>
-                                <IonSelectOption value="jabado">Jabado</IonSelectOption>
-                                <IonSelectOption value="gallino">Gallino</IonSelectOption>
-                                <IonSelectOption value="blanco">Blanco</IonSelectOption>
-                                <IonSelectOption value="negro">Negro</IonSelectOption>
-                                <IonSelectOption value="amarillo">Amarillo</IonSelectOption>
-                                <IonSelectOption value="joco">Joco</IonSelectOption>
+                            <IonSelect
+                                value={formData.betting_pref}
+                                interface="alert"
+                                placeholder={t('events.betting_preference')}
+                                onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, betting_pref: e.detail.value!}))}
+                                disabled={!formData.betting_amount}
+                            >
+                                <IonLabel>{t('events.betting_preference')}</IonLabel>
+                                {(event.bronze && formData.betting_amount === 'bronze') && <IonSelectOption value="bronze">Bronze</IonSelectOption>}
+
+                                {(event.silver_one && formData.betting_amount === 'silver') && <IonSelectOption value="silver">Silver</IonSelectOption>}
+                                {(event.bronze && event.silver_one && formData.betting_amount === 'silver') && <IonSelectOption value="bronze_silver">Bronze & Silver</IonSelectOption>}
+
+                                {(event.gold_one && formData.betting_amount === 'gold') && <IonSelectOption value="gold">Gold</IonSelectOption>}
+                                {(event.silver_one && event.gold_one && formData.betting_amount === 'gold') && <IonSelectOption value="silver_gold">Silver & Gold</IonSelectOption>}
+                                {(formData.betting_amount === 'gold') && <IonSelectOption value="open">{t('events.betting_preference_open')}</IonSelectOption>}
                             </IonSelect>
                         </IonItem>
+                    </div>
 
-                        <IonItemDivider>{t('events.cresta')}<IonText color="primary">*</IonText></IonItemDivider>
-                        <IonItem lines="none">
-                            <IonSelect value={formData.cresta} placeholder={t('events.cresta')} onIonChange={(e) => {
-                                setFormData((currentFormData) => ({...currentFormData, cresta: e.detail.value}));
-                            }}>
-                                <IonLabel>{t('events.cresta')}</IonLabel>
-                                <IonSelectOption value="peine">Peine</IonSelectOption>
-                                <IonSelectOption value="rosa">Rosa</IonSelectOption>
-                                <IonSelectOption value="pava">Pava</IonSelectOption>
-                                <IonSelectOption value="moton">Moton</IonSelectOption>
-                            </IonSelect>
-                        </IonItem>
-
-                        <IonItemDivider>{t('events.alas')}</IonItemDivider>
-                        <IonItem lines="none">
-                            <IonInput
-                                value={formData.alas}
-                                className="fullsize-input"
-                                placeholder={t('events.alas')}
-                                onIonChange={(e) => {
-                                    setFormData((currentFormData) => ({...currentFormData, alas: e.detail.value!}));
-                                }}
-                            />
-                        </IonItem>
-
-                        <IonItemDivider>{t('events.patas')}<IonText color="primary">*</IonText></IonItemDivider>
-                        <IonItem lines="none">
-                            <IonSelect value={formData.pata} placeholder={t('events.patas')} onIonChange={(e) => {
-                                setFormData((currentFormData) => ({...currentFormData, pata: e.detail.value}));
-                            }}>
-                                <IonLabel>{t('events.patas')}</IonLabel>
-                                <IonSelectOption value="A">A</IonSelectOption>
-                                <IonSelectOption value="AB">AB</IonSelectOption>
-                                <IonSelectOption value="BCA">BCA</IonSelectOption>
-                                <IonSelectOption value="BB">BB</IonSelectOption>
-                            </IonSelect>
-                        </IonItem>
-
-                        <IonItemDivider>{t('events.breeder_id')}</IonItemDivider>
-                        <IonItem lines="none">
-                            <IonInput
-                                value={formData.breeder_id}
-                                className="fullsize-input"
-                                type="number"
-                                onWheel={(e:any) => e.target.blur()}
-                                placeholder={t('events.breeder_id')}
-                                onIonChange={(e) => {
-                                    setFormData((currentFormData) => ({...currentFormData, breeder_id: e.detail.value ? +e.detail.value : undefined}));
-                                }}
-                            />
-                        </IonItem>
-
-                        <IonItemDivider>{t('events.breeder_name')}</IonItemDivider>
-                        <IonItem lines="none">
-                            <IonInput
-                                value={formData.breeder_name}
-                                className="fullsize-input"
-                                placeholder={t('events.breeder_name')}
-                                onIonChange={(e) => {
-                                    setFormData((currentFormData) => ({...currentFormData, breeder_name: e.detail.value!}));
-                                }}
-                            />
-                        </IonItem>
-
-                        <IonItemDivider>{t('events.weight')} (Oz)<IonText color="primary">*</IonText></IonItemDivider>
-                        <IonItem lines="none">
-                            <IonInput
-                                value={formData.weight}
-                                className="fullsize-input"
-                                placeholder={t('events.weight')}
-                                type="number"
-                                step=".01"
-                                onWheel={(e:any) => e.target.blur()}
-                                onIonChange={(e) => {
-                                    setFormData((currentFormData) => ({...currentFormData, weight: e.detail.value!}));
-                                }}
-                            />
-                        </IonItem>
-
+                    {participant && participant.id && <>
                         <IonItemDivider>{t('events.participated_before')}<IonText color="primary">*</IonText></IonItemDivider>
                         <IonRadioGroup
                             value={formData.participated_before}
@@ -512,79 +648,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 <IonRadio className="yesno_radio_button" value={false} />
                             </IonItem>
                         </IonRadioGroup>
-
-                        <IonItemDivider>{t('events.physical_advantage')}<IonText color="primary">*</IonText></IonItemDivider>
-                        <IonItem lines="none">
-                            <IonSelect value={formData.physical_advantage} placeholder={t('events.physical_advantage')} onIonChange={(e) => {
-                                setFormData((currentFormData) => ({...currentFormData, physical_advantage: e.detail.value}));
-                            }}>
-                                <IonLabel>{t('events.physical_advantage')}</IonLabel>
-                                <IonSelectOption value="none">None</IonSelectOption>
-                                <IonSelectOption value="tusa">Tusa</IonSelectOption>
-                                <IonSelectOption value="barba">Barba</IonSelectOption>
-                                <IonSelectOption value="tusa_barba">Tusa & Barba</IonSelectOption>
-                                <IonSelectOption value="pluma">Pluma</IonSelectOption>
-                            </IonSelect>
-                        </IonItem>
-
-                        <IonItemDivider>{t('events.observation')}</IonItemDivider>
-                        <IonItem lines="none">
-                            <IonInput
-                                value={formData.observation}
-                                className="fullsize-input"
-                                placeholder={t('events.observation')}
-                                onIonChange={(e) => {
-                                    setFormData((currentFormData) => ({...currentFormData, observation: e.detail.value!}));
-                                }}
-                            />
-                        </IonItem>
                     </>}
-
-
-                    <IonItemDivider>{t('events.betting_amount')}<IonText color="primary">*</IonText></IonItemDivider>
-                    <IonItem lines="none">
-                        <IonSelect
-                            value={formData.betting_amount}
-                            interface="alert"
-                            placeholder={t('events.betting_amount')}
-                            onIonChange={(e) => {
-                                setFormData((currentFormData) => ({...currentFormData, betting_amount: e.detail.value!}));
-                                if (e.detail.value === 'bronze') setFormData((currentFormData) => ({...currentFormData, betting_pref: 'bronze'}))
-                            }}
-                        >
-                            <IonLabel>{t('events.betting_amount')}</IonLabel>
-                            {event.bronze && <IonSelectOption value="bronze">Bronze: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze)}</IonSelectOption>}
-                            {event.silver_one && <IonSelectOption value="silver">
-                                Silver: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one)}
-                                {event.silver_two && " & " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_two)}
-                            </IonSelectOption>}
-                            {event.gold_one && <IonSelectOption value="gold">
-                                Gold: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one)}
-                                {event.gold_two && " & " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_two)}
-                            </IonSelectOption>}
-                        </IonSelect>
-                    </IonItem>
-
-                    <IonItemDivider>{t('events.betting_preference')}<IonText color="primary">*</IonText></IonItemDivider>
-                    <IonItem lines="none">
-                        <IonSelect
-                            value={formData.betting_pref}
-                            interface="alert"
-                            placeholder={t('events.betting_preference')}
-                            onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, betting_pref: e.detail.value!}))}
-                            disabled={!formData.betting_amount}
-                        >
-                            <IonLabel>{t('events.betting_preference')}</IonLabel>
-                            {(event.bronze && formData.betting_amount === 'bronze') && <IonSelectOption value="bronze">Bronze</IonSelectOption>}
-
-                            {(event.silver_one && formData.betting_amount === 'silver') && <IonSelectOption value="silver">Silver</IonSelectOption>}
-                            {(event.bronze && event.silver_one && formData.betting_amount === 'silver') && <IonSelectOption value="bronze_silver">Bronze & Silver</IonSelectOption>}
-
-                            {(event.gold_one && formData.betting_amount === 'gold') && <IonSelectOption value="gold">Gold</IonSelectOption>}
-                            {(event.silver_one && event.gold_one && formData.betting_amount === 'gold') && <IonSelectOption value="silver_gold">Silver & Gold</IonSelectOption>}
-                            {(formData.betting_amount === 'gold') && <IonSelectOption value="open">{t('events.betting_preference_open')}</IonSelectOption>}
-                        </IonSelect>
-                    </IonItem>
 
 
                     {(participant && participant.id) ? <>

@@ -67,7 +67,7 @@ const Judge: React.FC = () => {
                     <ProfileModal />
                 </div>
                 <div className="judge-content">
-                    {(!event) ? <IonText className="judge-no-matches">No Baloteo for you right now</IonText> :
+                    {(!event) ? <IonText className="judge-no-matches">{t('judge.no_baloteo_verbal')}</IonText> :
                         (event?.matches?.length > 0) ? <>
                                 <IonSegment value={baloteoTab} onIonChange={(e) => setBaloteoTab(e.detail.value!)} className="judge-tabs-segment">
                                     <IonSegmentButton value="matches"><IonLabel>{t('judge.live_matches')}</IonLabel></IonSegmentButton>

@@ -100,3 +100,31 @@
     transition:0.2s;
     border-radius:3px;
 }
+.team_owner_name_hint {
+    position: absolute;
+    background-color:white;
+    border-radius:3px;
+    top:-5px;
+    left:-15px;
+    right:0;
+    max-width:80%;
+    margin:auto;
+    z-index:3;
+    text-align:center;
+    overflow:hidden;
+    color:#EB0404;
+}
+@media (min-width: 900px) {
+    .telescope_input {
+        width: 25%;
+        display: inline-block;
+    }
+    #root #event-editor .telescope_input ion-input, #root #event-editor .telescope_input ion-select {
+        color:#0065ff;
+        --color:#0065ff;
+        --placeholder-color: black;
+    }
+    .add_team_button {
+        position: static;
+    }
+}
