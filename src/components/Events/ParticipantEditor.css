@@ -90,29 +90,17 @@
     margin: 20px 0;
 }
 .add_team_button {
-    position:absolute;
-    right:0px;
     text-transform:capitalize;
+    font-size:16px;
+    height: auto;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
 }
 #event-editor ion-item.ion-focused {
     --background: #eb04041f;
     margin:0 15px;
     transition:0.2s;
     border-radius:3px;
-}
-.team_owner_name_hint {
-    position: absolute;
-    background-color:white;
-    border-radius:3px;
-    top:-5px;
-    left:-15px;
-    right:0;
-    max-width:80%;
-    margin:auto;
-    z-index:3;
-    text-align:center;
-    overflow:hidden;
-    color:#EB0404;
 }
 @media (min-width: 900px) {
     .telescope_input {
@@ -123,8 +111,5 @@
         color:#0065ff;
         --color:#0065ff;
         --placeholder-color: black;
-    }
-    .add_team_button {
-        position: static;
     }
 }

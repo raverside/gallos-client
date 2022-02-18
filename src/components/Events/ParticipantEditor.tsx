@@ -99,6 +99,8 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
     const [uploading, setUploading] = useState<boolean>(false);
     const [showAddTeamModal, setShowAddTeamModal] = useState<any>(false);
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0});
+    const [weightLbs, setWeightLbs] = useState<number>((participant && participant.weight) ? Math.floor(parseFloat(participant.weight) / 16) : 0);
+    const [weightOz, setWeightOz] = useState<number>((participant && participant.weight) ? parseFloat((((parseFloat(participant.weight) / 16) - weightLbs) * 16).toPrecision(4)) : 0);
 
     const fetchTeamOwner = async (id:number) => {
         const response = (id) ? await getTeamOwnerByDigitalId(id) : false;
@@ -131,20 +133,22 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
     }, []);
 
     function keypressHandler(e:any) {
-        const existingAlert = document.querySelector('.select-alert');
-
         if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { // focus the previous input
             e.preventDefault();
             focusPrevInput();
         } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { // focus the next input
             e.preventDefault();
             focusNextInput();
-        } else if (e.key === 'Enter' && existingAlert) { // submit alert window if there is one
-            e.preventDefault();
-
-            const closeAlertButton = existingAlert.querySelector('.alert-button:not(.alert-button-role-cancel)');
-            // @ts-ignore
-            closeAlertButton && closeAlertButton.click();
+        } else if (e.key === 'Enter') { // submit alert window if there is one
+            const existingAlert = document.querySelector('.select-alert');
+            if (existingAlert) {
+                e.preventDefault();
+                const closeAlertButton = existingAlert.querySelector('.alert-button:not(.alert-button-role-cancel)');
+                // @ts-ignore
+                closeAlertButton && closeAlertButton.click();
+            } else if (e.target.nodeName === 'INPUT') {
+                focusNextInput();
+            }
         }
     }
 
@@ -329,7 +333,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                     <div className="telescope_input">
                         <IonItemDivider>{t('events.owner_account_number')}<IonText color="primary">*</IonText></IonItemDivider>
                         <IonItem lines="none">
-                            {teamOwner && <div className="team_owner_name_hint">{teamOwner.name}</div>}
                             <IonInput
                                 value={formData.owner_account_number}
                                 className="fullsize-input"
@@ -347,8 +350,20 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
                     <div className="telescope_input">
                         <IonItemDivider>
+                            {t('teams.team_owner')}<IonText color="primary">*</IonText>
+                        </IonItemDivider>
+                        <IonItem lines="none">
+                            <IonInput
+                                value={teamOwner.name || ""}
+                                readonly
+                                placeholder={t('teams.team_owner')}
+                            />
+                        </IonItem>
+                    </div>
+
+                    <div className="telescope_input">
+                        <IonItemDivider>
                             {t('events.team')}<IonText color="primary">*</IonText>
-                            <IonButton className="add_team_button" fill="clear" disabled={!teamOwner?.id} onClick={() => setShowAddTeamModal(teamOwner?.id)}>{t('teams.create_new_team')}</IonButton>
                         </IonItemDivider>
                         <IonItem lines="none">
                             <IonSelect
@@ -365,6 +380,12 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 <IonLabel>{t('events.team')}</IonLabel>
                                 {teams.map((team) => (<IonSelectOption key={team.id} value={team.id}>{team.name}</IonSelectOption>))}
                             </IonSelect>
+                        </IonItem>
+                    </div>
+
+                    <div className="telescope_input">
+                        <IonItem lines="none">
+                            <IonButton className="add_team_button" fill="outline" disabled={!teamOwner?.id} onClick={() => setShowAddTeamModal(teamOwner?.id)}>+{t('teams.create_new_team')}</IonButton>
                         </IonItem>
                     </div>
 
@@ -508,6 +529,23 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         </div>
 
                         <div className="telescope_input">
+                            <IonItemDivider>{t('events.physical_advantage')}<IonText color="primary">*</IonText></IonItemDivider>
+                            <IonItem lines="none">
+                                <IonSelect value={formData.physical_advantage} placeholder={t('events.physical_advantage')} onIonChange={(e) => {
+                                    setFormData((currentFormData) => ({...currentFormData, physical_advantage: e.detail.value}));
+                                    setTimeout(() => focusNextInput(), 200);
+                                }}>
+                                    <IonLabel>{t('events.physical_advantage')}</IonLabel>
+                                    <IonSelectOption value="none">None</IonSelectOption>
+                                    <IonSelectOption value="tusa">Tusa</IonSelectOption>
+                                    <IonSelectOption value="barba">Barba</IonSelectOption>
+                                    <IonSelectOption value="tusa_barba">Tusa & Barba</IonSelectOption>
+                                    <IonSelectOption value="pluma">Pluma</IonSelectOption>
+                                </IonSelect>
+                            </IonItem>
+                        </div>
+
+                        <div className="telescope_input">
                             <IonItemDivider>{t('events.breeder_id')}</IonItemDivider>
                             <IonItem lines="none">
                                 <IonInput
@@ -538,36 +576,45 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         </div>
 
                         <div className="telescope_input">
-                            <IonItemDivider>{t('events.weight')} (Oz)<IonText color="primary">*</IonText></IonItemDivider>
+                            <IonItemDivider>{t('events.weight')} (Lbs)<IonText color="primary">*</IonText></IonItemDivider>
                             <IonItem lines="none">
                                 <IonInput
-                                    value={formData.weight}
+                                    value={weightLbs}
                                     className="fullsize-input"
                                     placeholder={t('events.weight')}
                                     type="number"
-                                    step=".01"
+                                    step="1"
+                                    min="0"
+                                    max="9"
                                     onWheel={(e:any) => e.target.blur()}
                                     onIonChange={(e) => {
-                                        setFormData((currentFormData) => ({...currentFormData, weight: e.detail.value!}));
+                                        const newLbs = parseInt(e.detail.value!);
+                                        setWeightLbs(newLbs);
+                                        setFormData((currentFormData) => ({...currentFormData, weight: ""+((newLbs * 16) + weightOz)}));
                                     }}
                                 />
                             </IonItem>
                         </div>
 
                         <div className="telescope_input">
-                            <IonItemDivider>{t('events.physical_advantage')}<IonText color="primary">*</IonText></IonItemDivider>
+                            <IonItemDivider>{t('events.weight')} (Oz)<IonText color="primary">*</IonText></IonItemDivider>
                             <IonItem lines="none">
-                                <IonSelect value={formData.physical_advantage} placeholder={t('events.physical_advantage')} onIonChange={(e) => {
-                                    setFormData((currentFormData) => ({...currentFormData, physical_advantage: e.detail.value}));
-                                    setTimeout(() => focusNextInput(), 200);
-                                }}>
-                                    <IonLabel>{t('events.physical_advantage')}</IonLabel>
-                                    <IonSelectOption value="none">None</IonSelectOption>
-                                    <IonSelectOption value="tusa">Tusa</IonSelectOption>
-                                    <IonSelectOption value="barba">Barba</IonSelectOption>
-                                    <IonSelectOption value="tusa_barba">Tusa & Barba</IonSelectOption>
-                                    <IonSelectOption value="pluma">Pluma</IonSelectOption>
-                                </IonSelect>
+                                <IonInput
+                                    value={weightOz}
+                                    className="fullsize-input"
+                                    placeholder={t('events.weight')}
+                                    type="number"
+                                    step=".1"
+                                    min="0.1"
+                                    max="15.9"
+                                    onWheel={(e:any) => e.target.blur()}
+                                    onIonChange={(e) => {
+                                        let newOz = parseFloat(e.detail.value!);
+                                        if (newOz > 15.9) newOz = 15.9;
+                                        setWeightOz(newOz);
+                                        setFormData((currentFormData) => ({...currentFormData, weight: ""+((weightLbs * 16) + newOz)}));
+                                    }}
+                                />
                             </IonItem>
                         </div>
 
