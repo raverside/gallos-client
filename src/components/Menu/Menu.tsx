@@ -24,10 +24,10 @@ const Menu: React.FC = () => {
     useEffect(() => {
         if (state.user?.id) setDisabled(false);
     }, [state.user?.id]);
-    const role:string = state.user?.role || "user";
+    const role:string = state.user?.role || "unauthenticated";
 
     return (
-        <IonMenu disabled={disabled} contentId="main" menuId="sidebar" type="overlay" onIonDidClose={() => {if (!state.user?.id) setDisabled(true)}}>
+        <IonMenu contentId="main" menuId="sidebar" type="overlay" onIonDidClose={() => {if (!state.user?.id) setDisabled(true)}}>
             <IonContent>
                 <IonList id="main-menu">
                     {state.user?.id && <IonMenuToggle key="menu_profile" autoHide={false}>

@@ -29,6 +29,20 @@ const MenuPermissions = () => {
     const appPages: { [key: string]: AppPage[] } = {};
     const history = useHistory();
 
+    appPages["unauthenticated"] = [
+        {title: t('general.home'), url: '/', icon: homeIcon},
+        {title: t('contact.header'), url: '/contact', icon: contactIcon},
+        {
+            title: t('auth.login'), url: '/auth', icon: logoutIcon,
+            props: {
+                className: "logout-button",
+                onClick: () => {
+                    window.location.hostname?.includes('gallosclub.com') ? history.replace("/auth") : history.replace("/auth_admin");
+                }
+            }
+        },
+    ];
+
     appPages["user"] = [
         {title: t('general.home'), url: '/', icon: homeIcon},
         // {title: t('membership.membership'), url: '/user_membership', icon: membershipsIcon},

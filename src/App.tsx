@@ -189,17 +189,18 @@ const PrivateRoute: React.FC<RouteComponent> = ({ admin = false, children, ...re
         return <Redirect to="/" />
     }
 
-    return <Route {...rest}>{state.user?.id ? children : <>{children}<Redirect to={(admin || !window.location.hostname?.includes('gallosclub.com')) ? "/auth_admin" : "/auth"} /></>}</Route>
+    // return <Route {...rest}>{state.user?.id ? children : <>{children}<Redirect to={(admin || !window.location.hostname?.includes('gallosclub.com')) ? "/auth_admin" : "/auth"} /></>}</Route>
+    return <Route {...rest}>{children}</Route>
 }
 
 const EventsRoute: React.FC<any> = () => {
     const {state} = useContext(AppContext);
-    return (state?.user?.role === "user") ? <UserEvents/> : <Events/>
+    return (state?.user?.role === "user" || !state?.user?.id) ? <UserEvents/> : <Events/>
 }
 
 const EventViewRoute: React.FC<any> = () => {
     const {state} = useContext(AppContext);
-    return (state?.user?.role === "user") ? <UserEventView/> : <EventView/>
+    return (state?.user?.role === "user" || !state?.user?.id) ? <UserEventView/> : <EventView/>
 }
 
 export default App;

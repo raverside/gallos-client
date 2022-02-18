@@ -73,7 +73,7 @@ const UserEventView: React.FC = () => {
     useEffect(() => {
         setShowLoading(true);
         fetchEvent(() => setShowLoading(false));
-        state.socket.on("syncEvents", (payload:any) => {
+        state.socket?.on("syncEvents", (payload:any) => {
             if (!payload?.eventId || payload?.eventId === id) fetchEvent();
         });
     }, []);
