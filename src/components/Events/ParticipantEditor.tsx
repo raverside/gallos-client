@@ -88,7 +88,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         breeder_id: participant ? participant.breeder_id : undefined,
         breeder_name: participant ? participant.breeder_name : undefined,
         weight: participant ? participant.weight : undefined,
-        participated_before: participant ? participant.participated_before : undefined,
+        participated_before: participant ? participant.participated_before : false,
         status: participant ? participant.status : undefined,
         reason: participant ? participant.reason : undefined,
         observation: participant ? participant.observation : undefined,
@@ -438,7 +438,11 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             <IonItemDivider>{t('events.color')}<IonText color="primary">*</IonText></IonItemDivider>
                             <IonItem lines="none">
                                 <IonSelect value={formData.color} placeholder={t('events.color')} onIonChange={(e) => {
-                                    setFormData((currentFormData) => ({...currentFormData, color: e.detail.value}));
+                                    setFormData((currentFormData) => {
+                                        const newFormData = {...currentFormData, color: e.detail.value}
+                                        if (!newFormData.alas) newFormData.alas = newFormData.color;
+                                        return newFormData;
+                                    });
                                     setTimeout(() => focusNextInput(), 200);
                                 }}>
                                     <IonLabel>{t('events.color')}</IonLabel>
@@ -447,7 +451,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                     <IonSelectOption value="indio">Indio</IonSelectOption>
                                     <IonSelectOption value="pinto">Pinto</IonSelectOption>
                                     <IonSelectOption value="giro">Giro</IonSelectOption>
-                                    <IonSelectOption value="jabado">Jabado</IonSelectOption>
+                                    <IonSelectOption value="jabao">Jabao</IonSelectOption>
                                     <IonSelectOption value="gallino">Gallino</IonSelectOption>
                                     <IonSelectOption value="blanco">Blanco</IonSelectOption>
                                     <IonSelectOption value="negro">Negro</IonSelectOption>
@@ -568,6 +572,23 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         </div>
 
                         <div className="telescope_input">
+                            <IonItemDivider>{t('events.participated_before')}<IonText color="primary">*</IonText></IonItemDivider>
+                            <IonItem lines="none">
+                                <IonSelect
+                                    value={formData.participated_before}
+                                    onIonChange={(e) => {
+                                        setFormData((currentFormData) => ({...currentFormData, participated_before: e.detail.value}));
+                                        setTimeout(() => focusNextInput(), 200);
+                                    }}
+                                >
+                                    <IonLabel>{t('events.participated_before')}</IonLabel>
+                                    <IonSelectOption value={false}>{t('events.participated_no')}</IonSelectOption>
+                                    <IonSelectOption value={true}>{t('events.participated_yes')}</IonSelectOption>
+                                </IonSelect>
+                            </IonItem>
+                        </div>
+
+                        <div className="telescope_input">
                             <IonItemDivider>{t('events.observation')}</IonItemDivider>
                             <IonItem lines="none">
                                 <IonInput
@@ -631,25 +652,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             </IonSelect>
                         </IonItem>
                     </div>
-
-                    {participant && participant.id && <>
-                        <IonItemDivider>{t('events.participated_before')}<IonText color="primary">*</IonText></IonItemDivider>
-                        <IonRadioGroup
-                            value={formData.participated_before}
-                            onIonChange={(e) => setFormData((currentFormData) => ({...currentFormData, participated_before: e.detail.value}))}
-                            className="yesno_radio"
-                        >
-                            <IonItem lines="none">
-                                <IonLabel>{t('events.participated_yes')}</IonLabel>
-                                <IonRadio className="yesno_radio_button" value={true} />
-                            </IonItem>
-                            <IonItem lines="none">
-                                <IonLabel>{t('events.participated_no')}</IonLabel>
-                                <IonRadio className="yesno_radio_button" value={false} />
-                            </IonItem>
-                        </IonRadioGroup>
-                    </>}
-
 
                     {(participant && participant.id) ? <>
                             <IonItem lines="none">
