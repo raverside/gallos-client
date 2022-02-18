@@ -79,6 +79,8 @@
       "delete_button": "Eliminar",
       "delete": "Eliminar Evento",
       "delete_confirm": "¿Estás seguro de que deseas eliminar este evento?",
+      "delete_participant": "Eliminar Participante",
+      "delete_participant_confirm": "¿Está seguro de que desea eliminar esta entrada?",
       "cancel": "Cancelar",
       "settings": "Ajustes",
       "receiving": "Recepción",

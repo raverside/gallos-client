@@ -45,6 +45,10 @@ export async function upsertParticipant(payload: {image_upload?: File|null, imag
     return fetcher.post('/upsertParticipant', payload);
 }
 
+export async function removeParticipant(id:string) {
+    return fetcher.get(`/removeParticipant/${id}`);
+}
+
 export async function findParticipantByStadiumData(stadium_id:string, stadium_name:string, type:string) {
     return fetcher.post(`/findParticipantByStadiumData`, {stadium_id, stadium_name, type});
 }

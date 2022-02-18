@@ -25,7 +25,7 @@ import {
     IonRefresherContent, IonRefresher
 } from '@ionic/react';
 import React, {useContext, useEffect, useState} from "react";
-import {getEvent} from "../api/Events";
+import {getEvent, removeParticipant} from "../api/Events";
 
 import './EventReceiving.css';
 import {AppContext} from "../State";
@@ -35,7 +35,7 @@ import ParticipantEditor from "../components/Events/ParticipantEditor";
 import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploader";
 import Matchmaking from "../components/Events/Matchmaking";
 import editIcon from "../img/edit.png";
-import {cameraReverseOutline as addPhotoIcon, ellipsisHorizontal as menuIcon} from 'ionicons/icons';
+import {cameraReverseOutline as addPhotoIcon, ellipsisHorizontal as menuIcon, trashOutline as deleteIcon} from 'ionicons/icons';
 import {getImageUrl, formatOzToLbsOz} from "../components/utils";
 import ConfirmPrompt from "../components/ConfirmPrompt";
 import {useTranslation} from "react-multi-lang";
@@ -54,6 +54,7 @@ const EventReceiving: React.FC = () => {
     const [showParticipantEditor, setShowParticipantEditor] = useState<boolean>(false);
     const [showParticipantPhotoUploader, setShowParticipantPhotoUploader] = useState<boolean>(false);
     const [showConfirmPhotoless, setShowConfirmPhotoless] = useState<boolean>(false);
+    const [showDeleteParticipant, setShowDeleteParticipant] = useState<any>(false);
     const [showMatchmaking, setShowMatchmaking] = useState<boolean>(false);
     const [showPrintModal, setShowPrintModal] = useState<boolean>(false);
     const { id } = useParams<{id:string}>();
@@ -93,6 +94,12 @@ const EventReceiving: React.FC = () => {
     const showPhotoUploader = (participant:any) => {
         setSelectedParticipant(participant);
         setShowParticipantPhotoUploader(true);
+    }
+
+    const deleteParticipant = async (participant:any) => {
+        if (!participant) return false;
+        await removeParticipant(participant.id);
+        fetchEvent();
     }
 
     const participants = participantsSearch ? event.participants?.filter((p:any) =>
@@ -165,11 +172,15 @@ const EventReceiving: React.FC = () => {
                                 </IonCol>
                                 <IonCol size="2" className="participant-weight-class">
                                     <div>{participant.type}</div>
+                                    {participant.owner_account_number && <IonText color="primary">ID: {(""+participant.owner_account_number).substr(0, 3)+"-"+(""+participant.owner_account_number).substr(3, 3)}</IonText>}
                                     <div>{participant.weight && formatOzToLbsOz(participant.weight)}</div>
                                 </IonCol>
                                 <IonCol size="2">
                                     <IonButton className="participant-edit" fill="clear" onClick={() => {setSelectedParticipant(participant); setShowParticipantEditor(true);}}>
                                         <IonImg src={editIcon} />
+                                    </IonButton>
+                                    <IonButton className="participant-edit" fill="clear" color="dark" onClick={() => {setShowDeleteParticipant(participant);}}>
+                                        <IonIcon icon={deleteIcon} />
                                     </IonButton>
                                 </IonCol>
                             </IonRow>
@@ -201,6 +212,13 @@ const EventReceiving: React.FC = () => {
                     title={t('events.confirm_matchmaking_title')}
                     subtitle={t('events.confirm_matchmaking_subtitle')}
                     onResult={(data, isConfirmed) => {isConfirmed && setShowMatchmaking(true); setShowConfirmPhotoless(false)}}
+                />
+                <ConfirmPrompt
+                    data={showDeleteParticipant}
+                    show={!!showDeleteParticipant}
+                    title={t('events.delete_participant')}
+                    subtitle={t('events.delete_participant_confirm')}
+                    onResult={(data, isConfirmed) => {isConfirmed && deleteParticipant(data); setShowDeleteParticipant(false)}}
                 />
                 <ParticipantGallery
                     participant={selectedGalleryParticipant}
