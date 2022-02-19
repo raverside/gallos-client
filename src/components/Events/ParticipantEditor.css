@@ -102,6 +102,31 @@
     transition:0.2s;
     border-radius:3px;
 }
+.weightInput {
+    display: inline-block;
+    position:relative;
+    --padding-start: 45px !important;
+}
+.weightInput:first-of-type:before {
+    content: 'Lbs: ';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 10px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+.weightInput:last-of-type:before {
+    content: 'Oz: ';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 10px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
 @media (min-width: 900px) {
     .telescope_input {
         width: 25%;

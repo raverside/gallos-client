@@ -587,11 +587,11 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         </div>
 
                         <div className="telescope_input">
-                            <IonItemDivider>{t('events.weight')} (Lbs)<IonText color="primary">*</IonText></IonItemDivider>
+                            <IonItemDivider>{t('events.weight')}<IonText color="primary">*</IonText></IonItemDivider>
                             <IonItem lines="none">
                                 <IonInput
                                     value={weightLbs}
-                                    className="fullsize-input"
+                                    className="fullsize-input weightInput"
                                     placeholder={t('events.weight')}
                                     type="number"
                                     step="1"
@@ -604,15 +604,9 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                         setFormData((currentFormData) => ({...currentFormData, weight: ""+((newLbs * 16) + weightOz)}));
                                     }}
                                 />
-                            </IonItem>
-                        </div>
-
-                        <div className="telescope_input">
-                            <IonItemDivider>{t('events.weight')} (Oz)<IonText color="primary">*</IonText></IonItemDivider>
-                            <IonItem lines="none">
                                 <IonInput
                                     value={weightOz}
-                                    className="fullsize-input"
+                                    className="fullsize-input weightInput"
                                     placeholder={t('events.weight')}
                                     type="number"
                                     step=".1"
