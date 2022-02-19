@@ -190,7 +190,7 @@ const PrivateRoute: React.FC<RouteComponent> = ({ admin = false, children, ...re
     }
 
     // return <Route {...rest}>{state.user?.id ? children : <>{children}<Redirect to={(admin || !window.location.hostname?.includes('gallosclub.com')) ? "/auth_admin" : "/auth"} /></>}</Route>
-    return <Route {...rest}>{children}</Route>
+    return <Route {...rest}>{children}{window.location.hostname?.includes('gallosbaloteo.com') && !state.user?.id && <Redirect to={"/auth_admin"} />}</Route>
 }
 
 const EventsRoute: React.FC<any> = () => {
