@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useRef} from 'react';
 import {
     IonButtons,
     IonContent,
@@ -101,6 +101,8 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
     const numberFormatter = new Intl.NumberFormat(undefined, {style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0});
     const [weightLbs, setWeightLbs] = useState<number>((participant && participant.weight) ? Math.floor(parseFloat(participant.weight) / 16) : 0);
     const [weightOz, setWeightOz] = useState<number>((participant && participant.weight) ? parseFloat((((parseFloat(participant.weight) / 16) - weightLbs) * 16).toPrecision(4)) : 0);
+    const saveButton = useRef(null);
+    const approveButton = useRef(null);
 
     const fetchTeamOwner = async (id:number) => {
         const response = (id) ? await getTeamOwnerByDigitalId(id) : false;
@@ -149,13 +151,15 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                 focusNextInput();
             } else if ((e.ctrlKey && e.code === 'Digit1') || e.key === 'F1') {
                 e.preventDefault();
-                canUpdate() && !uploading && Approve();
-            } else if ((e.ctrlKey && e.code === 'Digit3') || e.key === 'F4') {
+                // @ts-ignore
+                canUpdate() && !uploading && approveButton?.current?.click();
+            } else if ((e.ctrlKey && e.code === 'Digit4') || e.key === 'F4') {
                 e.preventDefault();
                 canCreate() && !uploading && setShowRejectReason(true);
-            } else if ((e.ctrlKey && e.code === 'Digit9') || e.key === 'F8') {
+            } else if ((e.ctrlKey && e.code === 'Digit8') || e.key === 'F8') {
                 e.preventDefault();
-                canCreate() && !uploading && Submit();
+                // @ts-ignore
+                canCreate() && !uploading && saveButton?.current?.click();
             } else if (e.key === 'Enter' && e.target.nodeName === 'INPUT') {
                 focusNextInput();
             }
@@ -704,11 +708,11 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
                     {(participant && participant.id) ? <>
                             <IonItem lines="none">
-                                <IonButton expand="block" fill="outline" className="save-button" disabled={!canCreate() || uploading} onClick={Submit}>{t('events.save')}</IonButton>
+                                <IonButton expand="block" fill="outline" className="save-button" disabled={!canCreate() || uploading} onClick={Submit} ref={saveButton}>{t('events.save')}</IonButton>
                             </IonItem>
                             <IonItem lines="none">
                                 <div className="participant-complete-buttons">
-                                    <IonButton className="participant-approve-button" disabled={!canUpdate() || uploading} onClick={Approve}>{t('events.participant_approve')}</IonButton>
+                                    <IonButton className="participant-approve-button" disabled={!canUpdate() || uploading} onClick={Approve} ref={approveButton}>{t('events.participant_approve')}</IonButton>
                                     <IonButton className="participant-reject-button" disabled={uploading} onClick={() => setShowRejectReason(true)}>{t('events.participant_reject')}</IonButton>
                                 </div>
                             </IonItem>
