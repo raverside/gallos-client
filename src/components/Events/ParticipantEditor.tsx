@@ -599,7 +599,8 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                     max="9"
                                     onWheel={(e:any) => e.target.blur()}
                                     onIonChange={(e) => {
-                                        const newLbs = parseInt(e.detail.value!);
+                                        let newLbs = parseInt(e.detail.value!);
+                                        if (newLbs > 9) newLbs = 9;
                                         setWeightLbs(newLbs);
                                         setFormData((currentFormData) => ({...currentFormData, weight: ""+((newLbs * 16) + weightOz)}));
                                     }}
