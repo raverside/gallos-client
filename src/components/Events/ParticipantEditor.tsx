@@ -592,7 +592,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             <IonItemDivider>{t('events.weight')}<IonText color="primary">*</IonText></IonItemDivider>
                             <IonItem lines="none">
                                 <IonInput
-                                    value={weightLbs}
+                                    value={weightLbs > 0 ? weightLbs : undefined}
                                     className="fullsize-input weightInput"
                                     type="number"
                                     step="1"
@@ -608,7 +608,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                     }}
                                 />
                                 <IonInput
-                                    value={weightOz}
+                                    value={weightOz > 0 ? weightOz : undefined}
                                     className="fullsize-input weightInput"
                                     type="number"
                                     step=".1"

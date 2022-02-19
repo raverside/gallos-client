@@ -105,25 +105,38 @@
 .weightInput {
     display: inline-block;
     position:relative;
-    --padding-start: 45px !important;
+    --padding-end: 45px !important;
+}
+.weightInput:last-of-type.has-focus {
+    background-color:#eb04041f !important;
+}
+.weightInput:last-of-type.has-focus input {
+    background-color:transparent !important;
 }
 .weightInput:first-of-type:before {
-    content: 'Lbs: ';
+    content: 'Lbs';
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 10px;
+    left: 30px;
     margin: auto;
     display: flex;
     align-items: center;
     color:grey;
 }
+.weightInput:last-of-type {
+    --padding-end:15px !important;
+}
+.weightInput:last-of-type input {
+    width:60px !important;
+    text-align: center;
+}
 .weightInput:last-of-type:before {
-    content: 'Oz: ';
+    content: 'Oz';
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 10px;
+    left: 50px;
     margin: auto;
     display: flex;
     align-items: center;
