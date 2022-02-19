@@ -116,6 +116,7 @@
     margin: auto;
     display: flex;
     align-items: center;
+    color:grey;
 }
 .weightInput:last-of-type:before {
     content: 'Oz: ';
@@ -126,6 +127,7 @@
     margin: auto;
     display: flex;
     align-items: center;
+    color:grey;
 }
 @media (min-width: 900px) {
     .telescope_input {

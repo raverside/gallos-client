@@ -147,15 +147,15 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
             } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { // focus the next input
                 e.preventDefault();
                 focusNextInput();
-            } else if (canUpdate() && !uploading && ((e.ctrlKey && e.code === 'Digit1') || e.key === 'F1')) {
+            } else if ((e.ctrlKey && e.code === 'Digit1') || e.key === 'F1') {
                 e.preventDefault();
-                Approve();
-            } else if (canCreate() && !uploading && ((e.ctrlKey && e.code === 'Digit3') || e.key === 'F4')) {
+                canUpdate() && !uploading && Approve();
+            } else if ((e.ctrlKey && e.code === 'Digit3') || e.key === 'F4') {
                 e.preventDefault();
-                setShowRejectReason(true);
-            } else if (canCreate() && !uploading && ((e.ctrlKey && e.code === 'Digit9') || e.key === 'F8')) {
+                canCreate() && !uploading && setShowRejectReason(true);
+            } else if ((e.ctrlKey && e.code === 'Digit9') || e.key === 'F8') {
                 e.preventDefault();
-                Submit();
+                canCreate() && !uploading && Submit();
             } else if (e.key === 'Enter' && e.target.nodeName === 'INPUT') {
                 focusNextInput();
             }
