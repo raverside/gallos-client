@@ -135,15 +135,11 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
     function keypressHandler(e:any) {
         const existingAlert = document.querySelector('.select-alert');
         if (e.key === 'Enter' && existingAlert) { // submit alert window if there is one
-            if (existingAlert) {
-                e.preventDefault();
-                const closeAlertButton = existingAlert.querySelector('.alert-button:not(.alert-button-role-cancel)');
-                // @ts-ignore
-                closeAlertButton && closeAlertButton.click();
-                setTimeout(() => focusNextInput(), 200);
-            } else if (e.target.nodeName === 'INPUT') {
-                focusNextInput();
-            }
+            e.preventDefault();
+            const closeAlertButton = existingAlert.querySelector('.alert-button:not(.alert-button-role-cancel)');
+            // @ts-ignore
+            closeAlertButton && closeAlertButton.click();
+            setTimeout(() => focusNextInput(), 200);
         } else if (!existingAlert) {
             if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { // focus the previous input
                 e.preventDefault();
@@ -160,6 +156,8 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
             } else if (canCreate() && !uploading && ((e.ctrlKey && e.code === 'Digit9') || e.key === 'F8')) {
                 e.preventDefault();
                 Submit();
+            } else if (e.key === 'Enter' && e.target.nodeName === 'INPUT') {
+                focusNextInput();
             }
         }
     }
@@ -592,7 +590,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 <IonInput
                                     value={weightLbs}
                                     className="fullsize-input weightInput"
-                                    placeholder={t('events.weight')}
                                     type="number"
                                     step="1"
                                     min="0"
@@ -608,7 +605,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 <IonInput
                                     value={weightOz}
                                     className="fullsize-input weightInput"
-                                    placeholder={t('events.weight')}
                                     type="number"
                                     step=".1"
                                     min="0.1"
