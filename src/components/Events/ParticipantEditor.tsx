@@ -121,7 +121,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                     const typeField = document.getElementById('typeField');
                     typeField?.focus();
                     typeField?.classList.add('ion-focused');
-                }, 500);
+                }, 700);
             }
         }
 
@@ -133,21 +133,33 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
     }, []);
 
     function keypressHandler(e:any) {
-        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { // focus the previous input
-            e.preventDefault();
-            focusPrevInput();
-        } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { // focus the next input
-            e.preventDefault();
-            focusNextInput();
-        } else if (e.key === 'Enter') { // submit alert window if there is one
-            const existingAlert = document.querySelector('.select-alert');
+        const existingAlert = document.querySelector('.select-alert');
+        if (e.key === 'Enter' && existingAlert) { // submit alert window if there is one
             if (existingAlert) {
                 e.preventDefault();
                 const closeAlertButton = existingAlert.querySelector('.alert-button:not(.alert-button-role-cancel)');
                 // @ts-ignore
                 closeAlertButton && closeAlertButton.click();
+                setTimeout(() => focusNextInput(), 200);
             } else if (e.target.nodeName === 'INPUT') {
                 focusNextInput();
+            }
+        } else if (!existingAlert) {
+            if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { // focus the previous input
+                e.preventDefault();
+                focusPrevInput();
+            } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { // focus the next input
+                e.preventDefault();
+                focusNextInput();
+            } else if (canUpdate() && !uploading && ((e.ctrlKey && e.code === 'Digit1') || e.key === 'F1')) {
+                e.preventDefault();
+                Approve();
+            } else if (canCreate() && !uploading && ((e.ctrlKey && e.code === 'Digit3') || e.key === 'F4')) {
+                e.preventDefault();
+                setShowRejectReason(true);
+            } else if (canCreate() && !uploading && ((e.ctrlKey && e.code === 'Digit9') || e.key === 'F8')) {
+                e.preventDefault();
+                Submit();
             }
         }
     }
@@ -166,6 +178,9 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         if (nextElement.nodeName === 'ION-SELECT') nextElement.parentElement.focus();
                         i = allInputs.length;
                     }
+                } else if (document.activeElement?.nodeName !== 'INPUT' && document.activeElement?.nodeName !== 'ION-SELECT') {
+                    // @ts-ignore
+                    allInputs[0].focus();
                 }
             }
         }
@@ -185,6 +200,9 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                         if (nextElement.nodeName === 'ION-SELECT') nextElement.parentElement.focus();
                         i = allInputs.length;
                     }
+                } else if (document.activeElement?.nodeName !== 'INPUT' && document.activeElement?.nodeName !== 'ION-SELECT') {
+                    // @ts-ignore
+                    allInputs[0].focus();
                 }
             }
         }
@@ -374,7 +392,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 interface="alert"
                                 onIonChange={(e) => {
                                     setFormData((currentFormData) => ({...currentFormData, team_id: e.detail.value!}));
-                                    setTimeout(() => focusNextInput(), 200);
                                 }}
                             >
                                 <IonLabel>{t('events.team')}</IonLabel>
@@ -395,7 +412,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             <IonItem id="typeField" lines="none">
                                 <IonSelect value={formData.type} placeholder={t('events.type_placeholder')} onIonChange={(e) => {
                                     setFormData((currentFormData) => ({...currentFormData, type: e.detail.value}));
-                                    setTimeout(() => focusNextInput(), 200);
                                 }}>
                                     <IonLabel>{t('events.type')}</IonLabel>
                                     <IonSelectOption value="M1">M1</IonSelectOption>
@@ -443,7 +459,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                         tryAutoFill(currentFormData.stadium_id, e.detail.value!, currentFormData.type);
                                         return {...currentFormData, stadium_name: e.detail.value!}
                                     });
-                                    setTimeout(() => focusNextInput(), 200);
                                 }}>
                                     <IonLabel>{t('events.stadium_name')}</IonLabel>
                                     <IonSelectOption value="Santiago">Santiago</IonSelectOption>
@@ -464,7 +479,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                         if (!newFormData.alas) newFormData.alas = newFormData.color;
                                         return newFormData;
                                     });
-                                    setTimeout(() => focusNextInput(), 200);
                                 }}>
                                     <IonLabel>{t('events.color')}</IonLabel>
                                     <IonSelectOption value="canelo">Canelo</IonSelectOption>
@@ -487,7 +501,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             <IonItem lines="none">
                                 <IonSelect value={formData.cresta} placeholder={t('events.cresta')} onIonChange={(e) => {
                                     setFormData((currentFormData) => ({...currentFormData, cresta: e.detail.value}));
-                                    setTimeout(() => focusNextInput(), 200);
                                 }}>
                                     <IonLabel>{t('events.cresta')}</IonLabel>
                                     <IonSelectOption value="peine">Peine</IonSelectOption>
@@ -517,7 +530,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             <IonItem lines="none">
                                 <IonSelect value={formData.pata} placeholder={t('events.patas')} onIonChange={(e) => {
                                     setFormData((currentFormData) => ({...currentFormData, pata: e.detail.value}));
-                                    setTimeout(() => focusNextInput(), 200);
                                 }}>
                                     <IonLabel>{t('events.patas')}</IonLabel>
                                     <IonSelectOption value="A">A</IonSelectOption>
@@ -533,7 +545,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                             <IonItem lines="none">
                                 <IonSelect value={formData.physical_advantage} placeholder={t('events.physical_advantage')} onIonChange={(e) => {
                                     setFormData((currentFormData) => ({...currentFormData, physical_advantage: e.detail.value}));
-                                    setTimeout(() => focusNextInput(), 200);
                                 }}>
                                     <IonLabel>{t('events.physical_advantage')}</IonLabel>
                                     <IonSelectOption value="none">None</IonSelectOption>
@@ -625,7 +636,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                     value={formData.participated_before}
                                     onIonChange={(e) => {
                                         setFormData((currentFormData) => ({...currentFormData, participated_before: e.detail.value}));
-                                        setTimeout(() => focusNextInput(), 200);
                                     }}
                                 >
                                     <IonLabel>{t('events.participated_before')}</IonLabel>
@@ -660,7 +670,6 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 onIonChange={(e) => {
                                     setFormData((currentFormData) => ({...currentFormData, betting_amount: e.detail.value!}));
                                     if (e.detail.value === 'bronze') setFormData((currentFormData) => ({...currentFormData, betting_pref: 'bronze'}));
-                                    setTimeout(() => focusNextInput(), 200);
                                 }}
                             >
                                 <IonLabel>{t('events.betting_amount')}</IonLabel>

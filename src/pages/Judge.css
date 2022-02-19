@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Antonio&display=swap');
 body {
     background: #353131 !important;
     color:white;
@@ -425,36 +425,36 @@ ion-content {
 }
 .judge-match-timer-clock_blue_side {
     font-weight: bold;
-    font-size: 17vw;
+    font-size: 23vw;
     color: #89FF53;
     text-align:center;
-    height:18vw;
-    line-height: 17vw;
+    height:23vw;
+    line-height: 23vw;
     max-width: calc(50% - 150px) !important;
     position: relative;
     white-space:nowrap;
-    font-family: 'Anton', sans-serif;
-    letter-spacing: 0.5vw;
+    font-family: 'Antonio', sans-serif;
+    letter-spacing: -1vw;
 }
 .judge-match-timer-clock_white_side {
     font-weight: bold;
-    font-size: 17vw;
+    font-size: 23vw;
     color: #FEAB24;
     text-align:center;
-    height:18vw;
-    line-height: 17vw;
+    height:23vw;
+    line-height: 23vw;
     max-width: calc(50% - 150px) !important;
     position: relative;
     white-space:nowrap;
-    font-family: 'Anton', sans-serif;
-    letter-spacing: 0.5vw;
+    font-family: 'Antonio', sans-serif;
+    letter-spacing: -1vw;
 }
 .judge-match-timer-clock_versus {
     font-weight: bold;
     color: #FF0B0B;
-    font-size: 16vw;
+    font-size: 23vw;
     text-align:center;
-    line-height: 16vw;
+    line-height: 23vw;
     width: 16vw !important;
     max-width: 18vw !important;
     flex: initial !important;
@@ -464,8 +464,8 @@ ion-content {
     align-items: center;
     white-space:nowrap;
     margin-bottom:50px;
-    font-family: 'Anton', sans-serif;
-    letter-spacing: 0.5vw;
+    font-family: 'Antonio', sans-serif;
+    letter-spacing: -1vw;
 }
 .judge-match-timer-clock_versus.small {
     font-size:140px;
@@ -714,4 +714,5 @@ ion-content {
     height: 38px;
     line-height: 1vw;
     font-family: var(--ion-font-family);
+    letter-spacing:0;
 }
