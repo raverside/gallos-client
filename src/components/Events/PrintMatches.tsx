@@ -6,6 +6,7 @@ import {useTranslation} from "react-multi-lang";
 const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
     const t = useTranslation();
     const matches = event.matches;
+    const allMatches = matches?.filter((p:any) => p.live || (p.result !== null && p.result >= 0)) || [];
     const liveMatches = matches?.filter((p:any) => p.live) || [];
     const availableMatches = matches?.filter((p:any) => !p.live) || [];
     const allParticipants = event.participants?.sort((a:any, b:any) => (+new Date(a.createdAt)) - (+new Date(b.createdAt)));
@@ -63,8 +64,8 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
             printMatches = allParticipantsNonLive;
         break;
         case 0:
-            title = t('events.print_live_matches');
-            printMatches = liveMatches;
+            title = t('events.print_live_matches_wide');
+            printMatches = allMatches;
         break;
         case 10:
             title = t('events.print_all_animals_fight_order');

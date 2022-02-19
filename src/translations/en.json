@@ -192,7 +192,7 @@
       "print_option": "Print Option",
       "print_live_matches": "Live Matches",
       "print_live_matches_cut": "Live Matches (Cut)",
-      "print_live_matches_wide": "Live Matches (Wide)",
+      "print_live_matches_wide": "Event Matches",
       "print_available_matches": "Available Matches",
       "print_available_matches_cut": "Available Matches (Cut)",
       "print_unmatched": "Unmatched Animals",
