@@ -596,10 +596,11 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                     max="9"
                                     onWheel={(e:any) => e.target.blur()}
                                     onIonChange={(e) => {
-                                        let newLbs = parseInt(e.detail.value!);
+                                        let newLbs = e.detail.value ? parseInt(e.detail.value) : 0;
                                         if (newLbs > 9) newLbs = 9;
                                         setWeightLbs(newLbs);
-                                        setFormData((currentFormData) => ({...currentFormData, weight: ""+((newLbs * 16) + weightOz)}));
+                                        const newWeightOz = weightOz || 0;
+                                        setFormData((currentFormData) => ({...currentFormData, weight: ""+((newLbs * 16) + newWeightOz)}));
                                     }}
                                 />
                                 <IonInput
@@ -611,10 +612,11 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                     max="15.9"
                                     onWheel={(e:any) => e.target.blur()}
                                     onIonChange={(e) => {
-                                        let newOz = parseFloat(e.detail.value!);
+                                        let newOz = e.detail.value ? parseFloat(e.detail.value) : 0;
                                         if (newOz > 15.9) newOz = 15.9;
                                         setWeightOz(newOz);
-                                        setFormData((currentFormData) => ({...currentFormData, weight: ""+((weightLbs * 16) + newOz)}));
+                                        const newWeightLbs = weightLbs || 0;
+                                        setFormData((currentFormData) => ({...currentFormData, weight: ""+((newWeightLbs * 16) + newOz)}));
                                     }}
                                 />
                             </IonItem>
