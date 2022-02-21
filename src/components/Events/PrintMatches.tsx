@@ -212,7 +212,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.participated_before')}</div>
-                                <div style={{textAlign: "center", width: "40mm"}}>{participant.participated_before ? "Peliado" : "Sin Pelear"}</div>
+                                <div style={{textAlign: "center", width: "40mm"}}>{participant.participated_before ? t('events.experienced_participant') : t('events.not_experienced_participant')}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.advantage')}</div>
@@ -293,7 +293,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.participated_before')}</div>
-                                <div style={{textAlign: "center", width: "40mm"}}>{match.participant.participated_before ? "Peliado" : "Sin Pelear"}</div>
+                                <div style={{textAlign: "center", width: "40mm"}}>{match.participant.participated_before ? t('events.experienced_participant') : t('events.not_experienced_participant')}</div>
                             </div>
                             <div style={{display:"flex", justifyContent: "space-between"}}>
                                 <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.advantage')}</div>
@@ -364,7 +364,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                         </div>
                         <div style={{display:"flex", justifyContent: "space-between"}}>
                             <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.participated_before')}</div>
-                            <div style={{textAlign: "center", width: "40mm"}}>{match.opponent.participated_before ? "Peliado" : "Sin Pelear"}</div>
+                            <div style={{textAlign: "center", width: "40mm"}}>{match.opponent.participated_before ? t('events.experienced_participant') : t('events.not_experienced_participant')}</div>
                         </div>
                         <div style={{display:"flex", justifyContent: "space-between"}}>
                             <div style={{textAlign: "left", width: "40mm", fontWeight: "bold"}}>{t('events.advantage')}</div>
@@ -454,7 +454,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                             <td style={{textAlign:"center", verticalAlign: "top"}}>
                                 <p style={{margin: "5px 0", verticalAlign: "top", fontWeight: "bold"}}>{formatOzToLbsOz(participant.weight)}</p>
                                 <p style={{margin: "5px 0"}}>{betting_amount}</p>
-                                <p style={{margin: "5px 0"}}>{participant.participated_before ? "Peliado" : "Sin Pelear"}</p>
+                                <p style={{margin: "5px 0"}}>{participant.participated_before ? t('events.experienced_participant') : t('events.not_experienced_participant')}</p>
                             </td>
                             <td style={{textAlign:"center", verticalAlign: "top", fontWeight: "bold"}}><p style={{margin: "5px 0"}}>{participant.type}</p></td>
                         </tr>);}
