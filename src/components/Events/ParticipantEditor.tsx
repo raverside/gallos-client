@@ -126,13 +126,15 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                 }, 700);
             }
         }
+    }, []);
 
+    useEffect(() => {
         window.addEventListener("keydown", keypressHandler);
 
         return () => {
             window.removeEventListener("keydown", keypressHandler);
         };
-    }, []);
+    });
 
     function keypressHandler(e:any) {
         const existingAlert = document.querySelector('.select-alert');
