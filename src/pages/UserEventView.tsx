@@ -172,7 +172,7 @@ const UserEventView: React.FC = () => {
 
     const title = (event?.is_special && event?.title) ? event?.title! : t('events.default_event_name');
     const image = (event?.is_special && event?.image) ? getImageUrl(event?.image!) : getImageUrl(event?.stadium_image!);
-    const matches = (event && baloteoSearch) ? event.matches?.sort((a:any, b:any) => a.number - b.number).filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name.toLowerCase().includes(baloteoSearch.toLowerCase()) || m.opponent?.team?.name.toLowerCase().includes(baloteoSearch.toLowerCase())) : event?.matches?.sort((a:any, b:any) => a.number - b.number);
+    const matches = (event && baloteoSearch) ? event.matches?.filter((m:any) => m.opponent_id && m.participant_id).sort((a:any, b:any) => a.number - b.number).filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name.toLowerCase().includes(baloteoSearch.toLowerCase()) || m.opponent?.team?.name.toLowerCase().includes(baloteoSearch.toLowerCase())) : event?.matches?.filter((m:any) => m.opponent_id && m.participant_id).sort((a:any, b:any) => a.number - b.number);
     const liveMatches = (event?.phase === "on going") ? matches?.filter((m:any) => m.live).sort((a:any, b:any) => a.manual - b.manual) || [] : [];
     const completeMatches = matches?.filter((m:any) => !m.live && m.result !== null) || [];
     const activeMatches = (baloteoTab === "results") ? completeMatches : liveMatches;

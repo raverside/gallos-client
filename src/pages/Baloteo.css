@@ -98,6 +98,22 @@
     margin:0;
     margin-left:auto;
 }
+.replace_participant {
+    width:130px;
+    height:130px;
+    border-radius:100%;
+    font-size:100px;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    border: 6px solid;
+    margin:10px auto;
+    cursor: pointer;
+}
+.replace_participant_blue {
+    color: #002D72;
+    border-color: #002D72;
+}
 .ion-page .print-icon[slot="end"] {
     font-size:24px;
     margin-right:15px;

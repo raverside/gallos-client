@@ -25,7 +25,7 @@ import {
     IonLoading,
 } from '@ionic/react';
 import React, {useContext, useEffect, useRef, useState} from "react";
-import {getEvent, publishMatch, swapSides, announceEvent, deleteMatch} from "../api/Events";
+import {getEvent, publishMatch, swapSides, announceEvent, unmatch, deleteMatch} from "../api/Events";
 
 import './Baloteo.css';
 import {useHistory, useParams} from "react-router-dom";
@@ -38,6 +38,7 @@ import {
 } from "ionicons/icons";
 import ConfirmPrompt from "../components/ConfirmPrompt";
 import PairManual from "../components/Events/PairManual";
+import PairBothManual from "../components/Events/PairBothManual";
 import PrintModal from "../components/Events/PrintModal";
 import ShareMatchImage from "../components/Events/ShareMatchImage";
 import {useReactToPrint} from "react-to-print";
@@ -66,6 +67,7 @@ const Baloteo: React.FC = () => {
     const [selectedGalleryParticipant, setSelectedGalleryParticipant] = useState<any>(false);
     const [showParticipantPhotoUploader, setShowParticipantPhotoUploader] = useState<boolean>(false);
     const [showGalleryImage, setShowGalleryImage] = useState<boolean>(false);
+    const [showRematch, setShowRematch] = useState<any>(false);
     const { id } = useParams<{id:string}>();
     const [present, dismiss] = useIonActionSheet();
     const history = useHistory();
@@ -182,6 +184,14 @@ const Baloteo: React.FC = () => {
     };
 
     const unpairMatch = async (matchId:string) => {
+        const response = await unmatch(matchId);
+        if (response) {
+            fetchEvent();
+            state.socket?.emit('updateEvents');
+        }
+    };
+
+    const deleteUnpairedMatch = async (matchId:string) => {
         const response = await deleteMatch(matchId);
         if (response) {
             fetchEvent();
@@ -248,10 +258,13 @@ const Baloteo: React.FC = () => {
                                 <IonRow>
                                     <IonCol size="2" offset="10" style={{textAlign:"right"}}>
                                         <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
-                                            buttons: [
+                                            buttons: (match.participant_id && match.opponent_id) ? [
                                                 { text: t('baloteo.share_match'), handler: () => shareMatch(match) },
                                                 { text: t('baloteo.print_match'), handler: () => printMatch(match) },
                                                 { text: t('baloteo.unmatch'), handler: () => unpairMatch(match.id) },
+                                                { text: t('baloteo.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
+                                            ] : [
+                                                { text: t('baloteo.delete_match'), handler: () => deleteUnpairedMatch(match.id) },
                                                 { text: t('baloteo.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                                             ],
                                             header: t('baloteo.popup_header')
@@ -261,7 +274,7 @@ const Baloteo: React.FC = () => {
                                 <IonRow>
                                     <IonCol size="5">
                                         <div className="blue_side">
-                                            <img
+                                            {match.participant ? <img
                                                 onClick={() => viewParticipantImage(match.participant)}
                                                 className={(match.participant?.image_flipped ? "baloteo-match-image flipped " : "baloteo-match-image") + (!match.participant?.image ? " placeholder_rooster" : "")}
                                                 src={getImageUrl("thumb_"+match.participant?.image, true)}
@@ -269,26 +282,28 @@ const Baloteo: React.FC = () => {
                                                     currentTarget.onerror = null;
                                                     currentTarget.src=getImageUrl(match.participant?.image, true);
                                                 }}
-                                            />
-                                            <p className="baloteo-match-team_name">#{match.participant?.cage} {match.participant?.team?.name}</p>
+                                            /> : <div className="replace_participant replace_participant_blue" onClick={() => setShowRematch({match, blueSide:true})}>+</div>}
+                                            <p className="baloteo-match-team_name">
+                                                {match.participant ? "#"+match.participant?.cage + " " +match.participant?.team?.name : t('baloteo.blue_side')}
+                                            </p>
                                         </div>
                                     </IonCol>
                                     <IonCol size="2">
                                         <p className="baloteo-match-fight">{t('baloteo.fight')} {match.number}</p>
                                         <p className="baloteo-match-vs">VS</p>
                                         {match.manual && <p className="baloteo-match-manual">{t('baloteo.manual')}</p>}
-                                        <IonButton
+                                        {(match.opponent && match.participant) && <IonButton
                                             fill="clear"
                                             color="dark"
                                             className="switch-sides"
                                             onClick={()=>switchSides(match.id)}
                                         >
                                             <IonIcon src={switchSidesIcon} size="large"/>
-                                        </IonButton>
+                                        </IonButton>}
                                     </IonCol>
                                     <IonCol size="5">
                                         <div className="white_side">
-                                            <img
+                                            {match.opponent ? <img
                                                 onClick={() => viewParticipantImage(match.opponent)}
                                                 className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image ? " placeholder_rooster" : "")}
                                                 src={getImageUrl("thumb_"+match.opponent?.image, true)}
@@ -296,8 +311,10 @@ const Baloteo: React.FC = () => {
                                                     currentTarget.onerror = null;
                                                     currentTarget.src=getImageUrl(match.opponent?.image, true);
                                                 }}
-                                            />
-                                            <p className="baloteo-match-team_name">#{match.opponent?.cage} {match.opponent?.team?.name}</p>
+                                            /> : <div className="replace_participant" onClick={() => setShowRematch({match, blueSide: false})}>+</div>}
+                                            <p className="baloteo-match-team_name">
+                                                {match.opponent ? "#"+match.opponent?.cage + " " +match.opponent?.team?.name : t('baloteo.white_side')}
+                                            </p>
                                         </div>
                                     </IonCol>
                                 </IonRow>
@@ -314,9 +331,12 @@ const Baloteo: React.FC = () => {
                                 <IonRow>
                                     <IonCol size="2" offset="10">
                                         <IonButton fill="clear" color="dark" className="printMenu" onClick={() => present({
-                                            buttons: [
+                                            buttons: (match.participant_id && match.opponent_id) ? [
                                                 { text: t('baloteo.share_match'), handler: () => printMatch(match) },
                                                 { text: t('baloteo.unmatch'), handler: () => unpairMatch(match.id) },
+                                                { text: t('baloteo.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
+                                            ] : [
+                                                { text: t('baloteo.delete_match'), handler: () => deleteUnpairedMatch(match.id) },
                                                 { text: t('baloteo.cancel'), handler: () => dismiss(), cssClass: 'action-sheet-cancel'}
                                             ],
                                             header: t('baloteo.popup_header')
@@ -325,7 +345,7 @@ const Baloteo: React.FC = () => {
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="5">
-                                        <img
+                                        {match.participant ? <img
                                             className={(match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image")  + (!match.participant?.image ? " placeholder_rooster" : "")}
                                             src={getImageUrl("thumb_"+match.participant?.image, true)}
                                             onError={({ currentTarget }) => {
@@ -333,15 +353,17 @@ const Baloteo: React.FC = () => {
                                                 currentTarget.src=getImageUrl(match.participant?.image, true);
                                             }}
                                             onClick={() => viewParticipantImage(match.participant)}
-                                        />
-                                        <p className="baloteo-match-team_name">#{match.participant?.cage} {match.participant?.team?.name}</p>
+                                        /> : <div className="replace_participant replace_participant_blue" onClick={() => setShowRematch({match, blueSide: true})}>+</div>}
+                                        <p className="baloteo-match-team_name">
+                                            {match.participant ? "#"+match.participant?.cage + " " +match.participant?.team?.name : t('baloteo.blue_side')}
+                                        </p>
                                     </IonCol>
                                     <IonCol size="2">
                                         <p className="baloteo-match-fight">{t('baloteo.fight')} {match.number}</p>
                                         <p className="baloteo-match-vs">VS</p>
                                     </IonCol>
                                     <IonCol size="5">
-                                        <img
+                                        {match.opponent ? <img
                                             onClick={() => viewParticipantImage(match.opponent)}
                                             className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image ? " placeholder_rooster" : "")}
                                             src={getImageUrl("thumb_"+match.opponent?.image, true)}
@@ -349,15 +371,17 @@ const Baloteo: React.FC = () => {
                                                 currentTarget.onerror = null;
                                                 currentTarget.src=getImageUrl(match.opponent?.image, true);
                                             }}
-                                        />
-                                        <p className="baloteo-match-team_name">#{match.opponent?.cage} {match.opponent?.team?.name}</p>
+                                        /> : <div className="replace_participant" onClick={() => setShowRematch({match, blueSide: false})}>+</div>}
+                                        <p className="baloteo-match-team_name">
+                                            {match.opponent ? "#"+match.opponent?.cage + " " +match.opponent?.team?.name : t('baloteo.white_side')}
+                                        </p>
                                     </IonCol>
                                 </IonRow>
-                                <IonRow>
+                                {(match.participant && match.opponent) && <IonRow>
                                     <IonCol size="12">
                                         <IonButton fill="clear" className="baloteo-manual-live" onClick={() => addToLive(match.id)}>{t('baloteo.add_to_live')}</IonButton>
                                     </IonCol>
-                                </IonRow>
+                                </IonRow>}
                             </IonGrid>
                         </IonGrid>
                     ))}</div>}
@@ -435,6 +459,27 @@ const Baloteo: React.FC = () => {
                         fightNumber={(matches && matches.length > 0) ? ((matches[matches?.length - 1]?.number) + 1) : 1}
                         fetchEvent={fetchEvent}
                         close={() => {setShowPairModal(false); setBaloteoTab("live")}}
+                    />
+                </IonModal>
+                <IonModal isOpen={!!showRematch} onDidDismiss={() => setShowRematch(false)}>
+                    <PairBothManual
+                        match={showRematch.match}
+                        blueSide={showRematch.blueSide}
+                        event={event}
+                        fetchEvent={fetchEvent}
+                        rematch={(match_id:string, blueSide:boolean, participant:any) => setEvent((currentEvent:any) => {
+                            const currentMatches = currentEvent.matches;
+                            const currentMatchIndex = currentMatches.findIndex((x:any) => x.id === match_id);
+                            if (blueSide) {
+                                currentMatches[currentMatchIndex].participant = participant;
+                                currentMatches[currentMatchIndex].participant_id = participant.id;
+                            } else {
+                                currentMatches[currentMatchIndex].opponent = participant;
+                                currentMatches[currentMatchIndex].opponent_id = participant.id;
+                            }
+                            return {...currentEvent, matches: currentMatches};
+                        })}
+                        close={() => {setShowRematch(false)}}
                     />
                 </IonModal>
                 <div style={showShareMatch ? {opacity: 1, transform: "translateX(100%)", height: "auto"} : {opacity: 0, height:0, overflow: "hidden"}}>

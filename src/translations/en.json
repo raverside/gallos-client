@@ -34,6 +34,8 @@
       "share_match": "Share this match",
       "print_match": "Print this match",
       "unmatch": "Unmatch",
+      "pick": "Pick",
+      "delete_match": "Delete match",
       "cancel": "Cancel",
       "popup_header": "Settings",
       "fight": "Pelea",

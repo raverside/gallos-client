@@ -34,6 +34,8 @@
       "share_match": "Comparte este combate",
       "print_match": "Imprime este combate",
       "unmatch": "Separarlo",
+      "pick": "Elegir",
+      "delete_match": "Eliminar Baloteado",
       "cancel": "Cancelar",
       "popup_header": "Ajustes",
       "fight": "Pelea",

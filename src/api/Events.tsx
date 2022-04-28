@@ -65,6 +65,10 @@ export async function publishMatch(match_id:string) {
     return fetcher.get(`/publishMatch/${match_id}`);
 }
 
+export async function unmatch(match_id:string) {
+    return fetcher.get(`/unmatch/${match_id}`);
+}
+
 export async function deleteMatch(match_id:string) {
     return fetcher.get(`/deleteMatch/${match_id}`);
 }
@@ -91,6 +95,10 @@ export async function createMatch(event_id:string, participant_id:string, oppone
 
 export async function getStatisticsByStadium(stadium_id:string, type: string, dateFilter: {}) {
     return fetcher.post(`/statistics/${stadium_id}/${type}`, {dateFilter});
+}
+
+export async function updateMatchParticipant(match_id:string, participant_id:string|null, opponent_id:string|null) {
+    return fetcher.post(`/updateMatchParticipant`, {match_id, participant_id, opponent_id});
 }
 
 const resizeFile = (file:File) =>
