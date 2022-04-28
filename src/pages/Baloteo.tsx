@@ -113,15 +113,15 @@ const Baloteo: React.FC = () => {
         setShowParticipantPhotoUploader(true);
     }
 
-    const matches = (event && baloteoSearch) ? event.matches?.filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name === baloteoSearch || m.opponent?.team?.name === baloteoSearch).sort((a:any, b:any) => a.number - b.number) : event.matches?.sort((a:any, b:any) => a.number - b.number);
+    const matches = (event && baloteoSearch) ? event.matches?.filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name?.toLowerCase().includes(baloteoSearch.toLowerCase()) || m.opponent?.team?.name?.toLowerCase().includes(baloteoSearch.toLowerCase())).sort((a:any, b:any) => a.number - b.number) : event.matches?.sort((a:any, b:any) => a.number - b.number);
     const liveMatches = matches?.filter((p:any) => p.live).sort((a:any, b:any) => a.manual - b.manual) || [];
     const availableMatches = matches?.filter((p:any) => !p.live) || [];
     const unmatchedParticipants = event.participants?.filter((participant:any) =>
         participant.status === "approved" && !event.matches?.find((match:any) =>
             match.participant_id === participant.id || match.opponent_id === participant.id
         )
-    ).sort((a:any, b:any) => (+a.weight - +b.weight));
-    const excludedParticipants = event.participants?.filter((participant:any) => participant.status === "rejected");
+    ).filter((p:any) => +p?.cage === +baloteoSearch || p.team?.name?.toLowerCase().includes(baloteoSearch.toLowerCase()) || !baloteoSearch).sort((a:any, b:any) => (+a.weight - +b.weight));
+    const excludedParticipants = event.participants?.filter((participant:any) => participant.status === "rejected").filter((p:any) => +p?.cage === +baloteoSearch || p.team?.name?.toLowerCase().includes(baloteoSearch.toLowerCase()) || !baloteoSearch);
 
     const shareMatch = async (match:any) => {
         if (!match) return false;
@@ -273,7 +273,7 @@ const Baloteo: React.FC = () => {
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size="5">
-                                        <div className="blue_side">
+                                        <div className={match.participant ? "blue_side" : "blue_side inactive"}>
                                             {match.participant ? <img
                                                 onClick={() => viewParticipantImage(match.participant)}
                                                 className={(match.participant?.image_flipped ? "baloteo-match-image flipped " : "baloteo-match-image") + (!match.participant?.image ? " placeholder_rooster" : "")}
@@ -290,7 +290,7 @@ const Baloteo: React.FC = () => {
                                     </IonCol>
                                     <IonCol size="2">
                                         <p className="baloteo-match-fight">{t('baloteo.fight')} {match.number}</p>
-                                        <p className="baloteo-match-vs">VS</p>
+                                        <p className={(match.participant && match.opponent) ? "baloteo-match-vs" : "baloteo-match-vs graybg"}>VS</p>
                                         {match.manual && <p className="baloteo-match-manual">{t('baloteo.manual')}</p>}
                                         {(match.opponent && match.participant) && <IonButton
                                             fill="clear"
@@ -302,7 +302,7 @@ const Baloteo: React.FC = () => {
                                         </IonButton>}
                                     </IonCol>
                                     <IonCol size="5">
-                                        <div className="white_side">
+                                        <div className={match.opponent ? "white_side" : "white_side inactive"}>
                                             {match.opponent ? <img
                                                 onClick={() => viewParticipantImage(match.opponent)}
                                                 className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image ? " placeholder_rooster" : "")}
@@ -344,7 +344,7 @@ const Baloteo: React.FC = () => {
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
-                                    <IonCol size="5">
+                                    <IonCol size="5" className={match.participant ? "" : "inactive"}>
                                         {match.participant ? <img
                                             className={(match.participant?.image_flipped ? "baloteo-match-image flipped" : "baloteo-match-image")  + (!match.participant?.image ? " placeholder_rooster" : "")}
                                             src={getImageUrl("thumb_"+match.participant?.image, true)}
@@ -360,9 +360,9 @@ const Baloteo: React.FC = () => {
                                     </IonCol>
                                     <IonCol size="2">
                                         <p className="baloteo-match-fight">{t('baloteo.fight')} {match.number}</p>
-                                        <p className="baloteo-match-vs">VS</p>
+                                        <p className={(match.participant && match.opponent) ? "baloteo-match-vs" : "baloteo-match-vs graybg"}>VS</p>
                                     </IonCol>
-                                    <IonCol size="5">
+                                    <IonCol size="5" className={match.opponent ? "" : "inactive"}>
                                         {match.opponent ? <img
                                             onClick={() => viewParticipantImage(match.opponent)}
                                             className={(match.opponent?.image_flipped ? "baloteo-match-image" : "baloteo-match-image flipped")  + (!match.participant?.image ? " placeholder_rooster" : "")}

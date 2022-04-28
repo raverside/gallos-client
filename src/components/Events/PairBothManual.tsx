@@ -11,9 +11,9 @@ import {
     IonIcon,
     IonList,
     IonItem,
-    IonLoading,
+    IonLoading, IonSearchbar,
 } from '@ionic/react';
-import React from "react";
+import React, {useState} from "react";
 
 import {getImageUrl, formatOzToLbsOz} from "../utils";
 import {closeOutline as closeIcon} from "ionicons/icons";
@@ -23,6 +23,7 @@ import {useTranslation} from "react-multi-lang";
 
 const PairBothManual: React.FC<any> = ({event, blueSide, match, rematch, close}) => {
     const t = useTranslation();
+    const [baloteoSearch, setBaloteoSearch] = useState<string>("");
 
     const pickParticipant = async (participant:any) => {
         await updateMatchParticipant(match.id, blueSide ? participant.id : null, blueSide ? null : participant.id);
@@ -34,7 +35,9 @@ const PairBothManual: React.FC<any> = ({event, blueSide, match, rematch, close})
         participant.status === "approved" && !event.matches?.find((match:any) =>
         match.participant_id === participant.id || match.opponent_id === participant.id
         )
-    ).sort((a:any, b:any) => (+a.weight - +b.weight));
+    )
+        .filter((p:any) => +p?.cage === +baloteoSearch || p.team?.name?.toLowerCase().includes(baloteoSearch.toLowerCase()) || !baloteoSearch)
+        .sort((a:any, b:any) => (+a.weight - +b.weight));
 
     return !event?.id ? <IonLoading isOpen={true} spinner="crescent" /> : (
         <IonPage>
@@ -44,6 +47,7 @@ const PairBothManual: React.FC<any> = ({event, blueSide, match, rematch, close})
             </IonToolbar>
 
             <IonContent fullscreen>
+                <IonSearchbar className="searchbar" placeholder={t('baloteo.search')} value={baloteoSearch} onIonChange={e => {setBaloteoSearch(e.detail.value!)}} />
                 <div className="baloteo-participants">
                     {unmatchedParticipants?.length > 0 && <IonList>
                         {unmatchedParticipants.map((participant:any) => <IonItem className="participant" lines="none" key={participant.id}>

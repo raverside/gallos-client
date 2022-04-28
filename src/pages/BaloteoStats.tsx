@@ -114,7 +114,7 @@ const BaloteoStats: React.FC = () => {
         setShowParticipantPhotoUploader(true);
     }
 
-    const matches = (event && baloteoSearch) ? event.matches?.sort((a:any, b:any) => a.number - b.number).filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name === baloteoSearch || m.opponent?.team?.name === baloteoSearch) : event?.matches?.sort((a:any, b:any) => a.number - b.number);
+    const matches = (event && baloteoSearch) ? event.matches?.sort((a:any, b:any) => a.number - b.number).filter((m:any) => +m.participant?.cage === +baloteoSearch || +m.opponent?.cage === +baloteoSearch || m.participant?.team?.name?.toLowerCase().includes(baloteoSearch.toLowerCase()) || m.opponent?.team?.name?.toLowerCase().includes(baloteoSearch.toLowerCase())) : event?.matches?.sort((a:any, b:any) => a.number - b.number);
     const liveMatches = matches?.filter((p:any) => p.live) || [];
     const completeMatches = matches?.filter((m:any) => !m.live && m.result !== null) || [];
     const activeMatches = (baloteoTab === "results") ? completeMatches : liveMatches;
