@@ -120,7 +120,8 @@ const Baloteo: React.FC = () => {
         participant.status === "approved" && !event.matches?.find((match:any) =>
             match.participant_id === participant.id || match.opponent_id === participant.id
         )
-    ).filter((p:any) => +p?.cage === +baloteoSearch || p.team?.name?.toLowerCase().includes(baloteoSearch.toLowerCase()) || !baloteoSearch).sort((a:any, b:any) => (+a.weight - +b.weight));
+    ).sort((a:any, b:any) => (+a.weight - +b.weight));
+    const searchedUnmatchedParticipants = unmatchedParticipants?.filter((p:any) => +p?.cage === +baloteoSearch || p.team?.name?.toLowerCase().includes(baloteoSearch.toLowerCase()) || !baloteoSearch);
     const excludedParticipants = event.participants?.filter((participant:any) => participant.status === "rejected").filter((p:any) => +p?.cage === +baloteoSearch || p.team?.name?.toLowerCase().includes(baloteoSearch.toLowerCase()) || !baloteoSearch);
 
     const shareMatch = async (match:any) => {
@@ -386,8 +387,8 @@ const Baloteo: React.FC = () => {
                         </IonGrid>
                     ))}</div>}
                     {(baloteoTab === "unmatched") && <div className="baloteo-participants">
-                        {unmatchedParticipants?.length > 0 && <IonList>
-                            {unmatchedParticipants.map((participant:any) => <IonItem className="participant" lines="none" key={participant.id}>
+                        {searchedUnmatchedParticipants?.length > 0 && <IonList>
+                            {searchedUnmatchedParticipants.map((participant:any) => <IonItem className="participant" lines="none" key={participant.id}>
                                 <IonGrid>
                                     <IonRow>
                                         <IonCol size="2">{participant.cage}</IonCol>
