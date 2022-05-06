@@ -159,7 +159,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
                     </IonToolbar>
                     <IonContent>
                         <div className="special-guest-wrapper">
-                        <SpecialGuestList teamOwners={event?.participants?.map((p:any) => teamOwners.find((to:any) => to.id === p.team.team_owner.id)).filter((to:any, index:number, self:any) => self.findIndex((x:any) => x.id === to.id) === -1 || self.findIndex(((x:any) => x.id === to.id)) === index)} selectedTeamOwners={selectedTeamOwners} setSelectedTeamOwners={(selected:any) => setSelectedTeamOwners(selected)} />
+                        <SpecialGuestList teamOwners={event?.participants?.map((p:any) => teamOwners.find((to:any) => to?.id === p?.team?.team_owner?.id)).filter((to:any, index:number, self:any) => self.findIndex((x:any) => x?.id === to?.id) === -1 || self.findIndex(((x:any) => x?.id === to?.id)) === index)} selectedTeamOwners={selectedTeamOwners} setSelectedTeamOwners={(selected:any) => setSelectedTeamOwners(selected)} />
                         <IonButton expand="block" disabled={!selectedTeamOwners.length} className="guests-selected-generate" onClick={GenerateMatches}>
                             <span>{selectedTeamOwners.length} {t('events.mm_selected')}</span>
                             <span>{t('events.mm_generate')}</span>
@@ -210,13 +210,13 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
                                 icon={closeIcon}
                                 className="matchmaking-close-icon"
                                 slot="start"
-                                onClick={() => setStep(0)}
+                                onClick={() => {setStep(0); setSelectedTeamOwners([])}}
                             />
                         </IonButtons>
                     </IonToolbar>
                     <IonContent>
                         <div className="special-guest-wrapper">
-                            <SpecialGuestList teamOwners={event?.participants?.map((p:any) => teamOwners.find((to:any) => to.id === p.team.team_owner.id)).filter((to:any, index:number, self:any) => self.findIndex((x:any) => x.id === to.id) === -1 || self.findIndex(((x:any) => x.id === to.id)) === index)} selectedTeamOwners={selectedTeamOwners} setSelectedTeamOwners={(selected:any) => setSelectedTeamOwners(selected)} />
+                            <SpecialGuestList teamOwners={event?.participants?.map((p:any) => teamOwners.find((to:any) => to?.id === p.team?.team_owner?.id)).filter((to:any, index:number, self:any) => self.findIndex((x:any) => x?.id === to?.id) === -1 || self.findIndex(((x:any) => x?.id === to?.id)) === index)} selectedTeamOwners={selectedTeamOwners} setSelectedTeamOwners={(selected:any) => setSelectedTeamOwners(selected)} />
                             <IonButton expand="block" disabled={!selectedTeamOwners.length} className="guests-selected-generate" onClick={GenerateMatches}>
                                 <span>{selectedTeamOwners.length} {t('events.mm_selected')}</span>
                                 <span>{t('events.mm_generate')}</span>
