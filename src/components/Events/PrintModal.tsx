@@ -3,7 +3,7 @@ import {
     IonButton,
     IonButtons,
     IonContent,
-    IonIcon, IonInput,
+    IonIcon,
     IonItem,
     IonItemDivider, IonList,
     IonModal,
@@ -13,7 +13,6 @@ import {
 } from '@ionic/react';
 import {
     closeOutline as closeIcon,
-    printOutline as printIcon
 } from 'ionicons/icons';
 import './PrintModal.css';
 import { useReactToPrint } from 'react-to-print';
@@ -60,7 +59,6 @@ const PrintModal: React.FC<PrintModalType> = ({event, showModal, setShowModal}) 
                         <IonSelect value={printOption} placeholder="Select print option" interface="alert" onIonChange={(e) => setPrintOption(e.detail.value!)}>
                             <IonSelectOption value={1}>{t('events.print_live_matches')}</IonSelectOption>
                             <IonSelectOption value={2}>{t('events.print_live_matches_cut')}</IonSelectOption>
-                            <IonSelectOption value={0}>{t('events.print_live_matches_wide')}</IonSelectOption>
                             <IonSelectOption value={3}>{t('events.print_available_matches')}</IonSelectOption>
                             <IonSelectOption value={4}>{t('events.print_available_matches_cut')}</IonSelectOption>
                             <IonSelectOption value={5}>{t('events.print_unmatched')}</IonSelectOption>
@@ -69,6 +67,10 @@ const PrintModal: React.FC<PrintModalType> = ({event, showModal, setShowModal}) 
                             <IonSelectOption value={8}>{t('events.print_all_animals_cut')}</IonSelectOption>
                             <IonSelectOption value={9}>{t('events.print_all_animals_nonlive')}</IonSelectOption>
                             <IonSelectOption value={10}>{t('events.print_all_animals_fight_order')}</IonSelectOption>
+                            <IonSelectOption value={11}>{t('events.print_live_matches_color')}</IonSelectOption>
+                            <IonSelectOption value={12}>{t('events.print_live_matches_colorless')}</IonSelectOption>
+                            <IonSelectOption value={13}>{t('events.print_live_matches_qr_color')}</IonSelectOption>
+                            <IonSelectOption value={14}>{t('events.print_live_matches_qr_colorless')}</IonSelectOption>
                         </IonSelect>
                     </IonItem>
                 </IonList>
@@ -77,7 +79,7 @@ const PrintModal: React.FC<PrintModalType> = ({event, showModal, setShowModal}) 
         </IonModal>
 
 
-        <div style={{ overflow: "hidden", height: 0, width: 0 }}><PrintMatches ref={printWrapperRef} event={event} mode={printOption} /></div>
+        <div style={{ overflow: "hidden", height: 0, width: 0, position: "relative" }}><PrintMatches ref={printWrapperRef} event={event} mode={printOption} /></div>
     </>);
 };
 

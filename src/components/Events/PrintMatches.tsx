@@ -2,6 +2,10 @@ import React from "react";
 import moment from "moment";
 import {formatOzToLbsOz, getStadiumInitials, getParticipantBettingAmount, getBettingPreference} from "../utils";
 import {useTranslation} from "react-multi-lang";
+import QRCode from "react-qr-code";
+import roosterLogo from '../../img/rooster.png';
+import gallosClubLogo from '../../img/logo_club.png';
+import {getImageUrl} from '../utils';
 
 const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
     const t = useTranslation();
@@ -63,13 +67,16 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
             title = t('events.print_all_animals_nonlive');
             printMatches = allParticipantsNonLive;
         break;
-        case 0:
-            title = t('events.print_live_matches_wide');
-            printMatches = allMatches;
-        break;
         case 10:
             title = t('events.print_all_animals_fight_order');
             printMatches = liveMatches;
+        break;
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+            title = t('events.print_live_matches_wide');
+            printMatches = allMatches;
         break;
     }
 
@@ -385,11 +392,16 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                     </div>
                     </>)
                 ) }
-            </div> : (mode === 0) ? <>
+            </div> : (mode === 11 || mode === 12 || mode === 13 || mode === 14) ? <>
                 <h1 style={{fontSize: "20px", width: "1000px", textAlign: "center"}}>{event.stadium_name}</h1>
                 <div style={{fontSize: "16px", fontWeight: "bold", color: "#EB0404", width: "1000px", textAlign: "center"}}>{title}</div>
                 <div style={{fontSize: "16px", fontWeight: "bold", width: "1000px", textAlign: "center"}}>{moment(event.event_date).format("dddd, D MMMM YYYY")}</div>
                 <div style={{fontSize: "20px", fontWeight: "bold", width: "1000px", textAlign: "center"}}>{(event.is_special && event.title) ? event.title : t('events.default_event_name')}</div>
+                <div style={{width:"1000px", position:"absolute", top:0, left:0, right:0}}>
+                    {event.stadium_logo && <img src={getImageUrl(event.stadium_logo)} style={{ width:"85px", height:"85px", position: "absolute", top: "10px", left:"20px"}} />}
+                    <img src={roosterLogo} style={{ width:"50px", position: "absolute", top: "10px", right:"20px"}} />
+                    <img src={gallosClubLogo} style={{ width:"100px", position: "absolute", top: "80px", right:"0px"}}/>
+                </div>
                 <table style={{width: "1000px"}}>
                     <thead  style={{border: 0}}>
                         <tr style={{background: "black", color: "white", fontWeight:"bold"}}>
@@ -411,7 +423,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                     {printMatches?.map((match:any) => <tr>
                             <td style={{textAlign: "center"}}>{match.number}</td>
                             <td style={{textAlign: "center"}}>{match.participant.cage}</td>
-                            <td style={{textAlign: "center", textTransform: "uppercase", fontWeight: "bold", color: "#002D72"}}>{match.participant.team.name}</td>
+                            <td style={{textAlign: "center", textTransform: "uppercase", fontWeight: "bold", color: (mode === 11 || mode === 13) ? "#002D72" : "black"}}>{match.participant.team.name}</td>
                             <td style={{textAlign: "center"}}>{match.participant.type}</td>
                             <td style={{textAlign: "center", fontWeight: "bold"}}>{formatOzToLbsOz(match.participant.weight)}</td>
                             <td style={{textAlign: "center", textTransform: "capitalize"}}>{match.participant.color}</td>
@@ -425,6 +437,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                     )}
                     </tbody>
                 </table>
+                {(mode === 13 || mode === 14) && <div style={{margin: "20px auto", width: "1000px", textAlign:"right"}}><QRCode size={128} value={window.location.origin + "/baloteo/" + event.id} /></div>}
                 <p style={{ width: "1000px", fontSize: "16px", textAlign: "center", fontWeight: "bold", borderTop: "1px dashed black", padding: "10px"}}>gallosclub.com</p>
             </> : <>
                 <table style={{width: "80mm", fontSize: "14px"}}>
