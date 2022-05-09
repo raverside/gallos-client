@@ -51,3 +51,9 @@
 .participants-list {
     margin-bottom:50px;
 }
+.express-mode {
+    position:absolute;
+    top:15px;
+    right:0px;
+    background-color:white;
+}

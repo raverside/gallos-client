@@ -57,12 +57,15 @@ type ParticipantFormData = {
 };
 type ParticipantProps = {
     close: () => void;
+    expressMode: boolean;
+    expressNext: () => void;
+    findParticipantByCage: (cage:number) => boolean;
     fetchEvent: () => void;
     event: any;
     participant?: ParticipantFormData|false;
 };
 
-const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event, participant= false}) => {
+const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event, expressMode, expressNext, findParticipantByCage, participant= false}) => {
     const t = useTranslation();
     const { state } = useContext(AppContext);
     const [teams, setTeams] = useState<any[]>([]);
@@ -95,6 +98,8 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         stadium_id: participant ? participant.stadium_id : undefined,
         stadium_name: participant ? participant.stadium_name : (event.stadium_name === "Coliseo Gallistico Santiago") ? "Santiago" : undefined,
     });
+    const [cageNumber, setCageNumber] = useState<any>(participant ? participant.cage : (event?.participants?.length > 0 ? +event.participants?.length + 1 : 1));
+    const [cageNumberTimeout, setCageNumberTimeout] = useState<any>(undefined);
     const [presentToast] = useIonToast();
     const [uploading, setUploading] = useState<boolean>(false);
     const [showAddTeamModal, setShowAddTeamModal] = useState<any>(false);
@@ -270,7 +275,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
             presentToast(t('events.saved'), 1000);
         }
         if (formData.id) {
-            close();
+            expressMode ? expressNext() : close();
         } else {
             setFormData((currentFormData:ParticipantFormData) => ({
                 ...currentFormData,
@@ -294,7 +299,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
             state.socket?.emit('updateEvents', {eventId: event.id});
             presentToast(t('events.saved'), 1000);
         }
-        close();
+        expressMode ? expressNext() : close();
     }
 
     const Reject = async () => {
@@ -308,7 +313,8 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
             state.socket?.emit('updateEvents', {eventId: event.id});
             presentToast(t('events.saved'), 1000);
         }
-        close();
+        setShowRejectReason(false);
+        expressMode ? expressNext() : close();
     }
 
     return (<>
@@ -344,11 +350,22 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                     <IonItemDivider>{t('events.receiving_cage_number')}</IonItemDivider>
                     <IonItem lines="none">
                         <IonInput
-                            value={formData.cage}
+                            value={expressMode ? cageNumber : formData.cage}
                             className="fullsize-input"
                             type="number"
-                            readonly
+                            readonly={!expressMode}
                             placeholder={t('events.receiving_cage_number')}
+                            onIonChange={(e) => {if (expressMode) {
+                                if (cageNumberTimeout) clearTimeout(cageNumberTimeout);
+                                const oldCage = formData.cage;
+                                const newCage = +e.detail.value!;
+                                setCageNumber(newCage);
+                                const cageTimeout = setTimeout(() => {
+                                    const foundParticipant = findParticipantByCage(newCage);
+                                    if (!foundParticipant) setCageNumber(oldCage);
+                                }, 2000);
+                                setCageNumberTimeout(cageTimeout);
+                            }}}
                         />
                     </IonItem>
 

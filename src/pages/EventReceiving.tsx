@@ -35,7 +35,7 @@ import ParticipantEditor from "../components/Events/ParticipantEditor";
 import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploader";
 import Matchmaking from "../components/Events/Matchmaking";
 import editIcon from "../img/edit.png";
-import {cameraReverseOutline as addPhotoIcon, ellipsisHorizontal as menuIcon, trashOutline as deleteIcon} from 'ionicons/icons';
+import {cameraReverseOutline as addPhotoIcon, ellipsisHorizontal as menuIcon, rocketOutline as expressInactive, rocket as expressActive, trashOutline as deleteIcon} from 'ionicons/icons';
 import {getImageUrl, formatOzToLbsOz} from "../components/utils";
 import ConfirmPrompt from "../components/ConfirmPrompt";
 import {useTranslation} from "react-multi-lang";
@@ -61,6 +61,7 @@ const EventReceiving: React.FC = () => {
     const [present, dismiss] = useIonActionSheet();
     const history = useHistory();
     const [showGalleryImage, setShowGalleryImage] = useState<boolean>(false);
+    const [expressMode, setExpressMode] = useState<boolean>(false);
 
     useEffect(() => {
         fetchEvent();
@@ -123,6 +124,7 @@ const EventReceiving: React.FC = () => {
                     <IonTitle className="page-title">
                         <p>{event.title || event.stadium_name}</p>
                         <p className="page-subtitle">{t('events.phase_'+event?.phase?.replace(' ', ''))}</p>
+                        <IonButton fill="clear" color={expressMode ? "primary" : "dark"} className="express-mode" onClick={() => setExpressMode((currentExpressMode) => !currentExpressMode)}><IonIcon size="large" icon={expressMode ? expressActive : expressInactive}/></IonButton>
                     </IonTitle>
                     <IonButtons slot="end">
                         <IonButton fill="clear" color="dark" slot="end" className="view-note-menu" onClick={() => present({
@@ -191,10 +193,32 @@ const EventReceiving: React.FC = () => {
                 <CreateParticipantButton showParticipantEditor={() => {setSelectedParticipant(false); setShowParticipantEditor(true)}}/>
                 <IonModal isOpen={!!showParticipantEditor} onDidDismiss={() => setShowParticipantEditor(false)}>
                     <ParticipantEditor
-                        close={() => setShowParticipantEditor(false)}
+                        close={() => {setShowParticipantEditor(false); setSelectedParticipant(false);}}
+                        expressMode={expressMode}
+                        expressNext={() => {
+                                const currentParticipantIndex = currentTabParticipants.findIndex((ctp:any) => ctp.id === selectedParticipant?.id);
+                                const nextParticipant = (currentParticipantIndex >= 0 && currentTabParticipants[currentParticipantIndex + 1]) ? currentTabParticipants[currentParticipantIndex + 1] : false;
+                                setSelectedParticipant(nextParticipant);
+                                !nextParticipant && setShowParticipantEditor(false);
+                        }}
                         event={event}
                         fetchEvent={fetchEvent}
                         participant={selectedParticipant}
+                        findParticipantByCage={(cageNumber) => {
+                            if (cageNumber) {
+                                const foundParticipant = participants.find((p:any) => p.cage === cageNumber);
+                                if (foundParticipant) {
+                                    setShowParticipantEditor(false);
+                                    setSelectedParticipant(false);
+                                    setTimeout(() => {
+                                        setSelectedParticipant(foundParticipant);
+                                        setShowParticipantEditor(true);
+                                    }, 300);
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }}
                     />
                 </IonModal>
                 <IonModal isOpen={!!showParticipantPhotoUploader} onDidDismiss={() => setShowParticipantPhotoUploader(false)}>
