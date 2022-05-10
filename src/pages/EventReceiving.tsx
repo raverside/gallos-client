@@ -155,7 +155,7 @@ const EventReceiving: React.FC = () => {
                 <IonSearchbar className="searchbar" inputmode="numeric" placeholder={t('events.search')} value={participantsSearch} onIonChange={e => {setParticipantsSearch(e.detail.value!)}} />
 
                 {currentTabParticipants?.length > 0 && <IonList className="participants-list">
-                    {currentTabParticipants.map((participant:any) => <IonItem className="participant" lines="none" key={participant.id}>
+                    {currentTabParticipants.map((participant:any) => <IonItem className={participant.deleted ? "participant deleted_participant" : "participant"} lines="none" key={participant.id}>
                         <IonGrid>
                             <IonRow>
                                 <IonCol size="2">{participant.cage}</IonCol>
@@ -170,7 +170,7 @@ const EventReceiving: React.FC = () => {
                                         className={participant.image_flipped ? "participant-thumb flipped" : "participant-thumb"}
                                     />}
                                     {!participant.image && <IonButton className="participant-placeholder" fill="clear" onClick={() => {showPhotoUploader(participant)}}><IonIcon icon={addPhotoIcon} slot="icon-only" /></IonButton>}
-                                    <IonText>{participant.team?.name}</IonText>
+                                    <IonText>{participant.deleted ? t('events.deleted_participant') : participant.team?.name}</IonText>
                                 </IonCol>
                                 <IonCol size="2" className="participant-weight-class">
                                     <div>{participant.type}</div>
@@ -181,7 +181,7 @@ const EventReceiving: React.FC = () => {
                                     <IonButton className="participant-edit" fill="clear" onClick={() => {setSelectedParticipant(participant); setShowParticipantEditor(true);}}>
                                         <IonImg src={editIcon} />
                                     </IonButton>
-                                    <IonButton className="participant-edit" fill="clear" color="dark" onClick={() => {setShowDeleteParticipant(participant);}}>
+                                    <IonButton className="participant-edit" fill="clear" color={participant.deleted ? "primary" : "dark"} onClick={() => {setShowDeleteParticipant(participant);}}>
                                         <IonIcon icon={deleteIcon} />
                                     </IonButton>
                                 </IonCol>

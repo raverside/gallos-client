@@ -5,6 +5,9 @@
     margin:0 10px 25px 10px;
     padding:0;
 }
+.participant.deleted_participant {
+    opacity:0.4;
+}
 .participant ion-row {
     align-items: center;
     padding:10px 0;
