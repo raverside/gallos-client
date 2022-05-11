@@ -16,13 +16,17 @@ import {
     IonCard, IonIcon, IonModal, IonRefresherContent, IonRefresher, IonText, IonButton
 } from '@ionic/react';
 import React, {useContext, useEffect, useState} from "react";
-import {getEvent} from "../api/Events";
+import {getEvent, swapSides, confirmMatchColor, confirmAllMatchesColor} from "../api/Events";
 
 import './Baloteo.css';
 import {useHistory, useParams} from "react-router-dom";
 import {getImageUrl, formatOzToLbsOz, isDesktop} from "../components/utils";
 import {useTranslation} from "react-multi-lang";
-import {printOutline as printIcon, shareSocialOutline as shareIcon} from "ionicons/icons";
+import {
+    printOutline as printIcon,
+    shareSocialOutline as shareIcon,
+    swapHorizontalOutline as switchSidesIcon
+} from "ionicons/icons";
 import PrintModal from "../components/Events/PrintModal";
 import ParticipantGallery from "../components/Events/ParticipantGallery";
 import ParticipantPhotoUploader from "../components/Events/ParticipantPhotoUploader";
@@ -80,6 +84,26 @@ const BaloteoStats: React.FC = () => {
         callback();
     };
 
+    const switchSides = async (matchId:string) => {
+        setEvent((currentEvent:any) => {
+            const updatedMatches = currentEvent.matches.map((m:any) => {
+                if (m.id === matchId) {
+                    const oldOpponent = {...m.opponent};
+                    const oldParticipant = {...m.participant};
+                    return {...m, opponent: oldParticipant, participant: oldOpponent}
+                }
+                return m;
+            });
+
+            return {...currentEvent, matches: updatedMatches};
+        });
+
+        const response = await swapSides(matchId);
+        if (response.event) {
+            state.socket?.emit('updateEvents', {eventId: response.event.id});
+        }
+    };
+
     const shareMatch = async (match:any) => {
         if (!match) return false;
         setShowLoading(true);
@@ -103,6 +127,36 @@ const BaloteoStats: React.FC = () => {
             }
             setShowLoading(false);
         });
+    }
+
+    const confirmColorMatch = async (matchId:string) => {
+        setEvent((currentEvent:any) => {
+            const updatedMatches = currentEvent.matches.map((m:any) => {
+                return (m.id === matchId) ? ({...m, color_confirmed: true}) : m;
+            });
+
+            return {...currentEvent, matches: updatedMatches};
+        });
+
+        const response = await confirmMatchColor(matchId);
+        if (response.event) {
+            state.socket?.emit('updateEvents', {eventId: response.event.id});
+        }
+    }
+
+    const confirmColorAllMatches = async () => {
+        setEvent((currentEvent:any) => {
+            const updatedMatches = currentEvent.matches.map((m:any) => {
+                return ({...m, color_confirmed: true});
+            });
+
+            return {...currentEvent, matches: updatedMatches};
+        });
+
+        const response = await confirmAllMatchesColor(event.id);
+        if (response.event) {
+            state.socket?.emit('updateEvents', {eventId: response.event.id});
+        }
     }
 
     const viewParticipantImage = (participant:any) => {
@@ -153,6 +207,7 @@ const BaloteoStats: React.FC = () => {
                 </IonSegment>
                 {(baloteoTab === "matches" || baloteoTab === "results") && <div className="baloteo-matches">
                     <IonSearchbar className="searchbar" placeholder={t('baloteo.search')} value={baloteoSearch} onIonChange={e => {setBaloteoSearch(e.detail.value!)}} />
+                    {activeMatches.filter((am:any) => !am.color_confirmed)?.length > 0 && <IonButton expand="block" fill="solid" color="primary" onClick={() => confirmColorAllMatches()}>{t('baloteo.announce_all')}</IonButton>}
                     <IonGrid className="baloteo-match">
                         <IonRow className="baloteo-side-header">
                             <IonCol size="5">
@@ -167,8 +222,8 @@ const BaloteoStats: React.FC = () => {
                                 </div>
                             </IonCol>
                         </IonRow>
-                        {activeMatches.map((match:any, index:number) => (<div className="baloteo-match-wrapper">
-
+                        {activeMatches.map((match:any, index:number) => (
+                            <div className="baloteo-match-wrapper" key={index}>
                                 <IonRow>
                                     <IonCol size="5">
                                         <div className="blue_side">
@@ -187,6 +242,14 @@ const BaloteoStats: React.FC = () => {
                                     <IonCol size="2">
                                         <p className="baloteo-match-fight">{t('baloteo.fight')} {match.number || 1}</p>
                                         <p className="baloteo-match-vs">VS</p>
+                                        {(match.opponent && match.participant && !match.color_confirmed) && <IonButton
+                                            fill="clear"
+                                            color="dark"
+                                            className="switch-sides"
+                                            onClick={()=>switchSides(match.id)}
+                                        >
+                                            <IonIcon src={switchSidesIcon} size="large"/>
+                                        </IonButton>}
                                         {match.manual && <p className="baloteo-match-manual">{t('baloteo.manual')}</p>}
                                     </IonCol>
                                     <IonCol size="5">
@@ -217,6 +280,11 @@ const BaloteoStats: React.FC = () => {
                                         <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => shareMatch(match)}><IonIcon icon={shareIcon} style={{marginRight: "5px"}}/> {t('events.share_participant')}</IonButton>
                                     </IonCol>
                                 </IonRow>
+                                {!match.color_confirmed && <IonRow>
+                                    <IonCol size="12">
+                                        <IonButton expand="block" fill="solid" color="primary" onClick={() => confirmColorMatch(match.id)}>{t('baloteo.announce')}</IonButton>
+                                    </IonCol>
+                                </IonRow>}
                         </div>))}
                     </IonGrid></div>}
                 {(baloteoTab === "animals") && <div className="baloteo-participants">

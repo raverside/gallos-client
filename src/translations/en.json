@@ -43,6 +43,7 @@
       "add_to_live": "Add to Live",
       "pair": "Pair",
       "announce": "Announce",
+      "announce_all": "Announce All Matches",
       "prompt_announce_title": "Announce Matches",
       "prompt_announce_subtitle": "Are you sure you want to announce matches? You can't change participant sides after you announce them.",
       "pair_animal": "Pair Animal",

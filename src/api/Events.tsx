@@ -105,6 +105,14 @@ export async function updateMatchParticipant(match_id:string, participant_id:str
     return fetcher.post(`/updateMatchParticipant`, {match_id, participant_id, opponent_id});
 }
 
+export async function confirmMatchColor(match_id:string) {
+    return fetcher.post(`/confirmMatchColor`, {match_id});
+}
+
+export async function confirmAllMatchesColor(event_id:string) {
+    return fetcher.post(`/confirmAllMatchesColor`, {event_id});
+}
+
 const resizeFile = (file:File) =>
     new Promise((resolve) => {
         Resizer.imageFileResizer(

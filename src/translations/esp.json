@@ -43,6 +43,7 @@
       "add_to_live": "Agregar a En Vivo",
       "pair": "Emparejar",
       "announce": "Anunciar",
+      "announce_all": "Anunciar Baloteado",
       "prompt_announce_title": "Anunciar Baloteado",
       "prompt_announce_subtitle": "¿Seguro que quieres anunciar partidos? No puede cambiar la cintas de los gallos después de anunciarlos.",
       "pair_animal": "Convencional",

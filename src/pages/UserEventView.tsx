@@ -228,7 +228,7 @@ const UserEventView: React.FC = () => {
                             </IonCol>
                         </IonRow>
                         {activeMatches.map((match:any, index:number) => (
-                            <IonGrid className="baloteo-match-wrapper" key={index}>
+                            <IonGrid className={match.color_confirmed ? "baloteo-match-wrapper" : "baloteo-match-wrapper inactive"} key={index}>
                                 <IonRow>
                                     <IonCol size="5">
                                         <div className="blue_side">
@@ -241,7 +241,7 @@ const UserEventView: React.FC = () => {
                                                 }}
                                                 onClick={() => match.participant?.image && viewParticipantImage(match.participant)}
                                             />
-                                            <p className="baloteo-match-team_name">{match.participant?.team?.name}</p>
+                                            <p className={match.color_confirmed ? "baloteo-match-team_name" : "baloteo-match-team_name blackbg"}>{match.participant?.team?.name}</p>
                                         </div>
                                     </IonCol>
                                     <IonCol size="2">
