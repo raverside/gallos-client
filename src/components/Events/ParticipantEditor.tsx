@@ -259,7 +259,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         if (!formData.cresta) isFormFilled = false;
         if (!formData.pata) isFormFilled = false;
         if (!formData.physical_advantage) isFormFilled = false;
-        if (!formData.weight) isFormFilled = false;
+        if (!formData.weight || parseFloat(formData.weight) <= 0) isFormFilled = false;
         if (formData.participated_before === undefined || formData.participated_before === null) isFormFilled = false;
 
         return isFormFilled;
