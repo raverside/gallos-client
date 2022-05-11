@@ -85,7 +85,6 @@ const Baloteo: React.FC = () => {
 
     useEffect(() => {
         const phase = ((state.user.role === "admin" || state.user.role === "admin_manager" || state.user.role === "stadium_admin_worker") && event.admin_phase) ? event.admin_phase : event.phase;
-        console.log('Baloteo: ' +phase);
         switch (phase) {
             case "receiving":
                 history.replace('/event_receiving/'+event?.id);

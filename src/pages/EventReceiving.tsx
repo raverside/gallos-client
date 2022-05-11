@@ -69,7 +69,6 @@ const EventReceiving: React.FC = () => {
 
     useEffect(() => {
         const phase = ((state.user.role === "admin" || state.user.role === "admin_manager" || state.user.role === "stadium_admin_worker") && event.admin_phase) ? event.admin_phase : event.phase;
-        console.log('ER: ' +phase);
         switch (phase) {
             case "on going":
             case "complete":
