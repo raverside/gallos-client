@@ -68,7 +68,9 @@ const EventReceiving: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        switch (event.phase) {
+        const phase = ((state.user.role === "admin" || state.user.role === "admin_manager" || state.user.role === "stadium_admin_worker") && event.admin_phase) ? event.admin_phase : event.phase;
+        console.log('ER: ' +phase);
+        switch (phase) {
             case "on going":
             case "complete":
                 history.replace('/baloteo_stats/'+event?.id);
@@ -77,7 +79,7 @@ const EventReceiving: React.FC = () => {
                 history.replace('/baloteo/'+event?.id);
                 break;
         }
-    }, [event?.phase]);
+    }, [event?.phase, event?.admin_phase]);
 
     const fetchEvent = async (callback = () => {}) => {
         const response = await getEvent(id);
@@ -249,7 +251,7 @@ const EventReceiving: React.FC = () => {
                     showModal={showGalleryImage}
                     setShowModal={setShowGalleryImage}
                     showPhotoUploader={showPhotoUploader}
-                    eventPhase={event.phase}
+                    eventPhase={event.admin_phase || event.phase}
                 />
                 <IonRefresher slot="fixed" onIonRefresh={(e) => fetchEvent(e.detail.complete)}><IonRefresherContent /></IonRefresher>
             </IonContent>

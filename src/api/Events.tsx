@@ -32,6 +32,10 @@ export async function changeEventPhase(eventId:string, phase:string) {
     return fetcher.post('/changeEventPhase', {eventId, phase});
 }
 
+export async function changeAdminEventPhase(eventId:string, admin_phase:string) {
+    return fetcher.post('/changeAdminEventPhase', {eventId, admin_phase});
+}
+
 export async function upsertParticipant(payload: {image_upload?: File|null, image?: string|null|undefined, image_flipped: boolean}) {
     if (payload.image_upload) {
         const resizedImage = await resizeFile(payload.image_upload);

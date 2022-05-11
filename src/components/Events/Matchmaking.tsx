@@ -39,7 +39,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
     const history = useHistory();
 
     useEffect(() => {
-        if (event.id && event.phase !== "receiving") {
+        if (event.id && event.admin_phase !== "receiving" && event.phase !== "receiving") {
             history.replace("/baloteo/"+event.id);
         }
     }, [event]);

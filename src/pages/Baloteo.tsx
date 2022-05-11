@@ -84,7 +84,9 @@ const Baloteo: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        switch (event.phase) {
+        const phase = ((state.user.role === "admin" || state.user.role === "admin_manager" || state.user.role === "stadium_admin_worker") && event.admin_phase) ? event.admin_phase : event.phase;
+        console.log('Baloteo: ' +phase);
+        switch (phase) {
             case "receiving":
                 history.replace('/event_receiving/'+event?.id);
                 break;
@@ -93,7 +95,7 @@ const Baloteo: React.FC = () => {
                 history.replace('/baloteo_stats/'+event?.id);
             break;
         }
-    }, [event?.phase]);
+    }, [event?.phase, event?.admin_phase]);
 
     const fetchEvent = async (callback = () => {}) => {
         const response = await getEvent(id);
@@ -492,7 +494,7 @@ const Baloteo: React.FC = () => {
                     showModal={showGalleryImage}
                     setShowModal={setShowGalleryImage}
                     showPhotoUploader={showPhotoUploader}
-                    eventPhase={event.phase}
+                    eventPhase={event.admin_phase || event.phase}
                 />
                 <IonModal isOpen={!!showParticipantPhotoUploader} onDidDismiss={() => setShowParticipantPhotoUploader(false)}>
                     <ParticipantPhotoUploader

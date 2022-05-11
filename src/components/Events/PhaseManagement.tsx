@@ -2,7 +2,7 @@ import {
     IonSegment, IonSegmentButton, IonLabel
 } from '@ionic/react';
 import React, {useState, useEffect} from 'react';
-import {changeEventPhase} from '../../api/Events';
+import {changeAdminEventPhase} from '../../api/Events';
 import './DateFilter.css';
 import {useTranslation} from "react-multi-lang";
 import ConfirmPrompt from "../ConfirmPrompt";
@@ -24,17 +24,17 @@ const PhaseManagement: React.FC<FilterProps> = ({event, setEvent}) => {
         }
     }, [changePhaseState]);
 
-    const changePhase = async (phase:string) => {
-        if (!event?.id || !phase) return false;
-        const response = await changeEventPhase(event.id, phase);
+    const changePhase = async (admin_phase:string) => {
+        if (!event?.id || !admin_phase) return false;
+        const response = await changeAdminEventPhase(event.id, admin_phase);
         if (response.success) {
-            setEvent((currentEvent:any) => ({...currentEvent, phase}));
+            setEvent((currentEvent:any) => ({...currentEvent, admin_phase}));
         }
         setShowConfirmPhase(false);
     }
 
     return (<>
-        <IonSegment className="events-tabs" scrollable value={event.phase === "complete" ? "on going" : event.phase} onIonChange={(e) => (event.phase && event.phase !== e.detail.value) && setShowConfirmPhase(e.detail.value!)}>
+        <IonSegment className="events-tabs" scrollable value={event.admin_phase ? (event.admin_phase === "complete" ? "on going" : event.admin_phase) : (event.phase === "complete" ? "on going" : event.phase)} onIonChange={(e) => (event?.admin_phase !== e.detail.value) && setShowConfirmPhase(e.detail.value!)}>
             <IonSegmentButton value="receiving">
                 <IonLabel>{t('events.phase_receiving')}</IonLabel>
             </IonSegmentButton>
