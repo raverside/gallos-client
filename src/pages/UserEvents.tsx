@@ -199,7 +199,7 @@ const UserEvents: React.FC = () => {
                                     {statisticsData.map((row, i) => i > 0 && (
                                         <IonRow key={i + 1}>
                                             <IonCol>{moment.localeData().ordinal(i + 1)}</IonCol>
-                                            <IonCol>{row.name}</IonCol>
+                                            <IonCol style={{textTransform: "uppercase"}}>{row.name}</IonCol>
                                             <IonCol>{row.wins}</IonCol>
                                             <IonCol>{row.loses}</IonCol>
                                             <IonCol>{Math.min(100, Math.max(0, Math.round(+row.wins / Math.max(1, (+row.wins || 0) + (+row.loses || 0)) * 100)))}%</IonCol>
@@ -210,7 +210,7 @@ const UserEvents: React.FC = () => {
                             {(statisticTab === "twmw") && <>
                                 <div className="statistics-winner">
                                     <div className="statistics-winner-data">
-                                        <p>{statisticsData[0].name}</p>
+                                        <p style={{textTransform: "uppercase"}}>{statisticsData[0].name}</p>
                                         <IonText className="teamOwner-short-info_winrate">{statisticsData[0].wins}</IonText>
                                     </div>
                                     <IonImg className="medal" src={medalIcon}/>
@@ -224,7 +224,7 @@ const UserEvents: React.FC = () => {
                                     {statisticsData.map((row, i) => i > 0 && (
                                         <IonRow key={i + 1}>
                                             <IonCol>{moment.localeData().ordinal(i + 1)}</IonCol>
-                                            <IonCol>{row.name}</IonCol>
+                                            <IonCol style={{textTransform: "uppercase"}}>{row.name}</IonCol>
                                             <IonCol>{row.wins}</IonCol>
                                         </IonRow>
                                     ))}

@@ -202,6 +202,7 @@
     max-width: 135px;
     display: inline-block;
     vertical-align: middle;
+    text-transform: uppercase;
 }
 .baloteo-participant-type {
     color: #2C2626;
