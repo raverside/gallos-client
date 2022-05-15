@@ -193,9 +193,7 @@
     width: 24px;
     max-width: 24px;
 }
-.blackbg {
-    background-color: black !important;
-}
-.baloteo-match-wrapper.inactive {
-    opacity:0.5;
+.colorlessName {
+    background-color: transparent !important;
+    color: black !important;
 }

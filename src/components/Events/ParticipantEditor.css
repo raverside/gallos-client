@@ -142,6 +142,18 @@
     align-items: center;
     color:grey;
 }
+.expressTitle p {
+    font-size:25px;
+}
+.expressTitle ion-icon {
+    vertical-align: middle;
+}
+.expressTitle .page-subtitle {
+    font-size:30px;
+    font-weight:bold;
+    color:red;
+    text-transform:uppercase;
+}
 @media (min-width: 900px) {
     .telescope_input {
         width: 25%;

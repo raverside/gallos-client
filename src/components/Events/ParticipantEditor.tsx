@@ -12,12 +12,10 @@ import {
     IonButton,
     IonSelect,
     IonSelectOption,
-    IonRadioGroup,
-    IonRadio,
     IonLabel,
     IonText, IonTextarea, IonModal, IonProgressBar, useIonToast
 } from '@ionic/react';
-import {closeOutline as closeIcon} from "ionicons/icons";
+import {closeOutline as closeIcon, rocket as expressActive} from "ionicons/icons";
 import AnimalImagePicker from './AnimalImagePicker';
 import {upsertParticipant, findParticipantByStadiumData} from '../../api/Events';
 import {getTeamOwnerByDigitalId} from '../../api/TeamOwners';
@@ -119,6 +117,10 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
             setTeamOwner(false);
         }
     }
+
+    useEffect(() => {
+        (participant && participant.id !== formData.id) && setFormData(participant);
+    }, [participant]);
 
     useEffect(() => {
         if (event.id) {
@@ -319,9 +321,9 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
     return (<>
         <IonToolbar className="modal-header">
-            <IonTitle className="page-title add-participant-title">
-                <p>{!formData.id ? t('events.add_participant') : t('events.update_participant')}</p>
-                {formData.id && participant && <p className="page-subtitle">#{participant.cage} {participant.team?.name}</p>}
+            <IonTitle className={expressMode ? "page-title add-participant-title expressTitle" : "page-title add-participant-title"}>
+                <p>{!formData.id ? t('events.add_participant') : t('events.update_participant')} {expressMode && <IonIcon color="primary" icon={expressActive}/>}</p>
+                {formData.id && participant && <p className="page-subtitle">#{participant.cage} {participant.team?.name} {(participant.status !== "saved") && "("+t('events.'+participant.status)+")"}</p>}
             </IonTitle>
             <IonButtons slot="start">
                 <IonIcon

@@ -50,7 +50,7 @@ const Matchmaking: React.FC<MatchmakingProps> = ({event, show, setShow}) => {
 
     const fetchTeamOwners = async () => {
         const response = await getTeamOwners();
-        if (response.team_owners.account) {
+        if (response?.team_owners?.account) {
             setTeamOwners(response.team_owners.account);
         }
     };

@@ -226,7 +226,8 @@
       "confirm_phase_change_subtitle": "Are you sure you want to change this event's phase?",
       "calendar": "Calendar",
       "observation": "Observation",
-      "rejection_note": "Note"
+      "rejection_note": "Note",
+      "color_selection": "Side color selection in progress"
   },
   "judge": {
       "no_baloteo": "No Baloteo",

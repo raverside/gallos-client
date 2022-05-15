@@ -198,7 +198,7 @@ const EventReceiving: React.FC = () => {
                         expressMode={expressMode}
                         expressNext={() => {
                                 const currentParticipantIndex = currentTabParticipants.findIndex((ctp:any) => ctp.id === selectedParticipant?.id);
-                                const nextParticipant = (currentParticipantIndex >= 0 && currentTabParticipants[currentParticipantIndex + 1]) ? currentTabParticipants[currentParticipantIndex + 1] : false;
+                                const nextParticipant = (currentParticipantIndex > 0 && currentTabParticipants[currentParticipantIndex - 1]) ? currentTabParticipants[currentParticipantIndex - 1] : false;
                                 setSelectedParticipant(nextParticipant);
                                 !nextParticipant && setShowParticipantEditor(false);
                         }}
@@ -209,12 +209,7 @@ const EventReceiving: React.FC = () => {
                             if (cageNumber) {
                                 const foundParticipant = participants.find((p:any) => p.cage === cageNumber);
                                 if (foundParticipant) {
-                                    setShowParticipantEditor(false);
-                                    setSelectedParticipant(false);
-                                    setTimeout(() => {
-                                        setSelectedParticipant(foundParticipant);
-                                        setShowParticipantEditor(true);
-                                    }, 300);
+                                    setSelectedParticipant(foundParticipant);
                                     return true;
                                 }
                             }

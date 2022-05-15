@@ -215,20 +215,20 @@ const UserEventView: React.FC = () => {
                     {((!activeMatches?.length) ? <p className="baloteo-emptylist">{t('events.no_live_matches')}</p> : <div className="baloteo-matches">
                     <IonGrid className="baloteo-match">
                         <IonRow className="baloteo-side-header">
-                            <IonCol size="5">
+                            <IonCol size="4">
                                 <div className="blue_side">
                                     <div className="baloteo-match-blue_side">{t('baloteo.blue_side')}</div>
                                 </div>
                             </IonCol>
-                            <IonCol size="2" />
-                            <IonCol size="5">
+                            <IonCol size="4" style={{fontWeight:"bold"}}>{(baloteoTab !== "results" && activeMatches.filter((am:any) => !am.color_confirmed).length > 0) && t('events.color_selection')}</IonCol>
+                            <IonCol size="4">
                                 <div className="white_side">
                                     <div className="baloteo-match-white_side">{t('baloteo.white_side')}</div>
                                 </div>
                             </IonCol>
                         </IonRow>
                         {activeMatches.map((match:any, index:number) => (
-                            <IonGrid className={match.color_confirmed ? "baloteo-match-wrapper" : "baloteo-match-wrapper inactive"} key={index}>
+                            <IonGrid className="baloteo-match-wrapper" key={index}>
                                 <IonRow>
                                     <IonCol size="5">
                                         <div className="blue_side">
@@ -241,7 +241,7 @@ const UserEventView: React.FC = () => {
                                                 }}
                                                 onClick={() => match.participant?.image && viewParticipantImage(match.participant)}
                                             />
-                                            <p className={match.color_confirmed ? "baloteo-match-team_name" : "baloteo-match-team_name blackbg"}>{match.participant?.team?.name}</p>
+                                            <p className={(baloteoTab !== "results" && match.color_confirmed) ? "baloteo-match-team_name" : "baloteo-match-team_name colorlessName"}>{match.participant?.team?.name}</p>
                                         </div>
                                     </IonCol>
                                     <IonCol size="2">
@@ -261,7 +261,7 @@ const UserEventView: React.FC = () => {
                                                 }}
                                                 onClick={() => match.opponent?.image && viewParticipantImage(match.opponent)}
                                             />
-                                            <p className="baloteo-match-team_name">{match.opponent?.team?.name}</p>
+                                            <p className={(baloteoTab !== "results" && match.color_confirmed) ? "baloteo-match-team_name" : "baloteo-match-team_name colorlessName"}>{match.opponent?.team?.name}</p>
                                         </div>
                                     </IonCol>
                                 </IonRow>
@@ -273,7 +273,7 @@ const UserEventView: React.FC = () => {
                                         {match.result === 3 && <IonText className="result_null">{t('judge.cancelled')}</IonText>}
                                     </IonCol>
                                 </IonRow>}
-                                <IonRow>
+                                {(match.color_confirmed) && <IonRow>
                                     <IonCol size="12">
                                         {(shareFile?.id === match.id) ?
                                             <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => sendFileToShare()}><IonIcon icon={shareIcon} style={{marginRight: "5px"}}/> {t('events.share_participant')}</IonButton>
@@ -281,7 +281,7 @@ const UserEventView: React.FC = () => {
                                             <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => shareMatch(match)}><IonIcon icon={downloadIcon} style={{marginRight: "5px"}}/> {t('events.download')}</IonButton>
                                         }
                                     </IonCol>
-                                </IonRow>
+                                </IonRow>}
                             </IonGrid>
                         ))}
                     </IonGrid>

@@ -469,18 +469,6 @@ const Baloteo: React.FC = () => {
                         blueSide={showRematch.blueSide}
                         event={event}
                         fetchEvent={fetchEvent}
-                        rematch={(match_id:string, blueSide:boolean, participant:any) => setEvent((currentEvent:any) => {
-                            const currentMatches = currentEvent.matches;
-                            const currentMatchIndex = currentMatches.findIndex((x:any) => x.id === match_id);
-                            if (blueSide) {
-                                currentMatches[currentMatchIndex].participant = participant;
-                                currentMatches[currentMatchIndex].participant_id = participant.id;
-                            } else {
-                                currentMatches[currentMatchIndex].opponent = participant;
-                                currentMatches[currentMatchIndex].opponent_id = participant.id;
-                            }
-                            return {...currentEvent, matches: currentMatches};
-                        })}
                         close={() => {setShowRematch(false)}}
                     />
                 </IonModal>

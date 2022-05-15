@@ -437,7 +437,7 @@ const PrintMatches = React.forwardRef<any, any>(({event, mode}, ref) => {
                     )}
                     </tbody>
                 </table>
-                {(mode === 13 || mode === 14) && <div style={{margin: "20px auto", width: "1000px", textAlign:"right"}}><QRCode size={128} value={window.location.origin + "/baloteo/" + event.id} /></div>}
+                {(mode === 13 || mode === 14) && <div style={{margin: "20px auto", width: "1000px", textAlign:"right"}}><QRCode size={128} value={"https://gallosclub.com/event/" + event.id} /></div>}
                 <p style={{ width: "1000px", fontSize: "16px", textAlign: "center", fontWeight: "bold", borderTop: "1px dashed black", padding: "10px"}}>gallosclub.com</p>
             </> : <>
                 <table style={{width: "80mm", fontSize: "14px"}}>

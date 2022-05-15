@@ -11,7 +11,7 @@ import {
     IonIcon,
     IonList,
     IonItem,
-    IonLoading, IonSearchbar,
+    IonLoading, IonSearchbar, IonModal,
 } from '@ionic/react';
 import React, {useState} from "react";
 
@@ -20,16 +20,12 @@ import {closeOutline as closeIcon} from "ionicons/icons";
 import {updateMatchParticipant} from "../../api/Events";
 
 import {useTranslation} from "react-multi-lang";
+import PairManual from "./PairManual";
 
-const PairBothManual: React.FC<any> = ({event, blueSide, match, rematch, close}) => {
+const PairBothManual: React.FC<any> = ({event, blueSide, match, fetchEvent, close}) => {
     const t = useTranslation();
     const [baloteoSearch, setBaloteoSearch] = useState<string>("");
-
-    const pickParticipant = async (participant:any) => {
-        await updateMatchParticipant(match.id, blueSide ? participant.id : null, blueSide ? null : participant.id);
-        rematch(match.id, blueSide, participant);
-        close();
-    }
+    const [showPairModal, setShowPairModal] = useState<string|false>(false);
 
     const unmatchedParticipants = event.participants?.filter((participant:any) =>
         participant.status === "approved" && !event.matches?.find((match:any) =>
@@ -70,13 +66,27 @@ const PairBothManual: React.FC<any> = ({event, blueSide, match, rematch, close})
                                         </div>
                                     </IonCol>
                                     <IonCol size="2">
-                                        <IonButton fill="clear" className="pair-button" onClick={() => pickParticipant(participant)}>{t('baloteo.pick')}</IonButton>
+                                        <IonButton fill="clear" className="pair-button" onClick={() => setShowPairModal(participant.id)}>{t('baloteo.pick')}</IonButton>
                                     </IonCol>
                                 </IonRow>
                             </IonGrid>
                         </IonItem>)}
                     </IonList>}
                 </div>
+                <IonModal isOpen={!!showPairModal} onDidDismiss={() => setShowPairModal(false)}>
+                    <IonToolbar className="modal-header">
+                        <IonButtons slot="start" className="pair-manual-close"><IonIcon size="large" icon={closeIcon} slot="start" onClick={() => setShowPairModal(false)} /></IonButtons>
+                        <IonTitle className="page-title">{t('baloteo.pair_animal')}</IonTitle>
+                    </IonToolbar>
+                    <PairManual
+                        participantId={showPairModal}
+                        opponents={unmatchedParticipants}
+                        fightNumber={match?.number}
+                        existingMatch={match?.id}
+                        fetchEvent={fetchEvent}
+                        close={() => {setShowPairModal(false); close()}}
+                    />
+                </IonModal>
             </IonContent>
         </IonPage>
     );

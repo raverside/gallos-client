@@ -33,19 +33,19 @@ const ShareParticipantImage: React.FC<any> = ({match, event, close}) => {
                         <IonImg src={(getImageUrl(match.opponent?.image))} className={(match.opponent?.image_flipped) ? "" : "flipped"} onClick={() => setShowGallery({match, active: 'opponent'})}/>
                     </div>
                     <div className="compare-names">
-                        <div className="compare-name blue-side">{match.participant?.team?.name}</div>
+                        <div className={match.color_confirmed ? "compare-name blue-side" : "compare-name colorlessName"}>{match.participant?.team?.name}</div>
                         <div className="compare-versus">VS</div>
-                        <div className="compare-name white-side">{match.opponent?.team?.name}</div>
+                        <div className={match.color_confirmed ? "compare-name white-side" : "compare-name colorlessName"}>{match.opponent?.team?.name}</div>
                     </div>
                 </div>
 
                 <div className="compare-info">
 
-                    <div className="compare-info_row">
+                    {match.color_confirmed && <div className="compare-info_row">
                         <div className="compare-type">{t('judge.blue')}</div>
                         <div className="compare-type_label">{t('judge.side_color')}</div>
                         <div className="compare-type">{t('judge.white')}</div>
-                    </div>
+                    </div>}
                     <div className="compare-info_row">
                         <div className="compare-type">{match.participant?.type}</div>
                         <div className="compare-type_label">{t('events.type')}</div>

@@ -226,7 +226,8 @@
       "confirm_phase_change_subtitle": "Are you sure you want to change this event's phase?",
       "calendar": "Calendario",
       "observation": "Observación",
-      "rejection_note": "Nota"
+      "rejection_note": "Nota",
+      "color_selection": "Selección de color de cinta en proceso"
   },
   "judge": {
       "no_baloteo": "Tablero de Baloteo",
