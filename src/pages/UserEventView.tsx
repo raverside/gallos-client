@@ -273,15 +273,15 @@ const UserEventView: React.FC = () => {
                                         {match.result === 3 && <IonText className="result_null">{t('judge.cancelled')}</IonText>}
                                     </IonCol>
                                 </IonRow>}
-                                {(match.color_confirmed) && <IonRow>
-                                    <IonCol size="12">
-                                        {(shareFile?.id === match.id) ?
-                                            <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => sendFileToShare()}><IonIcon icon={shareIcon} style={{marginRight: "5px"}}/> {t('events.share_participant')}</IonButton>
-                                            :
-                                            <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => shareMatch(match)}><IonIcon icon={downloadIcon} style={{marginRight: "5px"}}/> {t('events.download')}</IonButton>
-                                        }
-                                    </IonCol>
-                                </IonRow>}
+                                {/*{(match.color_confirmed) && <IonRow>*/}
+                                {/*    <IonCol size="12">*/}
+                                {/*        {(shareFile?.id === match.id) ?*/}
+                                {/*            <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => sendFileToShare()}><IonIcon icon={shareIcon} style={{marginRight: "5px"}}/> {t('events.share_participant')}</IonButton>*/}
+                                {/*            :*/}
+                                {/*            <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => shareMatch(match)}><IonIcon icon={downloadIcon} style={{marginRight: "5px"}}/> {t('events.download')}</IonButton>*/}
+                                {/*        }*/}
+                                {/*    </IonCol>*/}
+                                {/*</IonRow>}*/}
                             </IonGrid>
                         ))}
                     </IonGrid>
@@ -348,15 +348,15 @@ const UserEventView: React.FC = () => {
                                         </>}
                                     </IonCol>
                                 </IonRow>
-                                <IonRow>
-                                    <IonCol size="12">
-                                        {(shareFile?.id === participant.id) ?
-                                            <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => sendFileToShare()}><IonIcon icon={shareIcon} style={{marginRight: "5px"}}/> {t('events.share_participant')}</IonButton>
-                                            :
-                                            <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => shareParticipant(participant)}><IonIcon icon={downloadIcon} style={{marginRight: "5px"}}/> {t('events.download')}</IonButton>
-                                        }
-                                    </IonCol>
-                                </IonRow>
+                                {/*<IonRow>*/}
+                                {/*    <IonCol size="12">*/}
+                                {/*        {(shareFile?.id === participant.id) ?*/}
+                                {/*            <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => sendFileToShare()}><IonIcon icon={shareIcon} style={{marginRight: "5px"}}/> {t('events.share_participant')}</IonButton>*/}
+                                {/*            :*/}
+                                {/*            <IonButton className="share-participant-user" fill="clear" color="dark" onClick={() => shareParticipant(participant)}><IonIcon icon={downloadIcon} style={{marginRight: "5px"}}/> {t('events.download')}</IonButton>*/}
+                                {/*        }*/}
+                                {/*    </IonCol>*/}
+                                {/*</IonRow>*/}
                             </IonGrid>
                         </IonItem>)}
                     </IonList>}

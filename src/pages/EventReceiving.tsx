@@ -115,6 +115,18 @@ const EventReceiving: React.FC = () => {
     const excludedParticipants = participants?.filter((p:any) => p.status === 'rejected');
     const currentTabParticipants = participants?.sort((a:any, b:any) => +(b.image===null) - +(a.image===null) || b.cage - a.cage).filter((p:any) => p.status === participantsTab);
 
+    const toggleExpressMode = () => {
+        setExpressMode((currentExpressMode) => {
+            const newExpressMode = !currentExpressMode;
+            if (newExpressMode) {
+                const nextParticipant = (currentTabParticipants[currentTabParticipants.length - 1]) ? currentTabParticipants[currentTabParticipants.length - 1] : (participants.length > 0) ? participants.sort((a:any, b:any) => +(b.image===null) - +(a.image===null) || b.cage - a.cage)[participants.length - 1] : false;
+                setSelectedParticipant(nextParticipant);
+                setShowParticipantEditor(!!nextParticipant);
+            }
+            return newExpressMode;
+        });
+    }
+
     return !event?.id ? <IonLoading isOpen={true} spinner="crescent" /> : (
         <IonPage>
             <IonHeader>
@@ -125,7 +137,7 @@ const EventReceiving: React.FC = () => {
                     <IonTitle className="page-title">
                         <p>{event.title || event.stadium_name}</p>
                         <p className="page-subtitle">{t('events.phase_'+event?.phase?.replace(' ', ''))}</p>
-                        <IonButton fill="clear" color={expressMode ? "primary" : "dark"} className="express-mode" onClick={() => setExpressMode((currentExpressMode) => !currentExpressMode)}><IonIcon size="large" icon={expressMode ? expressActive : expressInactive}/></IonButton>
+                        <IonButton fill="clear" color={expressMode ? "primary" : "dark"} className="express-mode" onClick={toggleExpressMode}><IonIcon size="large" icon={expressMode ? expressActive : expressInactive}/></IonButton>
                     </IonTitle>
                     <IonButtons slot="end">
                         <IonButton fill="clear" color="dark" slot="end" className="view-note-menu" onClick={() => present({
