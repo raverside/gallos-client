@@ -56,10 +56,10 @@ const ParticipantGallery: React.FC<GalleryProps> = ({participant, showModal, set
                     mode="waterMark"
                     waterMarkType="image"
                     waterMark={watermark}
-                    width={208}
-                    height={30}
+                    width={408}
+                    height={60}
                     opacity={1}
-                    coordinate={[1500, 1500]}
+                    coordinate={[670, 100]}
                 >
                     <img src={images[0]} className="gallery-slider gallery-participant-image" />
                 </ReactImageProcess>
