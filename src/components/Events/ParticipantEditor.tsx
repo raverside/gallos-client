@@ -691,14 +691,14 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                                 }}
                             >
                                 <IonLabel>{t('events.betting_amount')}</IonLabel>
-                                {event.bronze && <IonSelectOption value="bronze">Bronze: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze)}</IonSelectOption>}
+                                {event.bronze && <IonSelectOption value="bronze">Bronze: {numberFormatter.format(event.bronze)}</IonSelectOption>}
                                 {event.silver_one && <IonSelectOption value="silver">
-                                    Silver: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one)}
-                                    {event.silver_two && " & " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_two)}
+                                    Silver: {numberFormatter.format(event.silver_one)}
+                                    {event.silver_two && " & " + numberFormatter.format(event.silver_two)}
                                 </IonSelectOption>}
                                 {event.gold_one && <IonSelectOption value="gold">
-                                    Gold: {(event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one)}
-                                    {event.gold_two && " & " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_two)}
+                                    Gold: {numberFormatter.format(event.gold_one)}
+                                    {event.gold_two && " & " + numberFormatter.format(event.gold_two)}
                                 </IonSelectOption>}
                             </IonSelect>
                         </IonItem>

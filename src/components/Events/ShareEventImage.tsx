@@ -37,10 +37,10 @@ const ShareEventImage = React.forwardRef<any, any>(({event, close}, ref) => {
                     {event.type && <><div className="shareable-image_label">{t('events.type')}</div>
                     <div className="shareable-image_redblock">{event.type.join(', ').replace('All', t('events.type_all'))}</div></>}
                     {minBet > 0 && <><div className="shareable-image_label">{t('events.amount')}</div>
-                    <div className="shareable-image_redblock">{event?.bronze > 0 && ((event?.currency === "DOP" ? "RD" : "") + numberFormatter.format(event?.bronze))}
-                        {(event?.silver_one > 0 && (" | " + (event?.currency === "DOP" ? "RD" : "") + numberFormatter.format(event?.silver_one)))}
+                    <div className="shareable-image_redblock">{event?.bronze > 0 && numberFormatter.format(event?.bronze)}
+                        {(event?.silver_one > 0 && (" | " + numberFormatter.format(event?.silver_one)))}
                         {(event?.silver_two > 0 && (" & " + numberFormatter.formatToParts(event?.silver_two).find(x => x.type === "integer")?.value))}
-                        {(event?.gold_one > 0 && (" | " + (event?.currency === "DOP" ? "RD" : "") + numberFormatter.format(event?.gold_one)))}
+                        {(event?.gold_one > 0 && (" | " + numberFormatter.format(event?.gold_one)))}
                         {(event?.gold_two > 0 && (" & " + numberFormatter.formatToParts(event?.gold_two).find(x => x.type === "integer")?.value))}</div></>}
                     <div className="shareable-image_whiteblock">
                         <div>{t('events.receiving_time')}:</div>

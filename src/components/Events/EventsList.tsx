@@ -117,10 +117,10 @@ const EventsList: React.FC<EventsListProps> = ({events, openEditor}) => {
                                 <div className="event-info_value">{moment(event.first_race_time, "HH:mm").format("hh:mm A")}</div>
                                 {(event.type?.length > 0) && <div className="event-info_value">{event.type.join(', ').replace('All', t('events.type_all'))}</div>}
                                 {(minBet > 0) && <div className="event-info_value red">
-                                    {event.bronze > 0 && ((event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.bronze))}
-                                    {(event.silver_one > 0 && (" | " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.silver_one)))}
+                                    {event.bronze > 0 && numberFormatter.format(event.bronze)}
+                                    {(event.silver_one > 0 && (" | " + numberFormatter.format(event.silver_one)))}
                                     {(event.silver_two > 0 && (" & " + numberFormatter.formatToParts(event.silver_two).find(x => x.type === "integer")?.value))}
-                                    {(event.gold_one > 0 && (" | " + (event.currency === "DOP" ? "RD" : "") + numberFormatter.format(event.gold_one)))}
+                                    {(event.gold_one > 0 && (" | " + numberFormatter.format(event.gold_one)))}
                                     {(event.gold_two > 0 && (" & " + numberFormatter.formatToParts(event.gold_two).find(x => x.type === "integer")?.value))}
                                 </div>}
                             </div>
