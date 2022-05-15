@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {getOngoingEvents} from "../api/Events";
 import {
     IonContent,
@@ -10,7 +10,8 @@ import {
     IonList,
     IonItem,
     IonGrid, IonRow, IonCol, IonImg,
-    IonSelectOption, IonSelect, IonLoading
+    IonSelectOption, IonSelect, IonLoading,
+    useIonViewWillEnter
 } from '@ionic/react';
 import ProfileModal from '../components/Judge/ProfileModal';
 
@@ -19,10 +20,12 @@ import {getImageUrl} from "../components/utils";
 import {useTranslation} from "react-multi-lang";
 import moment from "moment";
 import {useHistory, useParams} from "react-router-dom";
+import {AppContext} from "../State";
 
 const Judge: React.FC = () => {
     const t = useTranslation();
     const { event_id } = useParams<{event_id:string}>();
+    const { state } = useContext(AppContext);
     const [event, setEvent] = useState<any>(event_id || undefined);
     const [events, setEvents] = useState<any>();
     const [baloteoTab, setBaloteoTab] = useState<string>("matches");
@@ -30,8 +33,14 @@ const Judge: React.FC = () => {
     const [showLoading, setShowLoading] = useState<any>(false);
 
     useEffect(() => {
-        fetchEvents();
+        state.socket?.on("syncEvents", (payload:any) => {
+            if (!payload?.eventId || payload?.eventId === event_id) fetchEvents();
+        });
     }, []);
+
+    useIonViewWillEnter(() => {
+        fetchEvents();
+    })
 
     const fetchEvents = async () => {
         setShowLoading(true);

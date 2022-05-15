@@ -62,7 +62,21 @@ const JudgeMatch: React.FC = () => {
     }
 
     const saveSwitchSide = () => {
-        if (showSwitchSide.old_participant.id !== match.participant.id || showSwitchSide.old_opponent.id !== match.opponent.id) swapSides(match.id);
+        if (showSwitchSide.old_participant.id !== match.participant.id || showSwitchSide.old_opponent.id !== match.opponent.id) {
+            swapSides(match.id);
+            setEvent((currentEvent:any) => {
+                const updatedMatches = currentEvent.matches.map((m:any) => {
+                    if (m.id === match.id) {
+                        const oldOpponent = {...m.opponent};
+                        const oldParticipant = {...m.participant};
+                        return {...m, opponent: oldParticipant, participant: oldOpponent}
+                    }
+                    return m;
+                });
+
+                return {...currentEvent, matches: updatedMatches};
+            });
+        }
         setShowSwitchSide(false);
     }
 
