@@ -189,6 +189,13 @@
 .compare-button {
     margin-top:10px;
 }
+.compare-button_bottom {
+    color:black;
+    text-transform:capitalize;
+}
+.compare-button_bottom img {
+    margin-right:10px;
+}
 .compare-button img{
     width: 24px;
     max-width: 24px;

@@ -227,7 +227,8 @@
       "calendar": "Calendar",
       "observation": "Observation",
       "rejection_note": "Note",
-      "color_selection": "Side color selection in progress"
+      "color_selection": "Side color selection in progress",
+      "see_card": "See Card"
   },
   "judge": {
       "no_baloteo": "No Baloteo",

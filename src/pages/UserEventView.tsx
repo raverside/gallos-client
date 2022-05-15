@@ -248,7 +248,7 @@ const UserEventView: React.FC = () => {
                                         <p className="baloteo-match-fight">{t('baloteo.fight')} {match.number || 1}</p>
                                         <p className="baloteo-match-vs">VS</p>
                                         {match.manual && <p className="baloteo-match-manual">Manual</p>}
-                                        <IonButton fill="clear" expand="block" className="compare-button" onClick={() => setShowCompareMatch(match)}><img src={compareIcon}/></IonButton>
+                                        {/*<IonButton fill="clear" expand="block" className="compare-button" onClick={() => setShowCompareMatch(match)}><img src={compareIcon}/></IonButton>*/}
                                     </IonCol>
                                     <IonCol size="5">
                                         <div className="white_side">
@@ -282,6 +282,11 @@ const UserEventView: React.FC = () => {
                                 {/*        }*/}
                                 {/*    </IonCol>*/}
                                 {/*</IonRow>}*/}
+                                <IonRow>
+                                    <IonCol size="12">
+                                        <IonButton fill="clear" className="compare-button_bottom" onClick={() => setShowCompareMatch(match)}><img src={compareIcon}/> {t('events.see_card')}</IonButton>
+                                    </IonCol>
+                                </IonRow>
                             </IonGrid>
                         ))}
                     </IonGrid>

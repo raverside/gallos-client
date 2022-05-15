@@ -151,8 +151,15 @@
 .expressTitle .page-subtitle {
     font-size:30px;
     font-weight:bold;
-    color:red;
     text-transform:uppercase;
+}
+.expressTitle .page-subtitle .subtitle-approved {
+    font-weight:normal;
+    color:#307A0E;
+}
+.expressTitle .page-subtitle .subtitle-rejected {
+    font-weight:normal;
+    color:#EB0404;
 }
 @media (min-width: 900px) {
     .telescope_input {

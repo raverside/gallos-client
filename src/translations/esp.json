@@ -227,7 +227,8 @@
       "calendar": "Calendario",
       "observation": "Observación",
       "rejection_note": "Nota",
-      "color_selection": "Selección de color de cinta en proceso"
+      "color_selection": "Selección de color de cinta en proceso",
+      "see_card": "Ver Ficha"
   },
   "judge": {
       "no_baloteo": "Tablero de Baloteo",

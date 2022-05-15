@@ -323,7 +323,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         <IonToolbar className="modal-header">
             <IonTitle className={expressMode ? "page-title add-participant-title expressTitle" : "page-title add-participant-title"}>
                 <p>{!formData.id ? t('events.add_participant') : t('events.update_participant')} {expressMode && <IonIcon color="primary" icon={expressActive}/>}</p>
-                {formData.id && participant && <p className="page-subtitle">#{participant.cage} {participant.team?.name} {(participant.status !== "saved") && "("+t('events.'+participant.status)+")"}</p>}
+                {formData.id && participant && <p className="page-subtitle">#{participant.cage} {participant.team?.name} {(participant.status !== "saved") && <span className={"subtitle-"+participant.status}>({t('events.'+participant.status)})</span>}</p>}
             </IonTitle>
             <IonButtons slot="start">
                 <IonIcon
