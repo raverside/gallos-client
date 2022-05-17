@@ -75,7 +75,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         image: participant ? participant.image : null,
         image_upload: null,
         image_flipped: participant ? participant.image_flipped : false,
-        cage: participant ? participant.cage : (event?.participants?.length > 0 ? +event.participants?.length + 1 : 1),
+        cage: participant ? participant.cage : (event?.participants?.length > 0 ? Math.max(...event.participants.map((p:any)=>p.cage)) + 1 : 1),
         owner_account_number: participant ? participant.owner_account_number : undefined,
         betting_pref: participant ? participant.betting_pref : undefined,
         betting_amount: participant ? participant.betting_amount : undefined,
@@ -96,7 +96,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
         stadium_id: participant ? participant.stadium_id : undefined,
         stadium_name: participant ? participant.stadium_name : (event.stadium_name === "Coliseo Gallistico Santiago") ? "Santiago" : undefined,
     });
-    const [cageNumber, setCageNumber] = useState<any>(participant ? participant.cage : (event?.participants?.length > 0 ? +event.participants?.length + 1 : 1));
+    const [cageNumber, setCageNumber] = useState<any>(1);
     const [cageNumberTimeout, setCageNumberTimeout] = useState<any>(undefined);
     const [presentToast] = useIonToast();
     const [uploading, setUploading] = useState<boolean>(false);
@@ -120,6 +120,10 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
     useEffect(() => {
         (participant && participant.id !== formData.id) && setFormData(participant);
+        setCageNumber(participant ? participant.cage : (event?.participants?.length > 0 ? Math.max(...event.participants.map((p:any)=>p.cage)) + 1 : 1));
+        setWeightLbs((participant && participant.weight) ? Math.floor(parseFloat(participant.weight) / 16) : 0);
+        setWeightOz((participant && participant.weight) ? parseFloat((((parseFloat(participant.weight) / 16) - weightLbs) * 16).toPrecision(4)) : 0);
+        focusNextInput();
     }, [participant]);
 
     useEffect(() => {
@@ -177,7 +181,7 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
 
     function focusNextInput() {
         const formContainer = document.getElementById("event-editor");
-        const allInputs = formContainer?.querySelectorAll('input:not([readonly]):not([type="hidden"]):not([type="file"]), ion-select');
+        const allInputs = formContainer?.querySelectorAll('input:not([readonly]):not([name="cage"]):not([type="hidden"]):not([type="file"]), ion-select');
         if (allInputs) {
             for (var i = 0; i < (allInputs?.length || 0); i++) {
                 if (allInputs[i] === document.activeElement && i + 1 <= allInputs?.length) {
@@ -353,7 +357,8 @@ const ParticipantEditor: React.FC<ParticipantProps> = ({fetchEvent, close, event
                     <IonItem lines="none">
                         <IonInput
                             value={expressMode ? cageNumber : formData.cage}
-                            className="fullsize-input"
+                            className="fullsize-input cageInput"
+                            name="cage"
                             type="number"
                             readonly={!expressMode}
                             placeholder={t('events.receiving_cage_number')}
